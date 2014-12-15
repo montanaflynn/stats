@@ -4,9 +4,9 @@ import (
 	"sort"
 )
 
-func Mean(input []int) (mean float64) {
+func Mean(input []float64) (mean float64) {
 
-	// Easy as pie, this one 
+	// Easy as pie, this one
 	if len(input) == 0 {
 		return 0.0
 	}
@@ -20,10 +20,10 @@ func Mean(input []int) (mean float64) {
 	return mean / float64(len(input))
 }
 
-func Median(input []int) (median float64) {
+func Median(input []float64) (median float64) {
 
 	// Sort the numbers
-	sort.Ints(input)
+	sort.Float64s(input)
 
 	// Get the length
 	l := len(input)
@@ -45,17 +45,17 @@ func Median(input []int) (median float64) {
 	return median
 }
 
-func Mode(input []int) []int {
+func Mode(input []float64) []float64 {
 
 	// Create a map to hold the counts
-	m := make(map[int]int)
+	m := make(map[float64]int)
 	for _, v := range input {
 		m[v]++
 	}
 
 	// Find the highest counts to return as a slice
 	// of ints to accomodate duplicate counts
-	var mode []int
+	var mode []float64
 	var current int
 	for k, v := range m {
 
@@ -80,8 +80,32 @@ func Mode(input []int) []int {
 	lm := len(mode)
 
 	if l == lm {
-		return []int{}
+		return []float64{}
 	} else {
 		return mode
 	}
+}
+
+func Min(input []float64) (min float64) {
+	if len(input) > 0 {
+		min = input[0]
+	}
+	for i := 1; i < len(input); i++ {
+		if input[i] < min {
+			min = input[i]
+		}
+	}
+	return min
+}
+
+func Max(input []float64) (max float64) {
+	if len(input) > 0 {
+		max = input[0]
+	}
+	for i := 1; i < len(input); i++ {
+		if input[i] > max {
+			max = input[i]
+		}
+	}
+	return max
 }
