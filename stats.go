@@ -11,13 +11,11 @@ func Mean(input []float64) (mean float64) {
 		return 0.0
 	}
 
-	// Add the total up
-	for _, n := range input {
-		mean += float64(n)
-	}
+	// Get the total sum
+	sum := Sum(input)
 
 	// Return the mean average
-	return mean / float64(len(input))
+	return sum / float64(len(input))
 }
 
 func Median(input []float64) (median float64) {
@@ -94,4 +92,11 @@ func Min(input []float64) (min float64) {
 func Max(input []float64) (max float64) {
 	sort.Float64s(input)
 	return input[len(input)-1]
+}
+
+func Sum(input []float64) (sum float64) {
+	for _, n := range input {
+		sum += float64(n)
+	}
+	return sum
 }

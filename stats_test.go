@@ -11,7 +11,7 @@ func TestMin(t *testing.T) {
 		t.Errorf("%.1f != %.1f", m, 1.1)
 	}
 
-	m = Min([]float64{10, 3, 5, 7, 9})
+	m = Min([]float64{10.534, 3, 5, 7, 9})
 	if m != 3 {
 		t.Errorf("%.1f != %.1f", m, 3)
 	}
@@ -28,12 +28,12 @@ func TestMax(t *testing.T) {
 		t.Errorf("%.1f != %.1f", m, 5)
 	}
 
-	m = Max([]float64{10, 3, 5, 7, 9})
-	if m != 10 {
-		t.Errorf("%.1f != %.1f", m, 10)
+	m = Max([]float64{10.5, 3, 5, 7, 9})
+	if m != 10.5 {
+		t.Errorf("%.1f != %.1f", m, 10.5)
 	}
 
-	m = Max([]float64{-20, -1, -5})
+	m = Max([]float64{-20, -1, -5.5})
 	if m != -1 {
 		t.Errorf("%.1f != %.1f", m, -1)
 	}
@@ -107,4 +107,21 @@ func TestMode(t *testing.T) {
 	if !reflect.DeepEqual(m, a) {
 		t.Errorf("%.1f != %.1f", m, a)
 	}
+}
+
+func TestSum(t *testing.T) {
+  m := Sum([]float64{})
+  if m != 0.0 {
+    t.Errorf("%.1f != %.1f", m, 0.0)
+  }
+
+  m = Sum([]float64{1,2,3})
+  if m != 6 {
+    t.Errorf("%.1f != %.1f", m, 6)
+  }
+
+  m = Sum([]float64{1.0,1.1,1.2,2.2})
+  if m != 5.5 {
+    t.Errorf("%.1f != %.1f", m, 5.5)
+  }
 }
