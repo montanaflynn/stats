@@ -87,25 +87,11 @@ func Mode(input []float64) []float64 {
 }
 
 func Min(input []float64) (min float64) {
-	if len(input) > 0 {
-		min = input[0]
-	}
-	for i := 1; i < len(input); i++ {
-		if input[i] < min {
-			min = input[i]
-		}
-	}
-	return min
+	sort.Float64s(input)
+	return input[0]
 }
 
 func Max(input []float64) (max float64) {
-	if len(input) > 0 {
-		max = input[0]
-	}
-	for i := 1; i < len(input); i++ {
-		if input[i] > max {
-			max = input[i]
-		}
-	}
-	return max
+	sort.Float64s(input)
+	return input[len(input)-1]
 }
