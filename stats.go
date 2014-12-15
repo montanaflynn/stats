@@ -1,8 +1,26 @@
 package stats
 
 import (
+	"math"
 	"sort"
 )
+
+func Min(input []float64) (min float64) {
+	sort.Float64s(input)
+	return input[0]
+}
+
+func Max(input []float64) (max float64) {
+	sort.Float64s(input)
+	return input[len(input)-1]
+}
+
+func Sum(input []float64) (sum float64) {
+	for _, n := range input {
+		sum += float64(n)
+	}
+	return sum
+}
 
 func Mean(input []float64) (mean float64) {
 
@@ -84,19 +102,29 @@ func Mode(input []float64) []float64 {
 	}
 }
 
-func Min(input []float64) (min float64) {
-	sort.Float64s(input)
-	return input[0]
-}
-
-func Max(input []float64) (max float64) {
-	sort.Float64s(input)
-	return input[len(input)-1]
-}
-
-func Sum(input []float64) (sum float64) {
-	for _, n := range input {
-		sum += float64(n)
+func StandardDev(input []float64) (sdev float64) {
+	if len(input) == 0 {
+		return 0.0
 	}
-	return sum
+
+	m := Mean(input)
+	for _, n := range input {
+		sdev += (float64(n) - m) * (float64(n) - m)
+	}
+
+	sdev = math.Pow(sdev/float64(len(input)), 0.5)
+	return sdev
+}
+ 
+func Round(input float64, places int) (rounded float64) {
+	pow := math.Pow(10, float64(places))
+	digit := pow * input
+	_, div := math.Modf(digit)
+	cur := math.Copysign(div, input)
+	if cur >= .5 {
+		rounded = math.Ceil(digit)
+	} else {
+		rounded = math.Floor(digit)
+	}
+	return rounded / pow
 }
