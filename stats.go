@@ -117,8 +117,8 @@ func Mode(input []float64) (mode []float64) {
 	return mode
 }
 
-// StandardDev gets the amount of var from the average
-func StandardDev(input []float64) (sdev float64) {
+// StdDev gets the amount of var from the average
+func StdDev(input []float64) (sdev float64) {
 	if len(input) == 0 {
 		return 0.0
 	}

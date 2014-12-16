@@ -39,7 +39,7 @@ func main() {
     s := stats.Mode([]float64{5, 5, 3, 3, 4, 2, 1})
     fmt.Println(s) // [3.0 5.0]
 
-    m = stats.StandardDev([]float64{1, 2, 3})
+    m = stats.StdDev([]float64{1, 2, 3})
     fmt.Println(m) // 0.816496580927726
 
     m = stats.Round(5.3253543, 3)
