@@ -2,6 +2,7 @@ package stats
 
 import (
 	"reflect"
+	"sort"
 	"testing"
 )
 
@@ -97,7 +98,8 @@ func TestMode(t *testing.T) {
 	}
 
 	m = Mode([]float64{5, 5, 3, 3, 4, 2, 1})
-	a = []float64{5, 3}
+	sort.Float64s(m)
+	a = []float64{3, 5}
 	if !reflect.DeepEqual(m, a) {
 		t.Errorf("%.1f != %.1f", m, a)
 	}
