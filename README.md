@@ -48,12 +48,27 @@ func main() {
 
 ### API Documentation
 
+
+#### func  Min
+
+```go
+func Min(input []float64) (min float64)
+```
+Find the lowest number in a slice
+
 #### func  Max
 
 ```go
 func Max(input []float64) (max float64)
 ```
 Find the highest number in a slice
+
+#### func  Sum
+
+```go
+func Sum(input []float64) (sum float64)
+```
+Add all the numbers of a slice together
 
 #### func  Mean
 
@@ -69,26 +84,12 @@ func Median(input []float64) (median float64)
 ```
 Get the median number in a slice of numbers
 
-#### func  Min
-
-```go
-func Min(input []float64) (min float64)
-```
-Find the lowest number in a slice
-
 #### func  Mode
 
 ```go
 func Mode(input []float64) (mode []float64)
 ```
 Get the mode of a slice of numbers
-
-#### func  Round
-
-```go
-func Round(input float64, places int) (rounded float64)
-```
-Round a float to a specific decimal place or precision
 
 #### func  StandardDev
 
@@ -97,12 +98,12 @@ func StandardDev(input []float64) (sdev float64)
 ```
 Find the amount of variation from the average also known as standard deviation
 
-#### func  Sum
+#### func  Round
 
 ```go
-func Sum(input []float64) (sum float64)
+func Round(input float64, places int) (rounded float64)
 ```
-Add all the numbers of a slice together
+Round a float to a specific decimal place or precision
 
 ### Todos
 
