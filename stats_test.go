@@ -1,9 +1,9 @@
 package stats
 
 import (
-  "math"
-  "sort"
-  "reflect"
+	"math"
+	"reflect"
+	"sort"
 	"testing"
 )
 
@@ -162,8 +162,8 @@ func TestRound(t *testing.T) {
 		t.Errorf("%.1f != %.1f", m, 5.325)
 	}
 
-  m = Round(math.NaN(), 2)
-  if !math.IsNaN(m) {
-    t.Errorf("%.1f != %.1f", m, 5.325)
-  }
+	m = Round(math.NaN(), 2)
+	if !math.IsNaN(m) {
+		t.Errorf("%.1f != %.1f", m, math.NaN())
+	}
 }
