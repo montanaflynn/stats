@@ -1,6 +1,8 @@
-# Stats [![Coverage Status](https://img.shields.io/coveralls/montanaflynn/stats.svg)](https://coveralls.io/r/montanaflynn/stats?branch=master)
+# Stats [![Build Status](https://img.shields.io/wercker/ci/548fca786b3ba8733d7f219d.svg?style=flat-square)](https://app.wercker.com/project/bykey/2eafc5c6f7c702b53d967aef3b2bb65e) [![Coverage Status](https://img.shields.io/coveralls/montanaflynn/stats.svg?style=flat-square)](https://coveralls.io/r/montanaflynn/stats?branch=master)
 
-A simple stats package for Go that includes many common functions that are missing from the standard library. The package is still in the early stages so expect the API to change. Pull requests are always welcome.
+A simple stats package for Go that includes many common functions that are missing from the standard library. The package is still in the early stages so expect the API to change. 
+
+Pull requests are always welcome.
 
 ### Install
 
@@ -47,55 +49,54 @@ func main() {
 
 ### API Documentation
 
-
 #### func  Min
 
 ```go
 func Min(input []float64) (min float64)
 ```
-Find the lowest number in a slice
+Min finds the lowest number in a slice
 
 #### func  Max
 
 ```go
 func Max(input []float64) (max float64)
 ```
-Find the highest number in a slice
+Max finds the highest number in a slice
 
 #### func  Sum
 
 ```go
 func Sum(input []float64) (sum float64)
 ```
-Add all the numbers of a slice together
+Sum adds all the numbers of a slice together
 
 #### func  Mean
 
 ```go
 func Mean(input []float64) (mean float64)
 ```
-Get the average of a slice of numbers
+Mean gets the average of a slice of numbers
 
 #### func  Median
 
 ```go
 func Median(input []float64) (median float64)
 ```
-Get the median number in a slice of numbers
+Median gets the median number in a slice of numbers
 
 #### func  Mode
 
 ```go
 func Mode(input []float64) (mode []float64)
 ```
-Get the mode of a slice of numbers
+Mode gets the mode of a slice of numbers
 
-#### func  StandardDev
+#### func  StdDev
 
 ```go
-func StandardDev(input []float64) (sdev float64)
+func StdDev(input []float64) (sdev float64)
 ```
-Find the amount of variation from the average also known as standard deviation
+StdDev gets the amount of variation from the average
 
 #### func  Round
 
