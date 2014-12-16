@@ -79,7 +79,7 @@ Find the lowest number in a slice
 #### func  Mode
 
 ```go
-func Mode(input []float64) []float64
+func Mode(input []float64) (mode []float64)
 ```
 Get the mode of a slice of numbers
 

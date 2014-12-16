@@ -60,7 +60,7 @@ func Median(input []float64) (median float64) {
 }
 
 // Get the mode of a slice of numbers
-func Mode(input []float64) []float64 {
+func Mode(input []float64) (mode []float64) {
 
 	// Create a map with the counts for each number
 	m := make(map[float64]int)
@@ -70,7 +70,6 @@ func Mode(input []float64) []float64 {
 
 	// Find the highest counts to return as a slice
 	// of ints to accomodate duplicate counts
-	var mode []float64
 	var current int
 	for k, v := range m {
 
