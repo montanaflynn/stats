@@ -7,14 +7,28 @@ import (
 
 // Find the lowest number in a slice
 func Min(input []float64) (min float64) {
-	sort.Float64s(input)
-	return input[0]
+	if len(input) > 0 {
+		min = input[0]
+	}
+	for i := 1; i < len(input); i++ {
+		if input[i] < min {
+			min = input[i]
+		}
+	}
+	return min
 }
 
 // Find the highest number in a slice
 func Max(input []float64) (max float64) {
-	sort.Float64s(input)
-	return input[len(input)-1]
+	if len(input) > 0 {
+		max = input[0]
+	}
+	for i := 1; i < len(input); i++ {
+		if input[i] > max {
+			max = input[i]
+		}
+	}
+	return max
 }
 
 // Add all the numbers of a slice together
