@@ -99,7 +99,7 @@ func TestMode(t *testing.T) {
 	m = Mode([]float64{5, 5, 3, 3, 4, 2, 1})
 	a = []float64{5, 3}
 	if !reflect.DeepEqual(m, a) {
-		t.Errorf("%.10f != %.10f", m, a)
+		t.Errorf("%.1f != %.1f", m, a)
 	}
 
 	m = Mode([]float64{5, 5, 3, 3, 4, 2, 1, 1, 1})
