@@ -1,6 +1,6 @@
 # Stats
 
-A simple stats package for Go that includes many common functions that are missing from the standard library.
+A simple stats package for Go that includes many common functions that are missing from the standard library. The package is still in the early stages so expect the API to change. Pull requests are always welcome.
 
 ### Install
 
@@ -96,7 +96,6 @@ Round a float to a specific decimal place or precision
 func StandardDev(input []float64) (sdev float64)
 ```
 Find the amount of variation from the average also known as standard deviation
-or the greek symbol σ
 
 #### func  Sum
 
