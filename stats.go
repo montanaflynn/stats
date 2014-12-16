@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-// Find the lowest number in a slice
+// Min finds the lowest number in a slice
 func Min(input []float64) (min float64) {
 
 	// Get the initial value
@@ -23,7 +23,7 @@ func Min(input []float64) (min float64) {
 	return min
 }
 
-// Find the highest number in a slice
+// Max finds the highest number in a slice
 func Max(input []float64) (max float64) {
 	if len(input) > 0 {
 		max = input[0]
@@ -36,7 +36,7 @@ func Max(input []float64) (max float64) {
 	return max
 }
 
-// Add all the numbers of a slice together
+// Sum adds all the numbers of a slice together
 func Sum(input []float64) (sum float64) {
 	for _, n := range input {
 		sum += float64(n)
@@ -44,7 +44,7 @@ func Sum(input []float64) (sum float64) {
 	return sum
 }
 
-// Get the average of a slice of numbers
+// Mean gets the average of a slice of numbers
 func Mean(input []float64) (mean float64) {
 	if len(input) == 0 {
 		return 0.0
@@ -55,7 +55,7 @@ func Mean(input []float64) (mean float64) {
 	return sum / float64(len(input))
 }
 
-// Get the median number in a slice of numbers
+// Median gets the median number in a slice of numbers
 func Median(input []float64) (median float64) {
 
 	// Start by sorting the slice
@@ -78,7 +78,7 @@ func Median(input []float64) (median float64) {
 	return median
 }
 
-// Get the mode of a slice of numbers
+// Mode gets the mode of a slice of numbers
 func Mode(input []float64) (mode []float64) {
 
 	// Create a map with the counts for each number
@@ -113,20 +113,18 @@ func Mode(input []float64) (mode []float64) {
 	lm := len(mode)
 	if l == lm {
 		return []float64{}
-	} else {
-		return mode
 	}
+	return mode
 }
 
-// Find the amount of variation from the average also
-// known as standard deviation or the greek symbol σ
+// StandardDev gets the amount of var from the average
 func StandardDev(input []float64) (sdev float64) {
 	if len(input) == 0 {
 		return 0.0
 	}
 
 	// Get the mean and then subtract that from each number
-	// and then square the result
+	// and then squaring the result
 	m := Mean(input)
 	for _, n := range input {
 		sdev += (float64(n) - m) * (float64(n) - m)
@@ -156,7 +154,6 @@ func Round(input float64, places int) (rounded float64) {
 	}
 
 	// Use the places arg to get the amount of precision wanted
-	// by getting it's power of 10 to multiple by
 	precision := math.Pow(10, float64(places))
 
 	// Find the decimal place we are looking to round
@@ -173,7 +170,5 @@ func Round(input float64, places int) (rounded float64) {
 	}
 
 	// Finally we do the math to actually create a rounded number
-	// by dividing the rounded number by the precision and then
-	// multiply by the sign to keep the correct sign
 	return rounded / precision * sign
 }
