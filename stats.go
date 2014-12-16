@@ -115,16 +115,27 @@ func StandardDev(input []float64) (sdev float64) {
 	sdev = math.Pow(sdev/float64(len(input)), 0.5)
 	return sdev
 }
- 
+
 func Round(input float64, places int) (rounded float64) {
-	pow := math.Pow(10, float64(places))
-	digit := pow * input
-	_, div := math.Modf(digit)
-	cur := math.Copysign(div, input)
-	if cur >= .5 {
+	if math.IsNaN(input) || math.IsInf(input, 0) {
+		return input
+	}
+
+	sign := 1.0
+	if input < 0 {
+		sign = -1
+		input *= -1
+	}
+
+	precision := math.Pow(10, float64(places))
+	digit := input * precision
+	_, decimal := math.Modf(digit)
+
+	if decimal >= 0.5 {
 		rounded = math.Ceil(digit)
 	} else {
 		rounded = math.Floor(digit)
 	}
-	return rounded / pow
+
+	return rounded / precision * sign
 }
