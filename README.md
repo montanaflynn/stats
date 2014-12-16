@@ -34,8 +34,8 @@ func main() {
     m = stats.Median([]float64{1, 2, 3, 4, 5, 6, 7})
     fmt.Println(m) // 4
 
-    m = stats.Mode([]float64{5, 5, 3, 3, 4, 2, 1})
-    fmt.Println(m) // [3.0 5.0]
+    s := stats.Mode([]float64{5, 5, 3, 3, 4, 2, 1})
+    fmt.Println(s) // [3.0 5.0]
 
     m = stats.StandardDev([]float64{1, 2, 3})
     fmt.Println(m) // 0.816496580927726
