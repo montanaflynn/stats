@@ -113,9 +113,7 @@ func Mode(input []float64) (mode []float64) {
 	}
 }
 
-// Find the amount of variation from the average also
-// known as standard deviation or the greek symbol σ
-func StandardDev(input []float64) (sdev float64) {
+func Variance(input []float64, popfactor int) (sdev float64) {
 	if len(input) == 0 {
 		return 0.0
 	}
@@ -124,13 +122,43 @@ func StandardDev(input []float64) (sdev float64) {
 	// and then square the result
 	m := Mean(input)
 	for _, n := range input {
-		sdev += (float64(n) - m) * (float64(n) - m)
+		varp += (float64(n) - m) * (float64(n) - m)
 	}
 
 	// Get the mean of the squared differences
-	m = sdev / float64(len(input))
+	// "popfactor" will allow us to
+	return varp / float64((len(input)-(1*popfactor)))
+}
 
-	// The square root of the mean is the standard deviation
+// Find the amount of variance within a population
+func VarP(input []float64) (sdev float64) {
+	// Get the mean of the squared differences
+	return Variance(input,0)
+}
+
+// Find the amount of variance within the sample (when entire population is not available)
+func Var(input []float64) (sdev float64) {
+	// Get the mean of the squared differences
+	return Variance(input,1)
+}
+
+// Find the amount of variation from the average also
+// known as standard deviation or the greek symbol σ
+func StdDevP(input []float64) (sdev float64) {
+	if len(input) == 0 {
+		return 0.0
+	}
+	//Get the Population Variance (VarP) and take the square root
+	m := VarP(input,0)
+	return math.Pow(m, 0.5)
+}
+
+func StdDevP(input []float64) (sdev float64) {
+	if len(input) == 0 {
+		return 0.0
+	}
+	//Get the Sample Variance (Var) and take the square root
+	m := VarP(input,1)
 	return math.Pow(m, 0.5)
 }
 
