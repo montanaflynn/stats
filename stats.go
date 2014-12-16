@@ -7,9 +7,14 @@ import (
 
 // Find the lowest number in a slice
 func Min(input []float64) (min float64) {
+
+	// Get the initial value
+	// @todo add error if no length
 	if len(input) > 0 {
 		min = input[0]
 	}
+
+	// Iterate until done checking for a lower value
 	for i := 1; i < len(input); i++ {
 		if input[i] < min {
 			min = input[i]
@@ -41,7 +46,6 @@ func Sum(input []float64) (sum float64) {
 
 // Get the average of a slice of numbers
 func Mean(input []float64) (mean float64) {
-
 	if len(input) == 0 {
 		return 0.0
 	}
@@ -54,6 +58,7 @@ func Mean(input []float64) (mean float64) {
 // Get the median number in a slice of numbers
 func Median(input []float64) (median float64) {
 
+	// Start by sorting the slice
 	sort.Float64s(input)
 
 	l := len(input)
