@@ -1,4 +1,4 @@
-# Stats
+# Stats [![Coverage Status](https://img.shields.io/coveralls/montanaflynn/stats.svg)](https://coveralls.io/r/montanaflynn/stats?branch=master)
 
 A simple stats package for Go that includes many common functions that are missing from the standard library. The package is still in the early stages so expect the API to change. Pull requests are always welcome.
 
