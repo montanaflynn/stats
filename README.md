@@ -19,31 +19,30 @@ import (
 )
 
 func main() {
-    m := Min([]float64{1.1, 2, 3, 4, 5})
+    m := stats.Min([]float64{1.1, 2, 3, 4, 5})
     fmt.Println(m) // 1.1
 
-    m = Max([]float64{1.1, 2, 3, 4, 5})
+    m = stats.Max([]float64{1.1, 2, 3, 4, 5})
     fmt.Println(m) // 5
 
-    m = Sum([]float64{1.1, 2.2, 3.3})
-    fmt.Println(m) // 5.5
+    m = stats.Sum([]float64{1.1, 2.2, 3.3})
+    fmt.Println(m) // 6.6
 
-    m = Mean([]float64{1, 2, 3, 4, 5})
+    m = stats.Mean([]float64{1, 2, 3, 4, 5})
     fmt.Println(m) // 3
 
-    m = Median([]float64{1, 2, 3, 4, 5, 6, 7})
+    m = stats.Median([]float64{1, 2, 3, 4, 5, 6, 7})
     fmt.Println(m) // 4
 
-    m = Mode([]float64{1, 2, 3, 3, 3, 4})
-    fmt.Println(m) // 3
+    m = stats.Mode([]float64{5, 5, 3, 3, 4, 2, 1})
+    fmt.Println(m) // [3.0 5.0]
 
-    m = StandardDev([]float64{1, 2, 3})
-    fmt.Println(m) // 0.8164965809277260344600790631375275552272796630859375
+    m = stats.StandardDev([]float64{1, 2, 3})
+    fmt.Println(m) // 0.816496580927726
 
-    m = Round(5.3253543, 3)
+    m = stats.Round(5.3253543, 3)
     fmt.Println(m) // 5.325
 }
-
 ```
 
 ### API Documentation
