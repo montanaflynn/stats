@@ -1,4 +1,4 @@
-# Stats [![Build Status](https://img.shields.io/wercker/ci/548fca786b3ba8733d7f219d.svg?style=flat-square)](https://app.wercker.com/project/bykey/2eafc5c6f7c702b53d967aef3b2bb65e) [![Coverage Status](https://img.shields.io/coveralls/montanaflynn/stats.svg?style=flat-square)](https://coveralls.io/r/montanaflynn/stats?branch=master)
+# Stats [![Build Status](https://img.shields.io/wercker/ci/548fca786b3ba8733d7f219d.svg)](https://app.wercker.com/project/bykey/2eafc5c6f7c702b53d967aef3b2bb65e) [![Coverage Status](https://img.shields.io/coveralls/montanaflynn/stats.svg)](https://coveralls.io/r/montanaflynn/stats?branch=master) [![GoDoc](https://godoc.org/github.com/montanaflynn/stats?status.svg)](https://godoc.org/github.com/montanaflynn/stats)
 
 A simple stats package for Go that includes many common functions that are missing from the standard library. Pull requests are always welcome.
 
@@ -49,7 +49,7 @@ func main() {
     fmt.Println(m) // 4.0
 
     i := stats.Float64ToInt(-234.0234)
-    fmt.Println(m) // --234
+    fmt.Println(i) // -234
 }
 ```
 
