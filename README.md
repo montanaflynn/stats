@@ -1,8 +1,8 @@
 # Stats [![Build Status](https://img.shields.io/wercker/ci/548fca786b3ba8733d7f219d.svg?style=flat-square)](https://app.wercker.com/project/bykey/2eafc5c6f7c702b53d967aef3b2bb65e) [![Coverage Status](https://img.shields.io/coveralls/montanaflynn/stats.svg?style=flat-square)](https://coveralls.io/r/montanaflynn/stats?branch=master)
 
-A simple stats package for Go that includes many common functions that are missing from the standard library. The package is still in the early stages so expect the API to change. 
+A simple stats package for Go that includes many common functions that are missing from the standard library. Pull requests are always welcome.
 
-Pull requests are always welcome.
+__The package is still in the early stages so expect the API to change.__ 
 
 ### Install
 
@@ -44,6 +44,12 @@ func main() {
 
     m = stats.Round(5.3253543, 3)
     fmt.Println(m) // 5.325
+
+    m = stats.Percentile([]float64{1, 2, 3, 4, 5}, 75)
+    fmt.Println(m) // 4.0
+
+    i := stats.Float64ToInt(-234.0234)
+    fmt.Println(m) // --234
 }
 ```
 
@@ -105,10 +111,23 @@ func Round(input float64, places int) (rounded float64)
 ```
 Round a float to a specific decimal place or precision
 
+#### func  Percentile
+
+```go
+func Percentile(input []float64, percent float64) (percentile float64)
+```
+Percentile finds the relative standing in a slice of floats
+
+#### func  Float64ToInt
+
+```go
+func Float64ToInt(input float64) (output int)
+```
+Float64ToInt rounds a float64 to an int
+
 ### Todos
 
 - Error checking in idiomatic Go style
-- Add Percentiles function
 - Add linear and exponential regression 
 
 ### MIT license

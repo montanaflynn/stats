@@ -172,3 +172,33 @@ func TestRound(t *testing.T) {
 		t.Errorf("%.1f != %.1f", m, math.NaN())
 	}
 }
+
+func TestPercentile(t *testing.T) {
+	m := Percentile([]float64{43, 54, 56, 61, 62, 66}, 90)
+	if m != 62 {
+		t.Errorf("%.1f != %.1f", m, 62)
+	}
+	m = Percentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 50)
+	if m != 5.5 {
+		t.Errorf("%.1f != %.1f", m, 5.5)
+	}
+	m = Percentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 99.9)
+	if m != 10.0 {
+		t.Errorf("%.1f != %.1f", m, 10.0)
+	}
+}
+
+func TestFloat64ToInt(t *testing.T) {
+	m := Float64ToInt(234.0234)
+	if m != 234 {
+		t.Errorf("%.1f != %.1f", m, 234)
+	}
+	m = Float64ToInt(-234.0234)
+	if m != -234 {
+		t.Errorf("%.1f != %.1f", m, -234)
+	}
+	m = Float64ToInt(1)
+	if m != 1 {
+		t.Errorf("%.1f != %.1f", m, 1)
+	}
+}

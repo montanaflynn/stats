@@ -172,3 +172,43 @@ func Round(input float64, places int) (rounded float64) {
 	// Finally we do the math to actually create a rounded number
 	return rounded / precision * sign
 }
+
+// Percentile finds the relative standing in a slice of floats
+func Percentile(input []float64, percent float64) (percentile float64) {
+
+	// Sort the data
+	sort.Float64s(input)
+
+	// Multiple percent by length of input
+	index := (percent / 100) * float64(len(input))
+
+	// Check if the index is a whole number
+	if index == float64(int64(index)) {
+
+		// Convert float to int
+		i := Float64ToInt(index)
+
+		// Find the average of the index and following values
+		percentile = Mean([]float64{input[i-1], input[i]})
+
+	} else {
+
+		// Convert float to int
+		i := Float64ToInt(index)
+
+		// Find the value at the index
+		percentile = input[i-1]
+
+	}
+
+	return percentile
+
+}
+
+// Float64ToInt rounds a float64 to an int
+func Float64ToInt(input float64) (output int) {
+
+	// Round input to nearest whole number and convert to int
+	return int(Round(input, 0))
+
+}
