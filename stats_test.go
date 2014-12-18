@@ -14,20 +14,20 @@ func TestMin(t *testing.T) {
 	}
 
 	m = Min([]float64{10.534, 3, 5, 7, 9})
-	if m != 3 {
-		t.Errorf("%.1f != %.1f", m, 3)
+	if m != 3.0 {
+		t.Errorf("%.1fx != %.1f", m, 3.0)
 	}
 
 	m = Min([]float64{-5, 1, 5})
-	if m != -5 {
-		t.Errorf("%.1f != %.1f", m, -5)
+	if m != -5.0 {
+		t.Errorf("%.1f != %.1f", m, -5.0)
 	}
 }
 
 func TestMax(t *testing.T) {
 	m := Max([]float64{1, 2, 3, 4, 5})
-	if m != 5 {
-		t.Errorf("%.1f != %.1f", m, 5)
+	if m != 5.0 {
+		t.Errorf("%.1f != %.1f", m, 5.0)
 	}
 
 	m = Max([]float64{10.5, 3, 5, 7, 9})
@@ -36,8 +36,8 @@ func TestMax(t *testing.T) {
 	}
 
 	m = Max([]float64{-20, -1, -5.5})
-	if m != -1 {
-		t.Errorf("%.1f != %.1f", m, -1)
+	if m != -1.0 {
+		t.Errorf("%.1f != %.1f", m, -1.0)
 	}
 }
 
@@ -119,8 +119,8 @@ func TestSum(t *testing.T) {
 	}
 
 	m = Sum([]float64{1, 2, 3})
-	if m != 6 {
-		t.Errorf("%.1f != %.1f", m, 6)
+	if m != 6.0 {
+		t.Errorf("%.1f != %.1f", m, 6.0)
 	}
 
 	m = Sum([]float64{1.0, 1.1, 1.2, 2.2})
@@ -221,8 +221,8 @@ func TestRound(t *testing.T) {
 	}
 
 	m = Round(5.3253, 0)
-	if m != 5 {
-		t.Errorf("%.1f != %.1f", m, 5)
+	if m != 5.0 {
+		t.Errorf("%.1f != %.1f", m, 5.0)
 	}
 
 	m = Round(math.NaN(), 2)
@@ -233,8 +233,8 @@ func TestRound(t *testing.T) {
 
 func TestPercentile(t *testing.T) {
 	m := Percentile([]float64{43, 54, 56, 61, 62, 66}, 90)
-	if m != 62 {
-		t.Errorf("%.1f != %.1f", m, 62)
+	if m != 62.0 {
+		t.Errorf("%.1f != %.1f", m, 62.0)
 	}
 	m = Percentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 50)
 	if m != 5.5 {
@@ -249,14 +249,14 @@ func TestPercentile(t *testing.T) {
 func TestFloat64ToInt(t *testing.T) {
 	m := Float64ToInt(234.0234)
 	if m != 234 {
-		t.Errorf("%.1f != %.1f", m, 234)
+		t.Errorf("%x != %x", m, 234)
 	}
 	m = Float64ToInt(-234.0234)
 	if m != -234 {
-		t.Errorf("%.1f != %.1f", m, -234)
+		t.Errorf("%x != %x", m, -234)
 	}
 	m = Float64ToInt(1)
 	if m != 1 {
-		t.Errorf("%.1f != %.1f", m, 1)
+		t.Errorf("%x != %x", m, 1)
 	}
 }
