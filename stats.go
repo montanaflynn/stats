@@ -81,6 +81,13 @@ func Median(input []float64) (median float64) {
 // Mode gets the mode of a slice of numbers
 func Mode(input []float64) (mode []float64) {
 
+	// Return the input if there's only one number
+	// @todo add error for empty slice
+	l := len(input)
+	if l == 1 {
+		return input
+	}
+
 	// Create a map with the counts for each number
 	m := make(map[float64]int)
 	for _, v := range input {
@@ -109,7 +116,6 @@ func Mode(input []float64) (mode []float64) {
 	// Finally we check to see if there actually was
 	// a mode by checking the length of the input and
 	// mode against eachother
-	l := len(input)
 	lm := len(mode)
 	if l == lm {
 		return []float64{}
