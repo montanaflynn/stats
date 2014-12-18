@@ -129,18 +129,76 @@ func TestSum(t *testing.T) {
 	}
 }
 
-func TestStdDev(t *testing.T) {
-	m := Round(StdDev([]float64{1, 2, 3}), 2)
+func TestVariance(t *testing.T) {
+	m := Variance([]float64{}, 0)
+	if m != 0.0 {
+		t.Errorf("%.1f != %.1f", m, 0.0)
+	}
+	m = Variance([]float64{}, 1)
+	if m != 0.0 {
+		t.Errorf("%.1f != %.1f", m, 0.0)
+	}
+	m = Round(Variance([]float64{1, 2, 3}, 0), 1)
+	if m != 0.7 {
+		t.Errorf("%.1f != %.1f", m, 0.7)
+	}
+	m = Variance([]float64{1, 2, 3}, 1)
+	if m != 1.0 {
+		t.Errorf("%.1f != %.1f", m, 1.0)
+	}
+}
+
+func TestVarP(t *testing.T) {
+	m := VarP([]float64{})
+	if m != 0.0 {
+		t.Errorf("%.1f != %.1f", m, 0.0)
+	}
+	m = Round(VarP([]float64{1, 2, 3}), 1)
+	if m != 0.7 {
+		t.Errorf("%.1f != %.1f", m, 0.7)
+	}
+}
+
+func TestVarS(t *testing.T) {
+	m := VarS([]float64{})
+	if m != 0.0 {
+		t.Errorf("%.1f != %.1f", m, 0.0)
+	}
+	m = VarS([]float64{1, 2, 3})
+	if m != 1.0 {
+		t.Errorf("%.1f != %.1f", m, 1.0)
+	}
+}
+
+func TestStdDevP(t *testing.T) {
+	m := Round(StdDevP([]float64{1, 2, 3}), 2)
 	if m != 0.82 {
 		t.Errorf("%.10f != %.10f", m, 0.82)
 	}
 
-	m = Round(StdDev([]float64{-1, -2, -3.3}), 2)
+	m = Round(StdDevP([]float64{-1, -2, -3.3}), 2)
 	if m != 0.94 {
 		t.Errorf("%.10f != %.10f", m, 0.94)
 	}
 
-	m = StdDev([]float64{})
+	m = StdDevP([]float64{})
+	if m != 0.0 {
+		t.Errorf("%.1f != %.1f", m, 0.0)
+	}
+}
+
+func TestStdDevS(t *testing.T) {
+	m := Round(StdDevS([]float64{1, 2, 3}), 2)
+	if m != 1.0 {
+		t.Errorf("%.10f != %.10f", m, 1.0)
+	}
+
+	m = Round(StdDevS([]float64{-1, -2, -3.3}), 2)
+	if m != 1.15 {
+		t.Errorf("%.10f != %.10f", m, 1.15)
+	}
+
+	m = StdDevS([]float64{})
 	if m != 0.0 {
 		t.Errorf("%.1f != %.1f", m, 0.0)
 	}

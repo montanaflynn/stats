@@ -117,23 +117,57 @@ func Mode(input []float64) (mode []float64) {
 	return mode
 }
 
-// StdDev gets the amount of var from the average
-func StdDev(input []float64) (sdev float64) {
+// Variance finds the variance for both population and sample data
+func Variance(input []float64, sample int) (variance float64) {
 	if len(input) == 0 {
 		return 0.0
 	}
 
-	// Get the mean and then subtract that from each number
-	// and then squaring the result
+	// Sum the square of the mean subtracted from each number
 	m := Mean(input)
 	for _, n := range input {
-		sdev += (float64(n) - m) * (float64(n) - m)
+		variance += (float64(n) - m) * (float64(n) - m)
 	}
 
-	// Get the mean of the squared differences
-	m = sdev / float64(len(input))
+	// When getting the mean of the squared differences
+	// "sample" will allow us to know if it's a sample
+	// or population and wether to subtract by one or not
+	return variance / float64((len(input) - (1 * sample)))
+}
 
-	// The square root of the mean is the standard deviation
+// VarP finds the amount of variance within a population
+func VarP(input []float64) (sdev float64) {
+	return Variance(input, 0)
+}
+
+// VarS finds the amount of variance within a sample
+func VarS(input []float64) (sdev float64) {
+	return Variance(input, 1)
+}
+
+// StdDevP finds the amount of variation from the population
+func StdDevP(input []float64) (sdev float64) {
+	if len(input) == 0 {
+		return 0.0
+	}
+
+	// Get the population variance
+	m := VarP(input)
+
+	// Return the population standard deviation
+	return math.Pow(m, 0.5)
+}
+
+// StdDevS finds the amount of variation from a sample
+func StdDevS(input []float64) (sdev float64) {
+	if len(input) == 0 {
+		return 0.0
+	}
+
+	// Get the sample variance
+	m := VarS(input)
+
+	// Return the sample standard deviation
 	return math.Pow(m, 0.5)
 }
 
