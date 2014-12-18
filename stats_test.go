@@ -8,108 +8,87 @@ import (
 )
 
 func TestMin(t *testing.T) {
-	m := Min([]float64{1.1, 2, 3, 4, 5})
-	if m != 1.1 {
-		t.Errorf("%.1f != %.1f", m, 1.1)
-	}
-
-	m = Min([]float64{10.534, 3, 5, 7, 9})
-	if m != 3.0 {
-		t.Errorf("%.1fx != %.1f", m, 3.0)
-	}
-
-	m = Min([]float64{-5, 1, 5})
-	if m != -5.0 {
-		t.Errorf("%.1f != %.1f", m, -5.0)
-	}
+  for _, c := range []struct {
+    in []float64
+    out float64
+  }{
+    {[]float64{1.1, 2, 3, 4, 5}, 1.1},
+    {[]float64{10.534, 3, 5, 7, 9}, 3.0},
+    {[]float64{-5, 1, 5}, -5.0},
+  } {
+    got := Min(c.in)
+    if got != c.out {
+      t.Errorf("Min(%.1f) => %.1f != %.1f", c.in, c.out, got)
+    }
+  }
 }
 
 func TestMax(t *testing.T) {
-	m := Max([]float64{1, 2, 3, 4, 5})
-	if m != 5.0 {
-		t.Errorf("%.1f != %.1f", m, 5.0)
-	}
-
-	m = Max([]float64{10.5, 3, 5, 7, 9})
-	if m != 10.5 {
-		t.Errorf("%.1f != %.1f", m, 10.5)
-	}
-
-	m = Max([]float64{-20, -1, -5.5})
-	if m != -1.0 {
-		t.Errorf("%.1f != %.1f", m, -1.0)
-	}
+  for _, c := range []struct {
+    in []float64
+    out float64
+  }{
+    {[]float64{1, 2, 3, 4, 5}, 5.0},
+    {[]float64{10.5, 3, 5, 7, 9}, 10.5},
+    {[]float64{-20, -1, -5.5}, -1.0},
+  } {
+    got := Max(c.in)
+    if got != c.out {
+      t.Errorf("Max(%.1f) => %.1f != %.1f", c.in, c.out, got)
+    }
+  }
 }
 
 func TestMean(t *testing.T) {
-	m := Mean([]float64{1, 2, 3, 4, 5})
-	if m != 3.0 {
-		t.Errorf("%.1f != %.1f", m, 3.0)
-	}
-
-	m = Mean([]float64{1, 2, 3, 4, 5, 6})
-	if m != 3.5 {
-		t.Errorf("%.1f != %.1f", m, 3.5)
-	}
-
-	m = Mean([]float64{1})
-	if m != 1.0 {
-		t.Errorf("%.1f != %.1f", m, 1.0)
-	}
-
-	m = Mean([]float64{})
-	if m != 0.0 {
-		t.Errorf("%.1f != %.1f", m, 0.0)
-	}
+  for _, c := range []struct {
+    in []float64
+    out float64
+  }{
+    {[]float64{1, 2, 3, 4, 5}, 3.0},
+    {[]float64{1, 2, 3, 4, 5, 6}, 3.5},
+    {[]float64{1}, 1.0},
+    {[]float64{}, 0.0},
+  } {
+    got := Mean(c.in)
+    if got != c.out {
+      t.Errorf("Mean(%.1f) => %.1f != %.1f", c.in, c.out, got)
+    }
+  }
 }
 
 func TestMedian(t *testing.T) {
-	m := Median([]float64{5, 3, 4, 2, 1})
-	if m != 3.0 {
-		t.Errorf("%.1f != %.1f", m, 3.0)
-	}
-
-	m = Median([]float64{6, 3, 2, 4, 5, 1})
-	if m != 3.5 {
-		t.Errorf("%.1f != %.1f", m, 3.5)
-	}
-
-	m = Median([]float64{1})
-	if m != 1.0 {
-		t.Errorf("%.1f != %.1f", m, 1.0)
-	}
-
-	m = Median([]float64{})
-	if m != 0.0 {
-		t.Errorf("%.1f != %.1f", m, 0.0)
-	}
+  for _, c := range []struct {
+    in []float64
+    out float64
+  }{
+    {[]float64{5, 3, 4, 2, 1}, 3.0},
+    {[]float64{6, 3, 2, 4, 5, 1}, 3.5},
+    {[]float64{1}, 1.0},
+    {[]float64{}, 0.0},
+  } {
+    got := Median(c.in)
+    if got != c.out {
+      t.Errorf("Median(%.1f) => %.1f != %.1f", c.in, c.out, got)
+    }
+  }
 }
 
 func TestMode(t *testing.T) {
-	m := Mode([]float64{5, 3, 4, 2, 1})
-	a := []float64{}
-	if !reflect.DeepEqual(m, a) {
-		t.Errorf("%.1f != %.1f", m, a)
-	}
-
-	m = Mode([]float64{5, 5, 3, 4, 2, 1})
-	a = []float64{5}
-	if !reflect.DeepEqual(m, a) {
-		t.Errorf("%.1f != %.1f", m, a)
-	}
-
-	m = Mode([]float64{5, 5, 3, 3, 4, 2, 1})
-	sort.Float64s(m)
-	a = []float64{3, 5}
-	if !reflect.DeepEqual(m, a) {
-		t.Errorf("%.1f != %.1f", m, a)
-	}
-
-	m = Mode([]float64{5, 5, 3, 3, 4, 2, 1, 1, 1})
-	a = []float64{1}
-	if !reflect.DeepEqual(m, a) {
-		t.Errorf("%.1f != %.1f", m, a)
-	}
+  for _, c := range []struct {
+    in []float64
+    out []float64
+  }{
+    {[]float64{5, 3, 4, 2, 1}, []float64{}},
+    {[]float64{5, 5, 3, 4, 2, 1}, []float64{5}},
+    {[]float64{5, 5, 3, 3, 4, 2, 1}, []float64{3, 5}},
+    {[]float64{1}, []float64{1}},
+  } {
+    got := Mode(c.in)
+    sort.Float64s(got)
+    if !reflect.DeepEqual(c.out, got) {
+      t.Errorf("Mode(%.1f) => %.1f != %.1f", c.in, got, c.out)
+    }
+  }
 }
 
 func TestSum(t *testing.T) {
