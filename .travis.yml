@@ -10,7 +10,7 @@ before_install:
 script:
   - go test
 after_success:
-    codecov
+    codecov --token=$CODECOV_TOKEN
 notifications:
   email:
     recipients:
