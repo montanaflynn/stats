@@ -252,3 +252,98 @@ func Float64ToInt(input float64) (output int) {
 	return int(Round(input, 0))
 
 }
+
+// Coordinate holds the data in a series
+type Coordinate struct {
+	x, y float64
+}
+
+// LinReg finds the least squares linear regression on data series
+func LinReg(s []Coordinate) (regressions []Coordinate) {
+
+	// Placeholder for the math to be done
+	var sum [5]float64
+
+	// Loop over data keeping index in place
+	i := 0
+	for ; i < len(s); i++ {
+		sum[0] += s[i].x
+		sum[1] += s[i].y
+		sum[2] += s[i].x * s[i].x
+		sum[3] += s[i].x * s[i].y
+		sum[4] += s[i].y * s[i].y
+	}
+
+	// Create gradient and intercepts
+	f := float64(i)
+	slope := (f*sum[3] - sum[0]*sum[1]) / (f*sum[2] - sum[0]*sum[0])
+	intercept := (sum[1] / f) - (slope * sum[0] / f)
+
+	// Create the new regression series
+	for j := 0; j < len(s); j++ {
+		regressions = append(regressions, Coordinate{
+			x: s[j].x,
+			y: s[j].x*slope + intercept,
+		})
+	}
+
+	return
+
+}
+
+// ExpReg returns an exponential regression on data series
+func ExpReg(s []Coordinate) (regressions []Coordinate) {
+
+	var sum [6]float64
+
+	for i := 0; i < len(s); i++ {
+		sum[0] += s[i].x
+		sum[1] += s[i].y
+		sum[2] += s[i].x * s[i].x * s[i].y
+		sum[3] += s[i].y * math.Log(s[i].y)
+		sum[4] += s[i].x * s[i].y * math.Log(s[i].y)
+		sum[5] += s[i].x * s[i].y
+	}
+
+	denominator := (sum[1]*sum[2] - sum[5]*sum[5])
+	a := math.Pow(math.E, (sum[2]*sum[3]-sum[5]*sum[4])/denominator)
+	b := (sum[1]*sum[4] - sum[5]*sum[3]) / denominator
+
+	for j := 0; j < len(s); j++ {
+		regressions = append(regressions, Coordinate{
+			x: s[j].x,
+			y: a * math.Pow(2.718281828459045, b*s[j].x),
+		})
+	}
+
+	return
+
+}
+
+// LogReg returns an logarithmic regression on data series
+func LogReg(s []Coordinate) (regressions []Coordinate) {
+
+	var sum [4]float64
+
+	i := 0
+	for ; i < len(s); i++ {
+		sum[0] += math.Log(s[i].x)
+		sum[1] += s[i].y * math.Log(s[i].x)
+		sum[2] += s[i].y
+		sum[3] += math.Pow(math.Log(s[i].x), 2)
+	}
+
+	f := float64(i)
+	a := (f*sum[1] - sum[2]*sum[0]) / (f*sum[3] - sum[0]*sum[0])
+	b := (sum[2] - a*sum[0]) / f
+
+	for j := 0; j < len(s); j++ {
+		regressions = append(regressions, Coordinate{
+			x: s[j].x,
+			y: b + a*math.Log(s[j].x),
+		})
+	}
+
+	return
+
+}
