@@ -255,7 +255,7 @@ func Float64ToInt(input float64) (output int) {
 
 // Coordinate holds the data in a series
 type Coordinate struct {
-	x, y float64
+	X, Y float64
 }
 
 // LinReg finds the least squares linear regression on data series
@@ -267,11 +267,11 @@ func LinReg(s []Coordinate) (regressions []Coordinate) {
 	// Loop over data keeping index in place
 	i := 0
 	for ; i < len(s); i++ {
-		sum[0] += s[i].x
-		sum[1] += s[i].y
-		sum[2] += s[i].x * s[i].x
-		sum[3] += s[i].x * s[i].y
-		sum[4] += s[i].y * s[i].y
+		sum[0] += s[i].X
+		sum[1] += s[i].Y
+		sum[2] += s[i].X * s[i].X
+		sum[3] += s[i].X * s[i].Y
+		sum[4] += s[i].Y * s[i].Y
 	}
 
 	// Create gradient and intercepts
@@ -282,8 +282,8 @@ func LinReg(s []Coordinate) (regressions []Coordinate) {
 	// Create the new regression series
 	for j := 0; j < len(s); j++ {
 		regressions = append(regressions, Coordinate{
-			x: s[j].x,
-			y: s[j].x*slope + intercept,
+			X: s[j].X,
+			Y: s[j].X*slope + intercept,
 		})
 	}
 
@@ -297,12 +297,12 @@ func ExpReg(s []Coordinate) (regressions []Coordinate) {
 	var sum [6]float64
 
 	for i := 0; i < len(s); i++ {
-		sum[0] += s[i].x
-		sum[1] += s[i].y
-		sum[2] += s[i].x * s[i].x * s[i].y
-		sum[3] += s[i].y * math.Log(s[i].y)
-		sum[4] += s[i].x * s[i].y * math.Log(s[i].y)
-		sum[5] += s[i].x * s[i].y
+		sum[0] += s[i].X
+		sum[1] += s[i].Y
+		sum[2] += s[i].X * s[i].X * s[i].Y
+		sum[3] += s[i].Y * math.Log(s[i].Y)
+		sum[4] += s[i].X * s[i].Y * math.Log(s[i].Y)
+		sum[5] += s[i].X * s[i].Y
 	}
 
 	denominator := (sum[1]*sum[2] - sum[5]*sum[5])
@@ -311,8 +311,8 @@ func ExpReg(s []Coordinate) (regressions []Coordinate) {
 
 	for j := 0; j < len(s); j++ {
 		regressions = append(regressions, Coordinate{
-			x: s[j].x,
-			y: a * math.Pow(2.718281828459045, b*s[j].x),
+			X: s[j].X,
+			Y: a * math.Pow(2.718281828459045, b*s[j].X),
 		})
 	}
 
@@ -327,10 +327,10 @@ func LogReg(s []Coordinate) (regressions []Coordinate) {
 
 	i := 0
 	for ; i < len(s); i++ {
-		sum[0] += math.Log(s[i].x)
-		sum[1] += s[i].y * math.Log(s[i].x)
-		sum[2] += s[i].y
-		sum[3] += math.Pow(math.Log(s[i].x), 2)
+		sum[0] += math.Log(s[i].X)
+		sum[1] += s[i].Y * math.Log(s[i].X)
+		sum[2] += s[i].Y
+		sum[3] += math.Pow(math.Log(s[i].X), 2)
 	}
 
 	f := float64(i)
@@ -339,8 +339,8 @@ func LogReg(s []Coordinate) (regressions []Coordinate) {
 
 	for j := 0; j < len(s); j++ {
 		regressions = append(regressions, Coordinate{
-			x: s[j].x,
-			y: b + a*math.Log(s[j].x),
+			X: s[j].X,
+			Y: b + a*math.Log(s[j].X),
 		})
 	}
 

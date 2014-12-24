@@ -250,23 +250,23 @@ func TestLinReg(t *testing.T) {
 
 	r := LinReg(data)
 	a := 2.3800000000000026
-	if r[0].y != a {
+	if r[0].Y != a {
 		t.Errorf("%v != %v", r, a)
 	}
 	a = 3.0800000000000014
-	if r[1].y != a {
+	if r[1].Y != a {
 		t.Errorf("%v != %v", r, a)
 	}
 	a = 3.7800000000000002
-	if r[2].y != a {
+	if r[2].Y != a {
 		t.Errorf("%v != %v", r, a)
 	}
 	a = 4.479999999999999
-	if r[3].y != a {
+	if r[3].Y != a {
 		t.Errorf("%v != %v", r, a)
 	}
 	a = 5.179999999999998
-	if r[4].y != a {
+	if r[4].Y != a {
 		t.Errorf("%v != %v", r, a)
 	}
 }
@@ -281,19 +281,19 @@ func TestExpReg(t *testing.T) {
 	}
 
 	r := ExpReg(data)
-	if Round(r[0].y, 3) != 2.515 {
+	if Round(r[0].Y, 3) != 2.515 {
 		t.Errorf("%v != %v", r, 2.515)
 	}
-	if Round(r[1].y, 3) != 3.032 {
+	if Round(r[1].Y, 3) != 3.032 {
 		t.Errorf("%v != %v", r, 3.032)
 	}
-	if Round(r[2].y, 3) != 3.655 {
+	if Round(r[2].Y, 3) != 3.655 {
 		t.Errorf("%v != %v", r, 3.655)
 	}
-	if Round(r[3].y, 3) != 4.407 {
+	if Round(r[3].Y, 3) != 4.407 {
 		t.Errorf("%v != %v", r, 4.407)
 	}
-	if Round(r[4].y, 3) != 5.313 {
+	if Round(r[4].Y, 3) != 5.313 {
 		t.Errorf("%v != %v", r, 5.313)
 	}
 }
@@ -309,23 +309,23 @@ func TestLogReg(t *testing.T) {
 
 	r := LogReg(data)
 	a := 2.1520822363811702
-	if r[0].y != a {
+	if r[0].Y != a {
 		t.Errorf("%v != %v", r, a)
 	}
 	a = 3.3305559222492214
-	if r[1].y != a {
+	if r[1].Y != a {
 		t.Errorf("%v != %v", r, a)
 	}
 	a = 4.019918836568674
-	if r[2].y != a {
+	if r[2].Y != a {
 		t.Errorf("%v != %v", r, a)
 	}
 	a = 4.509029608117273
-	if r[3].y != a {
+	if r[3].Y != a {
 		t.Errorf("%v != %v", r, a)
 	}
 	a = 4.888413396683663
-	if r[4].y != a {
+	if r[4].Y != a {
 		t.Errorf("%v != %v", r, a)
 	}
 }
