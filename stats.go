@@ -274,16 +274,16 @@ func LinReg(s []Coordinate) (regressions []Coordinate) {
 		sum[4] += s[i].Y * s[i].Y
 	}
 
-	// Create gradient and intercepts
+	// Find gradient and intercept
 	f := float64(i)
-	slope := (f*sum[3] - sum[0]*sum[1]) / (f*sum[2] - sum[0]*sum[0])
-	intercept := (sum[1] / f) - (slope * sum[0] / f)
+	gradient := (f*sum[3] - sum[0]*sum[1]) / (f*sum[2] - sum[0]*sum[0])
+	intercept := (sum[1] / f) - (gradient * sum[0] / f)
 
 	// Create the new regression series
 	for j := 0; j < len(s); j++ {
 		regressions = append(regressions, Coordinate{
 			X: s[j].X,
-			Y: s[j].X*slope + intercept,
+			Y: s[j].X*gradient + intercept,
 		})
 	}
 
