@@ -65,14 +65,14 @@ func main() {
         {5, 5.3},
     }
 
-    m = stats.LinReg(d)
-    fmt.Println(m) // [{1 2.3800000000000026} {2 3.0800000000000014} {3 3.7800000000000002} {4 4.479999999999999} {5 5.179999999999998}]
+    r := stats.LinReg(d)
+    fmt.Println(r) // [{1 2.3800000000000026} {2 3.0800000000000014} {3 3.7800000000000002} {4 4.479999999999999} {5 5.179999999999998}]
 
-    m = stats.ExpReg(d)
-    fmt.Println(m) // [{1 2.5150181024736638} {2 3.032084111136781} {3 3.6554544271334493} {4 4.406984298281804} {5 5.313022222665875}]
+    r = stats.ExpReg(d)
+    fmt.Println(r) // [{1 2.5150181024736638} {2 3.032084111136781} {3 3.6554544271334493} {4 4.406984298281804} {5 5.313022222665875}]
 
-    m = stats.LogReg(d)
-    fmt.Println(m) // [{1 2.1520822363811702} {2 3.3305559222492214} {3 4.019918836568674} {4 4.509029608117273} {5 4.888413396683663}]
+    r = stats.LogReg(d)
+    fmt.Println(r) // [{1 2.1520822363811702} {2 3.3305559222492214} {3 4.019918836568674} {4 4.509029608117273} {5 4.888413396683663}]
 }
 ```
 
@@ -83,6 +83,9 @@ The [entire API documentation](http://godoc.org/github.com/montanaflynn/stats) i
 ### Todos
 
 - Error checking in idiomatic Go style
+- Regression projection modeling
+- [Mathmatical Constants](http://en.wikipedia.org/wiki/Mathematical_constant)
+- Seperate usage example directory
 
 ### MIT license
 
