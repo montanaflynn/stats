@@ -12,6 +12,8 @@ go get github.com/montanaflynn/stats
 
 ### Usage
 
+The [entire API documentation](http://godoc.org/github.com/montanaflynn/stats) is available on GoDoc.
+
 ```go
 package main
 
@@ -75,10 +77,6 @@ func main() {
     fmt.Println(r) // [{1 2.1520822363811702} {2 3.3305559222492214} {3 4.019918836568674} {4 4.509029608117273} {5 4.888413396683663}]
 }
 ```
-
-### API
-
-The [entire API documentation](http://godoc.org/github.com/montanaflynn/stats) is available on GoDoc.
 
 ### Todos
 
