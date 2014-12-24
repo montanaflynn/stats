@@ -6,11 +6,12 @@ go:
   - 1.4
   - tip
 before_install:
-    sudo pip install codecov
+  - sudo pip install codecov
+  - go get code.google.com/p/go.tools/cmd/cover
 script:
   - go test
 after_success:
-    codecov --token=$CODECOV_TOKEN
+  - codecov
 notifications:
   email:
     recipients:
