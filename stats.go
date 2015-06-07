@@ -2,7 +2,10 @@ package stats
 
 import (
 	"math"
+	"math/rand"
 	"sort"
+	"time"
+	"errors"
 )
 
 // Min finds the lowest number in a slice
@@ -347,3 +350,39 @@ func LogReg(s []Coordinate) (regressions []Coordinate) {
 	return
 
 }
+
+//Sample returns sample from input with replacement or without
+func Sample(input []float64, takenum int, replacement bool) ([]float64, error) {
+	if len(input) == 0 {
+		return nil, errors.New("Input must be non-empty")
+	}
+
+	length := len(input)
+	if replacement {
+		result := []float64{}
+		rand.Seed(unixnano())
+		//In every step, randomly take the num for
+		for i := 0; i < takenum; i++ {
+			idx := rand.Intn(length)
+			result = append(result, input[idx])
+		}
+		return result, nil
+	} else if !replacement && takenum <= length {
+		rand.Seed(unixnano())
+		//Get permutation of number of indexies
+		perm := rand.Perm(length)
+		result := []float64{}
+		//Get element of input by permutated index
+		for _, idx := range perm[0:takenum] {
+			result = append(result, input[idx])
+		}
+		return result, nil
+	}
+
+	return nil, errors.New("Number of taken elements, must be less than length of input")
+}
+
+func unixnano() int64 {
+	return time.Now().UTC().UnixNano()
+}
+
