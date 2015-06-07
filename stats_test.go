@@ -333,12 +333,12 @@ func TestLogReg(t *testing.T) {
 func TestSample(t *testing.T) {
 	_, err := Sample([]float64{}, 10, false)
 	if err == nil {
-		t.Errorf(err)
+		t.Errorf("Must be error")
 	}
 
 	_, err2 := Sample([]float64{0.1, 0.2}, 10, false)
 	if err2 == nil {
-		t.Errorf(err2)
+		t.Errorf("Must be error")
 	}
 }
 
