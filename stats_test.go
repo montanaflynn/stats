@@ -73,6 +73,15 @@ func TestMedian(t *testing.T) {
 	}
 }
 
+func TestMedianSortSideEffects(t *testing.T) {
+	s := []float64{0.1, 0.3, 0.2, 0.4, 0.5}
+	a := []float64{0.1, 0.3, 0.2, 0.4, 0.5}
+	Median(s)
+	if !reflect.DeepEqual(s, a) {
+		t.Errorf("%.1f != %.1f", s, a)
+	}
+}
+
 func TestMode(t *testing.T) {
 	for _, c := range []struct {
 		in  []float64
@@ -221,6 +230,15 @@ func TestPercentile(t *testing.T) {
 	m = Percentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 99.9)
 	if m != 10.0 {
 		t.Errorf("%.1f != %.1f", m, 10.0)
+	}
+}
+
+func TestPercentileSortSideEffects(t *testing.T) {
+	s := []float64{43, 54, 56, 44, 62, 66}
+	a := []float64{43, 54, 56, 44, 62, 66}
+	Percentile(s, 90)
+	if !reflect.DeepEqual(s, a) {
+		t.Errorf("%.1f != %.1f", s, a)
 	}
 }
 

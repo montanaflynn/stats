@@ -61,21 +61,21 @@ func Mean(input []float64) (mean float64) {
 // Median gets the median number in a slice of numbers
 func Median(input []float64) (median float64) {
 
-	// Start by sorting the slice
-	sort.Float64s(input)
-
-	l := len(input)
+	// Start by sorting a copy of the slice
+	c := copyslice(input)
+	sort.Float64s(c)
 
 	// No math is needed if there are no numbers
 	// For even numbers we add the two middle numbers
 	// and divide by two using the mean function above
 	// For odd numbers we just use the middle number
+	l := len(c)
 	if l == 0 {
 		return 0.0
 	} else if l%2 == 0 {
-		median = Mean(input[l/2-1 : l/2+1])
+		median = Mean(c[l/2-1 : l/2+1])
 	} else {
-		median = float64(input[l/2])
+		median = float64(c[l/2])
 	}
 
 	return median
@@ -219,11 +219,12 @@ func Round(input float64, places int) (rounded float64) {
 // Percentile finds the relative standing in a slice of floats
 func Percentile(input []float64, percent float64) (percentile float64) {
 
-	// Sort the data
-	sort.Float64s(input)
+	// Start by sorting a copy of the slice
+	c := copyslice(input)
+	sort.Float64s(c)
 
 	// Multiple percent by length of input
-	index := (percent / 100) * float64(len(input))
+	index := (percent / 100) * float64(len(c))
 
 	// Check if the index is a whole number
 	if index == float64(int64(index)) {
@@ -232,7 +233,7 @@ func Percentile(input []float64, percent float64) (percentile float64) {
 		i := Float64ToInt(index)
 
 		// Find the average of the index and following values
-		percentile = Mean([]float64{input[i-1], input[i]})
+		percentile = Mean([]float64{c[i-1], c[i]})
 
 	} else {
 
@@ -240,7 +241,7 @@ func Percentile(input []float64, percent float64) (percentile float64) {
 		i := Float64ToInt(index)
 
 		// Find the value at the index
-		percentile = input[i-1]
+		percentile = c[i-1]
 
 	}
 
@@ -351,7 +352,7 @@ func LogReg(s []Coordinate) (regressions []Coordinate) {
 
 }
 
-//Sample returns sample from input with replacement or without
+// Sample returns sample from input with replacement or without
 func Sample(input []float64, takenum int, replacement bool) ([]float64, error) {
 	if len(input) == 0 {
 		return nil, errors.New("Input must be non-empty")
@@ -382,7 +383,14 @@ func Sample(input []float64, takenum int, replacement bool) ([]float64, error) {
 	return nil, errors.New("Number of taken elements, must be less than length of input")
 }
 
+// unixnano returns nanoseconds from UTC epoch
 func unixnano() int64 {
 	return time.Now().UTC().UnixNano()
 }
 
+// copyslice copies a slice of float64s
+func copyslice(input []float64) []float64 {
+	s := make([]float64, len(input))
+	copy(s, input)
+	return s
+}
