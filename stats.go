@@ -52,7 +52,7 @@ func Sum(input []float64) (sum float64, err error) {
 
 	// Add em up
 	for _, n := range input {
-		sum += float64(n)
+		sum += n
 	}
 
 	return sum, nil
