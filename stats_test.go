@@ -7,6 +7,8 @@ import (
 	"testing"
 )
 
+var sf = []float64{1.1, 2, 3, 4, 5}
+
 func TestMin(t *testing.T) {
 	for _, c := range []struct {
 		in  []float64
@@ -24,6 +26,12 @@ func TestMin(t *testing.T) {
 		if got != c.out {
 			t.Errorf("Min(%.1f) => %.1f != %.1f", c.in, c.out, got)
 		}
+	}
+}
+
+func BenchmarkMin(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Min(sf)
 	}
 }
 
@@ -47,6 +55,12 @@ func TestMax(t *testing.T) {
 	}
 }
 
+func BenchmarkMax(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Max(sf)
+	}
+}
+
 func TestMean(t *testing.T) {
 	for _, c := range []struct {
 		in  []float64
@@ -67,6 +81,12 @@ func TestMean(t *testing.T) {
 	}
 }
 
+func BenchmarkMean(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Mean(sf)
+	}
+}
+
 func TestMedian(t *testing.T) {
 	for _, c := range []struct {
 		in  []float64
@@ -84,6 +104,12 @@ func TestMedian(t *testing.T) {
 	_, err := Median([]float64{})
 	if err == nil {
 		t.Errorf("Should have returned an error")
+	}
+}
+
+func BenchmarkMedian(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Median(sf)
 	}
 }
 
@@ -117,6 +143,12 @@ func TestMode(t *testing.T) {
 	}
 }
 
+func BenchmarkMode(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Mode(sf)
+	}
+}
+
 func TestSum(t *testing.T) {
 	for _, c := range []struct {
 		in  []float64
@@ -134,6 +166,12 @@ func TestSum(t *testing.T) {
 		if !reflect.DeepEqual(c.out, got) {
 			t.Errorf("Sum(%.1f) => %.1f != %.1f", c.in, got, c.out)
 		}
+	}
+}
+
+func BenchmarkSum(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Sum(sf)
 	}
 }
 
@@ -269,6 +307,12 @@ func TestRound(t *testing.T) {
 	m, err = Round(math.NaN(), 2)
 	if err == nil {
 		t.Errorf("Round should error on NaN")
+	}
+}
+
+func BenchmarkRound(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Round(0.1111, 1)
 	}
 }
 
