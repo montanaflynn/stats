@@ -11,12 +11,13 @@ import (
 // Min finds the lowest number in a slice
 func Min(input []float64) (min float64, err error) {
 
-	// Get the initial value or return an error
-	if len(input) > 0 {
-		min = input[0]
-	} else {
+	// Return an error if there are no numbers
+	if len(input) == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
+
+	// Get the first value as the starting point
+	min = input[0]
 
 	// Iterate until done checking for a lower value
 	for i := 1; i < len(input); i++ {
@@ -30,12 +31,13 @@ func Min(input []float64) (min float64, err error) {
 // Max finds the highest number in a slice
 func Max(input []float64) (max float64, err error) {
 
-	// Get the initial value
-	if len(input) > 0 {
-		max = input[0]
-	} else {
+	// Return an error if there are no numbers
+	if len(input) == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
+
+	// Get the first value as the starting point
+	max = input[0]
 
 	// Loop and replace higher values
 	for i := 1; i < len(input); i++ {
@@ -49,6 +51,10 @@ func Max(input []float64) (max float64, err error) {
 
 // Sum adds all the numbers of a slice together
 func Sum(input []float64) (sum float64, err error) {
+
+	if len(input) == 0 {
+		return 0, errors.New("Input must not be empty")
+	}
 
 	// Add em up
 	for _, n := range input {
@@ -65,10 +71,7 @@ func Mean(input []float64) (mean float64, err error) {
 		return 0, errors.New("Input must not be empty")
 	}
 
-	sum, err := Sum(input)
-	if err != nil {
-		return 0, errors.New("Could not calculate sum")
-	}
+	sum, _ := Sum(input)
 
 	return sum / float64(len(input)), nil
 }
@@ -88,10 +91,7 @@ func Median(input []float64) (median float64, err error) {
 	if l == 0 {
 		return 0, errors.New("Input must not be empty")
 	} else if l%2 == 0 {
-		median, err = Mean(c[l/2-1 : l/2+1])
-		if err != nil {
-			return 0, errors.New("Could not calculate median using the mean func")
-		}
+		median, _ = Mean(c[l/2-1 : l/2+1])
 	} else {
 		median = float64(c[l/2])
 	}
@@ -154,10 +154,7 @@ func Variance(input []float64, sample int) (variance float64, err error) {
 	}
 
 	// Sum the square of the mean subtracted from each number
-	m, err := Mean(input)
-	if err != nil {
-		return 0, errors.New("Could not calculate mean")
-	}
+	m, _ := Mean(input)
 
 	for _, n := range input {
 		variance += (float64(n) - m) * (float64(n) - m)
@@ -199,13 +196,10 @@ func StdDevP(input []float64) (sdev float64, err error) {
 	}
 
 	// Get the population variance
-	m, err := VarP(input)
-	if err != nil {
-		return 0, err
-	}
+	vp, _ := VarP(input)
 
 	// Return the population standard deviation
-	return math.Pow(m, 0.5), nil
+	return math.Pow(vp, 0.5), nil
 }
 
 // StdDevS finds the amount of variation from a sample
@@ -216,13 +210,10 @@ func StdDevS(input []float64) (sdev float64, err error) {
 	}
 
 	// Get the sample variance
-	sv, err := VarS(input)
-	if err != nil {
-		return 0, err
-	}
+	vs, _ := VarS(input)
 
 	// Return the sample standard deviation
-	return math.Pow(sv, 0.5), nil
+	return math.Pow(vs, 0.5), nil
 }
 
 // Round a float to a specific decimal place or precision
@@ -278,24 +269,15 @@ func Percentile(input []float64, percent float64) (percentile float64, err error
 	if index == float64(int64(index)) {
 
 		// Convert float to int
-		i, err := Float64ToInt(index)
-		if err != nil {
-			return 0, errors.New("Could not turn float64 into int")
-		}
+		i := float64ToInt(index)
 
 		// Find the average of the index and following values
-		percentile, err = Mean([]float64{c[i-1], c[i]})
-		if err != nil {
-			return 0, errors.New("Could not calculate percentile with the mean func")
-		}
+		percentile, _ = Mean([]float64{c[i-1], c[i]})
 
 	} else {
 
 		// Convert float to int
-		i, err := Float64ToInt(index)
-		if err != nil {
-			return 0, errors.New("Could not turn float64 into int")
-		}
+		i := float64ToInt(index)
 
 		// Find the value at the index
 		percentile = c[i-1]
@@ -303,19 +285,6 @@ func Percentile(input []float64, percent float64) (percentile float64, err error
 	}
 
 	return percentile, nil
-
-}
-
-// Float64ToInt rounds a float64 to an int
-func Float64ToInt(input float64) (output int, err error) {
-
-	// Round input to nearest whole number and convert to int
-	r, err := Round(input, 0)
-	if err != nil {
-		return 0, err
-	}
-
-	return int(r), nil
 
 }
 
@@ -461,10 +430,16 @@ func Sample(input []float64, takenum int, replacement bool) ([]float64, error) {
 		}
 
 		return result, nil
-		
+
 	}
 
 	return nil, errors.New("Number of taken elements must be less than length of input")
+}
+
+// float64ToInt rounds a float64 to an int
+func float64ToInt(input float64) (output int) {
+	r, _ := Round(input, 0)
+	return int(r)
 }
 
 // unixnano returns nanoseconds from UTC epoch

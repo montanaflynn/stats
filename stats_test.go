@@ -9,6 +9,15 @@ import (
 
 var sf = []float64{1.1, 2, 3, 4, 5}
 
+func makeLargeFloatSlice(c int) []float64 {
+	lf := []float64{}
+	for i := 1; i < c; i++ {
+		f := float64(i * 100)
+		lf = append(lf, f)
+	}
+	return lf
+}
+
 func TestMin(t *testing.T) {
 	for _, c := range []struct {
 		in  []float64
@@ -27,11 +36,23 @@ func TestMin(t *testing.T) {
 			t.Errorf("Min(%.1f) => %.1f != %.1f", c.in, c.out, got)
 		}
 	}
+	_, err := Min([]float64{})
+	if err == nil {
+		t.Errorf("Empty slice didn't return an error")
+	}
 }
 
-func BenchmarkMin(b *testing.B) {
+func BenchmarkMinSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Min(sf)
+	}
+}
+
+func BenchmarkMinLargeFloatSlice(b *testing.B) {
+	lf := makeLargeFloatSlice(100000)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Min(lf)
 	}
 }
 
@@ -53,11 +74,23 @@ func TestMax(t *testing.T) {
 			t.Errorf("Max(%.1f) => %.1f != %.1f", c.in, c.out, got)
 		}
 	}
+	_, err := Min([]float64{})
+	if err == nil {
+		t.Errorf("Empty slice didn't return an error")
+	}
 }
 
-func BenchmarkMax(b *testing.B) {
+func BenchmarkMaxSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Max(sf)
+	}
+}
+
+func BenchmarkMaxLargeFloatSlice(b *testing.B) {
+	lf := makeLargeFloatSlice(100000)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Max(lf)
 	}
 }
 
@@ -81,9 +114,17 @@ func TestMean(t *testing.T) {
 	}
 }
 
-func BenchmarkMean(b *testing.B) {
+func BenchmarkMeanSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Mean(sf)
+	}
+}
+
+func BenchmarkMeanLargeFloatSlice(b *testing.B) {
+	lf := makeLargeFloatSlice(100000)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Mean(lf)
 	}
 }
 
@@ -107,9 +148,17 @@ func TestMedian(t *testing.T) {
 	}
 }
 
-func BenchmarkMedian(b *testing.B) {
+func BenchmarkMedianSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Median(sf)
+	}
+}
+
+func BenchmarkMedianLargeFloatSlice(b *testing.B) {
+	lf := makeLargeFloatSlice(100000)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Median(lf)
 	}
 }
 
@@ -143,9 +192,17 @@ func TestMode(t *testing.T) {
 	}
 }
 
-func BenchmarkMode(b *testing.B) {
+func BenchmarkModeSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Mode(sf)
+	}
+}
+
+func BenchmarkModeLargeFloatSlice(b *testing.B) {
+	lf := makeLargeFloatSlice(100000)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Mode(lf)
 	}
 }
 
@@ -157,7 +214,6 @@ func TestSum(t *testing.T) {
 		{[]float64{1, 2, 3}, 6},
 		{[]float64{1.0, 1.1, 1.2, 2.2}, 5.5},
 		{[]float64{1, -1, 2, -3}, -1},
-		{[]float64{}, 0},
 	} {
 		got, err := Sum(c.in)
 		if err != nil {
@@ -167,11 +223,23 @@ func TestSum(t *testing.T) {
 			t.Errorf("Sum(%.1f) => %.1f != %.1f", c.in, got, c.out)
 		}
 	}
+	_, err := Sum([]float64{})
+	if err == nil {
+		t.Errorf("Should have returned an error")
+	}
 }
 
-func BenchmarkSum(b *testing.B) {
+func BenchmarkSumSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Sum(sf)
+	}
+}
+
+func BenchmarkSumLargeFloatSlice(b *testing.B) {
+	lf := makeLargeFloatSlice(100000)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Sum(lf)
 	}
 }
 
@@ -310,7 +378,7 @@ func TestRound(t *testing.T) {
 	}
 }
 
-func BenchmarkRound(b *testing.B) {
+func BenchmarkRoundSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Round(0.1111, 1)
 	}
@@ -329,6 +397,10 @@ func TestPercentile(t *testing.T) {
 	if m != 10.0 {
 		t.Errorf("%.1f != %.1f", m, 10.0)
 	}
+	_, err := Percentile([]float64{}, 99.9)
+	if err == nil {
+		t.Errorf("Empty slice didn't return an error")
+	}
 }
 
 func TestPercentileSortSideEffects(t *testing.T) {
@@ -341,15 +413,15 @@ func TestPercentileSortSideEffects(t *testing.T) {
 }
 
 func TestFloat64ToInt(t *testing.T) {
-	m, _ := Float64ToInt(234.0234)
+	m := float64ToInt(234.0234)
 	if m != 234 {
 		t.Errorf("%x != %x", m, 234)
 	}
-	m, _ = Float64ToInt(-234.0234)
+	m = float64ToInt(-234.0234)
 	if m != -234 {
 		t.Errorf("%x != %x", m, -234)
 	}
-	m, _ = Float64ToInt(1)
+	m = float64ToInt(1)
 	if m != 1 {
 		t.Errorf("%x != %x", m, 1)
 	}
