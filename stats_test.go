@@ -74,7 +74,7 @@ func TestMax(t *testing.T) {
 			t.Errorf("Max(%.1f) => %.1f != %.1f", c.in, c.out, got)
 		}
 	}
-	_, err := Min([]float64{})
+	_, err := Max([]float64{})
 	if err == nil {
 		t.Errorf("Empty slice didn't return an error")
 	}
@@ -189,6 +189,10 @@ func TestMode(t *testing.T) {
 		if !reflect.DeepEqual(c.out, got) {
 			t.Errorf("Mode(%.1f) => %.1f != %.1f", c.in, got, c.out)
 		}
+	}
+	_, err := Mode([]float64{})
+	if err == nil {
+		t.Errorf("Should have returned an error")
 	}
 }
 
@@ -457,6 +461,11 @@ func TestLinReg(t *testing.T) {
 	if r[4].Y != a {
 		t.Errorf("%v != %v", r, a)
 	}
+
+	_, err := LinReg([]Coordinate{})
+	if err == nil {
+		t.Errorf("Should have returned an error")
+	}
 }
 
 func TestExpReg(t *testing.T) {
@@ -489,6 +498,12 @@ func TestExpReg(t *testing.T) {
 	if a != 5.313 {
 		t.Errorf("%v != %v", r, 5.313)
 	}
+
+	_, err := ExpReg([]Coordinate{})
+	if err == nil {
+
+		t.Errorf("Should have returned an error")
+	}
 }
 
 func TestLogReg(t *testing.T) {
@@ -520,6 +535,12 @@ func TestLogReg(t *testing.T) {
 	a = 4.888413396683663
 	if r[4].Y != a {
 		t.Errorf("%v != %v", r, a)
+	}
+
+	_, err := LogReg([]Coordinate{})
+	if err == nil {
+
+		t.Errorf("Should have returned an error")
 	}
 }
 
