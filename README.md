@@ -1,4 +1,4 @@
-# Stats [![Build Status](https://img.shields.io/wercker/ci/548fca786b3ba8733d7f219d.svg)](https://app.wercker.com/project/bykey/2eafc5c6f7c702b53d967aef3b2bb65e) [![Coverage Status](https://img.shields.io/coveralls/montanaflynn/stats.svg)](https://coveralls.io/r/montanaflynn/stats?branch=master) [![GoDoc](https://godoc.org/github.com/montanaflynn/stats?status.svg)](https://godoc.org/github.com/montanaflynn/stats)
+# Stats [![Build Status](https://img.shields.io/travis/montanaflynn/stats.svg)](https://travis-ci.org/montanaflynn/stats) [![Coverage Status](https://img.shields.io/coveralls/montanaflynn/stats.svg)](https://coveralls.io/r/montanaflynn/stats?branch=master) [![GoDoc](https://godoc.org/github.com/montanaflynn/stats?status.svg)](https://godoc.org/github.com/montanaflynn/stats)
 
 A stats package including common functions that are missing from the Golang standard library. 
 
@@ -89,6 +89,7 @@ func main() {
 - [Mathmatical Constants](http://en.wikipedia.org/wiki/Mathematical_constant)
 - Regression projections
 - Seperate example directory
+- Performance improvements
 
 ### MIT license
 
