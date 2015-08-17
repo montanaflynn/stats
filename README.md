@@ -14,6 +14,8 @@ go get github.com/montanaflynn/stats
 
 The [entire API documentation](http://godoc.org/github.com/montanaflynn/stats) is available on GoDoc.
 
+### Examples
+
 ```go
 package main
 
@@ -86,10 +88,9 @@ func main() {
 
 ### Todos
 
-- [Mathmatical Constants](http://en.wikipedia.org/wiki/Mathematical_constant)
-- Regression projections
-- Seperate example directory
-- Performance improvements
+- Trimean, Chi-squared test, and [more](https://en.wikipedia.org/wiki/Statistics)
+- Seperate example directory with real world projects
+- Performance improvements plus a complete benchmark suite
 
 ### MIT license
 
