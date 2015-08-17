@@ -288,6 +288,43 @@ func Percentile(input []float64, percent float64) (percentile float64, err error
 
 }
 
+func PercentileNearestRank(input []float64, percent float64) (percentile float64, err error) {
+
+	// Find the length of items in the slice
+	il := len(input)
+
+	// Return an error for empty slices
+	if il == 0 {
+		return 0, errors.New("Input must not be empty")
+	}
+
+	// Return error for less than 0 percentages
+	if percent <= 0 {
+		return 0, errors.New("Percentage must be above 0")
+	}
+
+	// Return error for greater than 100 percentages
+	if percent > 100 {
+		return 0, errors.New("Percentage must not be above 100")
+	}
+
+	// Start by sorting a copy of the slice
+	c := copyslice(input)
+	sort.Float64s(c)
+
+	// Return the last item
+	if percent == 100.0 {
+		return c[il-1], nil
+	}
+
+	// Find ordinal ranking
+	or := int(math.Ceil(float64(il) * percent / 100))
+
+	// Return the item that is in the place of the ordinal rank
+	return c[or-1], nil
+
+}
+
 // Coordinate holds the data in a series
 type Coordinate struct {
 	X, Y float64

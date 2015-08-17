@@ -11,7 +11,7 @@ var sf = []float64{1.1, 2, 3, 4, 5}
 
 func makeLargeFloatSlice(c int) []float64 {
 	lf := []float64{}
-	for i := 1; i < c; i++ {
+	for i := 0; i < c; i++ {
 		f := float64(i * 100)
 		lf = append(lf, f)
 	}
@@ -413,6 +413,86 @@ func TestPercentileSortSideEffects(t *testing.T) {
 	Percentile(s, 90)
 	if !reflect.DeepEqual(s, a) {
 		t.Errorf("%.1f != %.1f", s, a)
+	}
+}
+
+func BenchmarkPercentileSmallFloatSlice(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Percentile(sf, 50)
+	}
+}
+
+func BenchmarkPercentileLargeFloatSlice(b *testing.B) {
+	lf := makeLargeFloatSlice(100000)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Percentile(lf, 50)
+	}
+}
+
+func TestPercentileNearestRank(t *testing.T) {
+	f1 := []float64{35, 20, 15, 40, 50}
+	f2 := []float64{20, 6, 7, 8, 8, 10, 13, 15, 16, 3}
+	f3 := makeLargeFloatSlice(101)
+
+	for _, c := range []struct {
+		sample  []float64
+		percent float64
+		result  float64
+	}{
+		{f1, 30, 20},
+		{f1, 40, 20},
+		{f1, 50, 35},
+		{f1, 75, 40},
+		{f1, 95, 50},
+		{f1, 99, 50},
+		{f1, 99.9, 50},
+		{f1, 100, 50},
+		{f2, 25, 7},
+		{f2, 50, 8},
+		{f2, 75, 15},
+		{f2, 100, 20},
+		{f3, 1, 100},
+		{f3, 99, 9900},
+		{f3, 100, 10000},
+	} {
+		got, err := PercentileNearestRank(c.sample, c.percent)
+		if err != nil {
+			t.Errorf("Should not have returned an error")
+		}
+		if got != c.result {
+			t.Errorf("%v != %v", got, c.result)
+		}
+	}
+
+	_, err := PercentileNearestRank([]float64{}, 50)
+	if err == nil {
+		t.Errorf("Should have returned an empty slice error")
+	}
+
+	_, err = PercentileNearestRank([]float64{1, 2, 3, 4, 5}, 0)
+	if err == nil {
+		t.Errorf("Should have returned an percentage must be above 0 error")
+	}
+
+	_, err = PercentileNearestRank([]float64{1, 2, 3, 4, 5}, 110)
+	if err == nil {
+		t.Errorf("Should have returned an percentage must not be above 100 error")
+	}
+
+}
+
+func BenchmarkPercentileNearestRankSmallFloatSlice(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		PercentileNearestRank(sf, 50)
+	}
+}
+
+func BenchmarkPercentileNearestRankLargeFloatSlice(b *testing.B) {
+	lf := makeLargeFloatSlice(100000)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		PercentileNearestRank(lf, 50)
 	}
 }
 

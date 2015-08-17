@@ -58,6 +58,9 @@ func main() {
 	a, _ = Percentile([]float64{1, 2, 3, 4, 5}, 75)
 	fmt.Println(a) // 4
 
+	a, _ = PercentileNearestRank([]float64{35, 20, 15, 40, 50}, 75)
+	fmt.Println(a) // 40
+
 	a, _ = Round(5.3253543, 3)
 	fmt.Println(a) // 5.325
 
