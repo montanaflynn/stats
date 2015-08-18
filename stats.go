@@ -542,6 +542,47 @@ func Trimean(input []float64) (float64, error) {
 	return (q.Q1 + (q.Q2 * 2) + q.Q3) / 4, nil
 }
 
+type Outliers struct {
+	Mild    []float64
+	Extreme []float64
+}
+
+func QuartileOutliers(input []float64) (Outliers, error) {
+	if len(input) == 0 {
+		return Outliers{}, errors.New("Input must not be empty")
+	}
+
+	// Start by sorting a copy of the slice
+	copy := sortedCopy(input)
+
+	// Calculate the quartiles and interquartile range
+	qs, _ := Quartile(copy)
+	iqr, _ := InterQuartileRange(copy)
+
+	// Calculate the lower and upper inner and outer fences
+	lif := qs.Q1 - (1.5 * iqr)
+	uif := qs.Q3 + (1.5 * iqr)
+	lof := qs.Q1 - (3 * iqr)
+	uof := qs.Q3 + (3 * iqr)
+
+	// Find the data points that are outside of the
+	// inner and upper fences and add them to mild
+	// and extreme outlier slices
+	var mild []float64
+	var extreme []float64
+	for _, v := range copy {
+
+		if v < lof || v > uof {
+			extreme = append(extreme, v)
+		} else if v < lif || v > uif {
+			mild = append(mild, v)
+		}
+	}
+
+	// Wrap them into our struct
+	return Outliers{mild, extreme}, nil
+}
+
 // float64ToInt rounds a float64 to an int
 func float64ToInt(input float64) (output int) {
 	r, _ := Round(input, 0)
