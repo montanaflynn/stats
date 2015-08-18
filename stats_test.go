@@ -692,3 +692,17 @@ func TestQuartile(t *testing.T) {
 		t.Errorf("Empty slice should have returned an error")
 	}
 }
+
+func TestInterQuartileRange(t *testing.T) {
+	s1 := []float64{102, 104, 105, 107, 108, 109, 110, 112, 115, 116, 118}
+	iqr, _ := InterQuartileRange(s1)
+
+	if iqr != 10 {
+		t.Errorf("IQR %v != 10", iqr)
+	}
+
+	_, err := InterQuartileRange([]float64{})
+	if err == nil {
+		t.Errorf("Empty slice should have returned an error")
+	}
+}

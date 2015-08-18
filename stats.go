@@ -510,6 +510,16 @@ func Quartile(input []float64) (Quartiles, error) {
 
 }
 
+// InterQuartileRange finds the range between Q1 and Q3
+func InterQuartileRange(input []float64) (float64, error) {
+	if len(input) == 0 {
+		return 0, errors.New("Input must not be empty")
+	}
+	qs, _ := Quartile(input)
+	iqr := qs.Q3 - qs.Q1
+	return iqr, nil
+}
+
 // float64ToInt rounds a float64 to an int
 func float64ToInt(input float64) (output int) {
 	r, _ := Round(input, 0)
