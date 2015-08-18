@@ -530,6 +530,18 @@ func Midhinge(input []float64) (float64, error) {
 	return mh, nil
 }
 
+// Trimean finds the average of the median and the midhinge
+func Trimean(input []float64) (float64, error) {
+	if len(input) == 0 {
+		return 0, errors.New("Input must not be empty")
+	}
+
+	c := sortedCopy(input)
+	q, _ := Quartile(c)
+
+	return (q.Q1 + (q.Q2 * 2) + q.Q3) / 4, nil
+}
+
 // float64ToInt rounds a float64 to an int
 func float64ToInt(input float64) (output int) {
 	r, _ := Round(input, 0)

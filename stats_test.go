@@ -721,3 +721,16 @@ func TestMidhinge(t *testing.T) {
 	}
 }
 
+func TestTrimean(t *testing.T) {
+	s1 := []float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13}
+	tr, _ := Trimean(s1)
+
+	if tr != 7.25 {
+		t.Errorf("Trimean %v != 7.25", tr)
+	}
+
+	_, err := Trimean([]float64{})
+	if err == nil {
+		t.Errorf("Empty slice should have returned an error")
+	}
+}
