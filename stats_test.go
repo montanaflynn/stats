@@ -110,7 +110,7 @@ func TestMean(t *testing.T) {
 	}
 	_, err := Mean([]float64{})
 	if err == nil {
-		t.Errorf("Should have returned an error")
+		t.Errorf("Empty slice should have returned an error")
 	}
 }
 
@@ -144,7 +144,7 @@ func TestMedian(t *testing.T) {
 	}
 	_, err := Median([]float64{})
 	if err == nil {
-		t.Errorf("Should have returned an error")
+		t.Errorf("Empty slice should have returned an error")
 	}
 }
 
@@ -192,7 +192,7 @@ func TestMode(t *testing.T) {
 	}
 	_, err := Mode([]float64{})
 	if err == nil {
-		t.Errorf("Should have returned an error")
+		t.Errorf("Empty slice should have returned an error")
 	}
 }
 
@@ -229,7 +229,7 @@ func TestSum(t *testing.T) {
 	}
 	_, err := Sum([]float64{})
 	if err == nil {
-		t.Errorf("Should have returned an error")
+		t.Errorf("Empty slice should have returned an error")
 	}
 }
 
@@ -544,7 +544,7 @@ func TestLinReg(t *testing.T) {
 
 	_, err := LinReg([]Coordinate{})
 	if err == nil {
-		t.Errorf("Should have returned an error")
+		t.Errorf("Empty slice should have returned an error")
 	}
 }
 
@@ -582,7 +582,7 @@ func TestExpReg(t *testing.T) {
 	_, err := ExpReg([]Coordinate{})
 	if err == nil {
 
-		t.Errorf("Should have returned an error")
+		t.Errorf("Empty slice should have returned an error")
 	}
 }
 
@@ -620,7 +620,7 @@ func TestLogReg(t *testing.T) {
 	_, err := LogReg([]Coordinate{})
 	if err == nil {
 
-		t.Errorf("Should have returned an error")
+		t.Errorf("Empty slice should have returned an error")
 	}
 }
 
@@ -689,6 +689,6 @@ func TestQuartile(t *testing.T) {
 
 	_, err := Quartile([]float64{})
 	if err == nil {
-		t.Errorf("Should have returned an error")
+		t.Errorf("Empty slice should have returned an error")
 	}
 }
