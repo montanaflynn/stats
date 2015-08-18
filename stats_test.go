@@ -686,4 +686,9 @@ func TestQuartile(t *testing.T) {
 			t.Errorf("Q3 %v != %v", quartiles.Q3, c.Q3)
 		}
 	}
+
+	_, err := Sum([]float64{})
+	if err == nil {
+		t.Errorf("Should have returned an error")
+	}
 }
