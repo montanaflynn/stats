@@ -706,3 +706,18 @@ func TestInterQuartileRange(t *testing.T) {
 		t.Errorf("Empty slice should have returned an error")
 	}
 }
+
+func TestMidhinge(t *testing.T) {
+	s1 := []float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13}
+	mh, _ := Midhinge(s1)
+
+	if mh != 7.5 {
+		t.Errorf("Midhinge %v != 10", mh)
+	}
+
+	_, err := Midhinge([]float64{})
+	if err == nil {
+		t.Errorf("Empty slice should have returned an error")
+	}
+}
+

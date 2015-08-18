@@ -520,6 +520,16 @@ func InterQuartileRange(input []float64) (float64, error) {
 	return iqr, nil
 }
 
+// Midhinge finds the average of the first and third quartiles
+func Midhinge(input []float64) (float64, error) {
+	if len(input) == 0 {
+		return 0, errors.New("Input must not be empty")
+	}
+	qs, _ := Quartile(input)
+	mh := (qs.Q1 + qs.Q3) / 2
+	return mh, nil
+}
+
 // float64ToInt rounds a float64 to an int
 func float64ToInt(input float64) (output int) {
 	r, _ := Round(input, 0)
