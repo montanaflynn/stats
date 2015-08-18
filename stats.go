@@ -80,8 +80,7 @@ func Mean(input []float64) (mean float64, err error) {
 func Median(input []float64) (median float64, err error) {
 
 	// Start by sorting a copy of the slice
-	c := copyslice(input)
-	sort.Float64s(c)
+	c := sortedCopy(input)
 
 	// No math is needed if there are no numbers
 	// For even numbers we add the two middle numbers
@@ -259,8 +258,7 @@ func Percentile(input []float64, percent float64) (percentile float64, err error
 	}
 
 	// Start by sorting a copy of the slice
-	c := copyslice(input)
-	sort.Float64s(c)
+	c := sortedCopy(input)
 
 	// Multiple percent by length of input
 	index := (percent / 100) * float64(len(c))
@@ -288,6 +286,7 @@ func Percentile(input []float64, percent float64) (percentile float64, err error
 
 }
 
+// PercentileNearestRank finds the relative standing in a slice of floats using the Nearest Rank method
 func PercentileNearestRank(input []float64, percent float64) (percentile float64, err error) {
 
 	// Find the length of items in the slice
@@ -309,8 +308,7 @@ func PercentileNearestRank(input []float64, percent float64) (percentile float64
 	}
 
 	// Start by sorting a copy of the slice
-	c := copyslice(input)
-	sort.Float64s(c)
+	c := sortedCopy(input)
 
 	// Return the last item
 	if percent == 100.0 {
@@ -473,6 +471,45 @@ func Sample(input []float64, takenum int, replacement bool) ([]float64, error) {
 	return nil, errors.New("Number of taken elements must be less than length of input")
 }
 
+// Quartiles holds the three quartile points
+type Quartiles struct {
+	Q1 float64
+	Q2 float64
+	Q3 float64
+}
+
+// Quartile returns the three quartile points from a slice of data
+func Quartile(input []float64) (Quartiles, error) {
+
+	il := len(input)
+	if il == 0 {
+		return Quartiles{}, errors.New("Input must not be empty")
+	}
+
+	// Start by sorting a copy of the slice
+	copy := sortedCopy(input)
+
+	// Find the cutoff places depeding on if
+	// the input slice length is even or odd
+	var c1 int
+	var c2 int
+	if il%2 == 0 {
+		c1 = il / 2
+		c2 = il / 2
+	} else {
+		c1 = (il - 1) / 2
+		c2 = c1 + 1
+	}
+
+	// Find the Medians with the cutoff points
+	Q1, _ := Median(copy[:c1])
+	Q2, _ := Median(copy)
+	Q3, _ := Median(copy[c2:])
+
+	return Quartiles{Q1, Q2, Q3}, nil
+
+}
+
 // float64ToInt rounds a float64 to an int
 func float64ToInt(input float64) (output int) {
 	r, _ := Round(input, 0)
@@ -489,4 +526,11 @@ func copyslice(input []float64) []float64 {
 	s := make([]float64, len(input))
 	copy(s, input)
 	return s
+}
+
+// sortedCopy returns a sorted copy of float64s
+func sortedCopy(input []float64) (copy []float64) {
+	copy = copyslice(input)
+	sort.Float64s(copy)
+	return
 }

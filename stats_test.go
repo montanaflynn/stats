@@ -657,3 +657,33 @@ func TestSampleWithReplacement(t *testing.T) {
 		t.Errorf("%v != %v", len(result), numsamples)
 	}
 }
+
+func TestQuartile(t *testing.T) {
+	s1 := []float64{6, 7, 15, 36, 39, 40, 41, 42, 43, 47, 49}
+	s2 := []float64{7, 15, 36, 39, 40, 41}
+
+	for _, c := range []struct {
+		in []float64
+		Q1 float64
+		Q2 float64
+		Q3 float64
+	}{
+		{s1, 15, 40, 43},
+		{s2, 15, 37.5, 40},
+	} {
+		quartiles, err := Quartile(c.in)
+		if err != nil {
+			t.Errorf("Should not have returned an error")
+		}
+
+		if quartiles.Q1 != c.Q1 {
+			t.Errorf("Q1 %v != %v", quartiles.Q1, c.Q1)
+		}
+		if quartiles.Q2 != c.Q2 {
+			t.Errorf("Q2 %v != %v", quartiles.Q2, c.Q2)
+		}
+		if quartiles.Q3 != c.Q3 {
+			t.Errorf("Q3 %v != %v", quartiles.Q3, c.Q3)
+		}
+	}
+}
