@@ -1,33 +1,38 @@
-# Stats [![Build Status](https://img.shields.io/travis/montanaflynn/stats.svg)](https://travis-ci.org/montanaflynn/stats) [![Coverage Status](https://img.shields.io/coveralls/montanaflynn/stats.svg)](https://coveralls.io/r/montanaflynn/stats?branch=master) [![GoDoc](https://godoc.org/github.com/montanaflynn/stats?status.svg)](https://godoc.org/github.com/montanaflynn/stats)
+# Stats [![Build Status][travis-svg]][travis-url] [![Coverage Status][coveralls-svg]][coveralls-url] [![API Documentation][godoc-svg]][godoc-url]
 
-A stats package including common functions that are missing from the Golang standard library. 
+A statistics package with common functions that are missing from the Golang standard library. 
 
-### Install
+Currently only `float64` and `[]float64` data is supported due to the lack of generics. However, if the library becomes popular and there is demand I could also add support for the other number types. 
 
-```go
+### Installation
+
+```
 go get github.com/montanaflynn/stats
 ```
 
-### Usage
+### Documentation
 
 The [entire API documentation](http://godoc.org/github.com/montanaflynn/stats) is available on GoDoc. 
 
-### Example
+### Example Usage
 
-A preview of all the functionality is available at [`examples/main.go`](https://github.com/montanaflynn/stats/blob/master/examples/main.go), with more to come.
-
-### Todos
-
-- Trimean, Chi-squared test, and [more](https://en.wikipedia.org/wiki/Statistics)
-- Seperate example directory with real world projects
-- Performance improvements plus a complete benchmark suite
+All the functions can be seen in [examples/main.go](https://github.com/montanaflynn/stats/blob/master/examples/main.go).
 
 ### Contributing
 
-I would love to hear all suggestions, feedback, and bug reports. Simply open an issue here on GitHub and I'll do my best to accomodate you. 
+If you have suggestions, criticism or bug reports please [create an issue](https://github.com/montanaflynn/stats/issues).
 
-__Pull requests are always welcome and much appreciated.__
+__Pull requests are always welcome and much appreciated.__ 
 
 ### MIT license
 
 Copyright (c) 2014-2015, Montana Flynn (http://anonfunction.com/)
+
+[travis-url]: https://travis-ci.org/montanaflynn/stats
+[travis-svg]: https://img.shields.io/travis/montanaflynn/stats.svg
+
+[coveralls-url]: https://coveralls.io/r/montanaflynn/stats?branch=master
+[coveralls-svg]: https://img.shields.io/coveralls/montanaflynn/stats.svg
+
+[godoc-url]: https://godoc.org/github.com/montanaflynn/stats
+[godoc-svg]: https://godoc.org/github.com/montanaflynn/stats?status.svg
