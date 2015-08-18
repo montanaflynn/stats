@@ -70,4 +70,14 @@ func main() {
 
 	q, _ := stats.Quartile([]float64{7, 15, 36, 39, 40, 41})
 	fmt.Println(q) // {15 37.5 40}
+
+	iqr, _ := stats.InterQuartileRange([]float64{102, 104, 105, 107, 108, 109, 110, 112, 115, 116, 118})
+	fmt.Println(iqr) // 10
+
+	mh, _ := Midhinge( []float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13})
+	fmt.Println(mh) // 7.5
+
+	tr, _ := Trimean( []float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13})
+	fmt.Println(tr) // 7.25
+
 }
