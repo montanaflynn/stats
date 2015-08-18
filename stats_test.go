@@ -687,7 +687,7 @@ func TestQuartile(t *testing.T) {
 		}
 	}
 
-	_, err := Sum([]float64{})
+	_, err := Quartile([]float64{})
 	if err == nil {
 		t.Errorf("Should have returned an error")
 	}
