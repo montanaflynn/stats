@@ -760,3 +760,33 @@ func TestQuartileOutliers(t *testing.T) {
 		t.Errorf("Empty slice should have returned an error")
 	}
 }
+
+func TestGeometricMean(t *testing.T) {
+	s1 := []float64{2, 18}
+	s2 := []float64{10, 51.2, 8}
+	s3 := []float64{1, 3, 9, 27, 81}
+
+	for _, c := range []struct {
+		in  []float64
+		out float64
+	}{
+		{s1, 6},
+		{s2, 16},
+		{s3, 9},
+	} {
+		gm, err := GeometricMean(c.in)
+		if err != nil {
+			t.Errorf("Should not have returned an error")
+		}
+
+		gm, _ = Round(gm, 0)
+		if gm != c.out {
+			t.Errorf("Geometric Mean %v != %v", gm, c.out)
+		}
+	}
+
+	_, err := GeometricMean([]float64{})
+	if err == nil {
+		t.Errorf("Empty slice should have returned an error")
+	}
+}

@@ -76,6 +76,28 @@ func Mean(input []float64) (mean float64, err error) {
 	return sum / float64(len(input)), nil
 }
 
+// GeometricMean gets the geometric mean for a slice of numbers
+func GeometricMean(input []float64) (float64, error) {
+
+	l := len(input)
+	if l == 0 {
+		return 0, errors.New("Input must not be empty")
+	}
+
+	// Get the product of all the numbers
+	var p float64
+	for _, n := range input {
+		if p == 0 {
+			p = n
+		} else {
+			p *= n
+		}
+	}
+
+	// Calculate the geometric mean
+	return math.Pow(p, 1/float64(l)), nil
+}
+
 // Median gets the median number in a slice of numbers
 func Median(input []float64) (median float64, err error) {
 
