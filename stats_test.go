@@ -790,3 +790,34 @@ func TestGeometricMean(t *testing.T) {
 		t.Errorf("Empty slice should have returned an error")
 	}
 }
+
+func TestHarmonicMean(t *testing.T) {
+	s1 := []float64{1, 2, 3, 4, 5}
+	s2 := []float64{10, -51.2, 8}
+	s3 := []float64{1, 0, 9, 27, 81}
+
+	hm, err := HarmonicMean(s1)
+	if err != nil {
+		t.Errorf("Should not have returned an error")
+	}
+
+	hm, _ = Round(hm, 2)
+	if hm != 2.19 {
+		t.Errorf("Geometric Mean %v != %v", hm, 2.19)
+	}
+
+	hm, err = HarmonicMean(s2)
+	if err == nil {
+		t.Errorf("Should have returned a negative number error")
+	}
+
+	hm, err = HarmonicMean(s3)
+	if err == nil {
+		t.Errorf("Should have returned a zero number error")
+	}
+
+	_, err = HarmonicMean([]float64{})
+	if err == nil {
+		t.Errorf("Empty slice should have returned an error")
+	}
+}

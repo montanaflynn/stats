@@ -42,9 +42,6 @@ func main() {
 	a, _ = stats.PercentileNearestRank([]float64{35, 20, 15, 40, 50}, 75)
 	fmt.Println(a) // 40
 
-	a, _ = stats.Round(5.3253543, 3)
-	fmt.Println(a) // 5.325
-
 	c := []stats.Coordinate{
 		{1, 2.3},
 		{2, 3.3},
@@ -85,4 +82,10 @@ func main() {
 
 	gm, _ := stats.GeometricMean([]float64{10, 51.2, 8})
 	fmt.Println(gm) // 15.999999999999991
+
+	hm, _ := stats.HarmonicMean([]float64{1, 2, 3, 4, 5})
+	fmt.Println(hm) // 2.18978102189781
+
+	a, _ = stats.Round(2.18978102189781, 3)
+	fmt.Println(a) // 2.189
 }

@@ -65,7 +65,7 @@ func Sum(input []float64) (sum float64, err error) {
 }
 
 // Mean gets the average of a slice of numbers
-func Mean(input []float64) (mean float64, err error) {
+func Mean(input []float64) (float64, error) {
 
 	if len(input) == 0 {
 		return 0, errors.New("Input must not be empty")
@@ -96,6 +96,29 @@ func GeometricMean(input []float64) (float64, error) {
 
 	// Calculate the geometric mean
 	return math.Pow(p, 1/float64(l)), nil
+}
+
+// HarmonicMean gets the harmonic mean for a slice of numbers
+func HarmonicMean(input []float64) (float64, error) {
+
+	l := len(input)
+	if l == 0 {
+		return 0, errors.New("Input must not be empty")
+	}
+
+	// Get the sum of all the numbers reciprocals and return an
+	// error for values that cannot be included in harmonic mean
+	var p float64
+	for _, n := range input {
+		if n < 0 {
+			return 0, errors.New("Input must not contain a negative number")
+		} else if n == 0 {
+			return 0, errors.New("Input must not contain a zero value")
+		}
+		p += (1 / n)
+	}
+
+	return float64(l) / p, nil
 }
 
 // Median gets the median number in a slice of numbers
