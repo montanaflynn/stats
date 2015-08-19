@@ -24,10 +24,10 @@ func main() {
 	m, _ := stats.Mode([]float64{5, 5, 3, 3, 4, 2, 1})
 	fmt.Println(m) // [5 3]
 
-	a, _ = stats.VarP([]float64{1,2,3,4,5})
+	a, _ = stats.VarP([]float64{1, 2, 3, 4, 5})
 	fmt.Println(a) // 2
 
-	a, _ = stats.VarS([]float64{1,2,3,4,5})
+	a, _ = stats.VarS([]float64{1, 2, 3, 4, 5})
 	fmt.Println(a) // 2.5
 
 	a, _ = stats.StdDevP([]float64{1, 2, 3})
@@ -62,10 +62,10 @@ func main() {
 	r, _ = stats.LogReg(c)
 	fmt.Println(r) // [{1 2.1520822363811702} {2 3.3305559222492214} {3 4.019918836568674} {4 4.509029608117273} {5 4.888413396683663}]
 
-	s, _ := stats.Sample([]float64{0.1,0.2,0.3,0.4}, 3, false)
+	s, _ := stats.Sample([]float64{0.1, 0.2, 0.3, 0.4}, 3, false)
 	fmt.Println(s) // [0.2,0.4,0.3]
 
-	s, _ = stats.Sample([]float64{0.1,0.2,0.3,0.4}, 10, true)
+	s, _ = stats.Sample([]float64{0.1, 0.2, 0.3, 0.4}, 10, true)
 	fmt.Println(s) // [0.2,0.2,0.4,0.1,0.2,0.4,0.3,0.2,0.2,0.1]
 
 	q, _ := stats.Quartile([]float64{7, 15, 36, 39, 40, 41})
@@ -74,10 +74,10 @@ func main() {
 	iqr, _ := stats.InterQuartileRange([]float64{102, 104, 105, 107, 108, 109, 110, 112, 115, 116, 118})
 	fmt.Println(iqr) // 10
 
-	mh, _ := stats.Midhinge( []float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13})
+	mh, _ := stats.Midhinge([]float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13})
 	fmt.Println(mh) // 7.5
 
-	tr, _ := stats.Trimean( []float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13})
+	tr, _ := stats.Trimean([]float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13})
 	fmt.Println(tr) // 7.25
 
 	o, _ := stats.QuartileOutliers([]float64{-1000, 1, 3, 4, 4, 6, 6, 6, 6, 7, 8, 15, 18, 100})
