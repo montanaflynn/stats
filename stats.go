@@ -210,8 +210,8 @@ func Variance(input []float64, sample int) (variance float64, err error) {
 	return variance / float64((len(input) - (1 * sample))), nil
 }
 
-// VarP finds the amount of variance within a population
-func VarP(input []float64) (sdev float64, err error) {
+// PopulationVariance finds the amount of variance within a population
+func PopulationVariance(input []float64) (sdev float64, err error) {
 
 	v, err := Variance(input, 0)
 	if err != nil {
@@ -221,8 +221,8 @@ func VarP(input []float64) (sdev float64, err error) {
 	return v, nil
 }
 
-// VarS finds the amount of variance within a sample
-func VarS(input []float64) (sdev float64, err error) {
+// SampleVariance finds the amount of variance within a sample
+func SampleVariance(input []float64) (sdev float64, err error) {
 
 	v, err := Variance(input, 1)
 	if err != nil {
@@ -232,29 +232,29 @@ func VarS(input []float64) (sdev float64, err error) {
 	return v, nil
 }
 
-// StdDevP finds the amount of variation from the population
-func StdDevP(input []float64) (sdev float64, err error) {
+// StandardDeviationPopulation finds the amount of variation from the population
+func StandardDeviationPopulation(input []float64) (sdev float64, err error) {
 
 	if len(input) == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 
 	// Get the population variance
-	vp, _ := VarP(input)
+	vp, _ := PopulationVariance(input)
 
 	// Return the population standard deviation
 	return math.Pow(vp, 0.5), nil
 }
 
-// StdDevS finds the amount of variation from a sample
-func StdDevS(input []float64) (sdev float64, err error) {
+// StandardDeviationSample finds the amount of variation from a sample
+func StandardDeviationSample(input []float64) (sdev float64, err error) {
 
 	if len(input) == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 
 	// Get the sample variance
-	vs, _ := VarS(input)
+	vs, _ := SampleVariance(input)
 
 	// Return the sample standard deviation
 	return math.Pow(vs, 0.5), nil
@@ -373,8 +373,8 @@ type Coordinate struct {
 	X, Y float64
 }
 
-// LinReg finds the least squares linear regression on data series
-func LinReg(s []Coordinate) (regressions []Coordinate, err error) {
+// LinearRegression finds the least squares linear regression on data series
+func LinearRegression(s []Coordinate) (regressions []Coordinate, err error) {
 
 	if len(s) == 0 {
 		return nil, errors.New("Input must not be empty")
@@ -410,8 +410,8 @@ func LinReg(s []Coordinate) (regressions []Coordinate, err error) {
 
 }
 
-// ExpReg returns an exponential regression on data series
-func ExpReg(s []Coordinate) (regressions []Coordinate, err error) {
+// ExponentialRegression returns an exponential regression on data series
+func ExponentialRegression(s []Coordinate) (regressions []Coordinate, err error) {
 
 	if len(s) == 0 {
 		return nil, errors.New("Input must not be empty")
@@ -443,8 +443,8 @@ func ExpReg(s []Coordinate) (regressions []Coordinate, err error) {
 
 }
 
-// LogReg returns an logarithmic regression on data series
-func LogReg(s []Coordinate) (regressions []Coordinate, err error) {
+// LogarithmicRegression returns an logarithmic regression on data series
+func LogarithmicRegression(s []Coordinate) (regressions []Coordinate, err error) {
 
 	if len(s) == 0 {
 		return nil, errors.New("Input must not be empty")

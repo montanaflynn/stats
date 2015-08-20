@@ -269,12 +269,12 @@ func TestVariance(t *testing.T) {
 	}
 }
 
-func TestVarP(t *testing.T) {
-	m, _ := VarP([]float64{})
+func TestPopulationVariance(t *testing.T) {
+	m, _ := PopulationVariance([]float64{})
 	if m != 0.0 {
 		t.Errorf("%.1f != %.1f", m, 0.0)
 	}
-	m, _ = VarP([]float64{1, 2, 3})
+	m, _ = PopulationVariance([]float64{1, 2, 3})
 	m, err := Round(m, 1)
 	if err != nil {
 		t.Errorf("Returned an error")
@@ -284,19 +284,19 @@ func TestVarP(t *testing.T) {
 	}
 }
 
-func TestVarS(t *testing.T) {
-	m, _ := VarS([]float64{})
+func TestSampleVariance(t *testing.T) {
+	m, _ := SampleVariance([]float64{})
 	if m != 0.0 {
 		t.Errorf("%.1f != %.1f", m, 0.0)
 	}
-	m, _ = VarS([]float64{1, 2, 3})
+	m, _ = SampleVariance([]float64{1, 2, 3})
 	if m != 1.0 {
 		t.Errorf("%.1f != %.1f", m, 1.0)
 	}
 }
 
-func TestStdDevP(t *testing.T) {
-	s, _ := StdDevP([]float64{1, 2, 3})
+func TestStandardDeviationPopulation(t *testing.T) {
+	s, _ := StandardDeviationPopulation([]float64{1, 2, 3})
 	m, err := Round(s, 2)
 	if err != nil {
 		t.Errorf("Returned an error")
@@ -304,7 +304,7 @@ func TestStdDevP(t *testing.T) {
 	if m != 0.82 {
 		t.Errorf("%.10f != %.10f", m, 0.82)
 	}
-	s, _ = StdDevP([]float64{-1, -2, -3.3})
+	s, _ = StandardDeviationPopulation([]float64{-1, -2, -3.3})
 	m, err = Round(s, 2)
 	if err != nil {
 		t.Errorf("Returned an error")
@@ -313,14 +313,14 @@ func TestStdDevP(t *testing.T) {
 		t.Errorf("%.10f != %.10f", m, 0.94)
 	}
 
-	m, _ = StdDevP([]float64{})
+	m, _ = StandardDeviationPopulation([]float64{})
 	if m != 0.0 {
 		t.Errorf("%.1f != %.1f", m, 0.0)
 	}
 }
 
-func TestStdDevS(t *testing.T) {
-	s, _ := StdDevS([]float64{1, 2, 3})
+func TestStandardDeviationSample(t *testing.T) {
+	s, _ := StandardDeviationSample([]float64{1, 2, 3})
 	m, err := Round(s, 2)
 	if err != nil {
 		t.Errorf("Returned an error")
@@ -328,7 +328,7 @@ func TestStdDevS(t *testing.T) {
 	if m != 1.0 {
 		t.Errorf("%.10f != %.10f", m, 1.0)
 	}
-	s, _ = StdDevS([]float64{-1, -2, -3.3})
+	s, _ = StandardDeviationSample([]float64{-1, -2, -3.3})
 	m, err = Round(s, 2)
 	if err != nil {
 		t.Errorf("Returned an error")
@@ -337,7 +337,7 @@ func TestStdDevS(t *testing.T) {
 		t.Errorf("%.10f != %.10f", m, 1.15)
 	}
 
-	m, _ = StdDevS([]float64{})
+	m, _ = StandardDeviationSample([]float64{})
 	if m != 0.0 {
 		t.Errorf("%.1f != %.1f", m, 0.0)
 	}
@@ -511,7 +511,7 @@ func TestFloat64ToInt(t *testing.T) {
 	}
 }
 
-func TestLinReg(t *testing.T) {
+func TestLinearRegression(t *testing.T) {
 	data := []Coordinate{
 		{1, 2.3},
 		{2, 3.3},
@@ -520,7 +520,7 @@ func TestLinReg(t *testing.T) {
 		{5, 5.3},
 	}
 
-	r, _ := LinReg(data)
+	r, _ := LinearRegression(data)
 	a := 2.3800000000000026
 	if r[0].Y != a {
 		t.Errorf("%v != %v", r, a)
@@ -542,13 +542,13 @@ func TestLinReg(t *testing.T) {
 		t.Errorf("%v != %v", r, a)
 	}
 
-	_, err := LinReg([]Coordinate{})
+	_, err := LinearRegression([]Coordinate{})
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}
 }
 
-func TestExpReg(t *testing.T) {
+func TestExponentialRegression(t *testing.T) {
 	data := []Coordinate{
 		{1, 2.3},
 		{2, 3.3},
@@ -557,7 +557,7 @@ func TestExpReg(t *testing.T) {
 		{5, 5.3},
 	}
 
-	r, _ := ExpReg(data)
+	r, _ := ExponentialRegression(data)
 	a, _ := Round(r[0].Y, 3)
 	if a != 2.515 {
 		t.Errorf("%v != %v", r, 2.515)
@@ -579,14 +579,14 @@ func TestExpReg(t *testing.T) {
 		t.Errorf("%v != %v", r, 5.313)
 	}
 
-	_, err := ExpReg([]Coordinate{})
+	_, err := ExponentialRegression([]Coordinate{})
 	if err == nil {
 
 		t.Errorf("Empty slice should have returned an error")
 	}
 }
 
-func TestLogReg(t *testing.T) {
+func TestLogarithmicRegression(t *testing.T) {
 	data := []Coordinate{
 		{1, 2.3},
 		{2, 3.3},
@@ -595,7 +595,7 @@ func TestLogReg(t *testing.T) {
 		{5, 5.3},
 	}
 
-	r, _ := LogReg(data)
+	r, _ := LogarithmicRegression(data)
 	a := 2.1520822363811702
 	if r[0].Y != a {
 		t.Errorf("%v != %v", r, a)
@@ -617,7 +617,7 @@ func TestLogReg(t *testing.T) {
 		t.Errorf("%v != %v", r, a)
 	}
 
-	_, err := LogReg([]Coordinate{})
+	_, err := LogarithmicRegression([]Coordinate{})
 	if err == nil {
 
 		t.Errorf("Empty slice should have returned an error")

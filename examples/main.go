@@ -24,16 +24,16 @@ func main() {
 	m, _ := stats.Mode([]float64{5, 5, 3, 3, 4, 2, 1})
 	fmt.Println(m) // [5 3]
 
-	a, _ = stats.VarP([]float64{1, 2, 3, 4, 5})
+	a, _ = stats.PopulationVariance([]float64{1, 2, 3, 4, 5})
 	fmt.Println(a) // 2
 
-	a, _ = stats.VarS([]float64{1, 2, 3, 4, 5})
+	a, _ = stats.SampleVariance([]float64{1, 2, 3, 4, 5})
 	fmt.Println(a) // 2.5
 
-	a, _ = stats.StdDevP([]float64{1, 2, 3})
+	a, _ = stats.StandardDeviationPopulation([]float64{1, 2, 3})
 	fmt.Println(a) // 0.816496580927726
 
-	a, _ = stats.StdDevS([]float64{1, 2, 3})
+	a, _ = stats.StandardDeviationSample([]float64{1, 2, 3})
 	fmt.Println(a) // 1
 
 	a, _ = stats.Percentile([]float64{1, 2, 3, 4, 5}, 75)
@@ -50,13 +50,13 @@ func main() {
 		{5, 5.3},
 	}
 
-	r, _ := stats.LinReg(c)
+	r, _ := stats.LinearRegression(c)
 	fmt.Println(r) // [{1 2.3800000000000026} {2 3.0800000000000014} {3 3.7800000000000002} {4 4.479999999999999} {5 5.179999999999998}]
 
-	r, _ = stats.ExpReg(c)
+	r, _ = stats.ExponentialRegression(c)
 	fmt.Println(r) // [{1 2.5150181024736638} {2 3.032084111136781} {3 3.6554544271334493} {4 4.406984298281804} {5 5.313022222665875}]
 
-	r, _ = stats.LogReg(c)
+	r, _ = stats.LogarithmicRegression(c)
 	fmt.Println(r) // [{1 2.1520822363811702} {2 3.3305559222492214} {3 4.019918836568674} {4 4.509029608117273} {5 4.888413396683663}]
 
 	s, _ := stats.Sample([]float64{0.1, 0.2, 0.3, 0.4}, 3, false)
