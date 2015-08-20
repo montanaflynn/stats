@@ -7,15 +7,14 @@ go:
   - 1.5
   - tip
 before_install:
-  - go get golang.org/x/tools/cmd/cover
+  - sudo pip install codecov
 script:
-  - go test -coverprofile=coverage.txt -covermode=atomic
+  - go test
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - codecov
 notifications:
   email:
     recipients:
       - montana@montanaflynn.me
     on_success: change
     on_failure: always
-sudo: false
