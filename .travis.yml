@@ -7,15 +7,19 @@ go:
   - 1.5
   - tip
 before_install:
-  - pip install codecov
+  - go get github.com/onsi/gomega
+  - go get github.com/onsi/ginkgo
+  - go get code.google.com/p/go.tools/cmd/cover
+
 script:
-  - go test
+  - go test -coverprofile=coverage.txt -covermode=atomic
+
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
 notifications:
   email:
     recipients:
       - montana@montanaflynn.me
     on_success: change
     on_failure: always
-sudo: false 
+sudo: false
