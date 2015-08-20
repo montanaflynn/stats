@@ -2,7 +2,7 @@
 
 A statistics package with common functions that are missing from the Golang standard library. 
 
-Currently only `float64` and `[]float64` data is supported due to the lack of generics. However, if the library becomes popular and there is demand I could also add support for the other number types. See the [CHANGELOG.md](https://github.com/montanaflynn/stats/blob/master/CONTRIBUTING.md) for API changes and tagged releases you can vendor into your projects.
+Currently only `float64` and `[]float64` data is supported due to the lack of generics. However, if the library becomes popular and there is demand I could also add support for the other number types. See the [CHANGELOG.md](https://github.com/montanaflynn/stats/blob/master/CHANGELOG.md) for API changes and tagged releases you can vendor into your projects.
 
 > Statistics are used much like a drunk uses a lamppost: for support, not illumination. **- Vin Scully**
 
