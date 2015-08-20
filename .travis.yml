@@ -18,3 +18,4 @@ notifications:
       - montana@montanaflynn.me
     on_success: change
     on_failure: always
+sudo: false 
