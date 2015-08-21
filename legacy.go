@@ -1,18 +1,18 @@
 package stats
 
-func VarP(input []float64) (sdev float64, err error) {
+func VarP(input Float64Data) (sdev float64, err error) {
 	return PopulationVariance(input)
 }
 
-func VarS(input []float64) (sdev float64, err error) {
+func VarS(input Float64Data) (sdev float64, err error) {
 	return SampleVariance(input)
 }
 
-func StdDevP(input []float64) (sdev float64, err error) {
+func StdDevP(input Float64Data) (sdev float64, err error) {
 	return StandardDeviationPopulation(input)
 }
 
-func StdDevS(input []float64) (sdev float64, err error) {
+func StdDevS(input Float64Data) (sdev float64, err error) {
 	return StandardDeviationSample(input)
 }
 

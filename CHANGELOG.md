@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/montanaflynn/stats/tree/master)
+
+### Package changes:
+
+- Added helper methods to `Float64Data`
+- Added `Float64Data` type to use instead of `[]float64`
+- Added `Series` type which references to `[]Coordinate`
+
 ## [0.1.0](https://github.com/montanaflynn/stats/tree/0.1.0)
 
 Several functions were renamed in this release. They will still function but may be deprecated in the future.

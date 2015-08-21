@@ -8,41 +8,44 @@ import (
 	"time"
 )
 
-// Min finds the lowest number in a slice
-func Min(input []float64) (min float64, err error) {
+// Min finds the lowest number in a set of data
+func Min(input Float64Data) (min float64, err error) {
+
+	// Get the count of numbers in the slice
+	l := input.Len()
 
 	// Return an error if there are no numbers
-	if len(input) == 0 {
+	if l == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 
 	// Get the first value as the starting point
-	min = input[0]
+	min = input.Get(0)
 
 	// Iterate until done checking for a lower value
-	for i := 1; i < len(input); i++ {
-		if input[i] < min {
-			min = input[i]
+	for i := 1; i < l; i++ {
+		if input.Get(i) < min {
+			min = input.Get(i)
 		}
 	}
 	return min, nil
 }
 
 // Max finds the highest number in a slice
-func Max(input []float64) (max float64, err error) {
+func Max(input Float64Data) (max float64, err error) {
 
 	// Return an error if there are no numbers
-	if len(input) == 0 {
+	if input.Len() == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 
 	// Get the first value as the starting point
-	max = input[0]
+	max = input.Get(0)
 
 	// Loop and replace higher values
-	for i := 1; i < len(input); i++ {
-		if input[i] > max {
-			max = input[i]
+	for i := 1; i < input.Len(); i++ {
+		if input.Get(i) > max {
+			max = input.Get(i)
 		}
 	}
 
@@ -50,9 +53,9 @@ func Max(input []float64) (max float64, err error) {
 }
 
 // Sum adds all the numbers of a slice together
-func Sum(input []float64) (sum float64, err error) {
+func Sum(input Float64Data) (sum float64, err error) {
 
-	if len(input) == 0 {
+	if input.Len() == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 
@@ -65,21 +68,21 @@ func Sum(input []float64) (sum float64, err error) {
 }
 
 // Mean gets the average of a slice of numbers
-func Mean(input []float64) (float64, error) {
+func Mean(input Float64Data) (float64, error) {
 
-	if len(input) == 0 {
+	if input.Len() == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 
-	sum, _ := Sum(input)
+	sum, _ := input.Sum()
 
-	return sum / float64(len(input)), nil
+	return sum / float64(input.Len()), nil
 }
 
 // GeometricMean gets the geometric mean for a slice of numbers
-func GeometricMean(input []float64) (float64, error) {
+func GeometricMean(input Float64Data) (float64, error) {
 
-	l := len(input)
+	l := input.Len()
 	if l == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
@@ -99,9 +102,9 @@ func GeometricMean(input []float64) (float64, error) {
 }
 
 // HarmonicMean gets the harmonic mean for a slice of numbers
-func HarmonicMean(input []float64) (float64, error) {
+func HarmonicMean(input Float64Data) (float64, error) {
 
-	l := len(input)
+	l := input.Len()
 	if l == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
@@ -122,7 +125,7 @@ func HarmonicMean(input []float64) (float64, error) {
 }
 
 // Median gets the median number in a slice of numbers
-func Median(input []float64) (median float64, err error) {
+func Median(input Float64Data) (median float64, err error) {
 
 	// Start by sorting a copy of the slice
 	c := sortedCopy(input)
@@ -144,10 +147,10 @@ func Median(input []float64) (median float64, err error) {
 }
 
 // Mode gets the mode of a slice of numbers
-func Mode(input []float64) (mode []float64, err error) {
+func Mode(input Float64Data) (mode []float64, err error) {
 
 	// Return the input if there's only one number
-	l := len(input)
+	l := input.Len()
 	if l == 1 {
 		return input, nil
 	} else if l == 0 {
@@ -184,16 +187,16 @@ func Mode(input []float64) (mode []float64, err error) {
 	// mode against eachother
 	lm := len(mode)
 	if l == lm {
-		return []float64{}, nil
+		return Float64Data{}, nil
 	}
 
 	return mode, nil
 }
 
 // Variance finds the variance for both population and sample data
-func Variance(input []float64, sample int) (variance float64, err error) {
+func Variance(input Float64Data, sample int) (variance float64, err error) {
 
-	if len(input) == 0 {
+	if input.Len() == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 
@@ -207,11 +210,11 @@ func Variance(input []float64, sample int) (variance float64, err error) {
 	// When getting the mean of the squared differences
 	// "sample" will allow us to know if it's a sample
 	// or population and wether to subtract by one or not
-	return variance / float64((len(input) - (1 * sample))), nil
+	return variance / float64((input.Len() - (1 * sample))), nil
 }
 
 // PopulationVariance finds the amount of variance within a population
-func PopulationVariance(input []float64) (sdev float64, err error) {
+func PopulationVariance(input Float64Data) (sdev float64, err error) {
 
 	v, err := Variance(input, 0)
 	if err != nil {
@@ -222,7 +225,7 @@ func PopulationVariance(input []float64) (sdev float64, err error) {
 }
 
 // SampleVariance finds the amount of variance within a sample
-func SampleVariance(input []float64) (sdev float64, err error) {
+func SampleVariance(input Float64Data) (sdev float64, err error) {
 
 	v, err := Variance(input, 1)
 	if err != nil {
@@ -233,9 +236,9 @@ func SampleVariance(input []float64) (sdev float64, err error) {
 }
 
 // StandardDeviationPopulation finds the amount of variation from the population
-func StandardDeviationPopulation(input []float64) (sdev float64, err error) {
+func StandardDeviationPopulation(input Float64Data) (sdev float64, err error) {
 
-	if len(input) == 0 {
+	if input.Len() == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 
@@ -247,9 +250,9 @@ func StandardDeviationPopulation(input []float64) (sdev float64, err error) {
 }
 
 // StandardDeviationSample finds the amount of variation from a sample
-func StandardDeviationSample(input []float64) (sdev float64, err error) {
+func StandardDeviationSample(input Float64Data) (sdev float64, err error) {
 
-	if len(input) == 0 {
+	if input.Len() == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 
@@ -296,9 +299,9 @@ func Round(input float64, places int) (rounded float64, err error) {
 }
 
 // Percentile finds the relative standing in a slice of floats
-func Percentile(input []float64, percent float64) (percentile float64, err error) {
+func Percentile(input Float64Data, percent float64) (percentile float64, err error) {
 
-	if len(input) == 0 {
+	if input.Len() == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 
@@ -315,7 +318,7 @@ func Percentile(input []float64, percent float64) (percentile float64, err error
 		i := float64ToInt(index)
 
 		// Find the average of the index and following values
-		percentile, _ = Mean([]float64{c[i-1], c[i]})
+		percentile, _ = Mean(Float64Data{c[i-1], c[i]})
 
 	} else {
 
@@ -332,10 +335,10 @@ func Percentile(input []float64, percent float64) (percentile float64, err error
 }
 
 // PercentileNearestRank finds the relative standing in a slice of floats using the Nearest Rank method
-func PercentileNearestRank(input []float64, percent float64) (percentile float64, err error) {
+func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error) {
 
 	// Find the length of items in the slice
-	il := len(input)
+	il := input.Len()
 
 	// Return an error for empty slices
 	if il == 0 {
@@ -368,13 +371,16 @@ func PercentileNearestRank(input []float64, percent float64) (percentile float64
 
 }
 
+// Create a container for series data
+type Series []Coordinate
+
 // Coordinate holds the data in a series
 type Coordinate struct {
 	X, Y float64
 }
 
 // LinearRegression finds the least squares linear regression on data series
-func LinearRegression(s []Coordinate) (regressions []Coordinate, err error) {
+func LinearRegression(s Series) (regressions Series, err error) {
 
 	if len(s) == 0 {
 		return nil, errors.New("Input must not be empty")
@@ -411,7 +417,7 @@ func LinearRegression(s []Coordinate) (regressions []Coordinate, err error) {
 }
 
 // ExponentialRegression returns an exponential regression on data series
-func ExponentialRegression(s []Coordinate) (regressions []Coordinate, err error) {
+func ExponentialRegression(s Series) (regressions Series, err error) {
 
 	if len(s) == 0 {
 		return nil, errors.New("Input must not be empty")
@@ -444,7 +450,7 @@ func ExponentialRegression(s []Coordinate) (regressions []Coordinate, err error)
 }
 
 // LogarithmicRegression returns an logarithmic regression on data series
-func LogarithmicRegression(s []Coordinate) (regressions []Coordinate, err error) {
+func LogarithmicRegression(s Series) (regressions Series, err error) {
 
 	if len(s) == 0 {
 		return nil, errors.New("Input must not be empty")
@@ -476,16 +482,16 @@ func LogarithmicRegression(s []Coordinate) (regressions []Coordinate, err error)
 }
 
 // Sample returns sample from input with replacement or without
-func Sample(input []float64, takenum int, replacement bool) ([]float64, error) {
+func Sample(input Float64Data, takenum int, replacement bool) (Float64Data, error) {
 
-	if len(input) == 0 {
+	if input.Len() == 0 {
 		return nil, errors.New("Input must not be empty")
 	}
 
-	length := len(input)
+	length := input.Len()
 	if replacement {
 
-		result := []float64{}
+		result := Float64Data{}
 		rand.Seed(unixnano())
 
 		// In every step, randomly take the num for
@@ -502,7 +508,7 @@ func Sample(input []float64, takenum int, replacement bool) ([]float64, error) {
 
 		// Get permutation of number of indexies
 		perm := rand.Perm(length)
-		result := []float64{}
+		result := Float64Data{}
 
 		// Get element of input by permutated index
 		for _, idx := range perm[0:takenum] {
@@ -524,9 +530,9 @@ type Quartiles struct {
 }
 
 // Quartile returns the three quartile points from a slice of data
-func Quartile(input []float64) (Quartiles, error) {
+func Quartile(input Float64Data) (Quartiles, error) {
 
-	il := len(input)
+	il := input.Len()
 	if il == 0 {
 		return Quartiles{}, errors.New("Input must not be empty")
 	}
@@ -556,8 +562,8 @@ func Quartile(input []float64) (Quartiles, error) {
 }
 
 // InterQuartileRange finds the range between Q1 and Q3
-func InterQuartileRange(input []float64) (float64, error) {
-	if len(input) == 0 {
+func InterQuartileRange(input Float64Data) (float64, error) {
+	if input.Len() == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 	qs, _ := Quartile(input)
@@ -566,8 +572,8 @@ func InterQuartileRange(input []float64) (float64, error) {
 }
 
 // Midhinge finds the average of the first and third quartiles
-func Midhinge(input []float64) (float64, error) {
-	if len(input) == 0 {
+func Midhinge(input Float64Data) (float64, error) {
+	if input.Len() == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 	qs, _ := Quartile(input)
@@ -576,8 +582,8 @@ func Midhinge(input []float64) (float64, error) {
 }
 
 // Trimean finds the average of the median and the midhinge
-func Trimean(input []float64) (float64, error) {
-	if len(input) == 0 {
+func Trimean(input Float64Data) (float64, error) {
+	if input.Len() == 0 {
 		return 0, errors.New("Input must not be empty")
 	}
 
@@ -588,12 +594,12 @@ func Trimean(input []float64) (float64, error) {
 }
 
 type Outliers struct {
-	Mild    []float64
-	Extreme []float64
+	Mild    Float64Data
+	Extreme Float64Data
 }
 
-func QuartileOutliers(input []float64) (Outliers, error) {
-	if len(input) == 0 {
+func QuartileOutliers(input Float64Data) (Outliers, error) {
+	if input.Len() == 0 {
 		return Outliers{}, errors.New("Input must not be empty")
 	}
 
@@ -613,8 +619,8 @@ func QuartileOutliers(input []float64) (Outliers, error) {
 	// Find the data points that are outside of the
 	// inner and upper fences and add them to mild
 	// and extreme outlier slices
-	var mild []float64
-	var extreme []float64
+	var mild Float64Data
+	var extreme Float64Data
 	for _, v := range copy {
 
 		if v < lof || v > uof {
@@ -640,14 +646,14 @@ func unixnano() int64 {
 }
 
 // copyslice copies a slice of float64s
-func copyslice(input []float64) []float64 {
-	s := make([]float64, len(input))
+func copyslice(input Float64Data) Float64Data {
+	s := make(Float64Data, input.Len())
 	copy(s, input)
 	return s
 }
 
 // sortedCopy returns a sorted copy of float64s
-func sortedCopy(input []float64) (copy []float64) {
+func sortedCopy(input Float64Data) (copy Float64Data) {
 	copy = copyslice(input)
 	sort.Float64s(copy)
 	return

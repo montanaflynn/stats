@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-// Create working sample data to test if the legacy 
+// Create working sample data to test if the legacy
 // functions cause a runtime crash or return an error
 func TestLegacy(t *testing.T) {
 
@@ -58,7 +58,7 @@ func TestLegacy(t *testing.T) {
 
 	// LogReg rename compatibility
 	_, err = LogReg(d)
-		if err != nil {
+	if err != nil {
 		t.Errorf("LogReg not successfully returning LogarithmicRegression.")
 	}
 }
