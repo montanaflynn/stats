@@ -4,6 +4,7 @@
 
 ### Package changes:
 
+- Add `Correlation` function
 - Add `Covariance` function
 - Add `StandardDeviation` function to be the same as `StandardDeviationPopulation`
 - Change `Variance` function to be the same as `PopulationVariation`
