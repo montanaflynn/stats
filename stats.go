@@ -193,8 +193,8 @@ func Mode(input Float64Data) (mode []float64, err error) {
 	return mode, nil
 }
 
-// Variance finds the variance for both population and sample data
-func Variance(input Float64Data, sample int) (variance float64, err error) {
+// _variance finds the variance for both population and sample data
+func _variance(input Float64Data, sample int) (variance float64, err error) {
 
 	if input.Len() == 0 {
 		return 0, errors.New("Input must not be empty")
@@ -213,10 +213,15 @@ func Variance(input Float64Data, sample int) (variance float64, err error) {
 	return variance / float64((input.Len() - (1 * sample))), nil
 }
 
-// PopulationVariance finds the amount of variance within a population
-func PopulationVariance(input Float64Data) (sdev float64, err error) {
+// Variance the amount of variation in the dataset
+func Variance(input Float64Data) (sdev float64, err error) {
+	return PopulationVariance(input)
+}
 
-	v, err := Variance(input, 0)
+// PopulationVariance finds the amount of variance within a population
+func PopulationVariance(input Float64Data) (pvar float64, err error) {
+
+	v, err := _variance(input, 0)
 	if err != nil {
 		return 0, err
 	}
@@ -225,9 +230,9 @@ func PopulationVariance(input Float64Data) (sdev float64, err error) {
 }
 
 // SampleVariance finds the amount of variance within a sample
-func SampleVariance(input Float64Data) (sdev float64, err error) {
+func SampleVariance(input Float64Data) (svar float64, err error) {
 
-	v, err := Variance(input, 1)
+	v, err := _variance(input, 1)
 	if err != nil {
 		return 0, err
 	}

@@ -4,9 +4,10 @@
 
 ### Package changes:
 
-- Added helper methods to `Float64Data`
-- Added `Float64Data` type to use instead of `[]float64`
-- Added `Series` type which references to `[]Coordinate`
+- Change `Variance` function to be the same as `PopulationVariation`
+- Add helper methods to `Float64Data`
+- Add `Float64Data` type to use instead of `[]float64`
+- Add `Series` type which references to `[]Coordinate`
 
 ## [0.1.0](https://github.com/montanaflynn/stats/tree/0.1.0)
 

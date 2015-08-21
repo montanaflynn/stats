@@ -247,28 +247,6 @@ func BenchmarkSumLargeFloatSlice(b *testing.B) {
 	}
 }
 
-func TestVariance(t *testing.T) {
-	for _, c := range []struct {
-		in  []float64
-		pop int
-		out float64
-	}{
-		{[]float64{}, 0, 0.0},
-		{[]float64{}, 1, 0.0},
-		{[]float64{1, 2, 3}, 0, 0.7},
-		{[]float64{1, 2, 3}, 1, 1.0},
-	} {
-		v, _ := Variance(c.in, c.pop)
-		got, err := Round(v, 1)
-		if err != nil {
-			t.Errorf("Returned an error")
-		}
-		if got != c.out {
-			t.Errorf("Variance(%.1f) => %.1f != %.1f", c.in, c.out, got)
-		}
-	}
-}
-
 func TestPopulationVariance(t *testing.T) {
 	m, _ := PopulationVariance([]float64{})
 	if m != 0.0 {
