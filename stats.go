@@ -644,6 +644,33 @@ func QuartileOutliers(input Float64Data) (Outliers, error) {
 	return Outliers{mild, extreme}, nil
 }
 
+func Covariance(data1, data2 Float64Data) (float64, error) {
+
+	l1 := data1.Len()
+	l2 := data2.Len()
+
+	if l1 == 0 || l2 == 0 {
+		return 0, errors.New("Input data must not be empty")
+	}
+
+	if l1 != l2 {
+		return 0, errors.New("Input data must be same length")
+	}
+
+	m1, _ := Mean(data1)
+	m2, _ := Mean(data2)
+
+	// Calculate sum of squares
+	var ss float64
+	for i := 0; i < l1; i++ {
+		delta1 := (data1.Get(i) - m1)
+		delta2 := (data2.Get(i) - m2)
+		ss += (delta1*delta2 - ss) / float64(i+1)
+	}
+
+	return ss * float64(l1) / float64(l1-1), nil
+}
+
 // float64ToInt rounds a float64 to an int
 func float64ToInt(input float64) (output int) {
 	r, _ := Round(input, 0)
