@@ -247,6 +247,13 @@ func BenchmarkSumLargeFloatSlice(b *testing.B) {
 	}
 }
 
+func TestVariance(t *testing.T) {
+	_, err := Variance([]float64{1, 2, 3})
+	if err != nil {
+		t.Errorf("Returned an error")
+	}
+}
+
 func TestPopulationVariance(t *testing.T) {
 	m, _ := PopulationVariance([]float64{})
 	if m != 0.0 {
@@ -270,6 +277,13 @@ func TestSampleVariance(t *testing.T) {
 	m, _ = SampleVariance([]float64{1, 2, 3})
 	if m != 1.0 {
 		t.Errorf("%.1f != %.1f", m, 1.0)
+	}
+}
+
+func TestStandardDeviation(t *testing.T) {
+	_, err := StandardDeviation([]float64{1, 2, 3})
+	if err != nil {
+		t.Errorf("Returned an error")
 	}
 }
 
