@@ -240,6 +240,11 @@ func SampleVariance(input Float64Data) (svar float64, err error) {
 	return v, nil
 }
 
+// StandardDeviation the amount of variation in the dataset
+func StandardDeviation(input Float64Data) (sdev float64, err error) {
+	return StandardDeviationPopulation(input)
+}
+
 // StandardDeviationPopulation finds the amount of variation from the population
 func StandardDeviationPopulation(input Float64Data) (sdev float64, err error) {
 

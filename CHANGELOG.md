@@ -4,6 +4,7 @@
 
 ### Package changes:
 
+- Add `StandardDeviation` function to be the same as `StandardDeviationPopulation`
 - Change `Variance` function to be the same as `PopulationVariation`
 - Add helper methods to `Float64Data`
 - Add `Float64Data` type to use instead of `[]float64`
