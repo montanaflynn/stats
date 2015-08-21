@@ -19,7 +19,7 @@ func TestTypes(t *testing.T) {
 	// Test Len
 	l := fd.Len()
 	if l != 8 {
-		t.Errorf("Len() => %.1f != %.1f", l, 8)
+		t.Errorf("Len() => %v != %v", l, 8)
 	}
 
 	// Test Less
@@ -31,7 +31,7 @@ func TestTypes(t *testing.T) {
 	// Test Swap
 	fd.Swap(0, 2)
 	if fd.Get(0) != 5 {
-		t.Errorf("Len() => %.1f != %.1f", l, 8)
+		t.Errorf("Len() => %v != %v", l, 8)
 	}
 
 	// Test Min
