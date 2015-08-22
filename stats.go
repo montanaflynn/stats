@@ -603,11 +603,13 @@ func Trimean(input Float64Data) (float64, error) {
 	return (q.Q1 + (q.Q2 * 2) + q.Q3) / 4, nil
 }
 
+// Outliers holds mild and extreme outliers found in data
 type Outliers struct {
 	Mild    Float64Data
 	Extreme Float64Data
 }
 
+// QuartileOutliers finds the mild and extreme outliers
 func QuartileOutliers(input Float64Data) (Outliers, error) {
 	if input.Len() == 0 {
 		return Outliers{}, errors.New("Input must not be empty")
@@ -644,6 +646,7 @@ func QuartileOutliers(input Float64Data) (Outliers, error) {
 	return Outliers{mild, extreme}, nil
 }
 
+// Covariance is a measure of how much two sets of data change
 func Covariance(data1, data2 Float64Data) (float64, error) {
 
 	l1 := data1.Len()
@@ -671,6 +674,7 @@ func Covariance(data1, data2 Float64Data) (float64, error) {
 	return ss * float64(l1) / float64(l1-1), nil
 }
 
+// Correlation describes the degree of relationship between two sets of data
 func Correlation(data1, data2 Float64Data) (float64, error) {
 
 	l1 := data1.Len()
