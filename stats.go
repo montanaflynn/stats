@@ -492,7 +492,7 @@ func LogarithmicRegression(s Series) (regressions Series, err error) {
 }
 
 // Sample returns sample from input with replacement or without
-func Sample(input Float64Data, takenum int, replacement bool) (Float64Data, error) {
+func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error) {
 
 	if input.Len() == 0 {
 		return nil, errors.New("Input must not be empty")
