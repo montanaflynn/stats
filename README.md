@@ -26,7 +26,7 @@ All the functions can be seen in [examples/main.go](https://github.com/montanafl
 
 ### Contributing
 
-If you have any suggestions, criticism or bug reports please [create an issue](https://github.com/montanaflynn/stats/issues) and I'll do my best to accomdate you. Pull requests are much appreciated, you may want to read the [CONTRIBUTING.md](https://github.com/montanaflynn/stats/blob/master/CONTRIBUTING.md) document to ensure a seamless merge.
+If you have any suggestions, criticism or bug reports please [create an issue](https://github.com/montanaflynn/stats/issues) and I'll do my best to accommodate you. Pull requests are much appreciated, you may want to read the [CONTRIBUTING.md](https://github.com/montanaflynn/stats/blob/master/CONTRIBUTING.md) document to ensure a seamless merge.
 
 ### MIT License
 
