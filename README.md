@@ -30,7 +30,7 @@ If you have any suggestions, criticism or bug reports please [create an issue](h
 
 Pull requests are much appreciated, you may want to read the [CONTRIBUTING.md](https://github.com/montanaflynn/stats/blob/master/CONTRIBUTING.md) document to ensure a seamless merge.
 
-Check out the Makefile for some helpful targets to common actions such as linting and testing code. 
+Check out the (`Makefile`)[https://github.com/montanaflynn/stats/blob/master/Makefile] for some helpful targets to common actions such as linting and testing code. 
 
 **Protip: `watch -n 0.5 make check`**
 
