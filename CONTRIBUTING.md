@@ -36,6 +36,6 @@ go test -coverprofile=coverage.out; go tool cover -html="coverage.out"
 
 ### Makefile
 
-I've included a [`Makefile`](https://github.com/montanaflynn/stats/blob/master/Makefile) that has a lot of helper targets for common actions such as linting, testing and coverage reporting. 
+I've included a [Makefile](https://github.com/montanaflynn/stats/blob/master/Makefile) that has a lot of helper targets for common actions such as linting, testing and coverage reporting. 
 
 **Protip: `watch -n 0.5 make check`**
