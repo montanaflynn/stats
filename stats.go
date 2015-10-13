@@ -381,7 +381,7 @@ func PercentileNearestRank(input Float64Data, percent float64) (percentile float
 
 }
 
-// Create a container for series data
+// Series is a container for a series of data
 type Series []Coordinate
 
 // Coordinate holds the data in a series
@@ -688,23 +688,23 @@ func Correlation(data1, data2 Float64Data) (float64, error) {
 		return 0, errors.New("Input data must be same length")
 	}
 
-	var sum_xsq, sum_ysq, sum_cross float64
+	var sumX, sumY, sumCross float64
 
-	mean_x := data1.Get(0)
-	mean_y := data2.Get(0)
+	meanX := data1.Get(0)
+	meanY := data2.Get(0)
 
 	for i := 1; i < l1; i++ {
 		ratio := float64(i) / float64(i+1)
-		delta_x := data1.Get(i) - mean_x
-		delta_y := data2.Get(i) - mean_y
-		sum_xsq += delta_x * delta_x * ratio
-		sum_ysq += delta_y * delta_y * ratio
-		sum_cross += delta_x * delta_y * ratio
-		mean_x += delta_x / float64(i+1)
-		mean_y += delta_y / float64(i+1)
+		deltaX := data1.Get(i) - meanX
+		deltaY := data2.Get(i) - meanY
+		sumX += deltaX * deltaX * ratio
+		sumY += deltaY * deltaY * ratio
+		sumCross += deltaX * deltaY * ratio
+		meanX += deltaX / float64(i+1)
+		meanY += deltaY / float64(i+1)
 	}
 
-	return sum_cross / (math.Sqrt(sum_xsq) * math.Sqrt(sum_ysq)), nil
+	return sumCross / (math.Sqrt(sumX) * math.Sqrt(sumY)), nil
 }
 
 // float64ToInt rounds a float64 to an int

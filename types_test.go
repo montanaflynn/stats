@@ -5,11 +5,9 @@ import (
 	"testing"
 )
 
-func TestTypes(t *testing.T) {
+var fd = Float64Data{-10, -10.001, 5, 1.1, 2, 3, 4.20, 5}
 
-	// Create the data
-	fd := Float64Data{-10, -10.001, 5, 1.1, 2, 3, 4.20, 5}
-
+func TestInterfaceMethods(t *testing.T) {
 	// Test Get
 	a := fd.Get(1)
 	if a != -10.001 {
@@ -33,11 +31,14 @@ func TestTypes(t *testing.T) {
 	if fd.Get(0) != 5 {
 		t.Errorf("Len() => %v != %v", l, 8)
 	}
+}
+
+func TestHelperMethods(t *testing.T) {
 
 	// Test Min
 	m, _ := fd.Min()
 	if m != -10.001 {
-		t.Errorf("Min() => %v != %v", b, -10.001)
+		t.Errorf("Min() => %v != %v", m, -10.001)
 	}
 
 	// Test Max

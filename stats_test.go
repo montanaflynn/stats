@@ -255,17 +255,17 @@ func TestVariance(t *testing.T) {
 }
 
 func TestPopulationVariance(t *testing.T) {
-	m, _ := PopulationVariance([]float64{})
-	if m != 0.0 {
-		t.Errorf("%.1f != %.1f", m, 0.0)
+	e, _ := PopulationVariance([]float64{})
+	if e != 0.0 {
+		t.Errorf("%.1f != %.1f", e, 0.0)
 	}
-	m, _ = PopulationVariance([]float64{1, 2, 3})
-	m, err := Round(m, 1)
+	pv, _ := PopulationVariance([]float64{1, 2, 3})
+	a, err := Round(pv, 1)
 	if err != nil {
 		t.Errorf("Returned an error")
 	}
-	if m != 0.7 {
-		t.Errorf("%.1f != %.1f", m, 0.7)
+	if a != 0.7 {
+		t.Errorf("%.1f != %.1f", a, 0.7)
 	}
 }
 
