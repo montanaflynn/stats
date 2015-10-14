@@ -1,6 +1,10 @@
 # Change Log
 
-## [Unreleased](https://github.com/montanaflynn/stats/tree/master)
+## [0.2.0](https://github.com/montanaflynn/stats/tree/0.2.0)
+
+### Merged pull requests:
+
+- Fixed typographical error, changed accomdate to accommodate in README. [\#5](https://github.com/montanaflynn/stats/pull/5) ([saromanov](https://github.com/orthographic-pedant))
 
 ### Package changes:
 
