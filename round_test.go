@@ -30,12 +30,28 @@ func TestRound(t *testing.T) {
 		t.Errorf("%.1f != %.1f", m, 5.325)
 	}
 
+	m, err = Round(5.3258, 3)
+	if err != nil {
+		t.Errorf("Returned an error")
+	}
+	if m != 5.326 {
+		t.Errorf("%.1f != %.1f", m, 5.326)
+	}
+
 	m, err = Round(5.3253, 0)
 	if err != nil {
 		t.Errorf("Returned an error")
 	}
 	if m != 5.0 {
 		t.Errorf("%.1f != %.1f", m, 5.0)
+	}
+
+	m, err = Round(5.5, 0)
+	if err != nil {
+		t.Errorf("Returned an error")
+	}
+	if m != 6.0 {
+		t.Errorf("%.1f != %.1f", m, 6.0)
 	}
 
 	m, err = Round(math.NaN(), 2)
