@@ -26,10 +26,10 @@ mean, _ := stats.Mean(data)
 fmt.Println(mean) // 3.1666666666666665
 
 roundedMean, _ := stats.Round(mean, 2)
-fmt.Println(roundedMean) // 3.16
+fmt.Println(roundedMean) // 3.17
 
 median, _ := stats.Median(data)
-fmt.Println(median) // 2.5
+fmt.Println(median) // 3.5
 
 mode, _ := stats.Mode(data)
 fmt.Println(mode) // [4]
@@ -43,7 +43,6 @@ fmt.Println(min) // 1
 
 max, _ := d.Max()
 fmt.Println(max) // 5
-
 ```
 
 ## Documentation
