@@ -2,13 +2,16 @@
 
 default: format test
 
-docs:
+doc:
 	godoc `pwd`
+
+webdoc:
+	godoc -http=:44444
 
 format: 
 	go fmt
 
-test: lint
+test:
 	go test -race 
 	
 benchmark:
