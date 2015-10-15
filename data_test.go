@@ -72,3 +72,32 @@ func TestHelperMethods(t *testing.T) {
 	}
 
 }
+
+// Here we show the regular way of doing it
+// with a plain old slice of float64s
+func BenchmarkRegularAPI(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		data := []float64{-10, -7, -3.11, 5, 1.1, 2, 3, 4.20, 5, 18}
+		Min(data)
+		Max(data)
+		Sum(data)
+		Mean(data)
+		Median(data)
+		Mode(data)
+	}
+}
+
+// Here's where things get interesting
+// and we start to use the included
+// Float64Data type and methods
+func BenchmarkMethodsAPI(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		data := Float64Data{-10, -7, -3.11, 5, 1.1, 2, 3, 4.20, 5, 18}
+		data.Min()
+		data.Max()
+		data.Sum()
+		data.Mean()
+		data.Median()
+		data.Mode()
+	}
+}
