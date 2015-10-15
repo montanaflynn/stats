@@ -1,7 +1,5 @@
 .PHONY: all
 
-default: format test
-
 doc:
 	godoc `pwd`
 
@@ -14,6 +12,8 @@ format:
 test:
 	go test -race 
 	
+check: format test
+
 benchmark:
 	go test -bench=. -benchmem
 
@@ -26,4 +26,4 @@ lint: format
 	gometalinter --install
 	gometalinter 
 
-check: lint test
+default: lint test
