@@ -14,7 +14,42 @@ go get github.com/montanaflynn/stats
 
 ### Usage
 
-Examples of using all the functions can be seen in [examples/main.go](https://github.com/montanaflynn/stats/blob/master/examples/main.go).
+Examples of all the functions can be seen in [examples/main.go](https://github.com/montanaflynn/stats/blob/master/examples/main.go) but here's a little taste:
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/montanaflynn/stats"
+)
+
+func main() {
+	data := []float64{-10, -7, -3.11, 5, 1.1, 2, 3, 4.20, 5, 18}
+
+	n, _ := stats.Min(data)
+	fmt.Println(n) // -10
+
+	n, _ = stats.Max(data)
+	fmt.Println(n) // 18
+
+	n, _ = stats.Sum(data)
+	fmt.Println(n) // 18.19
+
+	n, _ = stats.Mean(data)
+	fmt.Println(n) // 1.8190000000000002
+
+	n, _ = stats.Round(n, 2)
+	fmt.Println(n) // 1.82
+
+	n, _ = stats.Median(data)
+	fmt.Println(n) // 2.5
+
+	m, _ := stats.Mode(data)
+	fmt.Println(m) // [5]
+}
+
+```
 
 ### Documentation
 
@@ -26,11 +61,41 @@ Functions: [`Min`](http://godoc.org/github.com/montanaflynn/stats#Min), [`Max`](
 
 ### Contributing
 
-If you have any suggestions, criticism or bug reports please [create an issue](https://github.com/montanaflynn/stats/issues) and I'll do my best to accommodate you. 
+# Contributing
 
-Pull requests are much appreciated, you may want to read the [CONTRIBUTING.md](https://github.com/montanaflynn/stats/blob/master/CONTRIBUTING.md) document to ensure a seamless merge.
+First of all, if you havn't already, a star would show your support for the project and be very much appreciated! If you have any suggestions, criticism or bug reports please [create an issue](https://github.com/montanaflynn/stats/issues) and I'll do my best to accomodate you. 
 
-Check out the [Makefile](https://github.com/montanaflynn/stats/blob/master/Makefile) for some helpful targets to common actions such as linting and testing code. 
+### Pull Requests
+
+Pull request are always welcome no matter how big or small. Here's an easy way to do it:
+
+1. Fork it and clone your fork
+2. Create new branch (`git checkout -b cool-new-thing`)
+3. Make the desired changes
+4. Ensure tests pass (`go test -cover` or `make test`)
+5. Commit changes (`git commit -am 'Add cool new thing'`)
+6. Push branch (`git push origin cool-new-thing`)
+7. Submit pull request
+
+#### Advanced 
+
+To make things as seamless as possible please also consider the following steps:
+
+- Write tests to keep 100% code coverage, here's how I check coverage locally without dependencies:
+
+```
+go test -coverprofile=coverage.out; go tool cover -html="coverage.out"
+```
+
+- Update `README.md` to include new public types or functions in the documentation section.
+
+- Update `examples/main.go` with a simple example of the new feature.
+
+- Run [`gometalinter`](https://github.com/alecthomas/gometalinter) and make your code pass.
+
+- Squash needless commits into single units of work with `git rebase -i new-feature`.
+
+I've included a [Makefile](https://github.com/montanaflynn/stats/blob/master/Makefile) that has a lot of helper targets for common actions such as linting, testing and coverage reporting.
 
 **Protip: `watch -n 0.5 make check`**
 
