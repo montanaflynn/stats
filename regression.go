@@ -75,7 +75,7 @@ func ExponentialRegression(s Series) (regressions Series, err error) {
 	for j := 0; j < len(s); j++ {
 		regressions = append(regressions, Coordinate{
 			X: s[j].X,
-			Y: a * math.Pow(2.718281828459045, b*s[j].X),
+			Y: a * math.Exp(b*s[j].X),
 		})
 	}
 
