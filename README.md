@@ -12,13 +12,13 @@ Currently only `float64` and `[]float64` data is supported due to the lack of ge
 go get github.com/montanaflynn/stats
 ```
 
-**Protip: `go get -u github.com/montanaflynn/stats`** updates to latest version.
+**Protip:** `go get -u github.com/montanaflynn/stats` updates stats to the latest version.
 
 ## Usage
 
-Examples of all the functions can be seen in [examples/main.go](https://github.com/montanaflynn/stats/blob/master/examples/main.go) but here's a little taste of using the package:
+Examples of all the functions can be seen in [examples/main.go](https://github.com/montanaflynn/stats/blob/master/examples/main.go) but here's a little taste:
 
-```golang
+```go
 // start with the some source data to use
 var data = []float64{1, 2, 3, 4, 4, 5}
 
@@ -56,7 +56,7 @@ Functions: [`Min`](http://godoc.org/github.com/montanaflynn/stats#Min), [`Max`](
 
 ## Contributing
 
-First of all, if you havn't already, a star would show your support for the project and be very much appreciated! If you have any suggestions, criticism or bug reports please [create an issue](https://github.com/montanaflynn/stats/issues) and I'll do my best to accomodate you. 
+If you have any suggestions, criticism or bug reports please [create an issue](https://github.com/montanaflynn/stats/issues) and I'll do my best to accommodate you. In addition simply starring the repo would show your support for the project and be very much appreciated! 
 
 ### Pull Requests
 
@@ -78,13 +78,18 @@ To make things as seamless as possible please also consider the following steps:
 
 - Update `examples/main.go` with a simple example of the new feature.
 
-- Keep 100% code coverage `go test -coverprofile=coverage.out; go tool cover -html="coverage.out"`
+- Keep 100% code coverage, here's an easy way to see what code is not covered:
+
+```go test -coverprofile=coverage.out; go tool cover -html="coverage.out"```
 
 - Run [`gometalinter`](https://github.com/alecthomas/gometalinter) and make your code pass.
 
 - Squash needless commits into single units of work with `git rebase -i new-feature`.
 
-I've included a [Makefile](https://github.com/montanaflynn/stats/blob/master/Makefile) that has a lot of helper targets for common actions such as linting, testing and coverage reporting.
+
+#### Makefile
+
+I've included a [Makefile](https://github.com/montanaflynn/stats/blob/master/Makefile) that has a lot of helper targets for common actions such as linting, testing, coverage reporting and more.
 
 **Protip:** `watch -n 1 make check` will continuously format and test your code.
 
