@@ -6,61 +6,34 @@ import (
 )
 
 func TestRound(t *testing.T) {
-	m, err := Round(0.1111, 1)
-	if err != nil {
-		t.Errorf("Returned an error")
-	}
-	if m != 0.1 {
-		t.Errorf("%.1f != %.1f", m, 0.1)
-	}
+	for _, c := range []struct {
+		number   float64
+		decimals int
+		result   float64
+	}{
+		{0.1111, 1, 0.1},
+		{-0.1111, 2, -0.11},
+		{5.3253, 3, 5.325},
+		{5.3258, 3, 5.326},
+		{5.3253, 0, 5.0},
+		{5.55, 1, 5.6},
+	} {
+		m, err := Round(c.number, c.decimals)
+		if err != nil {
+			t.Errorf("Returned an error")
+		}
+		if m != c.result {
+			t.Errorf("%.1f != %.1f", m, c.result)
+		}
 
-	m, err = Round(-0.1111, 2)
-	if err != nil {
-		t.Errorf("Returned an error")
 	}
-	if m != -0.11 {
-		t.Errorf("%.1f != %.1f", m, -0.11)
-	}
-
-	m, err = Round(5.3253, 3)
-	if err != nil {
-		t.Errorf("Returned an error")
-	}
-	if m != 5.325 {
-		t.Errorf("%.1f != %.1f", m, 5.325)
-	}
-
-	m, err = Round(5.3258, 3)
-	if err != nil {
-		t.Errorf("Returned an error")
-	}
-	if m != 5.326 {
-		t.Errorf("%.1f != %.1f", m, 5.326)
-	}
-
-	m, err = Round(5.3253, 0)
-	if err != nil {
-		t.Errorf("Returned an error")
-	}
-	if m != 5.0 {
-		t.Errorf("%.1f != %.1f", m, 5.0)
-	}
-
-	m, err = Round(5.5, 0)
-	if err != nil {
-		t.Errorf("Returned an error")
-	}
-	if m != 6.0 {
-		t.Errorf("%.1f != %.1f", m, 6.0)
-	}
-
-	m, err = Round(math.NaN(), 2)
+	_, err := Round(math.NaN(), 2)
 	if err == nil {
 		t.Errorf("Round should error on NaN")
 	}
 }
 
-func BenchmarkRoundSmallFloatSlice(b *testing.B) {
+func BenchmarkRound(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Round(0.1111, 1)
 	}
