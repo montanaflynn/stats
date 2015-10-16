@@ -117,5 +117,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 [godoc-url]: https://godoc.org/github.com/montanaflynn/stats
 [godoc-svg]: https://godoc.org/github.com/montanaflynn/stats?status.svg
 
-[license-url]: https://img.shields.io/badge/license-MIT-blue.svg
-[license-svg]: https://github.com/montanaflynn/stats/blob/master/LICENSE
+[license-url]: https://github.com/montanaflynn/stats/blob/master/LICENSE
+[license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
