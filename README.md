@@ -1,4 +1,4 @@
-# Stats [![Build Status][travis-svg]][travis-url] [![Coverage Status][coveralls-svg]][coveralls-url] [![API Documentation][godoc-svg]][godoc-url]
+# Stats [![Build Status][travis-svg]][travis-url] [![Coverage Status][coveralls-svg]][coveralls-url] [![API Documentation][godoc-svg]][godoc-url] [![MIT License][license-svg]][license-url]
 
 A statistics package with common functions missing from the Golang standard library. 
 
@@ -22,24 +22,17 @@ Examples of all the functions can be seen in [examples/main.go](https://github.c
 // start with the some source data to use
 var data = []float64{1, 2, 3, 4, 4, 5}
 
-mean, _ := stats.Mean(data)
-fmt.Println(mean) // 3.1666666666666665
-
-roundedMean, _ := stats.Round(mean, 2)
-fmt.Println(roundedMean) // 3.17
-
 median, _ := stats.Median(data)
 fmt.Println(median) // 3.5
 
-mode, _ := stats.Mode(data)
-fmt.Println(mode) // [4]
+roundedMedian, _ := stats.Round(median, 0)
+fmt.Println(roundedMedian) // 4
+```
 
-// you could also use the Float64Data type
-// check examples/methods.go for more info
+**Protip:** You can call many functions directly on data if you use the Float64Data type.
+
+```
 var d stats.Float64Data = data
-
-min, _ := d.Min()
-fmt.Println(min) // 1
 
 max, _ := d.Max()
 fmt.Println(max) // 5
@@ -49,9 +42,22 @@ fmt.Println(max) // 5
 
 The [entire API documentation](http://godoc.org/github.com/montanaflynn/stats) is available on GoDoc. 
 
+Functions: [`Min`](http://godoc.org/github.com/montanaflynn/stats#Min), [`Max`](http://godoc.org/github.com/montanaflynn/stats#Max), [`Sum`](http://godoc.org/github.com/montanaflynn/stats#Sum), [`Mean`](http://godoc.org/github.com/montanaflynn/stats#Mean), [`Median`](http://godoc.org/github.com/montanaflynn/stats#Median), [`Mode`](http://godoc.org/github.com/montanaflynn/stats#Mode), [`Sample`](http://godoc.org/github.com/montanaflynn/stats#Sample), [`Round`](http://godoc.org/github.com/montanaflynn/stats#Round), [`StandardDeviation`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviation), [`StandardDeviationPopulation`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviationPopulation), [`StandardDeviationSample`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviationSample), [`Percentile`](http://godoc.org/github.com/montanaflynn/stats#Percentile), [`PercentileNearestRank`](http://godoc.org/github.com/montanaflynn/stats#PercentileNearestRank), [`LinearRegression`](http://godoc.org/github.com/montanaflynn/stats#LinearRegression), [`ExponentialRegression`](http://godoc.org/github.com/montanaflynn/stats#ExponentialRegression), [`LogarithmicRegression`](http://godoc.org/github.com/montanaflynn/stats#LogarithmicRegression), [`Variance`](http://godoc.org/github.com/montanaflynn/stats#Variance), [`PopulationVariance`](http://godoc.org/github.com/montanaflynn/stats#PopulationVariance), [`SampleVariance`](http://godoc.org/github.com/montanaflynn/stats#SampleVariance), [`Quartile`](http://godoc.org/github.com/montanaflynn/stats#Quartile), [`InterQuartileRange`](http://godoc.org/github.com/montanaflynn/stats#InterQuartileRange), [`Midhinge`](http://godoc.org/github.com/montanaflynn/stats#Midhinge), [`Trimean`](http://godoc.org/github.com/montanaflynn/stats#Trimean), [`QuartileOutliers`](http://godoc.org/github.com/montanaflynn/stats#QuartileOutliers), [`GeometricMean`](http://godoc.org/github.com/montanaflynn/stats#GeometricMean), [`HarmonicMean`](http://godoc.org/github.com/montanaflynn/stats#HarmonicMean), [`Covariance`](http://godoc.org/github.com/montanaflynn/stats#Covariance), [`Correlation`](http://godoc.org/github.com/montanaflynn/stats#Correlation)
+
 Types: [`Float64Data`](http://godoc.org/github.com/montanaflynn/stats#Float64Data), [`Series`](http://godoc.org/github.com/montanaflynn/stats#Series), [`Coordinate`](http://godoc.org/github.com/montanaflynn/stats#Coordinate), [`Quartiles`](http://godoc.org/github.com/montanaflynn/stats#Quartiles), [`Outliers`](http://godoc.org/github.com/montanaflynn/stats#Outliers)
 
-Functions: [`Min`](http://godoc.org/github.com/montanaflynn/stats#Min), [`Max`](http://godoc.org/github.com/montanaflynn/stats#Max), [`Sum`](http://godoc.org/github.com/montanaflynn/stats#Sum), [`Mean`](http://godoc.org/github.com/montanaflynn/stats#Mean), [`Median`](http://godoc.org/github.com/montanaflynn/stats#Median), [`Mode`](http://godoc.org/github.com/montanaflynn/stats#Mode), [`Sample`](http://godoc.org/github.com/montanaflynn/stats#Sample), [`Round`](http://godoc.org/github.com/montanaflynn/stats#Round), [`StandardDeviation`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviation), [`StandardDeviationPopulation`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviationPopulation), [`StandardDeviationSample`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviationSample), [`Percentile`](http://godoc.org/github.com/montanaflynn/stats#Percentile), [`PercentileNearestRank`](http://godoc.org/github.com/montanaflynn/stats#PercentileNearestRank), [`LinearRegression`](http://godoc.org/github.com/montanaflynn/stats#LinearRegression), [`ExponentialRegression`](http://godoc.org/github.com/montanaflynn/stats#ExponentialRegression), [`LogarithmicRegression`](http://godoc.org/github.com/montanaflynn/stats#LogarithmicRegression), [`Variance`](http://godoc.org/github.com/montanaflynn/stats#Variance), [`PopulationVariance`](http://godoc.org/github.com/montanaflynn/stats#PopulationVariance), [`SampleVariance`](http://godoc.org/github.com/montanaflynn/stats#SampleVariance), [`Quartile`](http://godoc.org/github.com/montanaflynn/stats#Quartile), [`InterQuartileRange`](http://godoc.org/github.com/montanaflynn/stats#InterQuartileRange), [`Midhinge`](http://godoc.org/github.com/montanaflynn/stats#Midhinge), [`Trimean`](http://godoc.org/github.com/montanaflynn/stats#Trimean), [`QuartileOutliers`](http://godoc.org/github.com/montanaflynn/stats#QuartileOutliers), [`GeometricMean`](http://godoc.org/github.com/montanaflynn/stats#GeometricMean), [`HarmonicMean`](http://godoc.org/github.com/montanaflynn/stats#HarmonicMean), [`Covariance`](http://godoc.org/github.com/montanaflynn/stats#Covariance), [`Correlation`](http://godoc.org/github.com/montanaflynn/stats#Correlation)
+**Protip:** You can view go docs offline in the terminal or browser:
+
+```
+# Show current package docs
+godoc ./ 
+
+# Show current package's function or type doc
+godoc ./ Min
+
+# Create a server hosting docs on port 4444
+godoc -http=:4444
+```
 
 ## Contributing
 
@@ -110,3 +116,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 [godoc-url]: https://godoc.org/github.com/montanaflynn/stats
 [godoc-svg]: https://godoc.org/github.com/montanaflynn/stats?status.svg
+
+[license-url]: https://img.shields.io/badge/license-MIT-blue.svg
+[license-svg]: https://github.com/montanaflynn/stats/blob/master/LICENSE
