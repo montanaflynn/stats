@@ -16,7 +16,7 @@ go get github.com/montanaflynn/stats
 
 ## Usage
 
-Examples of all the functions can be seen in [examples/main.go](https://github.com/montanaflynn/stats/blob/master/examples/main.go) but here's a little taste:
+All the functions can be seen in [examples/main.go](https://github.com/montanaflynn/stats/blob/master/examples/main.go) but here's a little taste:
 
 ```go
 // start with the some source data to use
@@ -29,7 +29,7 @@ roundedMedian, _ := stats.Round(median, 0)
 fmt.Println(roundedMedian) // 4
 ```
 
-**Protip:** You can call many functions directly on data if you use the Float64Data type.
+**Protip:** You can call some methods directly on the data ([example](https://github.com/montanaflynn/stats/blob/master/examples/methods.go)) if you use the Float64Data type.
 
 ```
 var d stats.Float64Data = data
