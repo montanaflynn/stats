@@ -21,12 +21,7 @@ func main() {
 	sum, _ := d.Sum()
 	fmt.Println(sum) // 19
 
-	mean, _ := d.Mean()
-	fmt.Println(mean) // 3.1666666666666665
+	// See https://godoc.org/github.com/montanaflynn/stats#Float64Data
+	// or run godoc ./ Float64Data to view all available methods
 
-	median, _ := d.Median()
-	fmt.Println(median) // 3.5
-
-	mode, _ := d.Mode()
-	fmt.Println(mode) // [4]
 }
