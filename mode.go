@@ -1,12 +1,9 @@
 package stats
 
-import (
-	"errors"
-)
+import "errors"
 
-// Mode gets the mode of a slice of numbers
+// Mode gets the mode [most frequent value(s)] of a slice of float64s
 func Mode(input Float64Data) (mode []float64, err error) {
-
 	// Return the input if there's only one number
 	l := input.Len()
 	if l == 1 {
@@ -15,36 +12,34 @@ func Mode(input Float64Data) (mode []float64, err error) {
 		return nil, errors.New("Input must not be empty")
 	}
 
-	// Create a map with the counts for each number
-	m := make(map[float64]int)
-	for _, v := range input {
-		m[v]++
-	}
-
-	// Find the highest counts to return as a slice
-	// of ints to accomodate duplicate counts
-	var current int
-	for k, v := range m {
-
-		// Depending if the count is lower, higher
-		// or equal to the current numbers count
-		// we return nothing, start a new mode or
-		// append to the current mode
+	c := sortedCopyDif(input)
+	// Traverse sorted array,
+	// tracking the longest repeating sequence
+	mode = make([]float64, 5)
+	cnt, maxCnt := 1, 1
+	for i := 1; i < l; i++ {
 		switch {
-		case v < current:
-		case v > current:
-			current = v
-			mode = append(mode[:0], k)
-		default:
-			mode = append(mode, k)
+		case c[i] == c[i-1]:
+			cnt++
+		case cnt == maxCnt:
+			mode = append(mode, c[i-1])
+			cnt = 1
+		case cnt > maxCnt:
+			mode = append(mode[:0], c[i-1])
+			maxCnt, cnt = cnt, 1
 		}
 	}
+	switch {
+	case cnt == maxCnt:
+		mode = append(mode, c[l-1])
+	case cnt > maxCnt:
+		mode = append(mode[:0], c[l-1])
+		maxCnt = cnt
+	}
 
-	// Finally we check to see if there actually was
-	// a mode by checking the length of the input and
-	// mode against eachother
-	lm := len(mode)
-	if l == lm {
+	// Since length must be greater than 1,
+	// check for slices of distinct values
+	if maxCnt == 1 {
 		return Float64Data{}, nil
 	}
 

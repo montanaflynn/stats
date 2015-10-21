@@ -15,6 +15,7 @@ func TestMode(t *testing.T) {
 		{[]float64{5, 5, 3, 4, 2, 1}, []float64{5}},
 		{[]float64{5, 5, 3, 3, 4, 2, 1}, []float64{3, 5}},
 		{[]float64{1}, []float64{1}},
+		{[]float64{-50, -46.325, -46.325, -.87, 1, 2.1122, 3.20, 5, 15, 15, 15.0001}, []float64{-46.325, 15}},
 	} {
 		got, err := Mode(c.in)
 		if err != nil {
@@ -37,8 +38,24 @@ func BenchmarkModeSmallFloatSlice(b *testing.B) {
 	}
 }
 
+func BenchmarkModeSmallRandFloatSlice(b *testing.B) {
+	lf := makeRandFloatSlice(5)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Mode(lf)
+	}
+}
+
 func BenchmarkModeLargeFloatSlice(b *testing.B) {
 	lf := makeFloatSlice(100000)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Mode(lf)
+	}
+}
+
+func BenchmarkModeLargeRandFloatSlice(b *testing.B) {
+	lf := makeRandFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		Mode(lf)
