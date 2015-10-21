@@ -97,7 +97,6 @@ func TestHelperMethods(t *testing.T) {
 	if !reflect.DeepEqual(mo, []float64{5.0}) {
 		t.Errorf("Mode() => %.1f != %.1f", mo, []float64{5.0})
 	}
-
 }
 
 func assertFloat64(fn func() (float64, error), f float64, t *testing.T) {

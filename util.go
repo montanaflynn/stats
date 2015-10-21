@@ -29,3 +29,15 @@ func sortedCopy(input Float64Data) (copy Float64Data) {
 	sort.Float64s(copy)
 	return
 }
+
+// sortedCopyDif returns a sorted copy of float64s
+// only if the original data isn't sorted.
+// Only use this if returned slice won't be manipulated!
+func sortedCopyDif(input Float64Data) (copy Float64Data) {
+	if sort.Float64sAreSorted(input) {
+		return input
+	}
+	copy = copyslice(input)
+	sort.Float64s(copy)
+	return
+}
