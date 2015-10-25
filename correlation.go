@@ -37,3 +37,27 @@ func Correlation(data1, data2 Float64Data) (float64, error) {
 
 	return sumCross / (math.Sqrt(sumX) * math.Sqrt(sumY)), nil
 }
+
+func AutoCorrelation(lags int, data Float64Data) (float64, error) {
+	if len(data) < 1 {
+		return 0, errors.New("Input data must not be empty")
+	}
+
+	mean, _ := Mean(data)
+
+	var result, q float64
+
+	for i := 0; i < lags; i++ {
+		v := (data[0] - mean) * (data[0] - mean)
+		for i := 1; i < len(data); i++ {
+			delta0 := data[i-1] - mean
+			delta1 := data[i] - mean
+			q += (delta0*delta1 - q) / float64(i+1)
+			v += (delta1*delta1 - v) / float64(i+1)
+		}
+
+		result = q / v
+	}
+
+	return result, nil
+}
