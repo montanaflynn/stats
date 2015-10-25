@@ -29,15 +29,32 @@ func TestMin(t *testing.T) {
 }
 
 func BenchmarkMinSmallFloatSlice(b *testing.B) {
+	testData := makeFloatSlice(5)
 	for i := 0; i < b.N; i++ {
-		Min(makeFloatSlice(5))
+		Min(testData)
+	}
+}
+
+func BenchmarkMinSmallRandFloatSlice(b *testing.B) {
+	testData := makeRandFloatSlice(5)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Min(testData)
 	}
 }
 
 func BenchmarkMinLargeFloatSlice(b *testing.B) {
-	lf := makeFloatSlice(100000)
+	testData := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Min(lf)
+		Min(testData)
+	}
+}
+
+func BenchmarkMinLargeRandFloatSlice(b *testing.B) {
+	testData := makeRandFloatSlice(100000)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Min(testData)
 	}
 }
