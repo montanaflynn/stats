@@ -74,6 +74,11 @@ func (f Float64Data) Correlation(d Float64Data) (float64, error) {
 	return Correlation(f, d)
 }
 
+// Pearson calculates the Pearson product-moment correlation coefficient between two variables.
+func (f Float64Data) Pearson(d Float64Data) (float64, error) {
+	return Pearson(f, d)
+}
+
 // Quartile returns the three quartile points from a slice of data
 func (f Float64Data) Quartile(d Float64Data) (Quartiles, error) {
 	return Quartile(d)
