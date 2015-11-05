@@ -26,4 +26,8 @@ func Correlation(data1, data2 Float64Data) (float64, error) {
 	covp, _ := CovariancePopulation(data1, data2)
 	return covp / (sdev1 * sdev2), nil
 }
+
+// Pearson calculates the Pearson product-moment correlation coefficient between two variables.
+func Pearson(data1, data2 Float64Data) (float64, error) {
+	return Correlation(data1, data2)
 }
