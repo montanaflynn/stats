@@ -30,6 +30,9 @@ func main() {
 	a, _ = stats.SampleVariance([]float64{1, 2, 3, 4, 5})
 	fmt.Println(a) // 2.5
 
+	a, _ = stats.MedianAbsoluteDeviationPopulation([]float64{1, 2, 3})
+	fmt.Println(a) // 1
+
 	a, _ = stats.StandardDeviationPopulation([]float64{1, 2, 3})
 	fmt.Println(a) // 0.816496580927726
 
