@@ -133,3 +133,8 @@ func (f Float64Data) SampleVariance() (float64, error) {
 func (f Float64Data) Covariance(d Float64Data) (float64, error) {
 	return Covariance(f, d)
 }
+
+// CovariancePopulation computes covariance for entire population between two variables.
+func (f Float64Data) CovariancePopulation(d Float64Data) (float64, error) {
+	return CovariancePopulation(f, d)
+}
