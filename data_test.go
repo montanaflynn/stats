@@ -104,6 +104,11 @@ func assertFloat64(fn func() (float64, error), f float64, t *testing.T) {
 	checkResult(res, err, getFunctionName(fn), f, t)
 }
 
+func TestMedianAbsoluteDeviationMethods(t *testing.T) {
+	assertFloat64(data1.MedianAbsoluteDeviation, 2.1, t)
+	assertFloat64(data1.MedianAbsoluteDeviationPopulation, 2.1, t)
+}
+
 func TestStandardDeviationMethods(t *testing.T) {
 	assertFloat64(data1.StandardDeviation, 5.935684731720091, t)
 	assertFloat64(data1.StandardDeviationPopulation, 5.935684731720091, t)
