@@ -78,3 +78,30 @@ func Covariance(data1, data2 Float64Data) (float64, error) {
 
 	return ss * float64(l1) / float64(l1-1), nil
 }
+
+// CovariancePopulation computes covariance for entire population between two variables.
+func CovariancePopulation(data1, data2 Float64Data) (float64, error) {
+
+	l1 := data1.Len()
+	l2 := data2.Len()
+
+	if l1 == 0 || l2 == 0 {
+		return 0, errors.New("Input data must not be empty")
+	}
+
+	if l1 != l2 {
+		return 0, errors.New("Input data must be same length")
+	}
+
+	m1, _ := Mean(data1)
+	m2, _ := Mean(data2)
+
+	var s float64
+	for i := 0; i < l1; i++ {
+		delta1 := (data1.Get(i) - m1)
+		delta2 := (data2.Get(i) - m2)
+		s += delta1 * delta2
+	}
+
+	return s / float64(l1), nil
+}

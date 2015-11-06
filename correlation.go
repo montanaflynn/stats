@@ -1,9 +1,6 @@
 package stats
 
-import (
-	"errors"
-	"math"
-)
+import "errors"
 
 // Correlation describes the degree of relationship between two sets of data
 func Correlation(data1, data2 Float64Data) (float64, error) {
@@ -19,21 +16,18 @@ func Correlation(data1, data2 Float64Data) (float64, error) {
 		return 0, errors.New("Input data must be same length")
 	}
 
-	var sumX, sumY, sumCross float64
+	sdev1, _ := StandardDeviationPopulation(data1)
+	sdev2, _ := StandardDeviationPopulation(data2)
 
-	meanX := data1.Get(0)
-	meanY := data2.Get(0)
-
-	for i := 1; i < l1; i++ {
-		ratio := float64(i) / float64(i+1)
-		deltaX := data1.Get(i) - meanX
-		deltaY := data2.Get(i) - meanY
-		sumX += deltaX * deltaX * ratio
-		sumY += deltaY * deltaY * ratio
-		sumCross += deltaX * deltaY * ratio
-		meanX += deltaX / float64(i+1)
-		meanY += deltaY / float64(i+1)
+	if sdev1 == 0 || sdev2 == 0 {
+		return 0, nil
 	}
 
-	return sumCross / (math.Sqrt(sumX) * math.Sqrt(sumY)), nil
+	covp, _ := CovariancePopulation(data1, data2)
+	return covp / (sdev1 * sdev2), nil
+}
+
+// Pearson calculates the Pearson product-moment correlation coefficient between two variables.
+func Pearson(data1, data2 Float64Data) (float64, error) {
+	return Correlation(data1, data2)
 }
