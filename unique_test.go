@@ -11,8 +11,8 @@ func TestUnique(t *testing.T) {
 		in  []float64
 		out []float64
 	}{
-		// {[]float64{1, 2, 3, 4, 5}, []float64{1, 2, 3, 4, 5}},
-		// {[]float64{1, 2, 2, 2, 3, 5}, []float64{1, 3, 5}},
+		{[]float64{1, 2, 3, 4, 5}, []float64{1, 2, 3, 4, 5}},
+		{[]float64{1, 2, 2, 2, 3, 5}, []float64{1, 3, 5}},
 		{[]float64{5, 1, 2, 3, 4, 5}, []float64{1, 2, 3, 4}},
 	} {
 		got, _ := Unique(c.in)
