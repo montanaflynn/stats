@@ -41,3 +41,14 @@ func sortedCopyDif(input Float64Data) (copy Float64Data) {
 	sort.Float64s(copy)
 	return
 }
+
+// in checks if a value is inside a slice of data
+func in(haystack []float64, needle float64) int {
+	var count int
+	for i := range haystack {
+		if haystack[i] == needle {
+			count++
+		}
+	}
+	return count
+}
