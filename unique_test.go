@@ -18,7 +18,7 @@ func TestUnique(t *testing.T) {
 		got, _ := Unique(c.in)
 		sort.Float64s(got)
 		if !reflect.DeepEqual(got, c.out) {
-			t.Errorf("Unique(%.1f) => %.1f != %.1f", c.in, c.out, got)
+			t.Errorf("Unique(%.1f) => %.1f != %.1f", c.in, got, c.out)
 		}
 	}
 	_, err := Unique([]float64{})
