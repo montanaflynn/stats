@@ -104,6 +104,11 @@ func assertFloat64(fn func() (float64, error), f float64, t *testing.T) {
 	checkResult(res, err, getFunctionName(fn), f, t)
 }
 
+func TestMedianAbsoluteDeviationMethods(t *testing.T) {
+	assertFloat64(data1.MedianAbsoluteDeviation, 2.1, t)
+	assertFloat64(data1.MedianAbsoluteDeviationPopulation, 2.1, t)
+}
+
 func TestStandardDeviationMethods(t *testing.T) {
 	assertFloat64(data1.StandardDeviation, 5.935684731720091, t)
 	assertFloat64(data1.StandardDeviationPopulation, 5.935684731720091, t)
@@ -134,11 +139,12 @@ func assertOtherDataMethods(fn func(d Float64Data) (float64, error), d Float64Da
 }
 
 func TestOtherDataMethods(t *testing.T) {
-	assertOtherDataMethods(data1.Correlation, data2, 0.2087547359760546, t)
+	assertOtherDataMethods(data1.Correlation, data2, 0.20875473597605448, t)
 	assertOtherDataMethods(data1.InterQuartileRange, data2, 8.05, t)
 	assertOtherDataMethods(data1.Midhinge, data2, -0.42500000000000004, t)
 	assertOtherDataMethods(data1.Trimean, data2, 0.5375, t)
 	assertOtherDataMethods(data1.Covariance, data2, 7.3814215535714265, t)
+	assertOtherDataMethods(data1.CovariancePopulation, data2, 6.458743859374998, t)
 }
 
 func TestSampleMethod(t *testing.T) {
