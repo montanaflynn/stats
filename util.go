@@ -41,3 +41,13 @@ func sortedCopyDif(input Float64Data) (copy Float64Data) {
 	sort.Float64s(copy)
 	return
 }
+
+// counts returns a map with the times an item
+// is included in the provided slice or array
+func counts(input Float64Data) map[float64]int {
+	c := make(map[float64]int, len(input))
+	for _, value := range input {
+		c[value]++
+	}
+	return c
+}

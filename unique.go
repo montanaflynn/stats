@@ -12,12 +12,9 @@ func Unique(input Float64Data) (uniques []float64, err error) {
 		return nil, errors.New("Input must not be empty")
 	}
 
-	counts := map[float64]int{}
-	for _, value := range input {
-		counts[value]++
-	}
-
-	for key, value := range counts {
+	// Get the counts and only include the uniques
+	c := counts(input)
+	for key, value := range c {
 		if value == 1 {
 			uniques = append(uniques, key)
 		}
