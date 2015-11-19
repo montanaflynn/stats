@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/montanaflynn/stats"
 )
 
@@ -88,4 +89,7 @@ func main() {
 
 	a, _ = stats.Round(2.18978102189781, 3)
 	fmt.Println(a) // 2.189
+
+	uv, _ := stats.Unique([]float64{1, 2, 3, 3, 4, 5, 5})
+	fmt.Println(uv) // []float64{1, 2, 4}
 }
