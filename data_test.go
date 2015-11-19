@@ -3,6 +3,7 @@ package stats
 import (
 	"reflect"
 	"runtime"
+	"sort"
 	"testing"
 )
 
@@ -97,6 +98,15 @@ func TestHelperMethods(t *testing.T) {
 	if !reflect.DeepEqual(mo, []float64{5.0}) {
 		t.Errorf("Mode() => %.1f != %.1f", mo, []float64{5.0})
 	}
+
+	// Test Unique
+	uv, _ := data1.Unique()
+	uva := []float64{-10.001, -10.0, 1.1, 2.0, 3.0, 4.2}
+	sort.Float64s(uv)
+	if !reflect.DeepEqual(uv, uva) {
+		t.Errorf("Unique() => %f != %f", uv, uva)
+	}
+
 }
 
 func assertFloat64(fn func() (float64, error), f float64, t *testing.T) {

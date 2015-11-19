@@ -118,3 +118,6 @@ func (f Float64Data) SampleVariance() (float64, error) {
 func (f Float64Data) Covariance(d Float64Data) (float64, error) {
 	return Covariance(f, d)
 }
+
+// Unique returns the unique values in the data
+func (f Float64Data) Unique() ([]float64, error) { return Unique(f) }
