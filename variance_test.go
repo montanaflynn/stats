@@ -62,3 +62,29 @@ func TestCovariance(t *testing.T) {
 		t.Errorf("Empty slice should have returned an error")
 	}
 }
+
+func TestCovariancePopulation(t *testing.T) {
+	s1 := []float64{1, 2, 3.5, 3.7, 8, 12}
+	s2 := []float64{10, -51.2, 8}
+	s3 := []float64{0.5, 1, 2.1, 3.4, 3.4, 4}
+	s4 := []float64{}
+
+	_, err := CovariancePopulation(s1, s2)
+	if err == nil {
+		t.Errorf("Mismatched slice lengths should have returned an error")
+	}
+
+	a, err := CovariancePopulation(s1, s3)
+	if err != nil {
+		t.Errorf("Should not have returned an error")
+	}
+
+	if a != 4.191666666666666 {
+		t.Errorf("CovariancePopulation %v != %v", a, 4.191666666666666)
+	}
+
+	_, err = CovariancePopulation(s1, s4)
+	if err == nil {
+		t.Errorf("Empty slice should have returned an error")
+	}
+}

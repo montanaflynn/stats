@@ -19,7 +19,7 @@ func TestMin(t *testing.T) {
 			t.Errorf("Returned an error")
 		}
 		if got != c.out {
-			t.Errorf("Min(%.1f) => %.1f != %.1f", c.in, c.out, got)
+			t.Errorf("Min(%.1f) => %.1f != %.1f", c.in, got, c.out)
 		}
 	}
 	_, err := Min([]float64{})

@@ -16,7 +16,7 @@ func TestMedian(t *testing.T) {
 	} {
 		got, _ := Median(c.in)
 		if got != c.out {
-			t.Errorf("Median(%.1f) => %.1f != %.1f", c.in, c.out, got)
+			t.Errorf("Median(%.1f) => %.1f != %.1f", c.in, got, c.out)
 		}
 	}
 	_, err := Median([]float64{})

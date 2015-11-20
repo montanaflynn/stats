@@ -20,8 +20,8 @@ func TestCorrelation(t *testing.T) {
 		t.Errorf("Should not have returned an error")
 	}
 
-	if a != 0.9912407071619301 {
-		t.Errorf("Correlation %v != %v", a, 0.9912407071619301)
+	if a != 0.9912407071619302 {
+		t.Errorf("Correlation %v != %v", a, 0.9912407071619302)
 	}
 
 	_, err = Correlation(s1, s4)

@@ -15,7 +15,7 @@ func TestMean(t *testing.T) {
 	} {
 		got, _ := Mean(c.in)
 		if got != c.out {
-			t.Errorf("Mean(%.1f) => %.1f != %.1f", c.in, c.out, got)
+			t.Errorf("Mean(%.1f) => %.1f != %.1f", c.in, got, c.out)
 		}
 	}
 	_, err := Mean([]float64{})
