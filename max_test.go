@@ -19,7 +19,7 @@ func TestMax(t *testing.T) {
 			t.Errorf("Returned an error")
 		}
 		if got != c.out {
-			t.Errorf("Max(%.1f) => %.1f != %.1f", c.in, c.out, got)
+			t.Errorf("Max(%.1f) => %.1f != %.1f", c.in, got, c.out)
 		}
 	}
 	_, err := Max([]float64{})

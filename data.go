@@ -39,6 +39,16 @@ func (f Float64Data) GeometricMean() (float64, error) { return GeometricMean(f) 
 // HarmonicMean returns the mode of the data
 func (f Float64Data) HarmonicMean() (float64, error) { return HarmonicMean(f) }
 
+// MedianAbsoluteDeviation the median of the absolute deviations from the dataset median
+func (f Float64Data) MedianAbsoluteDeviation() (float64, error) {
+	return MedianAbsoluteDeviation(f)
+}
+
+// MedianAbsoluteDeviationPopulation finds the median of the absolute deviations from the population median
+func (f Float64Data) MedianAbsoluteDeviationPopulation() (float64, error) {
+	return MedianAbsoluteDeviationPopulation(f)
+}
+
 // StandardDeviation the amount of variation in the dataset
 func (f Float64Data) StandardDeviation() (float64, error) {
 	return StandardDeviation(f)
@@ -72,6 +82,11 @@ func (f Float64Data) PercentileNearestRank(p float64) (float64, error) {
 // Correlation describes the degree of relationship between two sets of data
 func (f Float64Data) Correlation(d Float64Data) (float64, error) {
 	return Correlation(f, d)
+}
+
+// Pearson calculates the Pearson product-moment correlation coefficient between two variables.
+func (f Float64Data) Pearson(d Float64Data) (float64, error) {
+	return Pearson(f, d)
 }
 
 // Quartile returns the three quartile points from a slice of data
@@ -117,4 +132,9 @@ func (f Float64Data) SampleVariance() (float64, error) {
 // Covariance is a measure of how much two sets of data change
 func (f Float64Data) Covariance(d Float64Data) (float64, error) {
 	return Covariance(f, d)
+}
+
+// CovariancePopulation computes covariance for entire population between two variables.
+func (f Float64Data) CovariancePopulation(d Float64Data) (float64, error) {
+	return CovariancePopulation(f, d)
 }
