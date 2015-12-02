@@ -22,6 +22,10 @@ func TestPercentile(t *testing.T) {
 	if err == nil {
 		t.Errorf("Empty slice didn't return an error")
 	}
+	_, err = Percentile([]float64{1, 2, 3, 4, 5}, 0)
+	if err == nil {
+		t.Errorf("Zero percent didn't return an error")
+	}
 }
 
 func TestPercentileSortSideEffects(t *testing.T) {
