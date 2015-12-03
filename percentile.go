@@ -12,10 +12,14 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 		return 0, errors.New("Input must not be empty")
 	}
 
+	if percent == 0 {
+		return 0, errors.New("Percent must not be empty")
+	}
+
 	// Start by sorting a copy of the slice
 	c := sortedCopy(input)
 
-	// Multiple percent by length of input
+	// Multiply percent by length of input
 	index := (percent / 100) * float64(len(c))
 
 	// Check if the index is a whole number
