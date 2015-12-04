@@ -1,15 +1,12 @@
 package stats
 
-import (
-	"errors"
-	"math/rand"
-)
+import "math/rand"
 
 // Sample returns sample from input with replacement or without
 func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error) {
 
 	if input.Len() == 0 {
-		return nil, errors.New("Input must not be empty")
+		return nil, EmptyInput
 	}
 
 	length := input.Len()
@@ -43,5 +40,5 @@ func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error)
 
 	}
 
-	return nil, errors.New("Number of taken elements must be less than length of input")
+	return nil, BoundsErr
 }

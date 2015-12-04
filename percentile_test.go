@@ -91,7 +91,7 @@ func TestPercentileNearestRank(t *testing.T) {
 		t.Errorf("Should have returned an empty slice error")
 	}
 
-	_, err = PercentileNearestRank([]float64{1, 2, 3, 4, 5}, 0)
+	_, err = PercentileNearestRank([]float64{1, 2, 3, 4, 5}, -0.01)
 	if err == nil {
 		t.Errorf("Should have returned an percentage must be above 0 error")
 	}
