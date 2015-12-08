@@ -1,8 +1,6 @@
 package stats
 
-import (
-	"errors"
-)
+import "math"
 
 // Median gets the median number in a slice of numbers
 func Median(input Float64Data) (median float64, err error) {
@@ -16,7 +14,7 @@ func Median(input Float64Data) (median float64, err error) {
 	// For odd numbers we just use the middle number
 	l := len(c)
 	if l == 0 {
-		return 0, errors.New("Input must not be empty")
+		return math.NaN(), EmptyInput
 	} else if l%2 == 0 {
 		median, _ = Mean(c[l/2-1 : l/2+1])
 	} else {

@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"math"
 	"reflect"
 	"runtime"
 	"testing"
@@ -82,8 +83,8 @@ func TestHelperMethods(t *testing.T) {
 
 	// Test HarmonicMean
 	m, _ = data1.HarmonicMean()
-	if m != 0 {
-		t.Errorf("HarmonicMean() => %v != %v", m, 0)
+	if !math.IsNaN(m) {
+		t.Errorf("HarmonicMean() => %v != %v", m, math.NaN())
 	}
 
 	// Test Median

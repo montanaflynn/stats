@@ -1,8 +1,6 @@
 package stats
 
-import (
-	"errors"
-)
+import "math"
 
 // Min finds the lowest number in a set of data
 func Min(input Float64Data) (min float64, err error) {
@@ -12,7 +10,7 @@ func Min(input Float64Data) (min float64, err error) {
 
 	// Return an error if there are no numbers
 	if l == 0 {
-		return 0, errors.New("Input must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	// Get the first value as the starting point

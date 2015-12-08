@@ -1,9 +1,6 @@
 package stats
 
-import (
-	"errors"
-	"math"
-)
+import "math"
 
 // Series is a container for a series of data
 type Series []Coordinate
@@ -17,7 +14,7 @@ type Coordinate struct {
 func LinearRegression(s Series) (regressions Series, err error) {
 
 	if len(s) == 0 {
-		return nil, errors.New("Input must not be empty")
+		return nil, EmptyInput
 	}
 
 	// Placeholder for the math to be done
@@ -54,7 +51,7 @@ func LinearRegression(s Series) (regressions Series, err error) {
 func ExponentialRegression(s Series) (regressions Series, err error) {
 
 	if len(s) == 0 {
-		return nil, errors.New("Input must not be empty")
+		return nil, EmptyInput
 	}
 
 	var sum [6]float64
@@ -87,7 +84,7 @@ func ExponentialRegression(s Series) (regressions Series, err error) {
 func LogarithmicRegression(s Series) (regressions Series, err error) {
 
 	if len(s) == 0 {
-		return nil, errors.New("Input must not be empty")
+		return nil, EmptyInput
 	}
 
 	var sum [4]float64

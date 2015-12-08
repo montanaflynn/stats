@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"math"
 	"testing"
 )
 
@@ -31,8 +32,8 @@ func TestMedianAbsoluteDeviationPopulation(t *testing.T) {
 	}
 
 	m, _ = MedianAbsoluteDeviation([]float64{})
-	if m != 0.0 {
-		t.Errorf("%.1f != %.1f", m, 0.0)
+	if !math.IsNaN(m) {
+		t.Errorf("%.1f != %.1f", m, math.NaN())
 	}
 }
 
@@ -62,8 +63,8 @@ func TestStandardDeviationPopulation(t *testing.T) {
 	}
 
 	m, _ = StandardDeviationPopulation([]float64{})
-	if m != 0.0 {
-		t.Errorf("%.1f != %.1f", m, 0.0)
+	if !math.IsNaN(m) {
+		t.Errorf("%.1f != %.1f", m, math.NaN())
 	}
 }
 
@@ -86,7 +87,7 @@ func TestStandardDeviationSample(t *testing.T) {
 	}
 
 	m, _ = StandardDeviationSample([]float64{})
-	if m != 0.0 {
-		t.Errorf("%.1f != %.1f", m, 0.0)
+	if !math.IsNaN(m) {
+		t.Errorf("%.1f != %.1f", m, math.NaN())
 	}
 }

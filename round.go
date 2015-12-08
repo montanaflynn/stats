@@ -1,16 +1,13 @@
 package stats
 
-import (
-	"errors"
-	"math"
-)
+import "math"
 
 // Round a float to a specific decimal place or precision
 func Round(input float64, places int) (rounded float64, err error) {
 
 	// If the float is not a number
 	if math.IsNaN(input) {
-		return 0.0, errors.New("Not a number")
+		return math.NaN(), NaNErr
 	}
 
 	// Find out the actual sign and correct the input for later

@@ -1,19 +1,12 @@
 package stats
 
-import (
-	"errors"
-	"math"
-)
+import "math"
 
 // Percentile finds the relative standing in a slice of floats
 func Percentile(input Float64Data, percent float64) (percentile float64, err error) {
 
-	if input.Len() == 0 {
-		return 0, errors.New("Input must not be empty")
-	}
-
-	if percent == 0 {
-		return 0, errors.New("Percent must not be empty")
+	if input.Len() == 0 || percent == 0 {
+		return math.NaN(), EmptyInput
 	}
 
 	// Start by sorting a copy of the slice
@@ -53,17 +46,12 @@ func PercentileNearestRank(input Float64Data, percent float64) (percentile float
 
 	// Return an error for empty slices
 	if il == 0 {
-		return 0, errors.New("Input must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
-	// Return error for less than 0 percentages
-	if percent <= 0 {
-		return 0, errors.New("Percentage must be above 0")
-	}
-
-	// Return error for greater than 100 percentages
-	if percent > 100 {
-		return 0, errors.New("Percentage must not be above 100")
+	// Return error for less than 0 or greater than 100 percentages
+	if percent < 0 || percent > 100 {
+		return math.NaN(), BoundsErr
 	}
 
 	// Start by sorting a copy of the slice
@@ -78,6 +66,9 @@ func PercentileNearestRank(input Float64Data, percent float64) (percentile float
 	or := int(math.Ceil(float64(il) * percent / 100))
 
 	// Return the item that is in the place of the ordinal rank
+	if or == 0 {
+		return c[0], nil
+	}
 	return c[or-1], nil
 
 }

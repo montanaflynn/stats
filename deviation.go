@@ -1,9 +1,6 @@
 package stats
 
-import (
-	"errors"
-	"math"
-)
+import "math"
 
 // MedianAbsoluteDeviationPopulation the median of the absolute deviations from the dataset median
 func MedianAbsoluteDeviation(input Float64Data) (mad float64, err error) {
@@ -13,7 +10,7 @@ func MedianAbsoluteDeviation(input Float64Data) (mad float64, err error) {
 // MedianAbsoluteDeviationPopulation finds the median of the absolute deviations from the population median
 func MedianAbsoluteDeviationPopulation(input Float64Data) (mad float64, err error) {
 	if input.Len() == 0 {
-		return 0, errors.New("Input must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	i := copyslice(input)
@@ -35,7 +32,7 @@ func StandardDeviation(input Float64Data) (sdev float64, err error) {
 func StandardDeviationPopulation(input Float64Data) (sdev float64, err error) {
 
 	if input.Len() == 0 {
-		return 0, errors.New("Input must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	// Get the population variance
@@ -49,7 +46,7 @@ func StandardDeviationPopulation(input Float64Data) (sdev float64, err error) {
 func StandardDeviationSample(input Float64Data) (sdev float64, err error) {
 
 	if input.Len() == 0 {
-		return 0, errors.New("Input must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	// Get the sample variance
