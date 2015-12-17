@@ -25,6 +25,8 @@ func Mode(input Float64Data) (mode []float64, err error) {
 		case cnt > maxCnt:
 			mode = append(mode[:0], c[i-1])
 			maxCnt, cnt = cnt, 1
+		default:
+			cnt = 1
 		}
 	}
 	switch {
