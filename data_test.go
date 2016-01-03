@@ -141,6 +141,7 @@ func assertOtherDataMethods(fn func(d Float64Data) (float64, error), d Float64Da
 
 func TestOtherDataMethods(t *testing.T) {
 	assertOtherDataMethods(data1.Correlation, data2, 0.20875473597605448, t)
+	assertOtherDataMethods(data1.Pearson, data2, 0.20875473597605448, t)
 	assertOtherDataMethods(data1.InterQuartileRange, data2, 8.05, t)
 	assertOtherDataMethods(data1.Midhinge, data2, -0.42500000000000004, t)
 	assertOtherDataMethods(data1.Trimean, data2, 0.5375, t)
