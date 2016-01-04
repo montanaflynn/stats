@@ -44,9 +44,36 @@ fmt.Println(max) // 5
 
 The [entire API documentation](http://godoc.org/github.com/montanaflynn/stats) is available on GoDoc.org
 
-_Types:_ [`Float64Data`](http://godoc.org/github.com/montanaflynn/stats#Float64Data), [`Series`](http://godoc.org/github.com/montanaflynn/stats#Series), [`Coordinate`](http://godoc.org/github.com/montanaflynn/stats#Coordinate), [`Quartiles`](http://godoc.org/github.com/montanaflynn/stats#Quartiles), [`Outliers`](http://godoc.org/github.com/montanaflynn/stats#Outliers)
+_Types:_
+[`Float64Data`](http://godoc.org/github.com/montanaflynn/stats#Float64Data), [`Series`](http://godoc.org/github.com/montanaflynn/stats#Series), [`Coordinate`](http://godoc.org/github.com/montanaflynn/stats#Coordinate), [`Quartiles`](http://godoc.org/github.com/montanaflynn/stats#Quartiles), [`Outliers`](http://godoc.org/github.com/montanaflynn/stats#Outliers)
 
-_Functions:_ [`Min`](http://godoc.org/github.com/montanaflynn/stats#Min), [`Max`](http://godoc.org/github.com/montanaflynn/stats#Max), [`Sum`](http://godoc.org/github.com/montanaflynn/stats#Sum), [`Mean`](http://godoc.org/github.com/montanaflynn/stats#Mean), [`Median`](http://godoc.org/github.com/montanaflynn/stats#Median), [`Mode`](http://godoc.org/github.com/montanaflynn/stats#Mode), [`Sample`](http://godoc.org/github.com/montanaflynn/stats#Sample), [`Round`](http://godoc.org/github.com/montanaflynn/stats#Round), [`MedianAbsoluteDeviation`](http://godoc.org/github.com/montanaflynn/stats#MedianAbsoluteDeviation), [`MedianAbsoluteDeviationPopulation`](http://godoc.org/github.com/montanaflynn/stats#MedianAbsoluteDeviationPopulation), [`StandardDeviation`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviation), [`StandardDeviationPopulation`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviationPopulation), [`StandardDeviationSample`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviationSample), [`Percentile`](http://godoc.org/github.com/montanaflynn/stats#Percentile), [`PercentileNearestRank`](http://godoc.org/github.com/montanaflynn/stats#PercentileNearestRank), [`LinearRegression`](http://godoc.org/github.com/montanaflynn/stats#LinearRegression), [`ExponentialRegression`](http://godoc.org/github.com/montanaflynn/stats#ExponentialRegression), [`LogarithmicRegression`](http://godoc.org/github.com/montanaflynn/stats#LogarithmicRegression), [`Variance`](http://godoc.org/github.com/montanaflynn/stats#Variance), [`PopulationVariance`](http://godoc.org/github.com/montanaflynn/stats#PopulationVariance), [`SampleVariance`](http://godoc.org/github.com/montanaflynn/stats#SampleVariance), [`Quartile`](http://godoc.org/github.com/montanaflynn/stats#Quartile), [`InterQuartileRange`](http://godoc.org/github.com/montanaflynn/stats#InterQuartileRange), [`Midhinge`](http://godoc.org/github.com/montanaflynn/stats#Midhinge), [`Trimean`](http://godoc.org/github.com/montanaflynn/stats#Trimean), [`QuartileOutliers`](http://godoc.org/github.com/montanaflynn/stats#QuartileOutliers), [`GeometricMean`](http://godoc.org/github.com/montanaflynn/stats#GeometricMean), [`HarmonicMean`](http://godoc.org/github.com/montanaflynn/stats#HarmonicMean), [`Covariance`](http://godoc.org/github.com/montanaflynn/stats#Covariance), [`CovariancePopulation`](http://godoc.org/github.com/montanaflynn/stats#CovariancePopulation), [`Correlation`](http://godoc.org/github.com/montanaflynn/stats#Correlation)
+_Functions:_
+[`Min`](http://godoc.org/github.com/montanaflynn/stats#Min),
+[`Max`](http://godoc.org/github.com/montanaflynn/stats#Max),
+[`Sum`](http://godoc.org/github.com/montanaflynn/stats#Sum),
+[`Mean`](http://godoc.org/github.com/montanaflynn/stats#Mean),
+[`Median`](http://godoc.org/github.com/montanaflynn/stats#Median),
+[`Mode`](http://godoc.org/github.com/montanaflynn/stats#Mode),
+[`Sample`](http://godoc.org/github.com/montanaflynn/stats#Sample),
+[`Round`](http://godoc.org/github.com/montanaflynn/stats#Round), [`MedianAbsoluteDeviation`](http://godoc.org/github.com/montanaflynn/stats#MedianAbsoluteDeviation), [`MedianAbsoluteDeviationPopulation`](http://godoc.org/github.com/montanaflynn/stats#MedianAbsoluteDeviationPopulation), [`StandardDeviation`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviation), [`StandardDeviationPopulation`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviationPopulation), [`StandardDeviationSample`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviationSample), [`Percentile`](http://godoc.org/github.com/montanaflynn/stats#Percentile),   
+[`PercentileNearestRank`](http://godoc.org/github.com/montanaflynn/stats#PercentileNearestRank),    
+[`LinearRegression`](http://godoc.org/github.com/montanaflynn/stats#LinearRegression),    
+[`ExponentialRegression`](http://godoc.org/github.com/montanaflynn/stats#ExponentialRegression),    
+[`LogarithmicRegression`](http://godoc.org/github.com/montanaflynn/stats#LogarithmicRegression),    
+[`Variance`](http://godoc.org/github.com/montanaflynn/stats#Variance),    
+[`PopulationVariance`](http://godoc.org/github.com/montanaflynn/stats#PopulationVariance),    
+[`SampleVariance`](http://godoc.org/github.com/montanaflynn/stats#SampleVariance),    
+[`Quartile`](http://godoc.org/github.com/montanaflynn/stats#Quartile),    
+[`InterQuartileRange`](http://godoc.org/github.com/montanaflynn/stats#InterQuartileRange),    
+[`Midhinge`](http://godoc.org/github.com/montanaflynn/stats#Midhinge),    
+[`Trimean`](http://godoc.org/github.com/montanaflynn/stats#Trimean),    
+[`QuartileOutliers`](http://godoc.org/github.com/montanaflynn/stats#QuartileOutliers),    
+[`GeometricMean`](http://godoc.org/github.com/montanaflynn/stats#GeometricMean),    
+[`HarmonicMean`](http://godoc.org/github.com/montanaflynn/stats#HarmonicMean),    
+[`Covariance`](http://godoc.org/github.com/montanaflynn/stats#Covariance),    
+[`CovariancePopulation`](http://godoc.org/github.com/montanaflynn/stats#CovariancePopulation),    
+[`Correlation`](http://godoc.org/github.com/montanaflynn/stats#Correlation),
+[`LoadRawData`](http://godoc.org/github.com/montanaflynn/stats#LoadRawData)
 
 You can view docs offline with the following commands:
 

@@ -1,9 +1,6 @@
 package stats
 
-import (
-	"fmt"
-	"strconv"
-)
+import "strconv"
 
 // LoadRawData parses and converts a slice of mixed data types to floats
 func LoadRawData(raw interface{}) (f Float64Data) {
@@ -80,9 +77,7 @@ func LoadRawData(raw interface{}) (f Float64Data) {
 			f = append(f, t)
 		case string:
 			fl, err := strconv.ParseFloat(t, 64)
-			if err != nil {
-				fmt.Println(err)
-			} else {
+			if err == nil {
 				f = append(f, fl)
 			}
 		case bool:
