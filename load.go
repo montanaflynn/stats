@@ -1,6 +1,9 @@
 package stats
 
-import "strconv"
+import (
+	"strconv"
+	"time"
+)
 
 // LoadRawData parses and converts a slice of mixed data types to floats
 func LoadRawData(raw interface{}) (f Float64Data) {
@@ -33,6 +36,10 @@ func LoadRawData(raw interface{}) (f Float64Data) {
 		}
 		return s
 	case []string:
+		for _, v := range t {
+			r = append(r, v)
+		}
+	case []time.Duration:
 		for _, v := range t {
 			r = append(r, v)
 		}
@@ -86,6 +93,8 @@ func LoadRawData(raw interface{}) (f Float64Data) {
 			} else {
 				f = append(f, 0.0)
 			}
+		case time.Duration:
+			f = append(f, float64(t))
 		}
 	}
 	return f
