@@ -2,7 +2,7 @@ package stats
 
 import "math"
 
-// MedianAbsoluteDeviationPopulation the median of the absolute deviations from the dataset median
+// MedianAbsoluteDeviation finds the median of the absolute deviations from the dataset median
 func MedianAbsoluteDeviation(input Float64Data) (mad float64, err error) {
 	return MedianAbsoluteDeviationPopulation(input)
 }
