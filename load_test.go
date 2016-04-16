@@ -1,14 +1,17 @@
 package stats
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
 var allTestData = []struct {
 	actual   interface{}
 	expected Float64Data
 }{
 	{
-		[]interface{}{1.0, "2", 3.0, 4, "4.0", 5},
-		Float64Data{1.0, 2.0, 3.0, 4.0, 4.0, 5.0},
+		[]interface{}{1.0, "2", 3.0, 4, "4.0", 5, time.Duration(6), time.Duration(-7)},
+		Float64Data{1.0, 2.0, 3.0, 4.0, 4.0, 5.0, 6.0, -7.0},
 	},
 	{
 		[]interface{}{"-345", "223", "-654.4", "194", "898.3"},
@@ -40,6 +43,10 @@ var allTestData = []struct {
 	},
 	{
 		[]int{-843, 923, -398, 1000},
+		Float64Data{-843.0, 923.0, -398.0, 1000.0},
+	},
+	{
+		[]time.Duration{-843, 923, -398, 1000},
 		Float64Data{-843.0, 923.0, -398.0, 1000.0},
 	},
 	{
