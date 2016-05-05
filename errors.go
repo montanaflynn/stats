@@ -11,7 +11,7 @@ func (s statsErr) Error() string {
 // These are the package-wide error values.
 // All error identification should use these values.
 var (
-	EmptyInput  = statsErr{"Imput must not be empty."}
+	EmptyInput  = statsErr{"Input must not be empty."}
 	SampleSize  = statsErr{"Samples number must be less than input length."}
 	NaNErr      = statsErr{"Not a number"}
 	NegativeErr = statsErr{"Slice must not contain negative values."}
