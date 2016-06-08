@@ -19,7 +19,7 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 	if index == float64(int64(index)) {
 
 		// Convert float to int
-		i := Math.max(1,float64ToInt(index))
+		i := math.Max(1,float64ToInt(index))
 
 		// Find the average of the index and following values
 		percentile, _ = Mean(Float64Data{c[i-1], c[i]})
@@ -27,7 +27,7 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 	} else {
 
 		// Convert float to int
-		i := Math.max(1,float64ToInt(index))
+		i := math.Max(1,float64ToInt(index))
 
 		// Find the value at the index
 		percentile = c[i-1]
