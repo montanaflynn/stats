@@ -95,8 +95,8 @@ func (f Float64Data) Quartile(d Float64Data) (Quartiles, error) {
 }
 
 // InterQuartileRange finds the range between Q1 and Q3
-func (f Float64Data) InterQuartileRange(d Float64Data) (float64, error) {
-	return InterQuartileRange(d)
+func (f Float64Data) InterQuartileRange() (float64, error) {
+	return InterQuartileRange(f)
 }
 
 // Midhinge finds the average of the first and third quartiles
