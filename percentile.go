@@ -22,7 +22,7 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 		i := float64ToInt(index)
 
 		// Find the average of the index and following values
-		percentile, _ = Mean(Float64Data{c[i-1], c[i]})
+		percentile, _ = Mean(Float64Data{c[math.Max(0,(i-1))], c[i]})
 
 	} else if index >= 1 {
 
@@ -30,7 +30,7 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 		i := float64ToInt(index)
 
 		// Find the value at the index
-		percentile = c[i-1]
+		percentile = c[math.Max(0,(i-1))]
 
 	} else {
 		return math.NaN(), BoundsErr
