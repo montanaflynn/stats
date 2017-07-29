@@ -135,7 +135,7 @@ func assertPercentiles(fn func(i float64) (float64, error), i float64, f float64
 }
 
 func TestPercentileMethods(t *testing.T) {
-	assertPercentiles(data1.Percentile, 75, 4.6, t)
+	assertPercentiles(data1.Percentile, 75, 4.2, t)
 	assertPercentiles(data1.PercentileNearestRank, 75, 4.2, t)
 
 }
