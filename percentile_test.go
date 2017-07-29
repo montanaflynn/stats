@@ -7,28 +7,36 @@ import (
 
 func TestPercentile(t *testing.T) {
 	m, _ := Percentile([]float64{43, 54, 56, 61, 62, 66}, 90)
-	if m != 62.0 {
-		t.Errorf("%.1f != %.1f", m, 62.0)
+	if m != 64.0 {
+		t.Errorf("%.1f != %.1f", m, 64.0)
 	}
 	m, _ = Percentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 50)
-	if m != 5.5 {
-		t.Errorf("%.1f != %.1f", m, 5.5)
+	if m != 5.0 {
+		t.Errorf("%.1f != %.1f", m, 5.0)
 	}
 	m, _ = Percentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 99.9)
+	if m != 9.5 {
+		t.Errorf("%.1f != %.1f", m, 9.5)
+	}
+	m, _ = Percentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 100)
 	if m != 10.0 {
 		t.Errorf("%.1f != %.1f", m, 10.0)
 	}
 	_, err := Percentile([]float64{}, 99.9)
-	if err == nil {
-		t.Errorf("Empty slice didn't return an error")
+	if err != EmptyInput {
+		t.Errorf("Empty slice didn't return expected error; got %v", err)
 	}
 	_, err = Percentile([]float64{1, 2, 3, 4, 5}, 0)
-	if err == nil {
-		t.Errorf("Zero percent didn't return an error")
+	if err != BoundsErr {
+		t.Errorf("Zero percent didn't return expected error; got %v", err)
 	}
 	_, err = Percentile([]float64{1, 2, 3, 4, 5}, 0.13)
-	if err == nil {
-		t.Errorf("Too low percent didn't return an error")
+	if err != BoundsErr {
+		t.Errorf("Too low percent didn't return expected error; got %v", err)
+	}
+	_, err = Percentile([]float64{1, 2, 3, 4, 5}, 101)
+	if err != BoundsErr {
+		t.Errorf("Too high percent didn't return expected error; got %v", err)
 	}
 }
 
