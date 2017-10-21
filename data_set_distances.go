@@ -1,6 +1,6 @@
 //
-// Compiled with Go version go1.9 linux/amd64
-// Contributor : Shivendra Mishra
+// Compiled with Go version go1.9 linux/amd64 
+// Contributor : Shivendra Mishra 
 // Contact : shivendra_mishra at live dot c o m
 //
 package stats
@@ -69,7 +69,8 @@ func ManhattanDistance(dataPointX, dataPointY []float64) (distance float64, err 
 }
 
 //
-// Computes minkowski distance between two data sets
+// Computes minkowski distance between two data sets.
+//
 // Input:
 //    dataPointX: First set of data points
 //    dataPointY: Second set of data points. Length of both data
