@@ -109,4 +109,5 @@ func main() {
 	d, _ = stats.MinkowskiDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2}, float64(99))
 	fmt.Println(d) // Should yield 6
 
+
 }
