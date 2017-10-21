@@ -18,4 +18,5 @@ var (
 	ZeroErr     = statsErr{"Slice must not contain zero values."}
 	BoundsErr   = statsErr{"Input is outside of range."}
 	SizeErr     = statsErr{"Slices must be the same length."}
+	InfValue    = statsErr{"Value is infinite."}
 )
