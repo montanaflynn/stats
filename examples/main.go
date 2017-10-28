@@ -96,7 +96,21 @@ func main() {
 	a, _ = stats.Round(2.18978102189781, 3)
 	fmt.Println(a) // 2.189
 
-	d, _ = stats.ComputeChebyshevDistance([]float64{2, 4, 4, 4, 5, 5, 7, 9}, []float64{2, 4, 4, 4, 5, 5, 7, 1})
-	fmt.Println(d) // Should yield 8
+	d, _ = stats.ChebyshevDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
+	fmt.Println(d) // Should yield 6
 
+	d, _ = stats.ManhattanDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
+	fmt.Println(d) // Should yield 24
+
+	d, _ = stats.EuclideanDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
+	fmt.Println(d) // Should yield 10.583005244258363
+
+	d, _ = stats.MinkowskiDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2}, float64(1))
+	fmt.Println(d) // Should yield 24
+
+	d, _ = stats.MinkowskiDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2}, float64(2))
+	fmt.Println(d) // Should yield 10.583005244258363
+
+	d, _ = stats.MinkowskiDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2}, float64(99))
+	fmt.Println(d) // Should yield 6
 }
