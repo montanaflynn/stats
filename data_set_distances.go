@@ -1,8 +1,3 @@
-//
-// Compiled with Go version go1.9 linux/amd64 
-// Contributor : Shivendra Mishra 
-// Contact : shivendra_mishra at live dot c o m
-//
 package stats
 
 import (
@@ -10,7 +5,7 @@ import (
 )
 
 // Validate data for distance calculation
-func ValidateData(dataPointX, dataPointY []float64) error {
+func validateData(dataPointX, dataPointY []float64) error {
 	if len(dataPointX) == 0 || len(dataPointY) == 0 {
 		return EmptyInput
 	}
@@ -23,7 +18,7 @@ func ValidateData(dataPointX, dataPointY []float64) error {
 
 // Computes Chebyshev distance between two data sets
 func ChebyshevDistance(dataPointX, dataPointY []float64) (distance float64, err error) {
-	err = ValidateData(dataPointX, dataPointY)
+	err = validateData(dataPointX, dataPointY)
 	if err != nil {
 		return math.NaN(), err
 	}
@@ -42,7 +37,7 @@ func ChebyshevDistance(dataPointX, dataPointY []float64) (distance float64, err 
 //
 func EuclideanDistance(dataPointX, dataPointY []float64) (distance float64, err error) {
 
-	err = ValidateData(dataPointX, dataPointY)
+	err = validateData(dataPointX, dataPointY)
 	if err != nil {
 		return math.NaN(), err
 	}
@@ -57,7 +52,7 @@ func EuclideanDistance(dataPointX, dataPointY []float64) (distance float64, err 
 // Computes Manhattan distance between two data sets
 //
 func ManhattanDistance(dataPointX, dataPointY []float64) (distance float64, err error) {
-	err = ValidateData(dataPointX, dataPointY)
+	err = validateData(dataPointX, dataPointY)
 	if err != nil {
 		return math.NaN(), err
 	}
@@ -84,7 +79,7 @@ func ManhattanDistance(dataPointX, dataPointY []float64) (distance float64, err 
 //     Distance or error
 //
 func MinkowskiDistance(dataPointX, dataPointY []float64, lambda float64) (distance float64, err error) {
-	err = ValidateData(dataPointX, dataPointY)
+	err = validateData(dataPointX, dataPointY)
 	if err != nil {
 		return math.NaN(), err
 	}
