@@ -13,7 +13,7 @@ func _variance(input Float64Data, sample int) (variance float64, err error) {
 	m, _ := Mean(input)
 
 	for _, n := range input {
-		variance += (float64(n) - m) * (float64(n) - m)
+		variance += (n - m) * (n - m)
 	}
 
 	// When getting the mean of the squared differences
