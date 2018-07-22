@@ -96,10 +96,7 @@ func main() {
 	a, _ = stats.Round(2.18978102189781, 3)
 	fmt.Println(a) // 2.189
 
-	uv, _ := stats.Unique([]float64{1, 2, 3, 3, 4, 5, 5})
-	fmt.Println(uv) // []float64{1, 2, 4}
-
-  e, _ := stats.ChebyshevDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
+	e, _ := stats.ChebyshevDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
 	fmt.Println(e) // Should yield 6
 
 	e, _ = stats.ManhattanDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})

@@ -38,8 +38,7 @@ func TestDataSetDistances(t *testing.T) {
 		}
 	}
 
-	// Compute distance with the help of all 
-	// algorithms.
+	// Compute distance with the help of all algorithms.
 	for _, testSet := range distanceTestMatrix {
 		distance, err := testSet.distanceFunction(testSet.dataPointX, testSet.dataPointY)
 		if err != nil && testSet.distance != distance {
