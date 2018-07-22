@@ -1,15 +1,12 @@
 package stats
 
-import (
-	"errors"
-	"math"
-)
+import "math"
 
 // Mean gets the average of a slice of numbers
 func Mean(input Float64Data) (float64, error) {
 
 	if input.Len() == 0 {
-		return 0, errors.New("Input must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	sum, _ := input.Sum()
@@ -22,7 +19,7 @@ func GeometricMean(input Float64Data) (float64, error) {
 
 	l := input.Len()
 	if l == 0 {
-		return 0, errors.New("Input must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	// Get the product of all the numbers
@@ -44,7 +41,7 @@ func HarmonicMean(input Float64Data) (float64, error) {
 
 	l := input.Len()
 	if l == 0 {
-		return 0, errors.New("Input must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	// Get the sum of all the numbers reciprocals and return an
@@ -52,9 +49,9 @@ func HarmonicMean(input Float64Data) (float64, error) {
 	var p float64
 	for _, n := range input {
 		if n < 0 {
-			return 0, errors.New("Input must not contain a negative number")
+			return math.NaN(), NegativeErr
 		} else if n == 0 {
-			return 0, errors.New("Input must not contain a zero value")
+			return math.NaN(), ZeroErr
 		}
 		p += (1 / n)
 	}

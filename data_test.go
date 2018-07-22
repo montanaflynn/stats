@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"math"
 	"reflect"
 	"runtime"
 	"sort"
@@ -83,8 +84,8 @@ func TestHelperMethods(t *testing.T) {
 
 	// Test HarmonicMean
 	m, _ = data1.HarmonicMean()
-	if m != 0 {
-		t.Errorf("HarmonicMean() => %v != %v", m, 0)
+	if !math.IsNaN(m) {
+		t.Errorf("HarmonicMean() => %v != %v", m, math.NaN())
 	}
 
 	// Test Median
@@ -107,6 +108,11 @@ func TestHelperMethods(t *testing.T) {
 		t.Errorf("Unique() => %f != %f", uv, uva)
 	}
 
+	// Test InterQuartileRange
+	iqr, _ := data1.InterQuartileRange()
+	if iqr != 9.05 {
+		t.Errorf("InterQuartileRange() => %v != %v", iqr, 9.05)
+	}
 }
 
 func assertFloat64(fn func() (float64, error), f float64, t *testing.T) {
@@ -138,7 +144,7 @@ func assertPercentiles(fn func(i float64) (float64, error), i float64, f float64
 }
 
 func TestPercentileMethods(t *testing.T) {
-	assertPercentiles(data1.Percentile, 75, 4.6, t)
+	assertPercentiles(data1.Percentile, 75, 4.2, t)
 	assertPercentiles(data1.PercentileNearestRank, 75, 4.2, t)
 
 }
@@ -150,7 +156,7 @@ func assertOtherDataMethods(fn func(d Float64Data) (float64, error), d Float64Da
 
 func TestOtherDataMethods(t *testing.T) {
 	assertOtherDataMethods(data1.Correlation, data2, 0.20875473597605448, t)
-	assertOtherDataMethods(data1.InterQuartileRange, data2, 8.05, t)
+	assertOtherDataMethods(data1.Pearson, data2, 0.20875473597605448, t)
 	assertOtherDataMethods(data1.Midhinge, data2, -0.42500000000000004, t)
 	assertOtherDataMethods(data1.Trimean, data2, 0.5375, t)
 	assertOtherDataMethods(data1.Covariance, data2, 7.3814215535714265, t)

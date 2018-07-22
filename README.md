@@ -1,8 +1,6 @@
 # Stats [![][travis-svg]][travis-url] [![][coveralls-svg]][coveralls-url] [![][godoc-svg]][godoc-url] [![][license-svg]][license-url]
 
-A statistics package with many functions missing from the Golang standard library.
-
-Currently only `float64` and `[]float64` data is supported due to the lack of generics. However, if the library becomes popular and there is demand I could also add support for the other number types. See the [CHANGELOG.md](https://github.com/montanaflynn/stats/blob/master/CHANGELOG.md) for API changes and tagged releases you can vendor into your projects.
+A statistics package with many functions missing from the Golang standard library. See the [CHANGELOG.md](https://github.com/montanaflynn/stats/blob/master/CHANGELOG.md) for API changes and tagged releases you can vendor into your projects.
 
 > Statistics are used much like a drunk uses a lamppost: for support, not illumination. **- Vin Scully**
 
@@ -15,6 +13,20 @@ go get github.com/montanaflynn/stats
 **Protip:** `go get -u github.com/montanaflynn/stats` updates stats to the latest version.
 
 ## Usage
+
+The [entire API documentation](http://godoc.org/github.com/montanaflynn/stats) is available on GoDoc.org
+
+You can view docs offline with the following commands:
+
+```
+godoc ./
+godoc ./ Median
+godoc ./ Float64Data
+```
+
+**Protip:** Generate HTML docs with `godoc -http=:4444`
+
+## Example
 
 All the functions can be seen in [examples/main.go](https://github.com/montanaflynn/stats/blob/master/examples/main.go) but here's a little taste:
 
@@ -29,7 +41,7 @@ roundedMedian, _ := stats.Round(median, 0)
 fmt.Println(roundedMedian) // 4
 ```
 
-You can call methods directly on the data ([example](https://github.com/montanaflynn/stats/blob/master/examples/methods.go)) if using the Float64Data type.
+**Protip:** You can [call methods](https://github.com/montanaflynn/stats/blob/master/examples/methods.go) on the data if using the Float64Data type:
 
 ```
 var d stats.Float64Data = data
@@ -37,26 +49,6 @@ var d stats.Float64Data = data
 max, _ := d.Max()
 fmt.Println(max) // 5
 ```
-
-**Protip:** See all the available methods for Float64Data with `godoc ./ Float64Data`
-
-## Documentation
-
-The [entire API documentation](http://godoc.org/github.com/montanaflynn/stats) is available on GoDoc.org
-
-_Types:_ [`Float64Data`](http://godoc.org/github.com/montanaflynn/stats#Float64Data), [`Series`](http://godoc.org/github.com/montanaflynn/stats#Series), [`Coordinate`](http://godoc.org/github.com/montanaflynn/stats#Coordinate), [`Quartiles`](http://godoc.org/github.com/montanaflynn/stats#Quartiles), [`Outliers`](http://godoc.org/github.com/montanaflynn/stats#Outliers)
-
-_Functions:_ [`Min`](http://godoc.org/github.com/montanaflynn/stats#Min), [`Max`](http://godoc.org/github.com/montanaflynn/stats#Max), [`Sum`](http://godoc.org/github.com/montanaflynn/stats#Sum), [`Mean`](http://godoc.org/github.com/montanaflynn/stats#Mean), [`Median`](http://godoc.org/github.com/montanaflynn/stats#Median), [`Mode`](http://godoc.org/github.com/montanaflynn/stats#Mode), [`Sample`](http://godoc.org/github.com/montanaflynn/stats#Sample), [`Round`](http://godoc.org/github.com/montanaflynn/stats#Round), [`MedianAbsoluteDeviation`](http://godoc.org/github.com/montanaflynn/stats#MedianAbsoluteDeviation), [`MedianAbsoluteDeviationPopulation`](http://godoc.org/github.com/montanaflynn/stats#MedianAbsoluteDeviationPopulation), [`StandardDeviation`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviation), [`StandardDeviationPopulation`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviationPopulation), [`StandardDeviationSample`](http://godoc.org/github.com/montanaflynn/stats#StandardDeviationSample), [`Percentile`](http://godoc.org/github.com/montanaflynn/stats#Percentile), [`PercentileNearestRank`](http://godoc.org/github.com/montanaflynn/stats#PercentileNearestRank), [`LinearRegression`](http://godoc.org/github.com/montanaflynn/stats#LinearRegression), [`ExponentialRegression`](http://godoc.org/github.com/montanaflynn/stats#ExponentialRegression), [`LogarithmicRegression`](http://godoc.org/github.com/montanaflynn/stats#LogarithmicRegression), [`Variance`](http://godoc.org/github.com/montanaflynn/stats#Variance), [`PopulationVariance`](http://godoc.org/github.com/montanaflynn/stats#PopulationVariance), [`SampleVariance`](http://godoc.org/github.com/montanaflynn/stats#SampleVariance), [`Quartile`](http://godoc.org/github.com/montanaflynn/stats#Quartile), [`InterQuartileRange`](http://godoc.org/github.com/montanaflynn/stats#InterQuartileRange), [`Midhinge`](http://godoc.org/github.com/montanaflynn/stats#Midhinge), [`Trimean`](http://godoc.org/github.com/montanaflynn/stats#Trimean), [`QuartileOutliers`](http://godoc.org/github.com/montanaflynn/stats#QuartileOutliers), [`GeometricMean`](http://godoc.org/github.com/montanaflynn/stats#GeometricMean), [`HarmonicMean`](http://godoc.org/github.com/montanaflynn/stats#HarmonicMean), [`Covariance`](http://godoc.org/github.com/montanaflynn/stats#Covariance), [`CovariancePopulation`](http://godoc.org/github.com/montanaflynn/stats#CovariancePopulation), [`Correlation`](http://godoc.org/github.com/montanaflynn/stats#Correlation), [`Unique`](http://godoc.org/github.com/montanaflynn/stats#Unique)
-
-You can view docs offline with the following commands:
-
-```
-godoc ./
-godoc ./ Median
-godoc ./ Outliers
-```
-
-**Protip:** Generate HTML docs with `godoc -http=:4444`
 
 ## Contributing
 

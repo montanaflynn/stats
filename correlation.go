@@ -1,6 +1,6 @@
 package stats
 
-import "errors"
+import "math"
 
 // Correlation describes the degree of relationship between two sets of data
 func Correlation(data1, data2 Float64Data) (float64, error) {
@@ -9,11 +9,11 @@ func Correlation(data1, data2 Float64Data) (float64, error) {
 	l2 := data2.Len()
 
 	if l1 == 0 || l2 == 0 {
-		return 0, errors.New("Input data must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	if l1 != l2 {
-		return 0, errors.New("Input data must be same length")
+		return math.NaN(), SizeErr
 	}
 
 	sdev1, _ := StandardDeviationPopulation(data1)

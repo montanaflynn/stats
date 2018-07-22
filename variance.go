@@ -1,21 +1,19 @@
 package stats
 
-import (
-	"errors"
-)
+import "math"
 
 // _variance finds the variance for both population and sample data
 func _variance(input Float64Data, sample int) (variance float64, err error) {
 
 	if input.Len() == 0 {
-		return 0, errors.New("Input must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	// Sum the square of the mean subtracted from each number
 	m, _ := Mean(input)
 
 	for _, n := range input {
-		variance += (float64(n) - m) * (float64(n) - m)
+		variance += (n - m) * (n - m)
 	}
 
 	// When getting the mean of the squared differences
@@ -34,7 +32,7 @@ func PopulationVariance(input Float64Data) (pvar float64, err error) {
 
 	v, err := _variance(input, 0)
 	if err != nil {
-		return 0, err
+		return math.NaN(), err
 	}
 
 	return v, nil
@@ -45,7 +43,7 @@ func SampleVariance(input Float64Data) (svar float64, err error) {
 
 	v, err := _variance(input, 1)
 	if err != nil {
-		return 0, err
+		return math.NaN(), err
 	}
 
 	return v, nil
@@ -58,11 +56,11 @@ func Covariance(data1, data2 Float64Data) (float64, error) {
 	l2 := data2.Len()
 
 	if l1 == 0 || l2 == 0 {
-		return 0, errors.New("Input data must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	if l1 != l2 {
-		return 0, errors.New("Input data must be same length")
+		return math.NaN(), SizeErr
 	}
 
 	m1, _ := Mean(data1)
@@ -86,11 +84,11 @@ func CovariancePopulation(data1, data2 Float64Data) (float64, error) {
 	l2 := data2.Len()
 
 	if l1 == 0 || l2 == 0 {
-		return 0, errors.New("Input data must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	if l1 != l2 {
-		return 0, errors.New("Input data must be same length")
+		return math.NaN(), SizeErr
 	}
 
 	m1, _ := Mean(data1)

@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"math"
 	"testing"
 )
 
@@ -12,10 +13,14 @@ func TestVariance(t *testing.T) {
 }
 
 func TestPopulationVariance(t *testing.T) {
-	e, _ := PopulationVariance([]float64{})
-	if e != 0.0 {
-		t.Errorf("%.1f != %.1f", e, 0.0)
+	e, err := PopulationVariance([]float64{})
+	if !math.IsNaN(e) {
+		t.Errorf("%.1f != %.1f", e, math.NaN())
 	}
+	if err != EmptyInput {
+		t.Errorf("%v != %v", err, EmptyInput)
+	}
+
 	pv, _ := PopulationVariance([]float64{1, 2, 3})
 	a, err := Round(pv, 1)
 	if err != nil {
@@ -27,9 +32,12 @@ func TestPopulationVariance(t *testing.T) {
 }
 
 func TestSampleVariance(t *testing.T) {
-	m, _ := SampleVariance([]float64{})
-	if m != 0.0 {
-		t.Errorf("%.1f != %.1f", m, 0.0)
+	m, err := SampleVariance([]float64{})
+	if !math.IsNaN(m) {
+		t.Errorf("%.1f != %.1f", m, math.NaN())
+	}
+	if err != EmptyInput {
+		t.Errorf("%v != %v", err, EmptyInput)
 	}
 	m, _ = SampleVariance([]float64{1, 2, 3})
 	if m != 1.0 {

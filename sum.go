@@ -1,14 +1,12 @@
 package stats
 
-import (
-	"errors"
-)
+import "math"
 
 // Sum adds all the numbers of a slice together
 func Sum(input Float64Data) (sum float64, err error) {
 
 	if input.Len() == 0 {
-		return 0, errors.New("Input must not be empty")
+		return math.NaN(), EmptyInput
 	}
 
 	// Add em up

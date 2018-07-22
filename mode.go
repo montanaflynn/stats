@@ -1,7 +1,5 @@
 package stats
 
-import "errors"
-
 // Mode gets the mode [most frequent value(s)] of a slice of float64s
 func Mode(input Float64Data) (mode []float64, err error) {
 	// Return the input if there's only one number
@@ -9,7 +7,7 @@ func Mode(input Float64Data) (mode []float64, err error) {
 	if l == 1 {
 		return input, nil
 	} else if l == 0 {
-		return nil, errors.New("Input must not be empty")
+		return nil, EmptyInput
 	}
 
 	c := sortedCopyDif(input)
@@ -27,6 +25,8 @@ func Mode(input Float64Data) (mode []float64, err error) {
 		case cnt > maxCnt:
 			mode = append(mode[:0], c[i-1])
 			maxCnt, cnt = cnt, 1
+		default:
+			cnt = 1
 		}
 	}
 	switch {

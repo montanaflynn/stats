@@ -1,9 +1,5 @@
 package stats
 
-import (
-	"errors"
-)
-
 // Outliers holds mild and extreme outliers found in data
 type Outliers struct {
 	Mild    Float64Data
@@ -13,7 +9,7 @@ type Outliers struct {
 // QuartileOutliers finds the mild and extreme outliers
 func QuartileOutliers(input Float64Data) (Outliers, error) {
 	if input.Len() == 0 {
-		return Outliers{}, errors.New("Input must not be empty")
+		return Outliers{}, EmptyInput
 	}
 
 	// Start by sorting a copy of the slice

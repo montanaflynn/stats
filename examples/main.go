@@ -7,10 +7,13 @@ import (
 )
 
 func main() {
-	a, _ := stats.Min([]float64{1.1, 2, 3, 4, 5})
+
+	d := stats.LoadRawData([]interface{}{1.1, "2", 3.0, 4, "5"})
+
+	a, _ := stats.Min(d)
 	fmt.Println(a) // 1.1
 
-	a, _ = stats.Max([]float64{1.1, 2, 3, 4, 5})
+	a, _ = stats.Max(d)
 	fmt.Println(a) // 5
 
 	a, _ = stats.Sum([]float64{1.1, 2.2, 3.3})
@@ -95,4 +98,22 @@ func main() {
 
 	uv, _ := stats.Unique([]float64{1, 2, 3, 3, 4, 5, 5})
 	fmt.Println(uv) // []float64{1, 2, 4}
+
+  e, _ := stats.ChebyshevDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
+	fmt.Println(e) // Should yield 6
+
+	e, _ = stats.ManhattanDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
+	fmt.Println(e) // Should yield 24
+
+	e, _ = stats.EuclideanDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
+	fmt.Println(e) // Should yield 10.583005244258363
+
+	e, _ = stats.MinkowskiDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2}, float64(1))
+	fmt.Println(e) // Should yield 24
+
+	e, _ = stats.MinkowskiDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2}, float64(2))
+	fmt.Println(e) // Should yield 10.583005244258363
+
+	e, _ = stats.MinkowskiDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2}, float64(99))
+	fmt.Println(e) // Should yield 6
 }
