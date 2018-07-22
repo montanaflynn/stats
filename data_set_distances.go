@@ -86,7 +86,7 @@ func MinkowskiDistance(dataPointX, dataPointY []float64, lambda float64) (distan
 	for i := 0; i < len(dataPointY); i++ {
 		distance = distance + math.Pow(math.Abs(dataPointX[i]-dataPointY[i]), lambda)
 	}
-	distance = math.Pow(distance, float64(1/lambda))
+	distance = math.Pow(distance, 1/lambda)
 	if math.IsInf(distance, 1) == true {
 		return math.NaN(), InfValue
 	}

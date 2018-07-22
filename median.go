@@ -18,7 +18,7 @@ func Median(input Float64Data) (median float64, err error) {
 	} else if l%2 == 0 {
 		median, _ = Mean(c[l/2-1 : l/2+1])
 	} else {
-		median = float64(c[l/2])
+		median = c[l/2]
 	}
 
 	return median, nil
