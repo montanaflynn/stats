@@ -139,5 +139,8 @@ func (f Float64Data) CovariancePopulation(d Float64Data) (float64, error) {
 	return CovariancePopulation(f, d)
 }
 
-// Unique returns the unique values in the data
-func (f Float64Data) Unique() ([]float64, error) { return Unique(f) }
+// FindUniques returns any unique values in the data
+func (f Float64Data) FindUniques() []float64 { return FindUniques(f) }
+
+// RemoveDuplicates removes duplicate numbers and NaN from the data
+func (f Float64Data) RemoveDuplicates() []float64 { return RemoveDuplicates(f) }
