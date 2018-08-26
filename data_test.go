@@ -38,7 +38,7 @@ func TestInterfaceMethods(t *testing.T) {
 
 	// Test Less
 	b := data1.Less(0, 5)
-	if b != true {
+	if !b {
 		t.Errorf("Less() => %v != %v", b, true)
 	}
 

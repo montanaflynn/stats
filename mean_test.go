@@ -83,12 +83,12 @@ func TestHarmonicMean(t *testing.T) {
 		t.Errorf("Geometric Mean %v != %v", hm, 2.19)
 	}
 
-	hm, err = HarmonicMean(s2)
+	_, err = HarmonicMean(s2)
 	if err == nil {
 		t.Errorf("Should have returned a negative number error")
 	}
 
-	hm, err = HarmonicMean(s3)
+	_, err = HarmonicMean(s3)
 	if err == nil {
 		t.Errorf("Should have returned a zero number error")
 	}
