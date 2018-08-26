@@ -36,14 +36,24 @@ func TestDataSetDistances(t *testing.T) {
 		if err != nil && distance != testData.distance {
 			t.Errorf("Failed to compute Minkowski distance.")
 		}
+
+		_, err = MinkowskiDistance([]float64{}, []float64{}, 3)
+		if err == nil {
+			t.Errorf("Empty slices should have resulted in an error")
+		}
 	}
 
-	// Compute distance with the help of all 
+	// Compute distance with the help of all
 	// algorithms.
 	for _, testSet := range distanceTestMatrix {
 		distance, err := testSet.distanceFunction(testSet.dataPointX, testSet.dataPointY)
 		if err != nil && testSet.distance != distance {
 			t.Errorf("Failed to compute distance.")
+		}
+
+		_, err = testSet.distanceFunction([]float64{}, []float64{})
+		if err == nil {
+			t.Errorf("Empty slices should have resulted in an error")
 		}
 	}
 }
