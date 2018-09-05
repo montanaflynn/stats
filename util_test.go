@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"math"
 	"math/rand"
 	"testing"
 )
@@ -37,5 +38,22 @@ func TestFloat64ToInt(t *testing.T) {
 	m = float64ToInt(1)
 	if m != 1 {
 		t.Errorf("%x != %x", m, 1)
+	}
+}
+
+func TestCounts(t *testing.T) {
+	s := []float64{1, 1, 2, 3, 4, 4, 4, 4, math.Inf(1)}
+	m := counts(s)
+	if m[1] != 2 {
+		t.Errorf("%x != %x", m[1], 2)
+	}
+	if m[2] != 1 {
+		t.Errorf("%x != %x", m[2], 1)
+	}
+	if m[4] != 4 {
+		t.Errorf("%x != %x", m[4], 4)
+	}
+	if m[math.Inf(1)] != 1 {
+		t.Errorf("%x != %x", m[1], 1)
 	}
 }
