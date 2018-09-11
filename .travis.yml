@@ -7,12 +7,11 @@ go:
   - 1.5
   - tip
 before_install:
-  - go get golang.org/x/tools/cmd/cover
-  - go get github.com/mattn/goveralls
+  - if [[ "$TRAVIS_GO_VERSION" == "tip" ]]; then go get github.com/mattn/goveralls; fi
 script:
-  - go test -v -covermode=count -coverprofile=coverage.out
+  - go test -v $(if [[ "$TRAVIS_GO_VERSION" == "tip" ]]; then printf %s '-covermode=count -coverprofile=coverage.out'; fi)
 after_success:
-  - $(go env GOPATH | awk 'BEGIN{FS=":"} {print $1}')/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+  - if [[ "$TRAVIS_GO_VERSION" == "tip" ]]; then $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci; fi
 notifications:
   email:
     recipients:
