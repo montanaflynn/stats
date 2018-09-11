@@ -1,6 +1,4 @@
 # Go
-# Build your Go application.
-# Add steps that test, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/vsts/pipelines/languages/go
 
 pool:
@@ -34,6 +32,6 @@ steps:
   workingDirectory: '$(modulePath)'
   displayName: 'Get dependencies, then build'
 
-- script: go test -v ./...
+- script: go test -v --cover --bench=.
   workingDirectory: '$(modulePath)'
-  displayName: 'Run tests'
+  displayName: 'Run tests and benchmarks'
