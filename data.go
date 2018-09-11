@@ -24,6 +24,9 @@ func (f Float64Data) Max() (float64, error) { return Max(f) }
 // Sum returns the total of all the numbers in the data
 func (f Float64Data) Sum() (float64, error) { return Sum(f) }
 
+// CumulativeSum returns the cumulative sum of the data
+func (f Float64Data) CumulativeSum() ([]float64, error) { return CumulativeSum(f) }
+
 // Mean returns the mean of the data
 func (f Float64Data) Mean() (float64, error) { return Mean(f) }
 

@@ -19,6 +19,9 @@ func main() {
 	a, _ = stats.Sum([]float64{1.1, 2.2, 3.3})
 	fmt.Println(a) // 6.6
 
+	cs, _ := stats.CumulativeSum([]float64{1.1, 2.2, 3.3})
+	fmt.Println(cs) // [1.1 3.3000000000000003 6.6]
+
 	a, _ = stats.Mean([]float64{1, 2, 3, 4, 5})
 	fmt.Println(a) // 3
 
