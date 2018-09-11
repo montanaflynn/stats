@@ -41,6 +41,16 @@ func TestDataSetDistances(t *testing.T) {
 		if err == nil {
 			t.Errorf("Empty slices should have resulted in an error")
 		}
+
+		_, err = MinkowskiDistance([]float64{1, 2, 3}, []float64{1, 4}, 3)
+		if err == nil {
+			t.Errorf("Different length slices should have resulted in an error")
+		}
+
+		_, err = MinkowskiDistance([]float64{999, 999, 999}, []float64{1, 1, 1}, 1000)
+		if err == nil {
+			t.Errorf("Infinite distance should have resulted in an error")
+		}
 	}
 
 	// Compute distance with the help of all

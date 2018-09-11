@@ -1,6 +1,8 @@
 package stats
 
-import "math"
+import (
+	"math"
+)
 
 // Percentile finds the relative standing in a slice of floats
 func Percentile(input Float64Data, percent float64) (percentile float64, err error) {

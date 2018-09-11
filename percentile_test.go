@@ -88,6 +88,7 @@ func TestPercentileNearestRank(t *testing.T) {
 		{f3, 1, 100},
 		{f3, 99, 9900},
 		{f3, 100, 10000},
+		{f3, 0, 0},
 	} {
 		got, err := PercentileNearestRank(c.sample, c.percent)
 		if err != nil {
