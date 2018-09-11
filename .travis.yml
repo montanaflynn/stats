@@ -1,17 +1,13 @@
 language: go
 go:
-  - 1.1
-  - 1.2
-  - 1.3
-  - 1.4
-  - 1.5
+  - stable
   - tip
 before_install:
-  - if [[ "$TRAVIS_GO_VERSION" == "tip" ]]; then go get github.com/mattn/goveralls; fi
+  - go get github.com/mattn/goveralls
 script:
-  - go test -v $(if [[ "$TRAVIS_GO_VERSION" == "tip" ]]; then printf %s '-covermode=count -coverprofile=coverage.out'; fi)
+  - go test -v -covermode=count -coverprofile=coverage.out
 after_success:
-  - if [[ "$TRAVIS_GO_VERSION" == "tip" ]]; then $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci; fi
+  - $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci
 notifications:
   email:
     recipients:
