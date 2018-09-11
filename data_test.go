@@ -69,11 +69,11 @@ func TestHelperMethods(t *testing.T) {
 		t.Errorf("Sum() => %v != %v", m, 0.2990000000000004)
 	}
 
-	// Test CumSum
-	cs, _ := data1.CumSum()
+	// Test CumulativeSum
+	cs, _ := data1.CumulativeSum()
 	want := []float64{5, -5.0009999999999994, -15.001, -13.901, -11.901, -8.901, -4.701, 0.2990000000000004}
 	if !reflect.DeepEqual(cs, want) {
-		t.Errorf("CumSum() => %v != %v", cs, want)
+		t.Errorf("CumulativeSum() => %v != %v", cs, want)
 	}
 
 	// Test Mean
