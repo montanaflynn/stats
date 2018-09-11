@@ -7,11 +7,12 @@ go:
   - 1.5
   - tip
 before_install:
-  - sudo pip install codecov
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/mattn/goveralls
 script:
-  - go test
+  - go test -v -covermode=count -coverprofile=coverage.out
 after_success:
-  - codecov
+  - $(go env GOPATH | awk 'BEGIN{FS=":"} {print $1}')/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
 notifications:
   email:
     recipients:
