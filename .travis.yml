@@ -1,7 +1,7 @@
 language: go
 go:
   - stable
-  - tip
+  - master
 before_install:
   - go get github.com/mattn/goveralls
 script:
