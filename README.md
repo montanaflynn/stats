@@ -43,7 +43,7 @@ fmt.Println(roundedMedian) // 4
 
 **Protip:** You can [call methods](https://github.com/montanaflynn/stats/blob/master/examples/methods.go) on the data if using the Float64Data type:
 
-```
+```go
 var d stats.Float64Data = data
 
 max, _ := d.Max()
