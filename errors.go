@@ -8,6 +8,10 @@ func (s statsErr) Error() string {
 	return s.err
 }
 
+func (s statsErr) String() string {
+	return s.err
+}
+
 // These are the package-wide error values.
 // All error identification should use these values.
 var (
