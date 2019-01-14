@@ -1,8 +1,18 @@
 package stats
 
 import (
+	"fmt"
+	"math"
 	"testing"
 )
+
+func ExampleCorrelation() {
+	s1 := []float64{1, 2, 3, 4, 5}
+	s3 := []float64{1, 2, 3, 5, 6}
+	a, _ := Correlation(s1, s3)
+	fmt.Println(a)
+	// Output: 0.9912407071619302
+}
 
 func TestCorrelation(t *testing.T) {
 	s1 := []float64{1, 2, 3, 4, 5}
@@ -10,41 +20,60 @@ func TestCorrelation(t *testing.T) {
 	s3 := []float64{1, 2, 3, 5, 6}
 	s4 := []float64{}
 	s5 := []float64{0, 0, 0}
+	testCases := []struct {
+		name   string
+		input  [][]float64
+		output float64
+		err    error
+	}{
+		{"Empty Slice Error", [][]float64{s4, s4}, math.NaN(), EmptyInputErr},
+		{"Different Length Error", [][]float64{s1, s2}, math.NaN(), SizeErr},
+		{"Correlation Value", [][]float64{s1, s3}, 0.9912407071619302, nil},
+		{"Same Input Value", [][]float64{s5, s5}, 0.00, nil},
+	}
+	for _, tc := range testCases {
+		t.Run(fmt.Sprintf("%s", tc.name), func(t *testing.T) {
+			a, err := Correlation(tc.input[0], tc.input[1])
+			if err != nil {
+				if err != tc.err {
+					t.Errorf("Should have returned error %s", tc.err)
+				}
+			} else if a != tc.output {
+				t.Errorf("Result %.08f should be %.08f", a, tc.output)
+			}
+			a2, err2 := Pearson(tc.input[0], tc.input[1])
+			if err2 != nil {
+				if err2 != tc.err {
+					t.Errorf("Should have returned error %s", tc.err)
+				}
+			} else if a2 != tc.output {
+				t.Errorf("Result %.08f should be %.08f", a2, tc.output)
+			}
+		})
+	}
+}
 
-	a, err := Correlation(s5, s5)
+func ExampleAutoCorrelation() {
+	s1 := []float64{1, 2, 3, 4, 5}
+	a, _ := AutoCorrelation(s1, 1)
+	fmt.Println(a)
+	// Output: 0.4
+}
+
+func TestAutoCorrelation(t *testing.T) {
+	s1 := []float64{1, 2, 3, 4, 5}
+	s2 := []float64{}
+
+	a, err := AutoCorrelation(s1, 1)
 	if err != nil {
 		t.Errorf("Should not have returned an error")
 	}
-	if a != 0 {
-		t.Errorf("Should have returned 0")
+	if a != 0.4 {
+		t.Errorf("Should have returned 0.4")
 	}
 
-	_, err = Correlation(s1, s2)
-	if err == nil {
-		t.Errorf("Mismatched slice lengths should have returned an error")
+	_, err = AutoCorrelation(s2, 1)
+	if err != EmptyInputErr {
+		t.Errorf("Should have returned empty input error")
 	}
-
-	a, err = Correlation(s1, s3)
-	if err != nil {
-		t.Errorf("Should not have returned an error")
-	}
-
-	if a != 0.9912407071619302 {
-		t.Errorf("Correlation %v != %v", a, 0.9912407071619302)
-	}
-
-	_, err = Correlation(s1, s4)
-	if err == nil {
-		t.Errorf("Empty slice should have returned an error")
-	}
-
-	a, err = Pearson(s1, s3)
-	if err != nil {
-		t.Errorf("Should not have returned an error")
-	}
-
-	if a != 0.9912407071619302 {
-		t.Errorf("Correlation %v != %v", a, 0.9912407071619302)
-	}
-
 }

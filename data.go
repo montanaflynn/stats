@@ -87,6 +87,11 @@ func (f Float64Data) Correlation(d Float64Data) (float64, error) {
 	return Correlation(f, d)
 }
 
+// Autocorrelation is the correlation of a signal with a delayed copy of itself as a function of delay
+func (f Float64Data) AutoCorrelation(lags int) (float64, error) {
+	return AutoCorrelation(f, lags)
+}
+
 // Pearson calculates the Pearson product-moment correlation coefficient between two variables.
 func (f Float64Data) Pearson(d Float64Data) (float64, error) {
 	return Pearson(f, d)

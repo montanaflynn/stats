@@ -161,6 +161,13 @@ func TestOtherDataMethods(t *testing.T) {
 	assertOtherDataMethods(data1.CovariancePopulation, data2, 6.458743859374998, t)
 }
 
+func TestAutoCorrelationMethod(t *testing.T) {
+	_, err := data1.AutoCorrelation(1)
+	if err != nil {
+		t.Error("Float64Data.AutoCorrelation returned an error")
+	}
+}
+
 func TestSampleMethod(t *testing.T) {
 	// Test Sample method
 	_, err := data1.Sample(5, true)

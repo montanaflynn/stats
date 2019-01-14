@@ -11,46 +11,59 @@ func main() {
 	d := stats.LoadRawData([]interface{}{1.1, "2", 3.0, 4, "5"})
 
 	a, _ := stats.Min(d)
-	fmt.Println(a) // 1.1
+	fmt.Println(a)
+	// Output: 1.1
 
 	a, _ = stats.Max(d)
-	fmt.Println(a) // 5
+	fmt.Println(a)
+	// Output: 5
 
 	a, _ = stats.Sum([]float64{1.1, 2.2, 3.3})
-	fmt.Println(a) // 6.6
+	fmt.Println(a)
+	// Output: 6.6
 
 	cs, _ := stats.CumulativeSum([]float64{1.1, 2.2, 3.3})
 	fmt.Println(cs) // [1.1 3.3000000000000003 6.6]
 
 	a, _ = stats.Mean([]float64{1, 2, 3, 4, 5})
-	fmt.Println(a) // 3
+	fmt.Println(a)
+	// Output: 3
 
 	a, _ = stats.Median([]float64{1, 2, 3, 4, 5, 6, 7})
-	fmt.Println(a) // 4
+	fmt.Println(a)
+	// Output: 4
 
 	m, _ := stats.Mode([]float64{5, 5, 3, 3, 4, 2, 1})
-	fmt.Println(m) // [5 3]
+	fmt.Println(m)
+	// Output: [5 3]
 
 	a, _ = stats.PopulationVariance([]float64{1, 2, 3, 4, 5})
-	fmt.Println(a) // 2
+	fmt.Println(a)
+	// Output: 2
 
 	a, _ = stats.SampleVariance([]float64{1, 2, 3, 4, 5})
-	fmt.Println(a) // 2.5
+	fmt.Println(a)
+	// Output: 2.5
 
 	a, _ = stats.MedianAbsoluteDeviationPopulation([]float64{1, 2, 3})
-	fmt.Println(a) // 1
+	fmt.Println(a)
+	// Output: 1
 
 	a, _ = stats.StandardDeviationPopulation([]float64{1, 2, 3})
-	fmt.Println(a) // 0.816496580927726
+	fmt.Println(a)
+	// Output: 0.816496580927726
 
 	a, _ = stats.StandardDeviationSample([]float64{1, 2, 3})
-	fmt.Println(a) // 1
+	fmt.Println(a)
+	// Output: 1
 
 	a, _ = stats.Percentile([]float64{1, 2, 3, 4, 5}, 75)
-	fmt.Println(a) // 4
+	fmt.Println(a)
+	// Output: 4
 
 	a, _ = stats.PercentileNearestRank([]float64{35, 20, 15, 40, 50}, 75)
-	fmt.Println(a) // 40
+	fmt.Println(a)
+	// Output: 40
 
 	c := []stats.Coordinate{
 		{1, 2.3},
@@ -61,59 +74,86 @@ func main() {
 	}
 
 	r, _ := stats.LinearRegression(c)
-	fmt.Println(r) // [{1 2.3800000000000026} {2 3.0800000000000014} {3 3.7800000000000002} {4 4.479999999999999} {5 5.179999999999998}]
+	fmt.Println(r)
+	// Output: [{1 2.3800000000000026} {2 3.0800000000000014} {3 3.7800000000000002} {4 4.479999999999999} {5 5.179999999999998}]
 
 	r, _ = stats.ExponentialRegression(c)
-	fmt.Println(r) // [{1 2.5150181024736638} {2 3.032084111136781} {3 3.6554544271334493} {4 4.406984298281804} {5 5.313022222665875}]
+	fmt.Println(r)
+	// Output: [{1 2.5150181024736638} {2 3.032084111136781} {3 3.6554544271334493} {4 4.406984298281804} {5 5.313022222665875}]
 
 	r, _ = stats.LogarithmicRegression(c)
-	fmt.Println(r) // [{1 2.1520822363811702} {2 3.3305559222492214} {3 4.019918836568674} {4 4.509029608117273} {5 4.888413396683663}]
+	fmt.Println(r)
+	// Output: [{1 2.1520822363811702} {2 3.3305559222492214} {3 4.019918836568674} {4 4.509029608117273} {5 4.888413396683663}]
 
 	s, _ := stats.Sample([]float64{0.1, 0.2, 0.3, 0.4}, 3, false)
-	fmt.Println(s) // [0.2,0.4,0.3]
+	fmt.Println(s)
+	// Output: [0.2,0.4,0.3]
 
 	s, _ = stats.Sample([]float64{0.1, 0.2, 0.3, 0.4}, 10, true)
-	fmt.Println(s) // [0.2,0.2,0.4,0.1,0.2,0.4,0.3,0.2,0.2,0.1]
+	fmt.Println(s)
+	// Output: [0.2,0.2,0.4,0.1,0.2,0.4,0.3,0.2,0.2,0.1]
 
 	q, _ := stats.Quartile([]float64{7, 15, 36, 39, 40, 41})
-	fmt.Println(q) // {15 37.5 40}
+	fmt.Println(q)
+	// Output: {15 37.5 40}
 
 	iqr, _ := stats.InterQuartileRange([]float64{102, 104, 105, 107, 108, 109, 110, 112, 115, 116, 118})
-	fmt.Println(iqr) // 10
+	fmt.Println(iqr)
+	// Output: 10
 
 	mh, _ := stats.Midhinge([]float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13})
-	fmt.Println(mh) // 7.5
+	fmt.Println(mh)
+	// Output: 7.5
 
 	tr, _ := stats.Trimean([]float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13})
-	fmt.Println(tr) // 7.25
+	fmt.Println(tr)
+	// Output: 7.25
 
 	o, _ := stats.QuartileOutliers([]float64{-1000, 1, 3, 4, 4, 6, 6, 6, 6, 7, 8, 15, 18, 100})
-	fmt.Printf("%+v\n", o) //  {Mild:[15 18] Extreme:[-1000 100]}
+	fmt.Printf("%+v\n", o)
+	// Output:  {Mild:[15 18] Extreme:[-1000 100]}
 
 	gm, _ := stats.GeometricMean([]float64{10, 51.2, 8})
-	fmt.Println(gm) // 15.999999999999991
+	fmt.Println(gm)
+	// Output: 15.999999999999991
 
 	hm, _ := stats.HarmonicMean([]float64{1, 2, 3, 4, 5})
-	fmt.Println(hm) // 2.18978102189781
+	fmt.Println(hm)
+	// Output: 2.18978102189781
 
 	a, _ = stats.Round(2.18978102189781, 3)
-	fmt.Println(a) // 2.189
+	fmt.Println(a)
+	// Output: 2.189
 
 	e, _ := stats.ChebyshevDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
-	fmt.Println(e) // Should yield 6
+	fmt.Println(e)
+	// Output: 6
 
 	e, _ = stats.ManhattanDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
-	fmt.Println(e) // Should yield 24
+	fmt.Println(e)
+	// Output: 24
 
 	e, _ = stats.EuclideanDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
-	fmt.Println(e) // Should yield 10.583005244258363
+	fmt.Println(e)
+	// Output: 10.583005244258363
 
 	e, _ = stats.MinkowskiDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2}, float64(1))
-	fmt.Println(e) // Should yield 24
+	fmt.Println(e)
+	// Output: 24
 
 	e, _ = stats.MinkowskiDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2}, float64(2))
-	fmt.Println(e) // Should yield 10.583005244258363
+	fmt.Println(e)
+	// Output: 10.583005244258363
 
 	e, _ = stats.MinkowskiDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2}, float64(99))
-	fmt.Println(e) // Should yield 6
+	fmt.Println(e)
+	// Output: 6
+
+	cor, _ := stats.Correlation([]float64{1, 2, 3, 4, 5}, []float64{1, 2, 3, 5, 6})
+	fmt.Println(cor)
+	// Output: 0.9912407071619302
+
+	ac, _ := stats.AutoCorrelation([]float64{1, 2, 3, 4, 5}, 1)
+	fmt.Println(ac)
+	// Output: 0.4
 }
