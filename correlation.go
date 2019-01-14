@@ -9,7 +9,7 @@ func Correlation(data1, data2 Float64Data) (float64, error) {
 	l2 := data2.Len()
 
 	if l1 == 0 || l2 == 0 {
-		return math.NaN(), EmptyInput
+		return math.NaN(), EmptyInputErr
 	}
 
 	if l1 != l2 {

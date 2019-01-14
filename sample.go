@@ -6,7 +6,7 @@ import "math/rand"
 func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error) {
 
 	if input.Len() == 0 {
-		return nil, EmptyInput
+		return nil, EmptyInputErr
 	}
 
 	length := input.Len()
