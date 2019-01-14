@@ -57,6 +57,9 @@ func ExponentialRegression(s Series) (regressions Series, err error) {
 	var sum [6]float64
 
 	for i := 0; i < len(s); i++ {
+		if s[i].Y < 0 {
+			return nil, YCoordErr
+		}
 		sum[0] += s[i].X
 		sum[1] += s[i].Y
 		sum[2] += s[i].X * s[i].X * s[i].Y

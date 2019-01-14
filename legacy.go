@@ -34,3 +34,6 @@ func ExpReg(s []Coordinate) (regressions []Coordinate, err error) {
 func LogReg(s []Coordinate) (regressions []Coordinate, err error) {
 	return LogarithmicRegression(s)
 }
+
+// EmptyInput legacy error name didn't end with Err
+var EmptyInput = EmptyInputErr
