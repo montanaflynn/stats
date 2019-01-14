@@ -1,8 +1,16 @@
 package stats
 
 import (
+	"fmt"
 	"testing"
 )
+
+func ExampleMin() {
+	d := LoadRawData([]interface{}{1.1, "2", 3.0, 4, "5"})
+	a, _ := Min(d)
+	fmt.Println(a)
+	// Output: 1.1
+}
 
 func TestMin(t *testing.T) {
 	for _, c := range []struct {

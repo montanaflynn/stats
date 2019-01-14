@@ -1,8 +1,16 @@
 package stats
 
 import (
+	"fmt"
 	"testing"
 )
+
+func ExampleMax() {
+	d := []float64{1.1, 2.3, 3.2, 4.0, 4.01, 5.09}
+	a, _ := Max(d)
+	fmt.Println(a)
+	// Output: 5.09
+}
 
 func TestMax(t *testing.T) {
 	for _, c := range []struct {

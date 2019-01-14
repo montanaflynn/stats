@@ -8,8 +8,8 @@ import (
 
 func ExampleCorrelation() {
 	s1 := []float64{1, 2, 3, 4, 5}
-	s3 := []float64{1, 2, 3, 5, 6}
-	a, _ := Correlation(s1, s3)
+	s2 := []float64{1, 2, 3, 5, 6}
+	a, _ := Correlation(s1, s2)
 	fmt.Println(a)
 	// Output: 0.9912407071619302
 }

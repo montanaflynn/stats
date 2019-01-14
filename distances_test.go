@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -53,8 +54,7 @@ func TestDataSetDistances(t *testing.T) {
 		}
 	}
 
-	// Compute distance with the help of all
-	// algorithms.
+	// Compute distance with the help of all algorithms.
 	for _, testSet := range distanceTestMatrix {
 		distance, err := testSet.distanceFunction(testSet.dataPointX, testSet.dataPointY)
 		if err != nil && testSet.distance != distance {
@@ -66,4 +66,12 @@ func TestDataSetDistances(t *testing.T) {
 			t.Errorf("Empty slices should have resulted in an error")
 		}
 	}
+}
+
+func ExampleChebyshevDistance() {
+	d1 := []float64{2, 3, 4, 5, 6, 7, 8}
+	d2 := []float64{8, 7, 6, 5, 4, 3, 2}
+	cd, _ := ChebyshevDistance(d1, d2)
+	fmt.Println(cd)
+	// Output: 6
 }
