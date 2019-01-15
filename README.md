@@ -8,7 +8,7 @@ If you have any suggestions, problems or bug reports please [create an issue](ht
 ## Installation
 
 ```
-go get -u github.com/montanaflynn/stats
+go get github.com/montanaflynn/stats
 ```
 
 ## Example Usage
@@ -62,43 +62,44 @@ var (
 
 type Float64Data []float64
 
-func LoadRawData(raw interface{}) (f Float64Data)
-func AutoCorrelation(data Float64Data, lags int) (float64, error) {
-func ChebyshevDistance(dataPointX, dataPointY []float64) (distance float64, err error)
-func Correlation(data1, data2 Float64Data) (float64, error)
-func Covariance(data1, data2 Float64Data) (float64, error)
-func CovariancePopulation(data1, data2 Float64Data) (float64, error)
-func EuclideanDistance(dataPointX, dataPointY []float64) (distance float64, err error)
-func GeometricMean(input Float64Data) (float64, error)
-func HarmonicMean(input Float64Data) (float64, error)
-func InterQuartileRange(input Float64Data) (float64, error)
-func ManhattanDistance(dataPointX, dataPointY []float64) (distance float64, err error)
-func Max(input Float64Data) (max float64, err error)
-func Mean(input Float64Data) (float64, error)
-func Median(input Float64Data) (median float64, err error)
-func MedianAbsoluteDeviation(input Float64Data) (mad float64, err error)
-func MedianAbsoluteDeviationPopulation(input Float64Data) (mad float64, err error)
-func Midhinge(input Float64Data) (float64, error)
-func Min(input Float64Data) (min float64, err error)
-func MinkowskiDistance(dataPointX, dataPointY []float64, lambda float64) (distance float64, err error)
-func Mode(input Float64Data) (mode []float64, err error)
-func Pearson(data1, data2 Float64Data) (float64, error)
-func Percentile(input Float64Data, percent float64) (percentile float64, err error)
-func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)
-func PopulationVariance(input Float64Data) (pvar float64, err error)
-func Round(input float64, places int) (rounded float64, err error)
-func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error)
-func SampleVariance(input Float64Data) (svar float64, err error)
-func StandardDeviation(input Float64Data) (sdev float64, err error)
-func StandardDeviationPopulation(input Float64Data) (sdev float64, err error)
-func StandardDeviationSample(input Float64Data) (sdev float64, err error)
-func StdDevP(input Float64Data) (sdev float64, err error)
-func StdDevS(input Float64Data) (sdev float64, err error)
-func Sum(input Float64Data) (sum float64, err error)
-func Trimean(input Float64Data) (float64, error)
-func VarP(input Float64Data) (sdev float64, err error)
-func VarS(input Float64Data) (sdev float64, err error)
-func Variance(input Float64Data) (sdev float64, err error)
+func LoadRawData(raw interface{}) (f Float64Data) {}
+func AutoCorrelation(data Float64Data, lags int) (float64, error) {}
+func ChebyshevDistance(dataPointX, dataPointY []float64) (distance float64, err error) {}
+func Correlation(data1, data2 Float64Data) (float64, error) {}
+func Covariance(data1, data2 Float64Data) (float64, error) {}
+func CovariancePopulation(data1, data2 Float64Data) (float64, error) {}
+func CumulativeSum(input Float64Data) ([]float64, error) {}
+func EuclideanDistance(dataPointX, dataPointY []float64) (distance float64, err error) {}
+func GeometricMean(input Float64Data) (float64, error) {}
+func HarmonicMean(input Float64Data) (float64, error) {}
+func InterQuartileRange(input Float64Data) (float64, error) {}
+func ManhattanDistance(dataPointX, dataPointY []float64) (distance float64, err error) {}
+func Max(input Float64Data) (max float64, err error) {}
+func Mean(input Float64Data) (float64, error) {}
+func Median(input Float64Data) (median float64, err error) {}
+func MedianAbsoluteDeviation(input Float64Data) (mad float64, err error) {}
+func MedianAbsoluteDeviationPopulation(input Float64Data) (mad float64, err error) {}
+func Midhinge(input Float64Data) (float64, error) {}
+func Min(input Float64Data) (min float64, err error) {}
+func MinkowskiDistance(dataPointX, dataPointY []float64, lambda float64) (distance float64, err error) {}
+func Mode(input Float64Data) (mode []float64, err error) {}
+func Pearson(data1, data2 Float64Data) (float64, error) {}
+func Percentile(input Float64Data, percent float64) (percentile float64, err error) {}
+func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error) {}
+func PopulationVariance(input Float64Data) (pvar float64, err error) {}
+func Round(input float64, places int) (rounded float64, err error) {}
+func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error) {}
+func SampleVariance(input Float64Data) (svar float64, err error) {}
+func StandardDeviation(input Float64Data) (sdev float64, err error) {}
+func StandardDeviationPopulation(input Float64Data) (sdev float64, err error) {}
+func StandardDeviationSample(input Float64Data) (sdev float64, err error) {}
+func StdDevP(input Float64Data) (sdev float64, err error) {}
+func StdDevS(input Float64Data) (sdev float64, err error) {}
+func Sum(input Float64Data) (sum float64, err error) {}
+func Trimean(input Float64Data) (float64, error) {}
+func VarP(input Float64Data) (sdev float64, err error) {}
+func VarS(input Float64Data) (sdev float64, err error) {}
+func Variance(input Float64Data) (sdev float64, err error) {}
 
 type Coordinate struct {
     X, Y float64
@@ -106,9 +107,9 @@ type Coordinate struct {
 
 type Series []Coordinate
 
-func ExponentialRegression(s Series) (regressions Series, err error)
-func LinearRegression(s Series) (regressions Series, err error)
-func LogarithmicRegression(s Series) (regressions Series, err error)
+func ExponentialRegression(s Series) (regressions Series, err error) {}
+func LinearRegression(s Series) (regressions Series, err error) {}
+func LogarithmicRegression(s Series) (regressions Series, err error) {}
 
 type Outliers struct {
     Mild    Float64Data
@@ -121,8 +122,8 @@ type Quartiles struct {
     Q3 float64
 }
 
-func Quartile(input Float64Data) (Quartiles, error)
-func QuartileOutliers(input Float64Data) (Outliers, error)
+func Quartile(input Float64Data) (Quartiles, error) {}
+func QuartileOutliers(input Float64Data) (Outliers, error) {}
 ```
 
 ## Contributing
