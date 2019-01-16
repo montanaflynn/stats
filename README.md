@@ -17,13 +17,15 @@ All the functions can be seen in [examples/main.go](https://github.com/montanafl
 
 ```go
 // start with some source data to use
-data := []float64{1, 2, 3, 4, 4, 5}
+data := []float64{1.0, 2.1, 3.2, 4.823, 4.1, 5.8}
 
-// you could also use different number types like this
-// data := stats.LoadRawData([]interface{}{1.1, "2", 3.0, 4, "5"})
+// you could also use different types like this
+// data := stats.LoadRawData([]int{1, 2, 3, 4, 5})
+// data := stats.LoadRawData([]interface{}{1.1, "2", 3})
+// etc...
 
 median, _ := stats.Median(data)
-fmt.Println(median) // 3.5
+fmt.Println(median) // 3.65
 
 roundedMedian, _ := stats.Round(median, 0)
 fmt.Println(roundedMedian) // 4
@@ -90,6 +92,8 @@ func PopulationVariance(input Float64Data) (pvar float64, err error) {}
 func Round(input float64, places int) (rounded float64, err error) {}
 func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error) {}
 func SampleVariance(input Float64Data) (svar float64, err error) {}
+func Sigmoid(input Float64Data) ([]float64, error) {}
+func SoftMax(input Float64Data) ([]float64, error) {}
 func StandardDeviation(input Float64Data) (sdev float64, err error) {}
 func StandardDeviationPopulation(input Float64Data) (sdev float64, err error) {}
 func StandardDeviationSample(input Float64Data) (sdev float64, err error) {}

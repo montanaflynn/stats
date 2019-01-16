@@ -8,7 +8,8 @@ import (
 
 func main() {
 
-	d := stats.LoadRawData([]interface{}{1.1, "2", 3.0, 4, "5"})
+	// d := stats.LoadRawData([]interface{}{1.1, "2", 3.0, 4, "5"})
+	d := stats.LoadRawData([]int{1, 2, 3, 4, 5})
 
 	a, _ := stats.Min(d)
 	fmt.Println(a)
@@ -156,4 +157,12 @@ func main() {
 	ac, _ := stats.AutoCorrelation([]float64{1, 2, 3, 4, 5}, 1)
 	fmt.Println(ac)
 	// Output: 0.4
+
+	sig, _ := stats.Sigmoid([]float64{3.0, 1.0, 0.2})
+	fmt.Println(s)
+	// Output: [0.9525741268224334 0.7310585786300049 0.549833997312478]
+
+	sm, _ := stats.SoftMax([]float64{3.0, 1.0, 0.2})
+	fmt.Println(sm)
+	// Output: [0.8360188027814407 0.11314284146556013 0.05083835575299916]
 }

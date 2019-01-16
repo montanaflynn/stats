@@ -1,0 +1,41 @@
+package stats
+
+import (
+	"fmt"
+	"testing"
+)
+
+func ExampleSigmoid() {
+	s, _ := Sigmoid([]float64{3.0, 1.0, 0.2})
+	fmt.Println(s)
+	// Output: [0.9525741268224334 0.7310585786300049 0.549833997312478]
+}
+
+func TestSigmoidEmptyInput(t *testing.T) {
+	_, err := Sigmoid([]float64{})
+	if err != EmptyInputErr {
+		t.Errorf("Should have returned empty input error")
+	}
+}
+
+func TestSigmoid(t *testing.T) {
+	sm, err := Sigmoid([]float64{-0.54761371, 17.04850603, 4.86054302})
+	if err != nil {
+		t.Error(err)
+	}
+
+	a := 0.3664182235138545
+	if sm[0] != a {
+		t.Errorf("%v != %v", sm[0], a)
+	}
+
+	a = 0.9999999605608187
+	if sm[1] != a {
+		t.Errorf("%v != %v", sm[1], a)
+	}
+
+	a = 0.9923132671908277
+	if sm[2] != a {
+		t.Errorf("%v != %v", sm[2], a)
+	}
+}
