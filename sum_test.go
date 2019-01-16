@@ -1,9 +1,17 @@
 package stats
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
+
+func ExampleSum() {
+	d := []float64{1.1, 2.2, 3.3}
+	a, _ := Sum(d)
+	fmt.Println(a)
+	// Output: 6.6
+}
 
 func TestSum(t *testing.T) {
 	for _, c := range []struct {

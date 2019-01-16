@@ -23,7 +23,7 @@ func TestPercentile(t *testing.T) {
 		t.Errorf("%.1f != %.1f", m, 10.0)
 	}
 	_, err := Percentile([]float64{}, 99.9)
-	if err != EmptyInput {
+	if err != EmptyInputErr {
 		t.Errorf("Empty slice didn't return expected error; got %v", err)
 	}
 	_, err = Percentile([]float64{1, 2, 3, 4, 5}, 0)
@@ -88,6 +88,7 @@ func TestPercentileNearestRank(t *testing.T) {
 		{f3, 1, 100},
 		{f3, 99, 9900},
 		{f3, 100, 10000},
+		{f3, 0, 0},
 	} {
 		got, err := PercentileNearestRank(c.sample, c.percent)
 		if err != nil {

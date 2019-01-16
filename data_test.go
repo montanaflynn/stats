@@ -70,6 +70,13 @@ func TestHelperMethods(t *testing.T) {
 		t.Errorf("Sum() => %v != %v", m, 0.2990000000000004)
 	}
 
+	// Test CumulativeSum
+	cs, _ := data1.CumulativeSum()
+	want := []float64{5, -5.0009999999999994, -15.001, -13.901, -11.901, -8.901, -4.701, 0.2990000000000004}
+	if !reflect.DeepEqual(cs, want) {
+		t.Errorf("CumulativeSum() => %v != %v", cs, want)
+	}
+
 	// Test Mean
 	m, _ = data1.Mean()
 	if m != 0.03737500000000005 {
@@ -167,6 +174,13 @@ func TestOtherDataMethods(t *testing.T) {
 	assertOtherDataMethods(data1.Trimean, data2, 0.5375, t)
 	assertOtherDataMethods(data1.Covariance, data2, 7.3814215535714265, t)
 	assertOtherDataMethods(data1.CovariancePopulation, data2, 6.458743859374998, t)
+}
+
+func TestAutoCorrelationMethod(t *testing.T) {
+	_, err := data1.AutoCorrelation(1)
+	if err != nil {
+		t.Error("Float64Data.AutoCorrelation returned an error")
+	}
 }
 
 func TestSampleMethod(t *testing.T) {

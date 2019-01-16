@@ -1,8 +1,9 @@
-# Stats [![][travis-svg]][travis-url] [![][coveralls-svg]][coveralls-url] [![][godoc-svg]][godoc-url] [![][license-svg]][license-url]
+# Stats [![][travis-svg]][travis-url] [![][coveralls-svg]][coveralls-url] [![][goreport-svg]][goreport-url] [![][godoc-svg]][godoc-url] [![][license-svg]][license-url]
 
-A statistics package with many functions missing from the Golang standard library. See the [CHANGELOG.md](https://github.com/montanaflynn/stats/blob/master/CHANGELOG.md) for API changes and tagged releases you can vendor into your projects.
+A well tested and comprehensive Golang statistics library package with no dependencies.
 
-> Statistics are used much like a drunk uses a lamppost: for support, not illumination. **- Vin Scully**
+If you have any suggestions, problems or bug reports please [create an issue](https://github.com/montanaflynn/stats/issues) and I'll do my best to accommodate you. In addition simply starring the repo would show your support for the project and be very much appreciated!
+
 
 ## Installation
 
@@ -10,55 +11,130 @@ A statistics package with many functions missing from the Golang standard librar
 go get github.com/montanaflynn/stats
 ```
 
-**Protip:** `go get -u github.com/montanaflynn/stats` updates stats to the latest version.
+## Example Usage
 
-## Usage
+All the functions can be seen in [examples/main.go](https://github.com/montanaflynn/stats/blob/master/examples/main.go) but here's a little taste:
+
+```go
+// start with some source data to use
+data := []float64{1.0, 2.1, 3.2, 4.823, 4.1, 5.8}
+
+// you could also use different types like this
+// data := stats.LoadRawData([]int{1, 2, 3, 4, 5})
+// data := stats.LoadRawData([]interface{}{1.1, "2", 3})
+// etc...
+
+median, _ := stats.Median(data)
+fmt.Println(median) // 3.65
+
+roundedMedian, _ := stats.Round(median, 0)
+fmt.Println(roundedMedian) // 4
+```
+
+## Documentation
 
 The [entire API documentation](http://godoc.org/github.com/montanaflynn/stats) is available on GoDoc.org
 
 You can view docs offline with the following commands:
 
 ```
+# Command line
 godoc ./
 godoc ./ Median
 godoc ./ Float64Data
+
+# Local website
+godoc -http=:4444
+open http://localhost:4444/pkg/github.com/montanaflynn/stats/
 ```
 
-**Protip:** Generate HTML docs with `godoc -http=:4444`
-
-## Example
-
-All the functions can be seen in [examples/main.go](https://github.com/montanaflynn/stats/blob/master/examples/main.go) but here's a little taste:
+The exported API is as follows:
 
 ```go
-// start with the some source data to use
-var data = []float64{1, 2, 3, 4, 4, 5}
+var (
+    EmptyInputErr = statsErr{"Input must not be empty."}
+    NaNErr        = statsErr{"Not a number."}
+    NegativeErr   = statsErr{"Must not contain negative values."}
+    ZeroErr       = statsErr{"Must not contain zero values."}
+    BoundsErr     = statsErr{"Input is outside of range."}
+    SizeErr       = statsErr{"Must be the same length."}
+    InfValue      = statsErr{"Value is infinite."}
+    YCoordErr     = statsErr{"Y Value must be greater than zero."}
+)
 
-median, _ := stats.Median(data)
-fmt.Println(median) // 3.5
+type Float64Data []float64
 
-roundedMedian, _ := stats.Round(median, 0)
-fmt.Println(roundedMedian) // 4
-```
+func LoadRawData(raw interface{}) (f Float64Data) {}
+func AutoCorrelation(data Float64Data, lags int) (float64, error) {}
+func ChebyshevDistance(dataPointX, dataPointY []float64) (distance float64, err error) {}
+func Correlation(data1, data2 Float64Data) (float64, error) {}
+func Covariance(data1, data2 Float64Data) (float64, error) {}
+func CovariancePopulation(data1, data2 Float64Data) (float64, error) {}
+func CumulativeSum(input Float64Data) ([]float64, error) {}
+func EuclideanDistance(dataPointX, dataPointY []float64) (distance float64, err error) {}
+func GeometricMean(input Float64Data) (float64, error) {}
+func HarmonicMean(input Float64Data) (float64, error) {}
+func InterQuartileRange(input Float64Data) (float64, error) {}
+func ManhattanDistance(dataPointX, dataPointY []float64) (distance float64, err error) {}
+func Max(input Float64Data) (max float64, err error) {}
+func Mean(input Float64Data) (float64, error) {}
+func Median(input Float64Data) (median float64, err error) {}
+func MedianAbsoluteDeviation(input Float64Data) (mad float64, err error) {}
+func MedianAbsoluteDeviationPopulation(input Float64Data) (mad float64, err error) {}
+func Midhinge(input Float64Data) (float64, error) {}
+func Min(input Float64Data) (min float64, err error) {}
+func MinkowskiDistance(dataPointX, dataPointY []float64, lambda float64) (distance float64, err error) {}
+func Mode(input Float64Data) (mode []float64, err error) {}
+func Pearson(data1, data2 Float64Data) (float64, error) {}
+func Percentile(input Float64Data, percent float64) (percentile float64, err error) {}
+func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error) {}
+func PopulationVariance(input Float64Data) (pvar float64, err error) {}
+func Round(input float64, places int) (rounded float64, err error) {}
+func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error) {}
+func SampleVariance(input Float64Data) (svar float64, err error) {}
+func Sigmoid(input Float64Data) ([]float64, error) {}
+func SoftMax(input Float64Data) ([]float64, error) {}
+func StandardDeviation(input Float64Data) (sdev float64, err error) {}
+func StandardDeviationPopulation(input Float64Data) (sdev float64, err error) {}
+func StandardDeviationSample(input Float64Data) (sdev float64, err error) {}
+func StdDevP(input Float64Data) (sdev float64, err error) {}
+func StdDevS(input Float64Data) (sdev float64, err error) {}
+func Sum(input Float64Data) (sum float64, err error) {}
+func Trimean(input Float64Data) (float64, error) {}
+func VarP(input Float64Data) (sdev float64, err error) {}
+func VarS(input Float64Data) (sdev float64, err error) {}
+func Variance(input Float64Data) (sdev float64, err error) {}
 
-**Protip:** You can [call methods](https://github.com/montanaflynn/stats/blob/master/examples/methods.go) on the data if using the Float64Data type:
+type Coordinate struct {
+    X, Y float64
+}
 
-```
-var d stats.Float64Data = data
+type Series []Coordinate
 
-max, _ := d.Max()
-fmt.Println(max) // 5
+func ExponentialRegression(s Series) (regressions Series, err error) {}
+func LinearRegression(s Series) (regressions Series, err error) {}
+func LogarithmicRegression(s Series) (regressions Series, err error) {}
+
+type Outliers struct {
+    Mild    Float64Data
+    Extreme Float64Data
+}
+
+type Quartiles struct {
+    Q1 float64
+    Q2 float64
+    Q3 float64
+}
+
+func Quartile(input Float64Data) (Quartiles, error) {}
+func QuartileOutliers(input Float64Data) (Outliers, error) {}
 ```
 
 ## Contributing
 
-If you have any suggestions, criticism or bug reports please [create an issue](https://github.com/montanaflynn/stats/issues) and I'll do my best to accommodate you. In addition simply starring the repo would show your support for the project and be very much appreciated!
+Pull request are always welcome no matter how big or small. I've included a [Makefile](https://github.com/montanaflynn/stats/blob/master/Makefile) that has a lot of helper targets for common actions such as linting, testing, code coverage reporting and more.
 
-### Pull Requests
-
-Pull request are always welcome no matter how big or small. Here's an easy way to do it:
-
-1. Fork it and clone your fork
+1. Fork the repo and clone your fork
 2. Create new branch (`git checkout -b some-thing`)
 3. Make the desired changes
 4. Ensure tests pass (`go test -cover` or `make test`)
@@ -68,21 +144,14 @@ Pull request are always welcome no matter how big or small. Here's an easy way t
 
 To make things as seamless as possible please also consider the following steps:
 
-- Update `README.md` to include new public types or functions in the documentation section.
-- Update `examples/main.go` with a simple example of the new feature.
-- Keep 100% code coverage (you can check with `make coverage`).
-- Run [`gometalinter`](https://github.com/alecthomas/gometalinter) and make your code pass.
-- Squash needless commits into single units of work with `git rebase -i new-feature`.
-
-#### Makefile
-
-I've included a [Makefile](https://github.com/montanaflynn/stats/blob/master/Makefile) that has a lot of helper targets for common actions such as linting, testing, code coverage reporting and more.
-
-**Protip:** `watch -n 1 make check` will continuously format and test your code.
+- Update `examples/main.go` with a simple example of the new feature
+- Update `README.md` documentation section with any new exported API
+- Keep 100% code coverage (you can check with `make coverage`)
+- Squash commits into single units of work with `git rebase -i new-feature`
 
 ## MIT License
 
-Copyright (c) 2014-2015 Montana Flynn <http://anonfunction.com>
+Copyright (c) 2014-2019 Montana Flynn <http://anonfunction.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -95,6 +164,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 [coveralls-url]: https://coveralls.io/r/montanaflynn/stats?branch=master
 [coveralls-svg]: https://img.shields.io/coveralls/montanaflynn/stats.svg
+
+[goreport-url]: https://goreportcard.com/report/github.com/montanaflynn/stats
+[goreport-svg]: https://goreportcard.com/badge/github.com/montanaflynn/stats
 
 [godoc-url]: https://godoc.org/github.com/montanaflynn/stats
 [godoc-svg]: https://godoc.org/github.com/montanaflynn/stats?status.svg

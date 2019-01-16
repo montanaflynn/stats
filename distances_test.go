@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -36,6 +37,21 @@ func TestDataSetDistances(t *testing.T) {
 		if err != nil && distance != testData.distance {
 			t.Errorf("Failed to compute Minkowski distance.")
 		}
+
+		_, err = MinkowskiDistance([]float64{}, []float64{}, 3)
+		if err == nil {
+			t.Errorf("Empty slices should have resulted in an error")
+		}
+
+		_, err = MinkowskiDistance([]float64{1, 2, 3}, []float64{1, 4}, 3)
+		if err == nil {
+			t.Errorf("Different length slices should have resulted in an error")
+		}
+
+		_, err = MinkowskiDistance([]float64{999, 999, 999}, []float64{1, 1, 1}, 1000)
+		if err == nil {
+			t.Errorf("Infinite distance should have resulted in an error")
+		}
 	}
 
 	// Compute distance with the help of all algorithms.
@@ -44,5 +60,18 @@ func TestDataSetDistances(t *testing.T) {
 		if err != nil && testSet.distance != distance {
 			t.Errorf("Failed to compute distance.")
 		}
+
+		_, err = testSet.distanceFunction([]float64{}, []float64{})
+		if err == nil {
+			t.Errorf("Empty slices should have resulted in an error")
+		}
 	}
+}
+
+func ExampleChebyshevDistance() {
+	d1 := []float64{2, 3, 4, 5, 6, 7, 8}
+	d2 := []float64{8, 7, 6, 5, 4, 3, 2}
+	cd, _ := ChebyshevDistance(d1, d2)
+	fmt.Println(cd)
+	// Output: 6
 }

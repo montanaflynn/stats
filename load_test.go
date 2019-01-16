@@ -10,8 +10,8 @@ var allTestData = []struct {
 	expected Float64Data
 }{
 	{
-		[]interface{}{1.0, "2", 3.0, uint(2), 4, "4.0", 5, time.Duration(6), time.Duration(-7)},
-		Float64Data{1.0, 2.0, 3.0, 2.0, 4.0, 4.0, 5.0, 6.0, -7.0},
+		[]interface{}{1.0, "2", 3.0, uint(4), "4.0", 5, time.Duration(6), time.Duration(-7)},
+		Float64Data{1.0, 2.0, 3.0, 4.0, 4.0, 5.0, 6.0, -7.0},
 	},
 	{
 		[]interface{}{"-345", "223", "-654.4", "194", "898.3"},

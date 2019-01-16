@@ -17,8 +17,8 @@ func TestPopulationVariance(t *testing.T) {
 	if !math.IsNaN(e) {
 		t.Errorf("%.1f != %.1f", e, math.NaN())
 	}
-	if err != EmptyInput {
-		t.Errorf("%v != %v", err, EmptyInput)
+	if err != EmptyInputErr {
+		t.Errorf("%v != %v", err, EmptyInputErr)
 	}
 
 	pv, _ := PopulationVariance([]float64{1, 2, 3})
@@ -36,8 +36,8 @@ func TestSampleVariance(t *testing.T) {
 	if !math.IsNaN(m) {
 		t.Errorf("%.1f != %.1f", m, math.NaN())
 	}
-	if err != EmptyInput {
-		t.Errorf("%v != %v", err, EmptyInput)
+	if err != EmptyInputErr {
+		t.Errorf("%v != %v", err, EmptyInputErr)
 	}
 	m, _ = SampleVariance([]float64{1, 2, 3})
 	if m != 1.0 {

@@ -24,6 +24,9 @@ func (f Float64Data) Max() (float64, error) { return Max(f) }
 // Sum returns the total of all the numbers in the data
 func (f Float64Data) Sum() (float64, error) { return Sum(f) }
 
+// CumulativeSum returns the cumulative sum of the data
+func (f Float64Data) CumulativeSum() ([]float64, error) { return CumulativeSum(f) }
+
 // Mean returns the mean of the data
 func (f Float64Data) Mean() (float64, error) { return Mean(f) }
 
@@ -82,6 +85,11 @@ func (f Float64Data) PercentileNearestRank(p float64) (float64, error) {
 // Correlation describes the degree of relationship between two sets of data
 func (f Float64Data) Correlation(d Float64Data) (float64, error) {
 	return Correlation(f, d)
+}
+
+// Autocorrelation is the correlation of a signal with a delayed copy of itself as a function of delay
+func (f Float64Data) AutoCorrelation(lags int) (float64, error) {
+	return AutoCorrelation(f, lags)
 }
 
 // Pearson calculates the Pearson product-moment correlation coefficient between two variables.
