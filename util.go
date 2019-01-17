@@ -1,14 +1,28 @@
 package stats
 
 import (
+	"math"
 	"sort"
 	"time"
 )
 
-// float64ToInt rounds a float64 to an int
-func float64ToInt(input float64) (output int) {
+// Float64ToInt rounds a float64 to an int
+func Float64ToInt(input float64) (output int) {
 	r, _ := Round(input, 0)
 	return int(r)
+}
+
+// Counts returns a map with the times an item
+// is included in the provided slice or array
+func Counts(input Float64Data) map[float64]int {
+	c := make(map[float64]int, len(input))
+	for _, value := range input {
+		if math.IsNaN(value) {
+			continue
+		}
+		c[value]++
+	}
+	return c
 }
 
 // unixnano returns nanoseconds from UTC epoch
@@ -40,14 +54,4 @@ func sortedCopyDif(input Float64Data) (copy Float64Data) {
 	copy = copyslice(input)
 	sort.Float64s(copy)
 	return
-}
-
-// counts returns a map with the times an item
-// is included in the provided slice or array
-func counts(input Float64Data) map[float64]int {
-	c := make(map[float64]int, len(input))
-	for _, value := range input {
-		c[value]++
-	}
-	return c
 }
