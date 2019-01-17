@@ -6,9 +6,9 @@ import (
 )
 
 func ExampleSigmoid() {
-	s, _ := Sigmoid([]float64{3.0, 1.0, 0.2})
+	s, _ := Sigmoid([]float64{3.0, 1.0, 2.1})
 	fmt.Println(s)
-	// Output: [0.9525741268224334 0.7310585786300049 0.549833997312478]
+	// Output: [0.9525741268224334 0.7310585786300049 0.8909031788043871]
 }
 
 func TestSigmoidEmptyInput(t *testing.T) {
