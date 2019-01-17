@@ -1,26 +1,27 @@
 package stats
 
-type statsErr struct {
+type statsError struct {
 	err string
 }
 
-func (s statsErr) Error() string {
+func (s statsError) Error() string {
 	return s.err
 }
 
-func (s statsErr) String() string {
+func (s statsError) String() string {
 	return s.err
 }
 
 // These are the package-wide error values.
 // All error identification should use these values.
+// https://github.com/golang/go/wiki/Errors#naming
 var (
-	EmptyInputErr = statsErr{"Input must not be empty."}
-	NaNErr        = statsErr{"Not a number."}
-	NegativeErr   = statsErr{"Must not contain negative values."}
-	ZeroErr       = statsErr{"Must not contain zero values."}
-	BoundsErr     = statsErr{"Input is outside of range."}
-	SizeErr       = statsErr{"Must be the same length."}
-	InfValue      = statsErr{"Value is infinite."}
-	YCoordErr     = statsErr{"Y Value must be greater than zero."}
+	ErrEmptyInput = statsError{"Input must not be empty."}
+	ErrNaN        = statsError{"Not a number."}
+	ErrNegative   = statsError{"Must not contain negative values."}
+	ErrZero       = statsError{"Must not contain zero values."}
+	ErrBounds     = statsError{"Input is outside of range."}
+	ErrSize       = statsError{"Must be the same length."}
+	ErrInfValue   = statsError{"Value is infinite."}
+	ErrYCoord     = statsError{"Y Value must be greater than zero."}
 )
