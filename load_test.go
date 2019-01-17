@@ -143,7 +143,7 @@ var allTestData = []struct {
 	},
 }
 
-func equal(actual, expected Float64Data) bool {
+func equalData(actual, expected Float64Data) bool {
 	if len(actual) != len(expected) {
 		return false
 	}
@@ -160,7 +160,7 @@ func equal(actual, expected Float64Data) bool {
 func TestLoadRawData(t *testing.T) {
 	for _, data := range allTestData {
 		actual := LoadRawData(data.actual)
-		if !equal(actual, data.expected) {
+		if !equalData(actual, data.expected) {
 			t.Fatalf("Transform(%v). Expected [%v], Actual [%v]", data.actual, data.expected, actual)
 		}
 	}

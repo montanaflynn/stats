@@ -1,4 +1,8 @@
-.PHONY: all
+default: lint test
+
+deps:
+	go get github.com/alecthomas/gometalinter
+	gometalinter --install
 
 doc:
 	godoc `pwd`
@@ -6,12 +10,15 @@ doc:
 webdoc:
 	godoc -http=:44444
 
-format: 
+format:
 	go fmt
 
+lint: format
+	gometalinter --disable gocyclo deadcode
+
 test:
-	go test -race 
-	
+	go test -race
+
 check: format test
 
 benchmark:
@@ -20,10 +27,3 @@ benchmark:
 coverage:
 	go test -coverprofile=coverage.out
 	go tool cover -html="coverage.out"
-
-lint: format
-	go get github.com/alecthomas/gometalinter
-	gometalinter --install
-	gometalinter 
-
-default: lint test

@@ -159,10 +159,22 @@ func main() {
 	// Output: 0.4
 
 	sig, _ := stats.Sigmoid([]float64{3.0, 1.0, 0.2})
-	fmt.Println(s)
+	fmt.Println(sig)
 	// Output: [0.9525741268224334 0.7310585786300049 0.549833997312478]
 
 	sm, _ := stats.SoftMax([]float64{3.0, 1.0, 0.2})
 	fmt.Println(sm)
 	// Output: [0.8360188027814407 0.11314284146556013 0.05083835575299916]
+
+	u := stats.RemoveDuplicates([]float64{3.0, 1.0, 3.0, 0.2, 1.0})
+	fmt.Println(u)
+	// Output: [3 1 0.2]
+
+	u = stats.FindUniques([]float64{3.0, 1.0, 3.0, 0.2, 1.0})
+	fmt.Println(u)
+	// Output: [0.2]
+
+	i := stats.Float64ToInt(4.8213)
+	fmt.Println(i)
+	// Output: 5
 }

@@ -9,6 +9,7 @@ import (
 
 var data1 = Float64Data{-10, -10.001, 5, 1.1, 2, 3, 4.20, 5}
 var data2 = Float64Data{-9, -9.001, 4, .1, 1, 2, 3.20, 5}
+var data3 = Float64Data{1, 2, 2, 3, 4, 5, 4, 6, 6, math.NaN(), math.Inf(-1)}
 
 func getFunctionName(i interface{}) string {
 	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
@@ -104,6 +105,20 @@ func TestHelperMethods(t *testing.T) {
 	mo, _ := data1.Mode()
 	if !reflect.DeepEqual(mo, []float64{5.0}) {
 		t.Errorf("Mode() => %.1f != %.1f", mo, []float64{5.0})
+	}
+
+	// Test FindUniques
+	uv := data3.FindUniques()
+	uvs := []float64{1, 3, 5, math.Inf(-1)}
+	if !reflect.DeepEqual(uv, uvs) {
+		t.Errorf("FindUniques() => %f != %f", uv, uvs)
+	}
+
+	// Test RemoveDuplicates
+	rd := data3.RemoveDuplicates()
+	rds := []float64{1, 2, 3, 4, 5, 6, math.Inf(-1)}
+	if !reflect.DeepEqual(rd, rds) {
+		t.Errorf("RemoveDuplicates() => %f != %f", rd, rds)
 	}
 
 	// Test InterQuartileRange
