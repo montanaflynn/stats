@@ -4,9 +4,6 @@ import "math"
 
 // Entropy provides calculation of the entropy
 func Entropy(input Float64Data) (float64, error) {
-	if input.Len() == 0 {
-		return math.NaN(), EmptyInputErr
-	}
 	input, err := normalize(input)
 	if err != nil {
 		return math.NaN(), err
