@@ -507,7 +507,7 @@ func test(d string, r, a, v float64, e error, t *testing.T) {
 		failure = math.Abs(r) > v
 	}
 
-	if failure == true {
+	if failure {
 		t.Errorf("%s => %v != %v", d, r, a)
 	}
 }
