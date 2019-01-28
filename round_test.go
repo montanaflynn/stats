@@ -1,9 +1,16 @@
 package stats
 
 import (
+	"fmt"
 	"math"
 	"testing"
 )
+
+func ExampleRound() {
+	rounded, _ := Round(1.534424, 1)
+	fmt.Println(rounded)
+	// Output: 1.5
+}
 
 func TestRound(t *testing.T) {
 	for _, c := range []struct {
