@@ -190,6 +190,33 @@ func TestQuartileMethods(t *testing.T) {
 	}
 }
 
+func TestSigmoidMethod(t *testing.T) {
+	d := LoadRawData([]float64{3.0, 1.0, 2.1})
+	a := []float64{0.9525741268224334, 0.7310585786300049, 0.8909031788043871}
+	s, _ := d.Sigmoid()
+	if !reflect.DeepEqual(s, a) {
+		t.Errorf("Sigmoid() => %g != %g", s, a)
+	}
+}
+
+func TestSoftMaxMethod(t *testing.T) {
+	d := LoadRawData([]float64{3.0, 1.0, 0.2})
+	a := []float64{0.8360188027814407, 0.11314284146556013, 0.05083835575299916}
+	s, _ := d.SoftMax()
+	if !reflect.DeepEqual(s, a) {
+		t.Errorf("SoftMax() => %g != %g", s, a)
+	}
+}
+
+func TestEntropyMethod(t *testing.T) {
+	d := LoadRawData([]float64{3.0, 1.0, 0.2})
+	a := 0.7270013625470586
+	e, _ := d.Entropy()
+	if e != a {
+		t.Errorf("Entropy() => %v != %v", e, a)
+	}
+}
+
 // Here we show the regular way of doing it
 // with a plain old slice of float64s
 func BenchmarkRegularAPI(b *testing.B) {

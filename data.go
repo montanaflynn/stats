@@ -142,7 +142,23 @@ func (f Float64Data) Covariance(d Float64Data) (float64, error) {
 	return Covariance(f, d)
 }
 
-// CovariancePopulation computes covariance for entire population between two variables.
+// CovariancePopulation computes covariance for entire population between two variables
 func (f Float64Data) CovariancePopulation(d Float64Data) (float64, error) {
 	return CovariancePopulation(f, d)
+}
+
+// Sigmoid returns the input values along the sigmoid or s-shaped curve
+func (f Float64Data) Sigmoid() ([]float64, error) {
+	return Sigmoid(f)
+}
+
+// SoftMax returns the input values in the range of 0 to 1
+// with sum of all the probabilities being equal to one.
+func (f Float64Data) SoftMax() ([]float64, error) {
+	return SoftMax(f)
+}
+
+// Entropy provides calculation of the entropy
+func (f Float64Data) Entropy() (float64, error) {
+	return Entropy(f)
 }
