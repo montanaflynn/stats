@@ -4,7 +4,6 @@ A well tested and comprehensive Golang statistics library package with no depend
 
 If you have any suggestions, problems or bug reports please [create an issue](https://github.com/montanaflynn/stats/issues) and I'll do my best to accommodate you. In addition simply starring the repo would show your support for the project and be very much appreciated!
 
-
 ## Installation
 
 ```
@@ -39,12 +38,13 @@ You can view docs offline with the following commands:
 
 ```
 # Command line
-godoc ./
-godoc ./ Median
-godoc ./ Float64Data
+godoc .              # show all exported apis
+godoc . Median       # show a single function
+godoc -ex . Round    # show function with example
+godoc . Float64Data  # show the type and methods
 
 # Local website
-godoc -http=:4444
+godoc -http=:4444    # start the godoc server on port 4444
 open http://localhost:4444/pkg/github.com/montanaflynn/stats/
 ```
 
