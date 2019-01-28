@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-type distanceFunctionType func([]float64, []float64) (float64, error)
+type distanceFunctionType func(Float64Data, Float64Data) (float64, error)
 
 var minkowskiDistanceTestMatrix = []struct {
 	dataPointX []float64

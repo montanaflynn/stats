@@ -5,7 +5,7 @@ import (
 )
 
 // Validate data for distance calculation
-func validateData(dataPointX, dataPointY []float64) error {
+func validateData(dataPointX, dataPointY Float64Data) error {
 	if len(dataPointX) == 0 || len(dataPointY) == 0 {
 		return EmptyInputErr
 	}
@@ -17,7 +17,7 @@ func validateData(dataPointX, dataPointY []float64) error {
 }
 
 // ChebyshevDistance computes the Chebyshev distance between two data sets
-func ChebyshevDistance(dataPointX, dataPointY []float64) (distance float64, err error) {
+func ChebyshevDistance(dataPointX, dataPointY Float64Data) (distance float64, err error) {
 	err = validateData(dataPointX, dataPointY)
 	if err != nil {
 		return math.NaN(), err
@@ -33,7 +33,7 @@ func ChebyshevDistance(dataPointX, dataPointY []float64) (distance float64, err 
 }
 
 // EuclideanDistance computes the Euclidean distance between two data sets
-func EuclideanDistance(dataPointX, dataPointY []float64) (distance float64, err error) {
+func EuclideanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error) {
 
 	err = validateData(dataPointX, dataPointY)
 	if err != nil {
@@ -47,7 +47,7 @@ func EuclideanDistance(dataPointX, dataPointY []float64) (distance float64, err 
 }
 
 // ManhattanDistance computes the Manhattan distance between two data sets
-func ManhattanDistance(dataPointX, dataPointY []float64) (distance float64, err error) {
+func ManhattanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error) {
 	err = validateData(dataPointX, dataPointY)
 	if err != nil {
 		return math.NaN(), err
@@ -72,7 +72,7 @@ func ManhattanDistance(dataPointX, dataPointY []float64) (distance float64, err 
 //                distance.
 // Return:
 //     Distance or error
-func MinkowskiDistance(dataPointX, dataPointY []float64, lambda float64) (distance float64, err error) {
+func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (distance float64, err error) {
 	err = validateData(dataPointX, dataPointY)
 	if err != nil {
 		return math.NaN(), err

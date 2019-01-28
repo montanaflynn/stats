@@ -69,17 +69,17 @@ type Float64Data []float64
 func LoadRawData(raw interface{}) (f Float64Data) {}
 
 func AutoCorrelation(data Float64Data, lags int) (float64, error) {}
-func ChebyshevDistance(dataPointX, dataPointY []float64) (distance float64, err error) {}
+func ChebyshevDistance(dataPointX, dataPointY Float64Data) (distance float64, err error) {}
 func Correlation(data1, data2 Float64Data) (float64, error) {}
 func Covariance(data1, data2 Float64Data) (float64, error) {}
 func CovariancePopulation(data1, data2 Float64Data) (float64, error) {}
 func CumulativeSum(input Float64Data) ([]float64, error) {}
 func Entropy(input Float64Data) (float64, error) {}
-func EuclideanDistance(dataPointX, dataPointY []float64) (distance float64, err error) {}
+func EuclideanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error) {}
 func GeometricMean(input Float64Data) (float64, error) {}
 func HarmonicMean(input Float64Data) (float64, error) {}
 func InterQuartileRange(input Float64Data) (float64, error) {}
-func ManhattanDistance(dataPointX, dataPointY []float64) (distance float64, err error) {}
+func ManhattanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error) {}
 func Max(input Float64Data) (max float64, err error) {}
 func Mean(input Float64Data) (float64, error) {}
 func Median(input Float64Data) (median float64, err error) {}
@@ -87,7 +87,7 @@ func MedianAbsoluteDeviation(input Float64Data) (mad float64, err error) {}
 func MedianAbsoluteDeviationPopulation(input Float64Data) (mad float64, err error) {}
 func Midhinge(input Float64Data) (float64, error) {}
 func Min(input Float64Data) (min float64, err error) {}
-func MinkowskiDistance(dataPointX, dataPointY []float64, lambda float64) (distance float64, err error) {}
+func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (distance float64, err error) {}
 func Mode(input Float64Data) (mode []float64, err error) {}
 func Pearson(data1, data2 Float64Data) (float64, error) {}
 func Percentile(input Float64Data, percent float64) (percentile float64, err error) {}
