@@ -35,23 +35,15 @@ func LogReg(s []Coordinate) (regressions []Coordinate, err error) {
 	return LogarithmicRegression(s)
 }
 
+// Legacy error names that didn't start with Err
 var (
-	// EmptyInputErr legacy error name didn't start with Err
 	EmptyInputErr = ErrEmptyInput
-	// NaNErr legacy error name didn't start with Err
-	NaNErr = ErrNaN
-	// NegativeErr legacy error name didn't start with Err
-	NegativeErr = ErrNegative
-	// ZeroErr legacy error name didn't start with Err
-	ZeroErr = ErrZero
-	// BoundsErr legacy error name didn't start with Err
-	BoundsErr = ErrBounds
-	// SizeErr legacy error name didn't start with Err
-	SizeErr = ErrSize
-	// InfValue legacy error name didn't start with Err
-	InfValue = ErrInfValue
-	// YCoordErr legacy error name didn't start with Err
-	YCoordErr = ErrYCoord
-	// EmptyInput legacy error name didn't end with Err
-	EmptyInput = ErrEmptyInput
+	NaNErr        = ErrNaN
+	NegativeErr   = ErrNegative
+	ZeroErr       = ErrZero
+	BoundsErr     = ErrBounds
+	SizeErr       = ErrSize
+	InfValue      = ErrInfValue
+	YCoordErr     = ErrYCoord
+	EmptyInput    = ErrEmptyInput
 )
