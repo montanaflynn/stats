@@ -32,7 +32,7 @@ func TestCorrelation(t *testing.T) {
 		{"Same Input Value", [][]float64{s5, s5}, 0.00, nil},
 	}
 	for _, tc := range testCases {
-		t.Run(fmt.Sprintf("%s", tc.name), func(t *testing.T) {
+		t.Run(tc.name, func(t *testing.T) {
 			a, err := Correlation(tc.input[0], tc.input[1])
 			if err != nil {
 				if err != tc.err {

@@ -34,7 +34,7 @@ func Pearson(data1, data2 Float64Data) (float64, error) {
 	return Correlation(data1, data2)
 }
 
-// Autocorrelation is the correlation of a signal with a delayed copy of itself as a function of delay
+// AutoCorrelation is the correlation of a signal with a delayed copy of itself as a function of delay
 func AutoCorrelation(data Float64Data, lags int) (float64, error) {
 	if len(data) < 1 {
 		return 0, EmptyInputErr
