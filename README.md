@@ -62,15 +62,19 @@ var (
     ErrYCoord     = statsError{"Y Value must be greater than zero."}
 )
 
+func Round(input float64, places int) (rounded float64, err error) {}
+
 type Float64Data []float64
 
 func LoadRawData(raw interface{}) (f Float64Data) {}
+
 func AutoCorrelation(data Float64Data, lags int) (float64, error) {}
 func ChebyshevDistance(dataPointX, dataPointY []float64) (distance float64, err error) {}
 func Correlation(data1, data2 Float64Data) (float64, error) {}
 func Covariance(data1, data2 Float64Data) (float64, error) {}
 func CovariancePopulation(data1, data2 Float64Data) (float64, error) {}
 func CumulativeSum(input Float64Data) ([]float64, error) {}
+func Entropy(input Float64Data) (float64, error) {}
 func EuclideanDistance(dataPointX, dataPointY []float64) (distance float64, err error) {}
 func GeometricMean(input Float64Data) (float64, error) {}
 func HarmonicMean(input Float64Data) (float64, error) {}
@@ -89,7 +93,6 @@ func Pearson(data1, data2 Float64Data) (float64, error) {}
 func Percentile(input Float64Data, percent float64) (percentile float64, err error) {}
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error) {}
 func PopulationVariance(input Float64Data) (pvar float64, err error) {}
-func Round(input float64, places int) (rounded float64, err error) {}
 func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error) {}
 func SampleVariance(input Float64Data) (svar float64, err error) {}
 func Sigmoid(input Float64Data) ([]float64, error) {}

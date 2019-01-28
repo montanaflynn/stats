@@ -165,4 +165,8 @@ func main() {
 	sm, _ := stats.SoftMax([]float64{3.0, 1.0, 0.2})
 	fmt.Println(sm)
 	// Output: [0.8360188027814407 0.11314284146556013 0.05083835575299916]
+
+	e, _ = stats.Entropy([]float64{1.1, 2.2, 3.3})
+	fmt.Println(e)
+	// Output: 1.0114042647073518
 }
