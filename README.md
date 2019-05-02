@@ -12,7 +12,7 @@ go get github.com/montanaflynn/stats
 
 ## Example Usage
 
-All the functions can be seen in [examples/main.go](https://github.com/montanaflynn/stats/blob/master/examples/main.go) but here's a little taste:
+All the functions can be seen in [examples/main.go](examples/main.go) but here's a little taste:
 
 ```go
 // start with some source data to use
