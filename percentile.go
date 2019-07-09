@@ -6,9 +6,13 @@ import (
 
 // Percentile finds the relative standing in a slice of floats
 func Percentile(input Float64Data, percent float64) (percentile float64, err error) {
-
-	if input.Len() == 0 {
+	length := input.Len()
+	if length == 0 {
 		return math.NaN(), EmptyInputErr
+	}
+
+	if length == 1 {
+		return input[0], nil
 	}
 
 	if percent <= 0 || percent > 100 {
