@@ -18,6 +18,10 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 	// Start by sorting a copy of the slice
 	c := sortedCopy(input)
 
+	if len(c) == 1 {
+		return c[0], nil
+	}
+
 	// Multiply percent by length of input
 	index := (percent / 100) * float64(len(c))
 
