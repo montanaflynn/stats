@@ -10,6 +10,10 @@ func TestPercentile(t *testing.T) {
 	if m != 64.0 {
 		t.Errorf("%.1f != %.1f", m, 64.0)
 	}
+	m, _ = Percentile([]float64{43}, 90)
+	if m != 43.0 {
+		t.Errorf("%.1f != %.1f", m, 43.0)
+	}
 	m, _ = Percentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 50)
 	if m != 5.0 {
 		t.Errorf("%.1f != %.1f", m, 5.0)
