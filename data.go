@@ -77,7 +77,7 @@ func (f Float64Data) Percentile(p float64) (float64, error) {
 	return Percentile(f, p)
 }
 
-// MultiPercentile returns multi percentiles at one traversal
+// MultiPercentile returns multi percentiles by once one sorting
 func (f Float64Data) MultiPercentile(p ...float64) ([]float64, error) {
 	return MultiPercentile(f, p...)
 }

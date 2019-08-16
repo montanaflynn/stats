@@ -50,7 +50,7 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 
 }
 
-// MultiPercentile can return multiple percents by only one traverse
+// MultiPercentile can return multiple percents by only one sorting
 func MultiPercentile(input Float64Data, percents ...float64) ([]float64, error) {
 	length := input.Len()
 	if length == 0 {
