@@ -77,6 +77,11 @@ func (f Float64Data) Percentile(p float64) (float64, error) {
 	return Percentile(f, p)
 }
 
+// MultiPercentile returns multi percentiles at one traversal
+func (f Float64Data) MultiPercentile(p ...float64) ([]float64, error) {
+	return MultiPercentile(f, p...)
+}
+
 // PercentileNearestRank finds the relative standing using the Nearest Rank method
 func (f Float64Data) PercentileNearestRank(p float64) (float64, error) {
 	return PercentileNearestRank(f, p)
