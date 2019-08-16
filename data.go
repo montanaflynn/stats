@@ -127,6 +127,11 @@ func (f Float64Data) Sample(n int, r bool) ([]float64, error) {
 	return Sample(f, n, r)
 }
 
+// StableSample like stable sort, it returns samples from input while keeps the order of original data.
+func (f Float64Data) StableSample(n int) ([]float64, error) {
+	return StableSample(f, n)
+}
+
 // Variance the amount of variation in the dataset
 func (f Float64Data) Variance() (float64, error) {
 	return Variance(f)

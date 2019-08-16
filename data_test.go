@@ -147,6 +147,20 @@ func TestPercentileMethods(t *testing.T) {
 
 }
 
+func TestMultiPercentileMethod(t *testing.T) {
+	data := Float64Data{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	ret, err := data.MultiPercentile(10, 20)
+	if err != nil {
+		t.Errorf("%s returned an error", getFunctionName(data.MultiPercentile))
+	}
+	if len(ret) != 2 {
+		t.Errorf("%s doesn't return 2 percentiles", getFunctionName(data.MultiPercentile))
+	}
+	if ret[0] != 1 || ret[1] != 2 {
+		t.Errorf("%s return wrong percentile", getFunctionName(data.MultiPercentile))
+	}
+}
+
 func assertOtherDataMethods(fn func(d Float64Data) (float64, error), d Float64Data, f float64, t *testing.T) {
 	res, err := fn(d)
 	checkResult(res, err, getFunctionName(fn), f, t)
@@ -173,6 +187,19 @@ func TestSampleMethod(t *testing.T) {
 	_, err := data1.Sample(5, true)
 	if err != nil {
 		t.Errorf("%s returned an error", getFunctionName(data1.Sample))
+	}
+}
+
+func TestStableSampleMethod(t *testing.T) {
+	data := Float64Data{1, 2, 3, 4, 5}
+	ret, err := data.StableSample(3)
+	if err != nil {
+		t.Errorf("%s shouldn't return error", getFunctionName(data.StableSample))
+	}
+	for i := 1; i < 3; i++ {
+		if ret[i] < ret[i-1] {
+			t.Errorf("%s doesn't keep order", getFunctionName(data.StableSample))
+		}
 	}
 }
 
