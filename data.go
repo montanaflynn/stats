@@ -127,9 +127,9 @@ func (f Float64Data) Sample(n int, r bool) ([]float64, error) {
 	return Sample(f, n, r)
 }
 
-// StableSample like stable sort, it returns samples from input while keeps the order of original data.
-func (f Float64Data) StableSample(n int) ([]float64, error) {
-	return StableSample(f, n)
+// StableSample like stable sort, it returns takenum samples from input while keeps the order of original data.
+func (f Float64Data) StableSample(takenum int) ([]float64, error) {
+	return StableSample(f, takenum)
 }
 
 // Variance the amount of variation in the dataset

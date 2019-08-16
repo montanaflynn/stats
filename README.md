@@ -91,9 +91,11 @@ func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (dist
 func Mode(input Float64Data) (mode []float64, err error) {}
 func Pearson(data1, data2 Float64Data) (float64, error) {}
 func Percentile(input Float64Data, percent float64) (percentile float64, err error) {}
+func MultiPercentile(p ...float64) ([]float64, error) {}
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error) {}
 func PopulationVariance(input Float64Data) (pvar float64, err error) {}
 func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error) {}
+func StableSample(takenum int) ([]float64, error) {}
 func SampleVariance(input Float64Data) (svar float64, err error) {}
 func Sigmoid(input Float64Data) ([]float64, error) {}
 func SoftMax(input Float64Data) ([]float64, error) {}
