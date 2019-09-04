@@ -10,6 +10,7 @@ func TestMode(t *testing.T) {
 		in  []float64
 		out []float64
 	}{
+		{[]float64{2, 2, 2, 2}, []float64{2}},
 		{[]float64{5, 3, 4, 2, 1}, []float64{}},
 		{[]float64{5, 5, 3, 3, 4, 4, 2, 2, 1, 1}, []float64{}},
 		{[]float64{5, 5, 3, 4, 2, 1}, []float64{5}},
