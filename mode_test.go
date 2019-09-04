@@ -2,7 +2,6 @@ package stats
 
 import (
 	"reflect"
-	"sort"
 	"testing"
 )
 
@@ -12,6 +11,7 @@ func TestMode(t *testing.T) {
 		out []float64
 	}{
 		{[]float64{5, 3, 4, 2, 1}, []float64{}},
+		{[]float64{5, 5, 3, 3, 4, 4, 2, 2, 1, 1}, []float64{}},
 		{[]float64{5, 5, 3, 4, 2, 1}, []float64{5}},
 		{[]float64{5, 5, 3, 3, 4, 2, 1}, []float64{3, 5}},
 		{[]float64{1}, []float64{1}},
@@ -23,7 +23,6 @@ func TestMode(t *testing.T) {
 		if err != nil {
 			t.Errorf("Returned an error")
 		}
-		sort.Float64s(got)
 		if !reflect.DeepEqual(c.out, got) {
 			t.Errorf("Mode(%.1f) => %.1f != %.1f", c.in, got, c.out)
 		}
