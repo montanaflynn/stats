@@ -23,19 +23,19 @@ func NormPpfRvs(loc float64, scale float64, size int) []float64 {
 func NormBoxMullerRvs(loc float64, scale float64, size int) []float64 {
 	rand.Seed(time.Now().UnixNano())
 	var toReturn []float64
-		for i := 0; i < int(math.Floor(float64(size / 2)) + float64(size % 2)); i++ {
-			// u1 and u2 are uniformly distributed random numbers between 0 and 1.
-			u1 := rand.Float64()
-			u2 := rand.Float64()
-			// x1 and x2 are normally distributed random numbers.
-			x1 := loc + (scale * (math.Sqrt(-2*math.Log(u1)) * math.Cos(2*math.Pi*u2)))
-			toReturn = append(toReturn, x1)
-			if (i + 1) * 2 <= size {
-				x2 := loc + (scale * (math.Sqrt(-2*math.Log(u1)) * math.Sin(2*math.Pi*u2)))
-				toReturn = append(toReturn, x2)
-			}
+	for i := 0; i < int(math.Floor(float64(size / 2)) + float64(size % 2)); i++ {
+		// u1 and u2 are uniformly distributed random numbers between 0 and 1.
+		u1 := rand.Float64()
+		u2 := rand.Float64()
+		// x1 and x2 are normally distributed random numbers.
+		x1 := loc + (scale * (math.Sqrt(-2*math.Log(u1)) * math.Cos(2*math.Pi*u2)))
+		toReturn = append(toReturn, x1)
+		if (i + 1) * 2 <= size {
+			x2 := loc + (scale * (math.Sqrt(-2*math.Log(u1)) * math.Sin(2*math.Pi*u2)))
+			toReturn = append(toReturn, x2)
 		}
-		return toReturn
+	}
+	return toReturn
 }
 
 // Probability density function.
@@ -146,9 +146,9 @@ func NormMoment(n int, loc float64, scale float64) float64 {
 	toReturn := 0.0
 	for i := 0; i < n + 1; i++ {
 		if (n-i) % 2 == 0 {
-			toReturn += float64(ncr(n, i)) * (math.Pow(loc, float64(i))) * (math.Pow(scale, float64(n - i))) *
-						(float64(factorial(n - i)) / ((math.Pow(2.0, float64((n - i) / 2))) *
-							float64(factorial((n - i) / 2))))
+			toReturn += float64(Ncr(n, i)) * (math.Pow(loc, float64(i))) * (math.Pow(scale, float64(n - i))) *
+				(float64(factorial(n - i)) / ((math.Pow(2.0, float64((n - i) / 2))) *
+					float64(factorial((n - i) / 2))))
 		}
 	}
 	return toReturn
@@ -235,20 +235,21 @@ func factorial(x int) int {
 
 // Aaron Cannon's algorithm.
 // N Choose R.
-func ncr(n, r int) int {
-		if n <= 1 || r == 0 || n == r {
+func Ncr(n, r int) int {
+	if n <= 1 || r == 0 || n == r {
 		return 1
 	}
-		if newR := n - r; newR < r {
+	if newR := n - r; newR < r {
 		r = newR
 	}
-		if r == 1 {
+	if r == 1 {
 		return n
 	}
-		ret := int(n - r + 1)
-		for i, j := ret+1, int(2); j <= r; i, j = i+1, j+1 {
+	ret := int(n - r + 1)
+	for i, j := ret+1, int(2); j <= r; i, j = i+1, j+1 {
 		ret = ret * i / j
 	}
-		return ret
+	return ret
 }
+
 
