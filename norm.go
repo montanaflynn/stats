@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// Random Variates using Point Percentile Function.
+// NormPpfRvs generates random variates using the Point Percentile Function.
 // For more information please visit: https://demonstrations.wolfram.com/TheMethodOfInverseTransforms/
 func NormPpfRvs(loc float64, scale float64, size int) []float64 {
 	rand.Seed(time.Now().UnixNano())
@@ -18,7 +18,7 @@ func NormPpfRvs(loc float64, scale float64, size int) []float64 {
 	return toReturn
 }
 
-// Random Variates using Box–Muller transform.
+// NormBoxMullerRvs generates random variates using the Box–Muller transform.
 // For more information please visit: http://mathworld.wolfram.com/Box-MullerTransformation.html
 func NormBoxMullerRvs(loc float64, scale float64, size int) []float64 {
 	rand.Seed(time.Now().UnixNano())
@@ -38,36 +38,37 @@ func NormBoxMullerRvs(loc float64, scale float64, size int) []float64 {
 	return toReturn
 }
 
-// Probability density function.
+// NormPdf is the probability density function.
 func NormPdf(x float64, loc float64, scale float64) float64 {
 	return (math.Pow(math.E, -(math.Pow(x-loc, 2)) / (2 * math.Pow(scale, 2)))) / (scale* math.Sqrt(2 * math.Pi))
 }
 
-// Log of the probability density function.
+// NormLogPdf is the log of the probability density function.
 func NormLogPdf(x float64, loc float64, scale float64) float64 {
 	return math.Log((math.Pow(math.E, -(math.Pow(x-loc, 2)) / (2 * math.Pow(scale, 2)))) / (scale* math.Sqrt(2 * math.Pi)))
 }
 
-// Cumulative distribution function.
+// NormCdf is the cumulative distribution function.
 func NormCdf(x float64, loc float64, scale float64) float64 {
 	return 0.5*(1 + math.Erf((x - loc) / (scale * math.Sqrt(2))))
 }
 
-// Log of the cumulative distribution function.
+// NormLogCdf is the log of the cumulative distribution function.
 func NormLogCdf(x float64, loc float64, scale float64) float64 {
 	return math.Log(0.5*(1 + math.Erf((x - loc) / (scale * math.Sqrt(2)))))
 }
 
-// Survival function (also defined as 1 - cdf, but sf is sometimes more accurate).
+// NormSf is the survival function (also defined as 1 - cdf, but sf is sometimes more accurate).
 func NormSf(x float64, loc float64, scale float64) float64 {
 	return 1 - 0.5*(1 + math.Erf((x - loc) / (scale * math.Sqrt(2))))
 }
 
-// Log of the survival function.
+// NormLogSf is the log of the survival function.
 func NormLogSf(x float64, loc float64, scale float64) float64 {
 	return math.Log(1 - 0.5*(1 + math.Erf((x - loc) / (scale * math.Sqrt(2)))))
 }
 
+// NormPpf is the point percentile function.
 // This is based on Peter John Acklam's inverse normal CDF.
 // algorithm: http://home.online.no/~pjacklam/notes/invnorm/ (no longer visible).
 // For more information please visit: https://stackedboxes.org/2017/05/01/acklams-normal-quantile-function/
@@ -132,7 +133,7 @@ func NormPpf(p float64, loc float64, scale float64) (x float64) {
 	return x*scale + loc
 }
 
-// Inverse survival function (inverse of sf).
+// NormIsf is the inverse survival function (inverse of sf).
 func NormIsf(p float64, loc float64, scale float64) (x float64) {
 	if -NormPpf(p, loc, scale) == 0 {
 		return 0
@@ -140,7 +141,7 @@ func NormIsf(p float64, loc float64, scale float64) (x float64) {
 	return -NormPpf(p, loc, scale)
 }
 
-// Approximates Non-central (Raw) moment of order n.
+// NormMoment approximates the non-central (raw) moment of order n.
 // For more information please visit: https://math.stackexchange.com/questions/1945448/methods-for-finding-raw-moments-of-the-normal-distribution
 func NormMoment(n int, loc float64, scale float64) float64 {
 	toReturn := 0.0
@@ -153,7 +154,7 @@ func NormMoment(n int, loc float64, scale float64) float64 {
 	}
 	return toReturn
 }
-
+// NormStats returns the mean, variance, skew, and/or kurtosis.
 // Mean(‘m’), variance(‘v’), skew(‘s’), and/or kurtosis(‘k’).
 // Takes string containing any of 'mvsk'.
 // Returns array of m v s k in that order.
@@ -174,12 +175,12 @@ func NormStats(loc float64, scale float64, moments string) []float64 {
 	return toReturn
 }
 
-// Differential Entropy of the RV.
+// NormEntropy is the differential entropy of the RV.
 func NormEntropy(loc float64, scale float64) float64 {
 	return math.Log(scale * math.Sqrt(2 * math.Pi * math.E))
 }
 
-// Maximum Likelihood Estimators for Normal Distribution.
+// NormFit returns the maximum likelihood estimators for the Normal Distribution.
 // Takes array of float64 values.
 // Returns array of Mean followed by Standard Deviation.
 func NormFit(data []float64) [2]float64{
@@ -196,27 +197,27 @@ func NormFit(data []float64) [2]float64{
 	return [2]float64{mean , math.Sqrt((stdNumerator)/(float64(len(data))))}
 }
 
-// Median of the Distribution.
+// NormMedian is the median of the distribution.
 func NormMedian(loc float64, scale float64) float64 {
 	return loc
 }
 
-// Mean/Expected Value of the Distribution.
+// NormMean is the mean/expected value of the distribution.
 func NormMean(loc float64, scale float64) float64 {
 	return loc
 }
 
-// Variance of the Distribution.
+// NormVar is the variance of the distribution.
 func NormVar(loc float64, scale float64) float64 {
 	return math.Pow(scale, 2)
 }
 
-// Standard Deviation of the Distribution.
+// NormStd is the standard deviation of the distribution.
 func NormStd(loc float64, scale float64) float64 {
 	return scale
 }
 
-// Finds endpoints of the range that contains alpha percent of the distribution.
+// NormInterval finds endpoints of the range that contains alpha percent of the distribution.
 func NormInterval(alpha float64, loc float64,  scale float64 ) [2]float64 {
 	q1 := (1.0-alpha)/2
 	q2 := (1.0+alpha)/2
@@ -225,7 +226,7 @@ func NormInterval(alpha float64, loc float64,  scale float64 ) [2]float64 {
 	return [2]float64{a, b}
 }
 
-// Naive factorial algorithm.
+// factorial is the naive factorial algorithm.
 func factorial(x int) int {
 	if x == 0 {
 		return 1
@@ -233,8 +234,8 @@ func factorial(x int) int {
 	return x * factorial(x - 1)
 }
 
+// Ncr is an N choose R algorithm.
 // Aaron Cannon's algorithm.
-// N Choose R.
 func Ncr(n, r int) int {
 	if n <= 1 || r == 0 || n == r {
 		return 1
