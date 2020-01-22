@@ -89,6 +89,25 @@ func Midhinge(input Float64Data) (float64, error) {}
 func Min(input Float64Data) (min float64, err error) {}
 func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (distance float64, err error) {}
 func Mode(input Float64Data) (mode []float64, err error) {}
+func NormBoxMullerRvs(loc float64, scale float64, size int) []float64 {}
+func NormCdf(x float64, loc float64, scale float64) float64 {}
+func NormEntropy(loc float64, scale float64) float64 {}
+func NormFit(data []float64) [2]float64{}
+func NormInterval(alpha float64, loc float64,  scale float64 ) [2]float64 {}
+func NormIsf(p float64, loc float64, scale float64) (x float64) {}
+func NormLogCdf(x float64, loc float64, scale float64) float64 {}
+func NormLogPdf(x float64, loc float64, scale float64) float64 {}
+func NormLogSf(x float64, loc float64, scale float64) float64 {}
+func NormMean(loc float64, scale float64) float64 {}
+func NormMedian(loc float64, scale float64) float64 {}
+func NormMoment(n int, loc float64, scale float64) float64 {}
+func NormPdf(x float64, loc float64, scale float64) float64 {}
+func NormPpf(p float64, loc float64, scale float64) (x float64) {}
+func NormPpfRvs(loc float64, scale float64, size int) []float64 {}
+func NormSf(x float64, loc float64, scale float64) float64 {}
+func NormStats(loc float64, scale float64, moments string) []float64 {}
+func NormStd(loc float64, scale float64) float64 {}
+func NormVar(loc float64, scale float64) float64 {}
 func Pearson(data1, data2 Float64Data) (float64, error) {}
 func Percentile(input Float64Data, percent float64) (percentile float64, err error) {}
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error) {}
