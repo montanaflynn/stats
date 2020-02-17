@@ -53,6 +53,41 @@ func TestPercentileSortSideEffects(t *testing.T) {
 	}
 }
 
+func TestMultiPercentile(t *testing.T) {
+	ret, err := MultiPercentile([]float64{43, 54, 56, 61, 62, 66}, 20, 90)
+	if err != nil {
+		t.Errorf("error should be nil")
+	}
+	if len(ret) != 2 {
+		t.Errorf("ret len should be 2")
+	}
+	if ret[0] != 48.5 && ret[1] != 64.0 {
+		t.Errorf("ret wrong percentile")
+	}
+	_, err = MultiPercentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 20, 30, 110)
+	if err != BoundsErr {
+		t.Errorf("err should be BoundsErr")
+	}
+	_, err = MultiPercentile([]float64{}, 50)
+	if err != EmptyInputErr {
+		t.Errorf("err should be EmptyInputErr")
+	}
+	_, err = MultiPercentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 20, 30, 5)
+	if err != BoundsErr {
+		t.Errorf("err should be BoundsErr")
+	}
+	ret, err = MultiPercentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 30, 50, 90)
+	if err != nil {
+		t.Errorf("err should be nil")
+	}
+	if len(ret) != 3 {
+		t.Errorf("should return 3 percentiles")
+	}
+	if ret[0] != 3 || ret[1] != 5 || ret[2] != 9 {
+		t.Errorf("return wrong percentile")
+	}
+}
+
 func BenchmarkPercentileSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Percentile(makeFloatSlice(5), 50)

@@ -110,9 +110,11 @@ func NormStd(loc float64, scale float64) float64 {}
 func NormVar(loc float64, scale float64) float64 {}
 func Pearson(data1, data2 Float64Data) (float64, error) {}
 func Percentile(input Float64Data, percent float64) (percentile float64, err error) {}
+func MultiPercentile(p ...float64) ([]float64, error) {}
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error) {}
 func PopulationVariance(input Float64Data) (pvar float64, err error) {}
 func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error) {}
+func StableSample(takenum int) ([]float64, error) {}
 func SampleVariance(input Float64Data) (svar float64, err error) {}
 func Sigmoid(input Float64Data) ([]float64, error) {}
 func SoftMax(input Float64Data) ([]float64, error) {}

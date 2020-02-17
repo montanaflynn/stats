@@ -77,6 +77,11 @@ func (f Float64Data) Percentile(p float64) (float64, error) {
 	return Percentile(f, p)
 }
 
+// MultiPercentile returns multi percentiles by only one sorting
+func (f Float64Data) MultiPercentile(p ...float64) ([]float64, error) {
+	return MultiPercentile(f, p...)
+}
+
 // PercentileNearestRank finds the relative standing using the Nearest Rank method
 func (f Float64Data) PercentileNearestRank(p float64) (float64, error) {
 	return PercentileNearestRank(f, p)
@@ -120,6 +125,11 @@ func (f Float64Data) Trimean(d Float64Data) (float64, error) {
 // Sample returns sample from input with replacement or without
 func (f Float64Data) Sample(n int, r bool) ([]float64, error) {
 	return Sample(f, n, r)
+}
+
+// StableSample like stable sort, it returns takenum samples from input while keeps the order of original data.
+func (f Float64Data) StableSample(takenum int) ([]float64, error) {
+	return StableSample(f, takenum)
 }
 
 // Variance the amount of variation in the dataset

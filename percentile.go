@@ -50,6 +50,47 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 
 }
 
+// MultiPercentile can return multiple percents by only one sorting
+func MultiPercentile(input Float64Data, percents ...float64) ([]float64, error) {
+	length := input.Len()
+	if length == 0 {
+		return nil, EmptyInputErr
+	}
+	for _, percent := range percents {
+		if percent <= 0 || percent > 100 {
+			return nil, BoundsErr
+		}
+	}
+	ret := make([]float64, len(percents))
+	c := sortedCopy(input)
+	for l, percent := range percents {
+		// Multiply percent by length of input
+		index := (percent / 100) * float64(len(c))
+
+		// Check if the index is a whole number
+		if index == float64(int64(index)) {
+
+			// Convert float to int
+			i := int(index)
+
+			// Find the value at the index
+			ret[l] = c[i-1]
+
+		} else if index > 1 {
+
+			// Convert float to int via truncation
+			i := int(index)
+
+			// Find the average of the index and following values
+			ret[l], _ = Mean(Float64Data{c[i-1], c[i]})
+
+		} else {
+			return nil, BoundsErr
+		}
+	}
+	return ret, nil
+}
+
 // PercentileNearestRank finds the relative standing in a slice of floats using the Nearest Rank method
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error) {
 
