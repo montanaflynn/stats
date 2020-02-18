@@ -1,7 +1,9 @@
 .PHONY: all
 
+default: test lint
+
 format: 
-	go fmt
+	go fmt .
 
 test:
 	go test -race 
@@ -25,10 +27,8 @@ docs:
 	godoc2md github.com/montanaflynn/stats | sed -e s#src/target/##g > DOCUMENTATION.md
 
 release:
-	RELEASE_NOTES:=$(shell git-chglog $(TAG))
-	$(RELEASE_NOTES)
 	git tag ${TAG}
+	git-chglog $(TAG) | tail -n +4 | sed '1s/^/$(TAG)\n/gm' > release-notes.txt
 	git push origin master ${TAG}
-	hub release create -m $(RELEASE_NOTES) ${TAG}
+	hub release create --copy -F release-notes.txt ${TAG}
 
-default: lint test
