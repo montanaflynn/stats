@@ -27,7 +27,7 @@ func TestMedian(t *testing.T) {
 
 func BenchmarkMedianSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Median(makeFloatSlice(5))
+		_, _ = Median(makeFloatSlice(5))
 	}
 }
 
@@ -35,14 +35,14 @@ func BenchmarkMedianLargeFloatSlice(b *testing.B) {
 	lf := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Median(lf)
+		_, _ = Median(lf)
 	}
 }
 
 func TestMedianSortSideEffects(t *testing.T) {
 	s := []float64{0.1, 0.3, 0.2, 0.4, 0.5}
 	a := []float64{0.1, 0.3, 0.2, 0.4, 0.5}
-	Median(s)
+	_, _ = Median(s)
 	if !reflect.DeepEqual(s, a) {
 		t.Errorf("%.1f != %.1f", s, a)
 	}

@@ -37,7 +37,7 @@ func TestEntropy(t *testing.T) {
 
 func BenchmarkEntropySmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Entropy(makeFloatSlice(5))
+		_, _ = Entropy(makeFloatSlice(5))
 	}
 }
 
@@ -45,6 +45,6 @@ func BenchmarkEntropyLargeFloatSlice(b *testing.B) {
 	lf := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Entropy(lf)
+		_, _ = Entropy(lf)
 	}
 }

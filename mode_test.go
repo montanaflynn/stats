@@ -36,7 +36,7 @@ func TestMode(t *testing.T) {
 
 func BenchmarkModeSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Mode(makeFloatSlice(5))
+		_, _ = Mode(makeFloatSlice(5))
 	}
 }
 
@@ -44,7 +44,7 @@ func BenchmarkModeSmallRandFloatSlice(b *testing.B) {
 	lf := makeRandFloatSlice(5)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Mode(lf)
+		_, _ = Mode(lf)
 	}
 }
 
@@ -52,7 +52,7 @@ func BenchmarkModeLargeFloatSlice(b *testing.B) {
 	lf := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Mode(lf)
+		_, _ = Mode(lf)
 	}
 }
 
@@ -60,6 +60,6 @@ func BenchmarkModeLargeRandFloatSlice(b *testing.B) {
 	lf := makeRandFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Mode(lf)
+		_, _ = Mode(lf)
 	}
 }

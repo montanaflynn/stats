@@ -38,7 +38,7 @@ func TestMax(t *testing.T) {
 
 func BenchmarkMaxSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Max(makeFloatSlice(5))
+		_, _ = Max(makeFloatSlice(5))
 	}
 }
 
@@ -46,6 +46,6 @@ func BenchmarkMaxLargeFloatSlice(b *testing.B) {
 	lf := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Max(lf)
+		_, _ = Max(lf)
 	}
 }

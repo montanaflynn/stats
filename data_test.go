@@ -222,12 +222,12 @@ func TestEntropyMethod(t *testing.T) {
 func BenchmarkRegularAPI(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		data := []float64{-10, -7, -3.11, 5, 1.1, 2, 3, 4.20, 5, 18}
-		Min(data)
-		Max(data)
-		Sum(data)
-		Mean(data)
-		Median(data)
-		Mode(data)
+		_, _ = Min(data)
+		_, _ = Max(data)
+		_, _ = Sum(data)
+		_, _ = Mean(data)
+		_, _ = Median(data)
+		_, _ = Mode(data)
 	}
 }
 
@@ -237,11 +237,11 @@ func BenchmarkRegularAPI(b *testing.B) {
 func BenchmarkMethodsAPI(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		data := Float64Data{-10, -7, -3.11, 5, 1.1, 2, 3, 4.20, 5, 18}
-		data.Min()
-		data.Max()
-		data.Sum()
-		data.Mean()
-		data.Median()
-		data.Mode()
+		_, _ = data.Min()
+		_, _ = data.Max()
+		_, _ = data.Sum()
+		_, _ = data.Mean()
+		_, _ = data.Median()
+		_, _ = data.Mode()
 	}
 }

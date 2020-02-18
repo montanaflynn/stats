@@ -42,6 +42,6 @@ func TestRound(t *testing.T) {
 
 func BenchmarkRound(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Round(0.1111, 1)
+		_, _ = Round(0.1111, 1)
 	}
 }

@@ -38,7 +38,7 @@ func TestSum(t *testing.T) {
 
 func BenchmarkSumSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Sum(makeFloatSlice(5))
+		_, _ = Sum(makeFloatSlice(5))
 	}
 }
 
@@ -46,6 +46,6 @@ func BenchmarkSumLargeFloatSlice(b *testing.B) {
 	lf := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Sum(lf)
+		_, _ = Sum(lf)
 	}
 }

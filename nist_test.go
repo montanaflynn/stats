@@ -418,9 +418,9 @@ func TestNumacc4Data(t *testing.T) {
 }
 
 func bench(d Float64Data) {
-	Mean(d)
-	StdDevS(d)
-	AutoCorrelation(d, 1)
+	_, _ = Mean(d)
+	_, _ = StdDevS(d)
+	_, _ = AutoCorrelation(d, 1)
 }
 
 func BenchmarkNistLew(b *testing.B) {

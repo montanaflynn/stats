@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func main() {
+func Example() {
 
 	a := 0.0
 

@@ -26,7 +26,7 @@ func TestMean(t *testing.T) {
 
 func BenchmarkMeanSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Mean(makeFloatSlice(5))
+		_, _ = Mean(makeFloatSlice(5))
 	}
 }
 
@@ -34,7 +34,7 @@ func BenchmarkMeanLargeFloatSlice(b *testing.B) {
 	lf := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Mean(lf)
+		_, _ = Mean(lf)
 	}
 }
 

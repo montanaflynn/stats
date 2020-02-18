@@ -47,7 +47,7 @@ func TestPercentile(t *testing.T) {
 func TestPercentileSortSideEffects(t *testing.T) {
 	s := []float64{43, 54, 56, 44, 62, 66}
 	a := []float64{43, 54, 56, 44, 62, 66}
-	Percentile(s, 90)
+	_, _ = Percentile(s, 90)
 	if !reflect.DeepEqual(s, a) {
 		t.Errorf("%.1f != %.1f", s, a)
 	}
@@ -55,7 +55,7 @@ func TestPercentileSortSideEffects(t *testing.T) {
 
 func BenchmarkPercentileSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Percentile(makeFloatSlice(5), 50)
+		_, _ = Percentile(makeFloatSlice(5), 50)
 	}
 }
 
@@ -63,7 +63,7 @@ func BenchmarkPercentileLargeFloatSlice(b *testing.B) {
 	lf := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Percentile(lf, 50)
+		_, _ = Percentile(lf, 50)
 	}
 }
 
@@ -122,7 +122,7 @@ func TestPercentileNearestRank(t *testing.T) {
 
 func BenchmarkPercentileNearestRankSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		PercentileNearestRank(makeFloatSlice(5), 50)
+		_, _ = PercentileNearestRank(makeFloatSlice(5), 50)
 	}
 }
 
@@ -130,6 +130,6 @@ func BenchmarkPercentileNearestRankLargeFloatSlice(b *testing.B) {
 	lf := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		PercentileNearestRank(lf, 50)
+		_, _ = PercentileNearestRank(lf, 50)
 	}
 }

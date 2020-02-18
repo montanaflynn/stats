@@ -30,7 +30,7 @@ func TestCumulativeSum(t *testing.T) {
 
 func BenchmarkCumulativeSumSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		CumulativeSum(makeFloatSlice(5))
+		_, _ = CumulativeSum(makeFloatSlice(5))
 	}
 }
 
@@ -38,6 +38,6 @@ func BenchmarkCumulativeSumLargeFloatSlice(b *testing.B) {
 	lf := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		CumulativeSum(lf)
+		_, _ = CumulativeSum(lf)
 	}
 }
