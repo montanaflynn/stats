@@ -18,6 +18,6 @@ Example Usage:
 	roundedMedian, _ := stats.Round(median, 0)
 	fmt.Println(roundedMedian) // 4
 
-MIT License Copyright (c) 2014-2019 Montana Flynn
+MIT License Copyright (c) 2014-2020 Montana Flynn (https://montanaflynn.com)
 */
 package stats
