@@ -23,14 +23,14 @@ func NormPpfRvs(loc float64, scale float64, size int) []float64 {
 func NormBoxMullerRvs(loc float64, scale float64, size int) []float64 {
 	rand.Seed(time.Now().UnixNano())
 	var toReturn []float64
-	for i := 0; i < int(math.Floor(float64(size / 2)) + float64(size % 2)); i++ {
+	for i := 0; i < int(float64(size/2)+float64(size%2)); i++ {
 		// u1 and u2 are uniformly distributed random numbers between 0 and 1.
 		u1 := rand.Float64()
 		u2 := rand.Float64()
 		// x1 and x2 are normally distributed random numbers.
 		x1 := loc + (scale * (math.Sqrt(-2*math.Log(u1)) * math.Cos(2*math.Pi*u2)))
 		toReturn = append(toReturn, x1)
-		if (i + 1) * 2 <= size {
+		if (i+1)*2 <= size {
 			x2 := loc + (scale * (math.Sqrt(-2*math.Log(u1)) * math.Sin(2*math.Pi*u2)))
 			toReturn = append(toReturn, x2)
 		}
@@ -40,32 +40,32 @@ func NormBoxMullerRvs(loc float64, scale float64, size int) []float64 {
 
 // NormPdf is the probability density function.
 func NormPdf(x float64, loc float64, scale float64) float64 {
-	return (math.Pow(math.E, -(math.Pow(x-loc, 2)) / (2 * math.Pow(scale, 2)))) / (scale* math.Sqrt(2 * math.Pi))
+	return (math.Pow(math.E, -(math.Pow(x-loc, 2))/(2*math.Pow(scale, 2)))) / (scale * math.Sqrt(2*math.Pi))
 }
 
 // NormLogPdf is the log of the probability density function.
 func NormLogPdf(x float64, loc float64, scale float64) float64 {
-	return math.Log((math.Pow(math.E, -(math.Pow(x-loc, 2)) / (2 * math.Pow(scale, 2)))) / (scale* math.Sqrt(2 * math.Pi)))
+	return math.Log((math.Pow(math.E, -(math.Pow(x-loc, 2))/(2*math.Pow(scale, 2)))) / (scale * math.Sqrt(2*math.Pi)))
 }
 
 // NormCdf is the cumulative distribution function.
 func NormCdf(x float64, loc float64, scale float64) float64 {
-	return 0.5*(1 + math.Erf((x - loc) / (scale * math.Sqrt(2))))
+	return 0.5 * (1 + math.Erf((x-loc)/(scale*math.Sqrt(2))))
 }
 
 // NormLogCdf is the log of the cumulative distribution function.
 func NormLogCdf(x float64, loc float64, scale float64) float64 {
-	return math.Log(0.5*(1 + math.Erf((x - loc) / (scale * math.Sqrt(2)))))
+	return math.Log(0.5 * (1 + math.Erf((x-loc)/(scale*math.Sqrt(2)))))
 }
 
 // NormSf is the survival function (also defined as 1 - cdf, but sf is sometimes more accurate).
 func NormSf(x float64, loc float64, scale float64) float64 {
-	return 1 - 0.5*(1 + math.Erf((x - loc) / (scale * math.Sqrt(2))))
+	return 1 - 0.5*(1+math.Erf((x-loc)/(scale*math.Sqrt(2))))
 }
 
 // NormLogSf is the log of the survival function.
 func NormLogSf(x float64, loc float64, scale float64) float64 {
-	return math.Log(1 - 0.5*(1 + math.Erf((x - loc) / (scale * math.Sqrt(2)))))
+	return math.Log(1 - 0.5*(1+math.Erf((x-loc)/(scale*math.Sqrt(2)))))
 }
 
 // NormPpf is the point percentile function.
@@ -145,15 +145,16 @@ func NormIsf(p float64, loc float64, scale float64) (x float64) {
 // For more information please visit: https://math.stackexchange.com/questions/1945448/methods-for-finding-raw-moments-of-the-normal-distribution
 func NormMoment(n int, loc float64, scale float64) float64 {
 	toReturn := 0.0
-	for i := 0; i < n + 1; i++ {
-		if (n-i) % 2 == 0 {
-			toReturn += float64(Ncr(n, i)) * (math.Pow(loc, float64(i))) * (math.Pow(scale, float64(n - i))) *
-				(float64(factorial(n - i)) / ((math.Pow(2.0, float64((n - i) / 2))) *
-					float64(factorial((n - i) / 2))))
+	for i := 0; i < n+1; i++ {
+		if (n-i)%2 == 0 {
+			toReturn += float64(Ncr(n, i)) * (math.Pow(loc, float64(i))) * (math.Pow(scale, float64(n-i))) *
+				(float64(factorial(n-i)) / ((math.Pow(2.0, float64((n-i)/2))) *
+					float64(factorial((n-i)/2))))
 		}
 	}
 	return toReturn
 }
+
 // NormStats returns the mean, variance, skew, and/or kurtosis.
 // Mean(‘m’), variance(‘v’), skew(‘s’), and/or kurtosis(‘k’).
 // Takes string containing any of 'mvsk'.
@@ -177,24 +178,23 @@ func NormStats(loc float64, scale float64, moments string) []float64 {
 
 // NormEntropy is the differential entropy of the RV.
 func NormEntropy(loc float64, scale float64) float64 {
-	return math.Log(scale * math.Sqrt(2 * math.Pi * math.E))
+	return math.Log(scale * math.Sqrt(2*math.Pi*math.E))
 }
 
 // NormFit returns the maximum likelihood estimators for the Normal Distribution.
 // Takes array of float64 values.
 // Returns array of Mean followed by Standard Deviation.
-func NormFit(data []float64) [2]float64{
+func NormFit(data []float64) [2]float64 {
 	sum := 0.00
-	mean := 0.00
 	for i := 0; i < len(data); i++ {
 		sum += data[i]
 	}
-	mean = sum / float64(len(data))
+	mean := sum / float64(len(data))
 	stdNumerator := 0.00
 	for i := 0; i < len(data); i++ {
 		stdNumerator += math.Pow(data[i]-mean, 2)
 	}
-	return [2]float64{mean , math.Sqrt((stdNumerator)/(float64(len(data))))}
+	return [2]float64{mean, math.Sqrt((stdNumerator) / (float64(len(data))))}
 }
 
 // NormMedian is the median of the distribution.
@@ -218,9 +218,9 @@ func NormStd(loc float64, scale float64) float64 {
 }
 
 // NormInterval finds endpoints of the range that contains alpha percent of the distribution.
-func NormInterval(alpha float64, loc float64,  scale float64 ) [2]float64 {
-	q1 := (1.0-alpha)/2
-	q2 := (1.0+alpha)/2
+func NormInterval(alpha float64, loc float64, scale float64) [2]float64 {
+	q1 := (1.0 - alpha) / 2
+	q2 := (1.0 + alpha) / 2
 	a := NormPpf(q1, loc, scale)
 	b := NormPpf(q2, loc, scale)
 	return [2]float64{a, b}
@@ -231,7 +231,7 @@ func factorial(x int) int {
 	if x == 0 {
 		return 1
 	}
-	return x * factorial(x - 1)
+	return x * factorial(x-1)
 }
 
 // Ncr is an N choose R algorithm.
@@ -252,5 +252,3 @@ func Ncr(n, r int) int {
 	}
 	return ret
 }
-
-

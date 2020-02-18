@@ -6,26 +6,6 @@ import (
 	"testing"
 )
 
-func testEq(a, b []float64) bool {
-
-	// If one is nil, the other must also be nil.
-	if (a == nil) != (b == nil) {
-		return false;
-	}
-
-	if len(a) != len(b) {
-		return false
-	}
-
-	for i := range a {
-		if a[i] != b[i] {
-			return false
-		}
-	}
-
-	return true
-}
-
 func TestNormPpf(t *testing.T) {
 	if NormPpf(0.5, 0, 1) != 0 {
 		t.Error("Input 0.5, Expected 0")
@@ -36,13 +16,14 @@ func TestNormPpf(t *testing.T) {
 	if NormPpf(0.002423, 0, 1) != -2.817096255323953 {
 		t.Error("Input 0.002423, Expected -2.817096255323953")
 	}
-	if NormPpf(1 - 0.002423, 0, 1) != 2.817096255323956 {
+	if NormPpf(1-0.002423, 0, 1) != 2.817096255323956 {
 		t.Error("Input 1 - 0.002423, Expected 2.817096255323956")
 	}
-	if NormPpf(1.1, 0, 1) == math.NaN() {
+
+	if !math.IsNaN(NormPpf(1.1, 0, 1)) {
 		t.Error("Input 1.1, Expected NaN")
 	}
-	if NormPpf(-0.1, 0, 1) == math.NaN() {
+	if !math.IsNaN(NormPpf(-1.1, 0, 1)) {
 		t.Error("Input -0.1, Expected Nan")
 	}
 	if NormPpf(0, 0, 1) != -math.Inf(1) {
@@ -126,34 +107,34 @@ func TestNormMoment(t *testing.T) {
 }
 
 func TestNormStats(t *testing.T) {
-	if !reflect.DeepEqual(NormStats(0, 1, "m"), []float64{0}){
+	if !reflect.DeepEqual(NormStats(0, 1, "m"), []float64{0}) {
 		t.Error("Input 'm' , Expected 0")
 	}
-	if !reflect.DeepEqual(NormStats(0, 1, "v"), []float64{1}){
+	if !reflect.DeepEqual(NormStats(0, 1, "v"), []float64{1}) {
 		t.Error("Input 'v' , Expected 1")
 	}
-	if !reflect.DeepEqual(NormStats(0, 1, "s"), []float64{0}){
+	if !reflect.DeepEqual(NormStats(0, 1, "s"), []float64{0}) {
 		t.Error("Input 's' , Expected 0")
 	}
-	if !reflect.DeepEqual(NormStats(0, 1, "k"), []float64{0}){
+	if !reflect.DeepEqual(NormStats(0, 1, "k"), []float64{0}) {
 		t.Error("Input 'k' , Expected 0")
 	}
 }
 
 func TestNormEntropy(t *testing.T) {
-	if NormEntropy( 0, 1) != 1.4189385332046727 {
+	if NormEntropy(0, 1) != 1.4189385332046727 {
 		t.Error("Input ( 0 , 1 ), Expected 1.4189385332046727")
 	}
 }
 
 func TestNormFit(t *testing.T) {
-	if !reflect.DeepEqual(NormFit( []float64{0,2,3,4}), [2]float64{2.25, 1.479019945774904}) {
+	if !reflect.DeepEqual(NormFit([]float64{0, 2, 3, 4}), [2]float64{2.25, 1.479019945774904}) {
 		t.Error("Input (0,2,3,4), Expected {2.25, 1.479019945774904}")
 	}
 }
 
 func TestNormInterval(t *testing.T) {
-	if !reflect.DeepEqual(NormInterval(0.5, 0, 1), [2]float64{-0.6744897501960818, 0.674489750196082}){
+	if !reflect.DeepEqual(NormInterval(0.5, 0, 1), [2]float64{-0.6744897501960818, 0.674489750196082}) {
 		t.Error("Input (50 % ), Expected {-0.6744897501960818, 0.674489750196082}")
 	}
 }
@@ -198,7 +179,7 @@ func TestNcr(t *testing.T) {
 	if Ncr(4, 1) != 4 {
 		t.Error("Input 4 choose 1, Expected 4")
 	}
-	if Ncr(4, 3) != 4{
+	if Ncr(4, 3) != 4 {
 		t.Error("Input 4 choose 3, Expected 4")
 	}
 }
