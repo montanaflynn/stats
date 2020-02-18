@@ -1,24 +1,26 @@
-package stats
+package stats_test
 
 import (
 	"fmt"
 	"testing"
+
+	"github.com/montanaflynn/stats"
 )
 
 func ExampleLinearRegression() {
-	data := []Coordinate{
+	data := []stats.Coordinate{
 		{1, 2.3},
 		{2, 3.3},
 		{3, 3.7},
 	}
 
-	r, _ := LinearRegression(data)
+	r, _ := stats.LinearRegression(data)
 	fmt.Println(r)
 	// Output: [{1 2.400000000000001} {2 3.1} {3 3.7999999999999994}]
 }
 
 func TestLinearRegression(t *testing.T) {
-	data := []Coordinate{
+	data := []stats.Coordinate{
 		{1, 2.3},
 		{2, 3.3},
 		{3, 3.7},
@@ -26,7 +28,7 @@ func TestLinearRegression(t *testing.T) {
 		{5, 5.3},
 	}
 
-	r, _ := LinearRegression(data)
+	r, _ := stats.LinearRegression(data)
 	a := 2.3800000000000026
 	if r[0].Y != a {
 		t.Errorf("%v != %v", r[0].Y, a)
@@ -48,14 +50,14 @@ func TestLinearRegression(t *testing.T) {
 		t.Errorf("%v != %v", r[4].Y, a)
 	}
 
-	_, err := LinearRegression([]Coordinate{})
+	_, err := stats.LinearRegression([]stats.Coordinate{})
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}
 }
 
 func TestExponentialRegression(t *testing.T) {
-	data := []Coordinate{
+	data := []stats.Coordinate{
 		{1, 2.3},
 		{2, 3.3},
 		{3, 3.7},
@@ -63,44 +65,44 @@ func TestExponentialRegression(t *testing.T) {
 		{5, 5.3},
 	}
 
-	r, _ := ExponentialRegression(data)
-	a, _ := Round(r[0].Y, 3)
+	r, _ := stats.ExponentialRegression(data)
+	a, _ := stats.Round(r[0].Y, 3)
 	if a != 2.515 {
 		t.Errorf("%v != %v", r[0].Y, 2.515)
 	}
-	a, _ = Round(r[1].Y, 3)
+	a, _ = stats.Round(r[1].Y, 3)
 	if a != 3.032 {
 		t.Errorf("%v != %v", r[1].Y, 3.032)
 	}
-	a, _ = Round(r[2].Y, 3)
+	a, _ = stats.Round(r[2].Y, 3)
 	if a != 3.655 {
 		t.Errorf("%v != %v", r[2].Y, 3.655)
 	}
-	a, _ = Round(r[3].Y, 3)
+	a, _ = stats.Round(r[3].Y, 3)
 	if a != 4.407 {
 		t.Errorf("%v != %v", r[3].Y, 4.407)
 	}
-	a, _ = Round(r[4].Y, 3)
+	a, _ = stats.Round(r[4].Y, 3)
 	if a != 5.313 {
 		t.Errorf("%v != %v", r[4].Y, 5.313)
 	}
 
-	_, err := ExponentialRegression([]Coordinate{})
+	_, err := stats.ExponentialRegression([]stats.Coordinate{})
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}
 }
 
 func TestExponentialRegressionYCoordErr(t *testing.T) {
-	c := []Coordinate{{1, -5}, {4, 25}, {6, 5}}
-	_, err := ExponentialRegression(c)
-	if err != YCoordErr {
+	c := []stats.Coordinate{{1, -5}, {4, 25}, {6, 5}}
+	_, err := stats.ExponentialRegression(c)
+	if err != stats.YCoordErr {
 		t.Errorf(err.Error())
 	}
 }
 
 func TestLogarithmicRegression(t *testing.T) {
-	data := []Coordinate{
+	data := []stats.Coordinate{
 		{1, 2.3},
 		{2, 3.3},
 		{3, 3.7},
@@ -108,7 +110,7 @@ func TestLogarithmicRegression(t *testing.T) {
 		{5, 5.3},
 	}
 
-	r, _ := LogarithmicRegression(data)
+	r, _ := stats.LogarithmicRegression(data)
 	a := 2.1520822363811702
 	if r[0].Y != a {
 		t.Errorf("%v != %v", r[0].Y, a)
@@ -130,7 +132,7 @@ func TestLogarithmicRegression(t *testing.T) {
 		t.Errorf("%v != %v", r[4].Y, a)
 	}
 
-	_, err := LogarithmicRegression([]Coordinate{})
+	_, err := stats.LogarithmicRegression([]stats.Coordinate{})
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}

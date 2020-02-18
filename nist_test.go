@@ -1,12 +1,14 @@
-package stats
+package stats_test
 
 import (
 	"math"
 	"testing"
+
+	"github.com/montanaflynn/stats"
 )
 
 var (
-	lew = Float64Data{
+	lew = stats.Float64Data{
 		-213, -564, -35, -15, 141, 115, -420, -360, 203, -338, -431, 194,
 		-220, -513, 154, -125, -559, 92, -21, -579, -52, 99, -543, -175,
 		162, -457, -346, 204, -300, -474, 164, -107, -572, -8, 83, -541,
@@ -25,7 +27,7 @@ var (
 		68, -535, -244, 194, -351, -463, 174, -125, -570, 15, 72, -550,
 		-190, 172, -424, -385, 198, -218, -536, 96}
 
-	lottery = Float64Data{
+	lottery = stats.Float64Data{
 		162, 671, 933, 414, 788, 730, 817, 33, 536, 875, 670, 236, 473, 167,
 		877, 980, 316, 950, 456, 92, 517, 557, 956, 954, 104, 178, 794, 278,
 		147, 773, 437, 435, 502, 610, 582, 780, 689, 562, 964, 791, 28, 97,
@@ -43,7 +45,7 @@ var (
 		694, 608, 480, 410, 729, 947, 293, 53, 930, 223, 203, 677, 227, 62,
 		455, 387, 318, 562, 242, 428, 968}
 
-	mavro = Float64Data{
+	mavro = stats.Float64Data{
 		2.00180, 2.00170, 2.00180, 2.00190, 2.00180, 2.00170, 2.00150,
 		2.00140, 2.00150, 2.00150, 2.00170, 2.00180, 2.00180, 2.00190,
 		2.00190, 2.00210, 2.00200, 2.00160, 2.00140, 2.00130, 2.00130,
@@ -53,7 +55,7 @@ var (
 		2.00270, 2.00260, 2.00260, 2.00260, 2.00270, 2.00260, 2.00250,
 		2.00240}
 
-	michelson = Float64Data{
+	michelson = stats.Float64Data{
 		299.85, 299.74, 299.90, 300.07, 299.93, 299.85, 299.95, 299.98,
 		299.98, 299.88, 300.00, 299.98, 299.93, 299.65, 299.76, 299.81,
 		300.00, 300.00, 299.96, 299.96, 299.96, 299.94, 299.96, 299.94,
@@ -68,7 +70,7 @@ var (
 		299.82, 299.85, 299.87, 299.87, 299.81, 299.74, 299.81, 299.94,
 		299.95, 299.80, 299.81, 299.87}
 
-	pidigits = Float64Data{
+	pidigits = stats.Float64Data{
 		3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8,
 		9, 7, 9, 3, 2, 3, 8, 4, 6, 2, 6, 4, 3, 3, 8, 3, 2, 7, 9, 5, 0, 2,
 		8, 8, 4, 1, 9, 7, 1, 6, 9, 3, 9, 9, 3, 7, 5, 1, 0, 5, 8, 2, 0, 9,
@@ -297,10 +299,10 @@ var (
 		0, 7, 6, 9, 3, 2, 5, 9, 9, 3, 9, 7, 8, 0, 5, 4, 1, 9, 3, 4, 1, 4,
 		4, 7, 3, 7, 7, 4, 4, 1, 8, 4, 2, 6, 3, 1, 2, 9, 8, 6, 0, 8, 0, 9,
 		9, 8, 8, 8, 6, 8, 7, 4, 1, 3, 2, 6, 0, 4, 7, 2}
-	numacc1 = Float64Data{10000001, 10000003, 10000002}
-	numacc2 = make(Float64Data, 1001)
-	numacc3 = make(Float64Data, 1001)
-	numacc4 = make(Float64Data, 1001)
+	numacc1 = stats.Float64Data{10000001, 10000003, 10000002}
+	numacc2 = make(stats.Float64Data, 1001)
+	numacc3 = make(stats.Float64Data, 1001)
+	numacc4 = make(stats.Float64Data, 1001)
 )
 
 func init() {
@@ -318,109 +320,109 @@ func init() {
 }
 
 func TestLewData(t *testing.T) {
-	r, e := Mean(lew)
+	r, e := stats.Mean(lew)
 	test("Lew Mean", r, -177.435000000000, 1e-15, e, t)
 
-	r, e = StandardDeviationSample(lew)
+	r, e = stats.StandardDeviationSample(lew)
 	test("Lew Standard Deviation", r, 277.332168044316, 1e-15, e, t)
 
-	r, e = AutoCorrelation(lew, 1)
+	r, e = stats.AutoCorrelation(lew, 1)
 	test("Lew AutoCorrelate1", r, -0.307304800605679, 1e-14, e, t)
 }
 
 func TestLotteryData(t *testing.T) {
-	r, e := Mean(lottery)
+	r, e := stats.Mean(lottery)
 	test("Lottery Mean", r, 518.958715596330, 1e-15, e, t)
 
-	r, e = StandardDeviationSample(lottery)
+	r, e = stats.StandardDeviationSample(lottery)
 	test("Lottery Standard Deviation", r, 291.699727470969, 1e-15, e, t)
 
-	r, e = AutoCorrelation(lottery, 1)
+	r, e = stats.AutoCorrelation(lottery, 1)
 	test("Lottery AutoCorrelate1", r, -0.120948622967393, 1e-14, e, t)
 }
 
 func TestMavroData(t *testing.T) {
-	r, e := Mean(mavro)
+	r, e := stats.Mean(mavro)
 	test("Mavro Mean", r, 2.00185600000000, 1e-15, e, t)
 
-	r, e = StandardDeviationSample(mavro)
+	r, e = stats.StandardDeviationSample(mavro)
 	test("Mavro Standard Deviation", r, 0.000429123454003053, 1e-13, e, t)
 
-	r, e = AutoCorrelation(mavro, 1)
+	r, e = stats.AutoCorrelation(mavro, 1)
 	test("Mavro AutoCorrelate1", r, 0.937989183438248, 1e-13, e, t)
 }
 
 func TestMichelsonData(t *testing.T) {
-	r, e := Mean(michelson)
+	r, e := stats.Mean(michelson)
 	test("Michelson Mean", r, 299.852400000000, 1e-15, e, t)
 
-	r, e = StandardDeviationSample(michelson)
+	r, e = stats.StandardDeviationSample(michelson)
 	test("Michelson Standard Deviation", r, 0.0790105478190518, 1e-13, e, t)
 
-	r, e = AutoCorrelation(michelson, 1)
+	r, e = stats.AutoCorrelation(michelson, 1)
 	test("Michelson AutoCorrelate1", r, 0.535199668621283, 1e-13, e, t)
 }
 
 func TestPidigitsData(t *testing.T) {
-	r, e := Mean(pidigits)
+	r, e := stats.Mean(pidigits)
 	test("Pidigits Mean", r, 4.53480000000000, 1e-14, e, t)
 
-	r, e = StandardDeviationSample(pidigits)
+	r, e = stats.StandardDeviationSample(pidigits)
 	test("Pidigits Standard Deviation", r, 2.86733906028871, 1e-14, e, t)
 
-	r, e = AutoCorrelation(pidigits, 1)
+	r, e = stats.AutoCorrelation(pidigits, 1)
 	test("Pidigits AutoCorrelate1", r, -0.00355099287237972, 1e-13, e, t)
 }
 
 func TestNumacc1Data(t *testing.T) {
-	r, e := Mean(numacc1)
+	r, e := stats.Mean(numacc1)
 	test("numacc1 Mean", r, 10000002.0, 1e-14, e, t)
 
-	r, e = StandardDeviationSample(numacc1)
+	r, e = stats.StandardDeviationSample(numacc1)
 	test("numacc1 Standard Deviation", r, 1.0, 1e-13, e, t)
 
-	r, e = AutoCorrelation(numacc1, 1)
+	r, e = stats.AutoCorrelation(numacc1, 1)
 	test("Lew AutoCorrelateNumacc1", r, -0.5, 1e-15, e, t)
 
 }
 
 func TestNumacc2Data(t *testing.T) {
-	r, e := Mean(numacc2)
+	r, e := stats.Mean(numacc2)
 	test("numacc2 Mean", r, 1.2, 1e-10, e, t)
 
-	r, e = StandardDeviationSample(numacc2)
+	r, e = stats.StandardDeviationSample(numacc2)
 	test("numacc2 Standard Deviation", r, 0.1, 1e-10, e, t)
 
-	r, e = AutoCorrelation(numacc2, 1)
+	r, e = stats.AutoCorrelation(numacc2, 1)
 	test("Lew AutoCorrelateNumacc2", r, -0.999, 1e-10, e, t)
 }
 
 func TestNumacc3Data(t *testing.T) {
-	r, e := Mean(numacc3)
+	r, e := stats.Mean(numacc3)
 	test("numacc3 Mean", r, 1000000.2, 1e-15, e, t)
 
-	r, e = StandardDeviationSample(numacc3)
+	r, e = stats.StandardDeviationSample(numacc3)
 	test("numacc3 Standard Deviation", r, 0.1, 1e-9, e, t)
 
-	r, e = AutoCorrelation(numacc3, 1)
+	r, e = stats.AutoCorrelation(numacc3, 1)
 	test("Lew AutoCorrelateNumacc3", r, -0.999, 1e-10, e, t)
 }
 
 func TestNumacc4Data(t *testing.T) {
-	r, e := Mean(numacc4)
+	r, e := stats.Mean(numacc4)
 	test("numacc4 Mean", r, 10000000.2, 1e-10, e, t)
 
-	r, e = StandardDeviationSample(numacc4)
+	r, e = stats.StandardDeviationSample(numacc4)
 	test("numacc4 Standard Deviation", r, 0.1, 1e-7, e, t)
 
-	r, e = AutoCorrelation(numacc4, 1)
+	r, e = stats.AutoCorrelation(numacc4, 1)
 	test("Lew AutoCorrelateNumacc4", r, -0.999, 1e-7, e, t)
 }
 
-func bench(d Float64Data) {
-	_, _ = Mean(d)
-	_, _ = StdDevS(d)
-	_, _ = AutoCorrelation(d, 1)
+func bench(d stats.Float64Data) {
+	_, _ = stats.Mean(d)
+	_, _ = stats.StdDevS(d)
+	_, _ = stats.AutoCorrelation(d, 1)
 }
 
 func BenchmarkNistLew(b *testing.B) {

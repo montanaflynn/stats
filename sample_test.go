@@ -1,16 +1,18 @@
-package stats
+package stats_test
 
 import (
 	"testing"
+
+	"github.com/montanaflynn/stats"
 )
 
 func TestSample(t *testing.T) {
-	_, err := Sample([]float64{}, 10, false)
+	_, err := stats.Sample([]float64{}, 10, false)
 	if err == nil {
 		t.Errorf("should return an error")
 	}
 
-	_, err = Sample([]float64{0.1, 0.2}, 10, false)
+	_, err = stats.Sample([]float64{0.1, 0.2}, 10, false)
 	if err == nil {
 		t.Errorf("should return an error")
 	}
@@ -18,7 +20,7 @@ func TestSample(t *testing.T) {
 
 func TestSampleWithoutReplacement(t *testing.T) {
 	arr := []float64{0.1, 0.2, 0.3, 0.4, 0.5}
-	result, _ := Sample(arr, 5, false)
+	result, _ := stats.Sample(arr, 5, false)
 	checks := map[float64]bool{}
 	for _, res := range result {
 		_, ok := checks[res]
@@ -32,19 +34,19 @@ func TestSampleWithoutReplacement(t *testing.T) {
 func TestSampleWithReplacement(t *testing.T) {
 	arr := []float64{0.1, 0.2, 0.3, 0.4, 0.5}
 	numsamples := 100
-	result, _ := Sample(arr, numsamples, true)
+	result, _ := stats.Sample(arr, numsamples, true)
 	if len(result) != numsamples {
 		t.Errorf("%v != %v", len(result), numsamples)
 	}
 }
 
 func TestStableSample(t *testing.T) {
-	_, err := StableSample(Float64Data{}, 10)
-	if err != EmptyInputErr {
+	_, err := stats.StableSample(stats.Float64Data{}, 10)
+	if err != stats.EmptyInputErr {
 		t.Errorf("should return EmptyInputError when sampling an empty data")
 	}
-	_, err = StableSample(Float64Data{1.0, 2.0}, 10)
-	if err != BoundsErr {
+	_, err = stats.StableSample(stats.Float64Data{1.0, 2.0}, 10)
+	if err != stats.BoundsErr {
 		t.Errorf("should return BoundsErr when sampling size exceeds the maximum element size of data")
 	}
 	arr := []float64{1.0, 3.0, 2.0, -1.0, 5.0}
@@ -55,7 +57,7 @@ func TestStableSample(t *testing.T) {
 		-1.0: 3,
 		5.0:  4,
 	}
-	ret, _ := StableSample(arr, 3)
+	ret, _ := stats.StableSample(arr, 3)
 	if len(ret) != 3 {
 		t.Errorf("returned wrong sample size")
 	}

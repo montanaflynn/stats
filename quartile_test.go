@@ -1,7 +1,9 @@
-package stats
+package stats_test
 
 import (
 	"testing"
+
+	"github.com/montanaflynn/stats"
 )
 
 func TestQuartile(t *testing.T) {
@@ -17,7 +19,7 @@ func TestQuartile(t *testing.T) {
 		{s1, 15, 40, 43},
 		{s2, 15, 37.5, 40},
 	} {
-		quartiles, err := Quartile(c.in)
+		quartiles, err := stats.Quartile(c.in)
 		if err != nil {
 			t.Errorf("Should not have returned an error")
 		}
@@ -33,7 +35,7 @@ func TestQuartile(t *testing.T) {
 		}
 	}
 
-	_, err := Quartile([]float64{})
+	_, err := stats.Quartile([]float64{})
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}
@@ -41,13 +43,13 @@ func TestQuartile(t *testing.T) {
 
 func TestInterQuartileRange(t *testing.T) {
 	s1 := []float64{102, 104, 105, 107, 108, 109, 110, 112, 115, 116, 118}
-	iqr, _ := InterQuartileRange(s1)
+	iqr, _ := stats.InterQuartileRange(s1)
 
 	if iqr != 10 {
 		t.Errorf("IQR %v != 10", iqr)
 	}
 
-	_, err := InterQuartileRange([]float64{})
+	_, err := stats.InterQuartileRange([]float64{})
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}
@@ -55,13 +57,13 @@ func TestInterQuartileRange(t *testing.T) {
 
 func TestMidhinge(t *testing.T) {
 	s1 := []float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13}
-	mh, _ := Midhinge(s1)
+	mh, _ := stats.Midhinge(s1)
 
 	if mh != 7.5 {
 		t.Errorf("Midhinge %v != 7.5", mh)
 	}
 
-	_, err := Midhinge([]float64{})
+	_, err := stats.Midhinge([]float64{})
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}
@@ -69,13 +71,13 @@ func TestMidhinge(t *testing.T) {
 
 func TestTrimean(t *testing.T) {
 	s1 := []float64{1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13}
-	tr, _ := Trimean(s1)
+	tr, _ := stats.Trimean(s1)
 
 	if tr != 7.25 {
 		t.Errorf("Trimean %v != 7.25", tr)
 	}
 
-	_, err := Trimean([]float64{})
+	_, err := stats.Trimean([]float64{})
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}

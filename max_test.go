@@ -1,13 +1,15 @@
-package stats
+package stats_test
 
 import (
 	"fmt"
 	"testing"
+
+	"github.com/montanaflynn/stats"
 )
 
 func ExampleMax() {
 	d := []float64{1.1, 2.3, 3.2, 4.0, 4.01, 5.09}
-	a, _ := Max(d)
+	a, _ := stats.Max(d)
 	fmt.Println(a)
 	// Output: 5.09
 }
@@ -22,7 +24,7 @@ func TestMax(t *testing.T) {
 		{[]float64{-20, -1, -5.5}, -1.0},
 		{[]float64{-1.0}, -1.0},
 	} {
-		got, err := Max(c.in)
+		got, err := stats.Max(c.in)
 		if err != nil {
 			t.Errorf("Returned an error")
 		}
@@ -30,7 +32,7 @@ func TestMax(t *testing.T) {
 			t.Errorf("Max(%.1f) => %.1f != %.1f", c.in, got, c.out)
 		}
 	}
-	_, err := Max([]float64{})
+	_, err := stats.Max([]float64{})
 	if err == nil {
 		t.Errorf("Empty slice didn't return an error")
 	}
@@ -38,7 +40,7 @@ func TestMax(t *testing.T) {
 
 func BenchmarkMaxSmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_, _ = Max(makeFloatSlice(5))
+		_, _ = stats.Max(makeFloatSlice(5))
 	}
 }
 
@@ -46,6 +48,6 @@ func BenchmarkMaxLargeFloatSlice(b *testing.B) {
 	lf := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = Max(lf)
+		_, _ = stats.Max(lf)
 	}
 }

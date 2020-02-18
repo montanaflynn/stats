@@ -1,28 +1,30 @@
-package stats
+package stats_test
 
 import (
 	"math"
 	"testing"
+
+	"github.com/montanaflynn/stats"
 )
 
 func TestVariance(t *testing.T) {
-	_, err := Variance([]float64{1, 2, 3})
+	_, err := stats.Variance([]float64{1, 2, 3})
 	if err != nil {
 		t.Errorf("Returned an error")
 	}
 }
 
 func TestPopulationVariance(t *testing.T) {
-	e, err := PopulationVariance([]float64{})
+	e, err := stats.PopulationVariance([]float64{})
 	if !math.IsNaN(e) {
 		t.Errorf("%.1f != %.1f", e, math.NaN())
 	}
-	if err != EmptyInputErr {
-		t.Errorf("%v != %v", err, EmptyInputErr)
+	if err != stats.EmptyInputErr {
+		t.Errorf("%v != %v", err, stats.EmptyInputErr)
 	}
 
-	pv, _ := PopulationVariance([]float64{1, 2, 3})
-	a, err := Round(pv, 1)
+	pv, _ := stats.PopulationVariance([]float64{1, 2, 3})
+	a, err := stats.Round(pv, 1)
 	if err != nil {
 		t.Errorf("Returned an error")
 	}
@@ -32,14 +34,14 @@ func TestPopulationVariance(t *testing.T) {
 }
 
 func TestSampleVariance(t *testing.T) {
-	m, err := SampleVariance([]float64{})
+	m, err := stats.SampleVariance([]float64{})
 	if !math.IsNaN(m) {
 		t.Errorf("%.1f != %.1f", m, math.NaN())
 	}
-	if err != EmptyInputErr {
-		t.Errorf("%v != %v", err, EmptyInputErr)
+	if err != stats.EmptyInputErr {
+		t.Errorf("%v != %v", err, stats.EmptyInputErr)
 	}
-	m, _ = SampleVariance([]float64{1, 2, 3})
+	m, _ = stats.SampleVariance([]float64{1, 2, 3})
 	if m != 1.0 {
 		t.Errorf("%.1f != %.1f", m, 1.0)
 	}
@@ -51,12 +53,12 @@ func TestCovariance(t *testing.T) {
 	s3 := []float64{1, 2, 3, 5, 6}
 	s4 := []float64{}
 
-	_, err := Covariance(s1, s2)
+	_, err := stats.Covariance(s1, s2)
 	if err == nil {
 		t.Errorf("Mismatched slice lengths should have returned an error")
 	}
 
-	a, err := Covariance(s1, s3)
+	a, err := stats.Covariance(s1, s3)
 	if err != nil {
 		t.Errorf("Should not have returned an error")
 	}
@@ -65,7 +67,7 @@ func TestCovariance(t *testing.T) {
 		t.Errorf("Covariance %v != %v", a, 3.2499999999999996)
 	}
 
-	_, err = Covariance(s1, s4)
+	_, err = stats.Covariance(s1, s4)
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}
@@ -77,12 +79,12 @@ func TestCovariancePopulation(t *testing.T) {
 	s3 := []float64{0.5, 1, 2.1, 3.4, 3.4, 4}
 	s4 := []float64{}
 
-	_, err := CovariancePopulation(s1, s2)
+	_, err := stats.CovariancePopulation(s1, s2)
 	if err == nil {
 		t.Errorf("Mismatched slice lengths should have returned an error")
 	}
 
-	a, err := CovariancePopulation(s1, s3)
+	a, err := stats.CovariancePopulation(s1, s3)
 	if err != nil {
 		t.Errorf("Should not have returned an error")
 	}
@@ -91,7 +93,7 @@ func TestCovariancePopulation(t *testing.T) {
 		t.Errorf("CovariancePopulation %v != %v", a, 4.191666666666666)
 	}
 
-	_, err = CovariancePopulation(s1, s4)
+	_, err = stats.CovariancePopulation(s1, s4)
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}

@@ -1,13 +1,15 @@
-package stats
+package stats_test
 
 import (
 	"fmt"
 	"testing"
+
+	"github.com/montanaflynn/stats"
 )
 
 func ExampleMin() {
-	d := LoadRawData([]interface{}{1.1, "2", 3.0, 4, "5"})
-	a, _ := Min(d)
+	d := stats.LoadRawData([]interface{}{1.1, "2", 3.0, 4, "5"})
+	a, _ := stats.Min(d)
 	fmt.Println(a)
 	// Output: 1.1
 }
@@ -22,7 +24,7 @@ func TestMin(t *testing.T) {
 		{[]float64{-5, 1, 5}, -5.0},
 		{[]float64{5}, 5},
 	} {
-		got, err := Min(c.in)
+		got, err := stats.Min(c.in)
 		if err != nil {
 			t.Errorf("Returned an error")
 		}
@@ -30,7 +32,7 @@ func TestMin(t *testing.T) {
 			t.Errorf("Min(%.1f) => %.1f != %.1f", c.in, got, c.out)
 		}
 	}
-	_, err := Min([]float64{})
+	_, err := stats.Min([]float64{})
 	if err == nil {
 		t.Errorf("Empty slice didn't return an error")
 	}
@@ -39,7 +41,7 @@ func TestMin(t *testing.T) {
 func BenchmarkMinSmallFloatSlice(b *testing.B) {
 	testData := makeFloatSlice(5)
 	for i := 0; i < b.N; i++ {
-		_, _ = Min(testData)
+		_, _ = stats.Min(testData)
 	}
 }
 
@@ -47,7 +49,7 @@ func BenchmarkMinSmallRandFloatSlice(b *testing.B) {
 	testData := makeRandFloatSlice(5)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = Min(testData)
+		_, _ = stats.Min(testData)
 	}
 }
 
@@ -55,7 +57,7 @@ func BenchmarkMinLargeFloatSlice(b *testing.B) {
 	testData := makeFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = Min(testData)
+		_, _ = stats.Min(testData)
 	}
 }
 
@@ -63,6 +65,6 @@ func BenchmarkMinLargeRandFloatSlice(b *testing.B) {
 	testData := makeRandFloatSlice(100000)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = Min(testData)
+		_, _ = stats.Min(testData)
 	}
 }

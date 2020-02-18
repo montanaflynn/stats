@@ -1,14 +1,18 @@
-package stats
+package stats_test
 
 import (
 	"math"
+	"math/rand"
 	"reflect"
 	"runtime"
 	"testing"
+	"time"
+
+	"github.com/montanaflynn/stats"
 )
 
-var data1 = Float64Data{-10, -10.001, 5, 1.1, 2, 3, 4.20, 5}
-var data2 = Float64Data{-9, -9.001, 4, .1, 1, 2, 3.20, 5}
+var data1 = stats.Float64Data{-10, -10.001, 5, 1.1, 2, 3, 4.20, 5}
+var data2 = stats.Float64Data{-9, -9.001, 4, .1, 1, 2, 3.20, 5}
 
 func getFunctionName(i interface{}) string {
 	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
@@ -21,6 +25,26 @@ func checkResult(result float64, err error, name string, f float64, t *testing.T
 	if result != f {
 		t.Errorf("%s() => %v != %v", name, result, f)
 	}
+}
+
+// makeFloatSlice makes a slice of float64s
+func makeFloatSlice(c int) []float64 {
+	lf := make([]float64, 0, c)
+	for i := 0; i < c; i++ {
+		f := float64(i * 100)
+		lf = append(lf, f)
+	}
+	return lf
+}
+
+func makeRandFloatSlice(c int) []float64 {
+	lf := make([]float64, 0, c)
+	rand.Seed(time.Now().UTC().UnixNano())
+	for i := 0; i < c; i++ {
+		f := float64(i * 100)
+		lf = append(lf, f)
+	}
+	return lf
 }
 
 func TestInterfaceMethods(t *testing.T) {
@@ -147,7 +171,7 @@ func TestPercentileMethods(t *testing.T) {
 
 }
 
-func assertOtherDataMethods(fn func(d Float64Data) (float64, error), d Float64Data, f float64, t *testing.T) {
+func assertOtherDataMethods(fn func(d stats.Float64Data) (float64, error), d stats.Float64Data, f float64, t *testing.T) {
 	res, err := fn(d)
 	checkResult(res, err, getFunctionName(fn), f, t)
 }
@@ -164,7 +188,7 @@ func TestOtherDataMethods(t *testing.T) {
 func TestAutoCorrelationMethod(t *testing.T) {
 	_, err := data1.AutoCorrelation(1)
 	if err != nil {
-		t.Error("Float64Data.AutoCorrelation returned an error")
+		t.Error("stats.Float64Data.AutoCorrelation returned an error")
 	}
 }
 
@@ -191,7 +215,7 @@ func TestQuartileMethods(t *testing.T) {
 }
 
 func TestSigmoidMethod(t *testing.T) {
-	d := LoadRawData([]float64{3.0, 1.0, 2.1})
+	d := stats.LoadRawData([]float64{3.0, 1.0, 2.1})
 	a := []float64{0.9525741268224334, 0.7310585786300049, 0.8909031788043871}
 	s, _ := d.Sigmoid()
 	if !reflect.DeepEqual(s, a) {
@@ -200,7 +224,7 @@ func TestSigmoidMethod(t *testing.T) {
 }
 
 func TestSoftMaxMethod(t *testing.T) {
-	d := LoadRawData([]float64{3.0, 1.0, 0.2})
+	d := stats.LoadRawData([]float64{3.0, 1.0, 0.2})
 	a := []float64{0.8360188027814407, 0.11314284146556013, 0.05083835575299916}
 	s, _ := d.SoftMax()
 	if !reflect.DeepEqual(s, a) {
@@ -209,7 +233,7 @@ func TestSoftMaxMethod(t *testing.T) {
 }
 
 func TestEntropyMethod(t *testing.T) {
-	d := LoadRawData([]float64{3.0, 1.0, 0.2})
+	d := stats.LoadRawData([]float64{3.0, 1.0, 0.2})
 	a := 0.7270013625470586
 	e, _ := d.Entropy()
 	if e != a {
@@ -222,21 +246,21 @@ func TestEntropyMethod(t *testing.T) {
 func BenchmarkRegularAPI(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		data := []float64{-10, -7, -3.11, 5, 1.1, 2, 3, 4.20, 5, 18}
-		_, _ = Min(data)
-		_, _ = Max(data)
-		_, _ = Sum(data)
-		_, _ = Mean(data)
-		_, _ = Median(data)
-		_, _ = Mode(data)
+		_, _ = stats.Min(data)
+		_, _ = stats.Max(data)
+		_, _ = stats.Sum(data)
+		_, _ = stats.Mean(data)
+		_, _ = stats.Median(data)
+		_, _ = stats.Mode(data)
 	}
 }
 
 // Here's where things get interesting
 // and we start to use the included
-// Float64Data type and methods
+// stats.Float64Data type and methods
 func BenchmarkMethodsAPI(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		data := Float64Data{-10, -7, -3.11, 5, 1.1, 2, 3, 4.20, 5, 18}
+		data := stats.Float64Data{-10, -7, -3.11, 5, 1.1, 2, 3, 4.20, 5, 18}
 		_, _ = data.Min()
 		_, _ = data.Max()
 		_, _ = data.Sum()
