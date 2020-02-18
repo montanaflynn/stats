@@ -1,6 +1,8 @@
-# Stats [![][travis-svg]][travis-url] [![][coveralls-svg]][coveralls-url] [![][goreport-svg]][goreport-url] [![][godoc-svg]][godoc-url] [![][license-svg]][license-url]
+# Stats - Golang Statistics Package
 
-A well tested and comprehensive Golang statistics library package with no dependencies.
+[![][travis-svg]][travis-url] [![][coveralls-svg]][coveralls-url] [![][goreport-svg]][goreport-url] [![][godoc-svg]][godoc-url] [![][pkggodev-svg]][pkggodev-url] [![][license-svg]][license-url]
+
+A well tested and comprehensive Golang statistics library / package / module with no dependencies.
 
 If you have any suggestions, problems or bug reports please [create an issue](https://github.com/montanaflynn/stats/issues) and I'll do my best to accommodate you. In addition simply starring the repo would show your support for the project and be very much appreciated!
 
@@ -32,9 +34,9 @@ fmt.Println(roundedMedian) // 4
 
 ## Documentation
 
-The [entire API documentation](http://godoc.org/github.com/montanaflynn/stats) is available on GoDoc.org
+The entire API documentation is available on [GoDoc.org](http://godoc.org/github.com/montanaflynn/stats) or [pkg.go.dev](https://pkg.go.dev/github.com/montanaflynn/stats).
 
-You can view docs offline with the following commands:
+You can also view docs offline with the following commands:
 
 ```
 # Command line
@@ -161,9 +163,10 @@ Pull request are always welcome no matter how big or small. I've included a [Mak
 2. Create new branch (`git checkout -b some-thing`)
 3. Make the desired changes
 4. Ensure tests pass (`go test -cover` or `make test`)
-5. Commit changes (`git commit -am 'Did something'`)
-6. Push branch (`git push origin some-thing`)
-7. Submit pull request
+5. Run lint and fix problems (`go vet .` or `make lint`)
+6. Commit changes (`git commit -am 'Did something'`)
+7. Push branch (`git push origin some-thing`)
+8. Submit pull request
 
 To make things as seamless as possible please also consider the following steps:
 
@@ -171,6 +174,33 @@ To make things as seamless as possible please also consider the following steps:
 - Update `README.md` documentation section with any new exported API
 - Keep 100% code coverage (you can check with `make coverage`)
 - Squash commits into single units of work with `git rebase -i new-feature`
+
+## Releasing
+
+To release a new version we should update the [CHANGELOG.md](/changelog.md) and [DOC.md](/DOC.md).
+
+First install the tools used to generate the markdown files:
+
+```
+go get github.com/davecheney/godoc2md
+go get github.com/golangci/golangci-lint/cmd/golangci-lint
+```
+
+Then you can run these `make` directives:
+
+```
+# Generate CHANGELOG.md
+make changelog
+
+# Generate DOCUMENTATION.md
+make documentation
+```
+
+Then we will create a new git tag and github release:
+
+```
+make release TAG=v0.x.x
+```
 
 ## MIT License
 
@@ -193,6 +223,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 [godoc-url]: https://godoc.org/github.com/montanaflynn/stats
 [godoc-svg]: https://godoc.org/github.com/montanaflynn/stats?status.svg
+
+[pkggodev-url]: https://pkg.go.dev/github.com/montanaflynn/stats
+[pkggodev-svg]: https://gistcdn.githack.com/montanaflynn/b02f1d78d8c0de8435895d7e7cd0d473/raw/17f2a5a69f1323ecd42c00e0683655da96d9ecc8/badge.svg
 
 [license-url]: https://github.com/montanaflynn/stats/blob/master/LICENSE
 [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
