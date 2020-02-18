@@ -1,4 +1,37 @@
 
+<a name="v0.6.2"></a>
+## [v0.6.2](https://github.com/montanaflynn/stats/compare/v0.6.1...v0.6.2) (2020-02-18)
+
+### Fix
+
+* Fix linting errcheck warnings in go benchmarks
+
+### Update
+
+* Update Makefile release directive to use correct release name
+
+
+<a name="v0.6.1"></a>
+## [v0.6.1](https://github.com/montanaflynn/stats/compare/v0.6.0...v0.6.1) (2020-02-18)
+
+### Add
+
+* Add StableSample function signature to readme
+
+### Fix
+
+* Fix linting warnings for normal distribution functions formatting and tests
+
+### Update
+
+* Update documentation links and rename DOC.md to DOCUMENTATION.md
+* Update README with link to pkg.go.dev reference and release section
+* Update Makefile with new changelog, docs, and release directives
+* Update DOC.md links to GitHub source code
+* Update doc.go comment and add DOC.md package reference file
+* Update changelog using git-chglog
+
+
 <a name="v0.6.0"></a>
 ## [v0.6.0](https://github.com/montanaflynn/stats/compare/v0.5.0...v0.6.0) (2020-02-17)
 
