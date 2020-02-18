@@ -249,7 +249,7 @@ CovariancePopulation computes covariance for entire population between two varia
 
 
 
-## <a name="CumulativeSum">func</a> [CumulativeSus/cumulative_sum.go?s=81:137#L4)
+## <a name="CumulativeSum">func</a> [CumulativeSum](/cumulative_sum.go?s=81:137#L4)
 ``` go
 func CumulativeSum(input Float64Data) ([]float64, error)
 ```
@@ -394,7 +394,7 @@ Mode gets the mode [most frequent value(s)] of a slice of float64s
 
 
 
-## <a name="Ncr">func</a> [Ncr](/norm.go?s=7466:7488#L239)
+## <a name="Ncr">func</a> [Ncr](/norm.go?s=7384:7406#L239)
 ``` go
 func Ncr(n, r int) int
 ```
@@ -412,7 +412,7 @@ For more information please visit: <a href="http://mathworld.wolfram.com/Box-Mul
 
 
 
-## <a name="NormCdf">func</a> [NormCdf](/norm.go?s=1858:1917#L52)
+## <a name="NormCdf">func</a> [NormCdf](/norm.go?s=1826:1885#L52)
 ``` go
 func NormCdf(x float64, loc float64, scale float64) float64
 ```
@@ -420,7 +420,7 @@ NormCdf is the cumulative distribution function.
 
 
 
-## <a name="NormEntropy">func</a> [NormEntropy](/norm.go?s=5844:5896#L179)
+## <a name="NormEntropy">func</a> [NormEntropy](/norm.go?s=5773:5825#L180)
 ``` go
 func NormEntropy(loc float64, scale float64) float64
 ```
@@ -428,7 +428,7 @@ NormEntropy is the differential entropy of the RV.
 
 
 
-## <a name="NormFit">func</a> [NormFit](/norm.go?s=6133:6172#L186)
+## <a name="NormFit">func</a> [NormFit](/norm.go?s=6058:6097#L187)
 ``` go
 func NormFit(data []float64) [2]float64
 ```
@@ -438,7 +438,7 @@ Returns array of Mean followed by Standard Deviation.
 
 
 
-## <a name="NormInterval">func</a> [NormInterval](/norm.go?s=7062:7135#L221)
+## <a name="NormInterval">func</a> [NormInterval](/norm.go?s=6976:7047#L221)
 ``` go
 func NormInterval(alpha float64, loc float64, scale float64) [2]float64
 ```
@@ -446,7 +446,7 @@ NormInterval finds endpoints of the range that contains alpha percent of the dis
 
 
 
-## <a name="NormIsf">func</a> [NormIsf](/norm.go?s=4386:4449#L137)
+## <a name="NormIsf">func</a> [NormIsf](/norm.go?s=4330:4393#L137)
 ``` go
 func NormIsf(p float64, loc float64, scale float64) (x float64)
 ```
@@ -454,7 +454,7 @@ NormIsf is the inverse survival function (inverse of sf).
 
 
 
-## <a name="NormLogCdf">func</a> [NormLogCdf](/norm.go?s=2052:2114#L57)
+## <a name="NormLogCdf">func</a> [NormLogCdf](/norm.go?s=2016:2078#L57)
 ``` go
 func NormLogCdf(x float64, loc float64, scale float64) float64
 ```
@@ -462,7 +462,7 @@ NormLogCdf is the log of the cumulative distribution function.
 
 
 
-## <a name="NormLogPdf">func</a> [NormLogPdf](/norm.go?s=1617:1679#L47)
+## <a name="NormLogPdf">func</a> [NormLogPdf](/norm.go?s=1590:1652#L47)
 ``` go
 func NormLogPdf(x float64, loc float64, scale float64) float64
 ```
@@ -470,7 +470,7 @@ NormLogPdf is the log of the probability density function.
 
 
 
-## <a name="NormLogSf">func</a> [NormLogSf](/norm.go?s=2471:2532#L67)
+## <a name="NormLogSf">func</a> [NormLogSf](/norm.go?s=2423:2484#L67)
 ``` go
 func NormLogSf(x float64, loc float64, scale float64) float64
 ```
@@ -478,7 +478,7 @@ NormLogSf is the log of the survival function.
 
 
 
-## <a name="NormMean">func</a> [NormMean](/norm.go?s=6646:6695#L206)
+## <a name="NormMean">func</a> [NormMean](/norm.go?s=6560:6609#L206)
 ``` go
 func NormMean(loc float64, scale float64) float64
 ```
@@ -486,7 +486,7 @@ NormMean is the mean/expected value of the distribution.
 
 
 
-## <a name="NormMedian">func</a> [NormMedian](/norm.go?s=6517:6568#L201)
+## <a name="NormMedian">func</a> [NormMedian](/norm.go?s=6431:6482#L201)
 ``` go
 func NormMedian(loc float64, scale float64) float64
 ```
@@ -494,7 +494,7 @@ NormMedian is the median of the distribution.
 
 
 
-## <a name="NormMoment">func</a> [NormMoment](/norm.go?s=4750:4808#L146)
+## <a name="NormMoment">func</a> [NormMoment](/norm.go?s=4694:4752#L146)
 ``` go
 func NormMoment(n int, loc float64, scale float64) float64
 ```
@@ -503,7 +503,7 @@ For more information please visit: <a href="https://math.stackexchange.com/quest
 
 
 
-## <a name="NormPdf">func</a> [NormPdf](/norm.go?s=1379:1438#L42)
+## <a name="NormPdf">func</a> [NormPdf](/norm.go?s=1357:1416#L42)
 ``` go
 func NormPdf(x float64, loc float64, scale float64) float64
 ```
@@ -511,7 +511,7 @@ NormPdf is the probability density function.
 
 
 
-## <a name="NormPpf">func</a> [NormPpf](/norm.go?s=2910:2973#L75)
+## <a name="NormPpf">func</a> [NormPpf](/norm.go?s=2854:2917#L75)
 ``` go
 func NormPpf(p float64, loc float64, scale float64) (x float64)
 ```
@@ -531,7 +531,7 @@ For more information please visit: <a href="https://demonstrations.wolfram.com/T
 
 
 
-## <a name="NormSf">func</a> [NormSf](/norm.go?s=2290:2348#L62)
+## <a name="NormSf">func</a> [NormSf](/norm.go?s=2250:2308#L62)
 ``` go
 func NormSf(x float64, loc float64, scale float64) float64
 ```
@@ -539,7 +539,7 @@ NormSf is the survival function (also defined as 1 - cdf, but sf is sometimes mo
 
 
 
-## <a name="NormStats">func</a> [NormStats](/norm.go?s=5348:5416#L161)
+## <a name="NormStats">func</a> [NormStats](/norm.go?s=5277:5345#L162)
 ``` go
 func NormStats(loc float64, scale float64, moments string) []float64
 ```
@@ -550,7 +550,7 @@ Returns array of m v s k in that order.
 
 
 
-## <a name="NormStd">func</a> [NormStd](/norm.go?s=6900:6948#L216)
+## <a name="NormStd">func</a> [NormStd](/norm.go?s=6814:6862#L216)
 ``` go
 func NormStd(loc float64, scale float64) float64
 ```
@@ -558,7 +558,7 @@ NormStd is the standard deviation of the distribution.
 
 
 
-## <a name="NormVar">func</a> [NormVar](/norm.go?s=6761:6809#L211)
+## <a name="NormVar">func</a> [NormVar](/norm.go?s=6675:6723#L211)
 ``` go
 func NormVar(loc float64, scale float64) float64
 ```
