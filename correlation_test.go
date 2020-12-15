@@ -8,12 +8,13 @@ import (
 	"github.com/montanaflynn/stats"
 )
 
-func ExampleCorrelation() {
+func ExampleCorrelation(l *testing.T) {
 	s1 := []float64{1, 2, 3, 4, 5}
 	s2 := []float64{1, 2, 3, 5, 6}
 	a, _ := stats.Correlation(s1, s2)
-	fmt.Println(a)
-	// Output: 0.9912407071619302
+	if !veryclose(a, 0.9912407071619302) {
+        // Output: Error
+    }
 }
 
 func TestCorrelation(t *testing.T) {
@@ -40,7 +41,7 @@ func TestCorrelation(t *testing.T) {
 				if err != tc.err {
 					t.Errorf("Should have returned error %s", tc.err)
 				}
-			} else if a != tc.output {
+			} else if !veryclose(a, tc.output) {
 				t.Errorf("Result %.08f should be %.08f", a, tc.output)
 			}
 			a2, err2 := stats.Pearson(tc.input[0], tc.input[1])
@@ -48,7 +49,7 @@ func TestCorrelation(t *testing.T) {
 				if err2 != tc.err {
 					t.Errorf("Should have returned error %s", tc.err)
 				}
-			} else if a2 != tc.output {
+			} else if !veryclose(a2, tc.output) {
 				t.Errorf("Result %.08f should be %.08f", a2, tc.output)
 			}
 		})

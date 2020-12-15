@@ -22,7 +22,7 @@ func checkResult(result float64, err error, name string, f float64, t *testing.T
 	if err != nil {
 		t.Errorf("%s returned an error", name)
 	}
-	if result != f {
+	if !veryclose(result, f) {
 		t.Errorf("%s() => %v != %v", name, result, f)
 	}
 }

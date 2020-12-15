@@ -30,11 +30,11 @@ func TestLinearRegression(t *testing.T) {
 
 	r, _ := stats.LinearRegression(data)
 	a := 2.3800000000000026
-	if r[0].Y != a {
+	if !close(r[0].Y, a) {
 		t.Errorf("%v != %v", r[0].Y, a)
 	}
 	a = 3.0800000000000014
-	if r[1].Y != a {
+	if !veryclose(r[1].Y, a) {
 		t.Errorf("%v != %v", r[1].Y, a)
 	}
 	a = 3.7800000000000002
@@ -42,11 +42,11 @@ func TestLinearRegression(t *testing.T) {
 		t.Errorf("%v != %v", r[2].Y, a)
 	}
 	a = 4.479999999999999
-	if r[3].Y != a {
+	if !veryclose(r[3].Y, a) {
 		t.Errorf("%v != %v", r[3].Y, a)
 	}
 	a = 5.179999999999998
-	if r[4].Y != a {
+	if !veryclose(r[4].Y, a) {
 		t.Errorf("%v != %v", r[4].Y, a)
 	}
 
@@ -112,23 +112,23 @@ func TestLogarithmicRegression(t *testing.T) {
 
 	r, _ := stats.LogarithmicRegression(data)
 	a := 2.1520822363811702
-	if r[0].Y != a {
+	if !close(r[0].Y, a) {
 		t.Errorf("%v != %v", r[0].Y, a)
 	}
 	a = 3.3305559222492214
-	if r[1].Y != a {
+	if !veryclose(r[1].Y, a) {
 		t.Errorf("%v != %v", r[1].Y, a)
 	}
 	a = 4.019918836568674
-	if r[2].Y != a {
+	if !veryclose(r[2].Y, a) {
 		t.Errorf("%v != %v", r[2].Y, a)
 	}
 	a = 4.509029608117273
-	if r[3].Y != a {
+	if !veryclose(r[3].Y, a) {
 		t.Errorf("%v != %v", r[3].Y, a)
 	}
 	a = 4.888413396683663
-	if r[4].Y != a {
+	if !veryclose(r[4].Y, a) {
 		t.Errorf("%v != %v", r[4].Y, a)
 	}
 

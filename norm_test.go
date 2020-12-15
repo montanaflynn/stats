@@ -12,13 +12,13 @@ func TestNormPpf(t *testing.T) {
 	if stats.NormPpf(0.5, 0, 1) != 0 {
 		t.Error("Input 0.5, Expected 0")
 	}
-	if stats.NormPpf(0.1, 0, 1) != -1.2815515655446004 {
+	if !veryclose(stats.NormPpf(0.1, 0, 1), -1.2815515655446004) {
 		t.Error("Input 0.1, Expected -1.2815515655446004")
 	}
 	if stats.NormPpf(0.002423, 0, 1) != -2.817096255323953 {
 		t.Error("Input 0.002423, Expected -2.817096255323953")
 	}
-	if stats.NormPpf(1-0.002423, 0, 1) != 2.817096255323956 {
+	if !close(stats.NormPpf(1-0.002423, 0, 1), 2.817096255323956) {
 		t.Error("Input 1 - 0.002423, Expected 2.817096255323956")
 	}
 
@@ -82,7 +82,7 @@ func TestNormIsf(t *testing.T) {
 	if stats.NormIsf(0.5, 0, 1) != 0 {
 		t.Error("Input 0.5, Expected 0")
 	}
-	if stats.NormIsf(0.1, 0, 1) != 1.2815515655446004 {
+	if !veryclose(stats.NormIsf(0.1, 0, 1), 1.2815515655446004) {
 		t.Error("Input 0.1, Expected 1.2815515655446004")
 	}
 }
