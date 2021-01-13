@@ -8,13 +8,13 @@ import (
 	"github.com/montanaflynn/stats"
 )
 
-func ExampleCorrelation(l *testing.T) {
+func ExampleCorrelation() {
 	s1 := []float64{1, 2, 3, 4, 5}
 	s2 := []float64{1, 2, 3, 5, 6}
 	a, _ := stats.Correlation(s1, s2)
-	if !veryclose(a, 0.9912407071619302) {
-        // Output: Error
-    }
+	rounded, _ := stats.Round(a, 5)
+	fmt.Println(rounded)
+	// Output: 0.99124
 }
 
 func TestCorrelation(t *testing.T) {
