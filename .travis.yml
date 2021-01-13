@@ -9,6 +9,9 @@ go:
   - "1.13"
   - stable
   - master
+arch:
+  - amd64
+  - arm64
 before_install:
   - go get github.com/mattn/goveralls
 script:
