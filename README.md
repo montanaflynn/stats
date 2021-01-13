@@ -177,7 +177,7 @@ To make things as seamless as possible please also consider the following steps:
 
 ## Releasing
 
-To release a new version we should update the [CHANGELOG.md](/changelog.md) and [DOC.md](/DOC.md).
+To release a new version we should update the [CHANGELOG.md](/CHANGELOG.md) and [DOCUMENTATION.md](/DOCUMENTATION.md).
 
 First install the tools used to generate the markdown files:
 
@@ -193,7 +193,7 @@ Then you can run these `make` directives:
 make docs
 ```
 
-Then we can create a [CHANGELOG.md](/changelog.md), a new git tag and a github release:
+Then we can create a [CHANGELOG.md](/CHANGELOG.md) a new git tag and a github release:
 
 ```
 make release TAG=v0.x.x
