@@ -20,18 +20,15 @@ coverage:
 lint: format
 	golangci-lint run .
 
-changelog:
-	git-chglog -o CHANGELOG.md
-
 docs:
 	godoc2md github.com/montanaflynn/stats | sed -e s#src/target/##g > DOCUMENTATION.md
 
 release:
-	git-chglog --next-tag ${TAG} ${TAG} -o CHANGELOG.md
+	git-chglog --output CHANGELOG.md --next-tag ${TAG} ${TAG}
 	git add CHANGELOG.md
 	git commit -m "Update changelog with ${TAG} changes"
 	git tag ${TAG}
-	git-chglog $(TAG) | tail -n +4 | sed '1s/^/$(TAG)\n/gm' > release-notes.txt
+	git-chglog $(TAG) | tail -n +4 | gsed '1s/^/$(TAG)\n/gm' > release-notes.txt
 	git push origin master ${TAG}
 	hub release create --copy -F release-notes.txt ${TAG}
 
