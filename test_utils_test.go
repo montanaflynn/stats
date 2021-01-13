@@ -24,5 +24,5 @@ func tolerance(a, b, e float64) bool {
 	}
 	return d < e
 }
-func close(a, b float64) bool      { return tolerance(a, b, 1e-14) }
-func veryclose(a, b float64) bool  { return tolerance(a, b, 4e-16) }
+func close(a, b float64) bool     { return tolerance(a, b, 1e-14) }
+func veryclose(a, b float64) bool { return tolerance(a, b, 4e-16) }

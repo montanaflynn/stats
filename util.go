@@ -41,4 +41,3 @@ func sortedCopyDif(input Float64Data) (copy Float64Data) {
 	sort.Float64s(copy)
 	return
 }
-
