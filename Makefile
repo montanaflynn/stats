@@ -24,7 +24,7 @@ docs:
 	godoc2md github.com/montanaflynn/stats | sed -e s#src/target/##g > DOCUMENTATION.md
 
 release:
-	git-chglog --output CHANGELOG.md --next-tag ${TAG} ${TAG}
+	git-chglog --output CHANGELOG.md --next-tag ${TAG}
 	git add CHANGELOG.md
 	git commit -m "Update changelog with ${TAG} changes"
 	git tag ${TAG}
