@@ -162,3 +162,8 @@ func (f Float64Data) SoftMax() ([]float64, error) {
 func (f Float64Data) Entropy() (float64, error) {
 	return Entropy(f)
 }
+
+// Quartiles returns the three quartile points from instance of Float64Data
+func (f Float64Data) Quartiles() (Quartiles, error) {
+	return Quartile(f)
+}
