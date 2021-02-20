@@ -273,6 +273,6 @@ func BenchmarkMethodsAPI(b *testing.B) {
 func TestQuartilesMethods(t *testing.T) {
 	_, err := data1.Quartiles()
 	if err != nil {
-		t.Errorf("%s returned an error", getFunctionName(data1.Quartile))
+		t.Errorf("%s returned an error", getFunctionName(data1.Quartiles))
 	}
 }
