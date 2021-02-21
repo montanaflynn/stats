@@ -129,6 +129,7 @@ MIT License Copyright (c) 2014-2020 Montana Flynn (<a href="https://montanaflynn
   * [func (f Float64Data) PopulationVariance() (float64, error)](#Float64Data.PopulationVariance)
   * [func (f Float64Data) Quartile(d Float64Data) (Quartiles, error)](#Float64Data.Quartile)
   * [func (f Float64Data) QuartileOutliers() (Outliers, error)](#Float64Data.QuartileOutliers)
+  * [func (f Float64Data) Quartiles() (Quartiles, error)](#Float64Data.Quartiles)
   * [func (f Float64Data) Sample(n int, r bool) ([]float64, error)](#Float64Data.Sample)
   * [func (f Float64Data) SampleVariance() (float64, error)](#Float64Data.SampleVariance)
   * [func (f Float64Data) Sigmoid() ([]float64, error)](#Float64Data.Sigmoid)
@@ -1026,6 +1027,15 @@ Quartile returns the three quartile points from a slice of data
 func (f Float64Data) QuartileOutliers() (Outliers, error)
 ```
 QuartileOutliers finds the mild and extreme outliers
+
+
+
+
+### <a name="Float64Data.Quartiles">func</a> (Float64Data) [Quartiles](/data.go?s=5628:5679#L167)
+``` go
+func (f Float64Data) Quartiles() (Quartiles, error)
+```
+Quartiles returns the three quartile points from instance of Float64Data
 
 
 
