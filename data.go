@@ -1,5 +1,11 @@
 package stats
 
+import (
+	"fmt"
+	"sort"
+	"strconv"
+)
+
 // Float64Data is a named type for []float64 with helper methods
 type Float64Data []float64
 
@@ -166,4 +172,64 @@ func (f Float64Data) Entropy() (float64, error) {
 // Quartiles returns the three quartile points from instance of Float64Data
 func (f Float64Data) Quartiles() (Quartiles, error) {
 	return Quartile(f)
+}
+
+func (f Float64Data) Count() int {
+	return len(f)
+}
+
+// Describe generate descriptive statistics. Return an error only if FloatData is empty.
+func (f Float64Data) Describe(percentiles ...int) error {
+	mean, err := f.Mean()
+	if err != nil {
+		return err
+	}
+
+	// Indentation for readability.
+	const indent = 8
+
+	out := fmt.Sprintf("count %*s %d", indent-len("count"), "", f.Count())
+	fmt.Println(out)
+
+	out = fmt.Sprintf("mean %*s %f", indent-len("mean"), "", mean)
+	fmt.Println(out)
+
+	std, _ := f.StandardDeviation()
+	out = fmt.Sprintf("std %*s %f", indent-len("std"), "", std)
+	fmt.Println(out)
+
+	min, _ := f.Min()
+	out = fmt.Sprintf("min %*s %f", indent-len("min"), "", min)
+	fmt.Println(out)
+
+	// Percentiles.
+	mp := make(map[int]bool)
+	for _, p := range percentiles {
+		mp[p] = true
+	}
+
+	// check if defaults values are in the slice if not add them.
+	var pDefault = []int{25, 50, 75}
+	for _, d := range pDefault {
+		if _, ok := mp[d]; !ok {
+			percentiles = append(percentiles, d)
+		}
+	}
+	sort.Ints(percentiles)
+
+	for _, p := range percentiles {
+		v, _ := f.Percentile(float64(p))
+
+		out = fmt.Sprintf("%.d%% %*s %f", p, indent-len(strconv.FormatInt(int64(p), 10))-1, "", v)
+		fmt.Println(out)
+	}
+
+	max, _ := f.Max()
+	out = fmt.Sprintf("max %*s %f", indent-len("max"), "", max)
+	fmt.Println(out)
+
+	out = fmt.Sprintf("dtype %*s %T", indent-len("dtype"), "", f[0])
+	fmt.Println(out)
+
+	return nil
 }
