@@ -39,7 +39,7 @@ func StandardDeviationPopulation(input Float64Data) (sdev float64, err error) {
 	vp, _ := PopulationVariance(input)
 
 	// Return the population standard deviation
-	return math.Pow(vp, 0.5), nil
+	return math.Sqrt(vp), nil
 }
 
 // StandardDeviationSample finds the amount of variation from a sample
@@ -53,5 +53,5 @@ func StandardDeviationSample(input Float64Data) (sdev float64, err error) {
 	vs, _ := SampleVariance(input)
 
 	// Return the sample standard deviation
-	return math.Pow(vs, 0.5), nil
+	return math.Sqrt(vs), nil
 }
