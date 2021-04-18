@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 	"strconv"
+	"strings"
 )
 
 // Float64Data is a named type for []float64 with helper methods
@@ -178,6 +179,49 @@ func (f Float64Data) Count() int {
 	return len(f)
 }
 
+type description struct {
+	input       Float64Data
+	count       int
+	mean        float64
+	std         float64
+	min         float64
+	max         float64
+	percentiles []int
+	dtype       string
+}
+
+func (d description) String() string {
+	var s strings.Builder
+	// Indentation for readability.
+	const indent = 8
+
+	out := fmt.Sprintf("count %*s %d\n", indent-len("count"), "", d.count)
+	s.WriteString(out)
+
+	out = fmt.Sprintf("mean %*s %f\n", indent-len("mean"), "", d.mean)
+	s.WriteString(out)
+
+	out = fmt.Sprintf("std %*s %f\n", indent-len("std"), "", d.std)
+	s.WriteString(out)
+
+	out = fmt.Sprintf("min %*s %f\n", indent-len("min"), "", d.min)
+	s.WriteString(out)
+
+	for _, p := range d.percentiles {
+		v, _ := d.input.Percentile(float64(p))
+		out = fmt.Sprintf("%d%% %*s %f\n", p, indent-len(strconv.FormatInt(int64(p), 10))-1, "", v)
+		s.WriteString(out)
+	}
+
+	out = fmt.Sprintf("max %*s %f\n", indent-len("max"), "", d.max)
+	s.WriteString(out)
+
+	out = fmt.Sprintf("dtype %*s %T\n", indent-len("dtype"), "", d.input[0])
+	s.WriteString(out)
+
+	return s.String()
+}
+
 // Describe generate descriptive statistics. Return an error only if FloatData is empty.
 func (f Float64Data) Describe(percentiles ...int) error {
 	mean, err := f.Mean()
@@ -185,22 +229,9 @@ func (f Float64Data) Describe(percentiles ...int) error {
 		return err
 	}
 
-	// Indentation for readability.
-	const indent = 8
-
-	out := fmt.Sprintf("count %*s %d", indent-len("count"), "", f.Count())
-	fmt.Println(out)
-
-	out = fmt.Sprintf("mean %*s %f", indent-len("mean"), "", mean)
-	fmt.Println(out)
-
 	std, _ := f.StandardDeviation()
-	out = fmt.Sprintf("std %*s %f", indent-len("std"), "", std)
-	fmt.Println(out)
 
 	min, _ := f.Min()
-	out = fmt.Sprintf("min %*s %f", indent-len("min"), "", min)
-	fmt.Println(out)
 
 	// Percentiles.
 	mp := make(map[int]bool)
@@ -217,19 +248,19 @@ func (f Float64Data) Describe(percentiles ...int) error {
 	}
 	sort.Ints(percentiles)
 
-	for _, p := range percentiles {
-		v, _ := f.Percentile(float64(p))
+	max, _ := f.Max()
 
-		out = fmt.Sprintf("%.d%% %*s %f", p, indent-len(strconv.FormatInt(int64(p), 10))-1, "", v)
-		fmt.Println(out)
+	d := description{
+		input:       f,
+		count:       len(f),
+		mean:        mean,
+		std:         std,
+		min:         min,
+		percentiles: percentiles,
+		max:         max,
 	}
 
-	max, _ := f.Max()
-	out = fmt.Sprintf("max %*s %f", indent-len("max"), "", max)
-	fmt.Println(out)
-
-	out = fmt.Sprintf("dtype %*s %T", indent-len("dtype"), "", f[0])
-	fmt.Println(out)
+	fmt.Print(d)
 
 	return nil
 }
