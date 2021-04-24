@@ -2,6 +2,7 @@ package stats_test
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -149,6 +150,14 @@ var allTestData = []struct {
 	{
 		map[int]int64{0: -843, 1: 923, 2: -9223372036854775808, 3: 9223372036854775807, 4: 9223372036854775800},
 		stats.Float64Data{-843.0, 923.0, -9223372036854776000.0, 9223372036854776000.0, 9223372036854776000.0},
+	},
+	{
+		"1\n\n2 3.3\n  4.4",
+		stats.Float64Data{1.0, 2, 3.3, 4.4},
+	},
+	{
+		strings.NewReader("1\n\n2 3.3\n  4.4"),
+		stats.Float64Data{1.0, 2, 3.3, 4.4},
 	},
 }
 
