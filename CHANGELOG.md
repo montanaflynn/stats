@@ -1,10 +1,27 @@
 
+<a name="v0.6.6"></a>
+## [v0.6.6](https://github.com/montanaflynn/stats/compare/v0.6.5...v0.6.6) (2021-04-26)
+
+### Add
+
+* Add support for string and io.Reader in LoadRawData (pr [#68](https://github.com/montanaflynn/stats/issues/68))
+* Add latest versions of Go to test against
+
+### Use
+
+* Use math.Sqrt in StandardDeviation (PR [#64](https://github.com/montanaflynn/stats/issues/64))
+
+
 <a name="v0.6.5"></a>
 ## [v0.6.5](https://github.com/montanaflynn/stats/compare/v0.6.4...v0.6.5) (2021-02-21)
 
 ### Add
 
 * Add Float64Data.Quartiles documentation
+
+### Update
+
+* Update changelog with v0.6.5 changes
 
 
 <a name="v0.6.4"></a>
