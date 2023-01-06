@@ -169,4 +169,21 @@ func main() {
 	e, _ = stats.Entropy([]float64{1.1, 2.2, 3.3})
 	fmt.Println(e)
 	// Output: 1.0114042647073518
+
+	p := 0.5
+	begin := 1
+	end := 2
+	chance, _ := stats.ProbGeom(begin, end, p)
+	fmt.Println(chance)
+	// Output: 0.25
+
+	prob1 := 0.5
+	exp, _ := stats.ExpGeom(prob1)
+	fmt.Println(exp)
+	// Output: 
+	
+	prob2:= 0.5
+	vari, _ := stats.VarGeom(prob2)
+	fmt.Println(vari)
+	// Output: 2
 }
