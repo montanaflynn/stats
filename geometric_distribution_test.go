@@ -2,8 +2,9 @@ package stats_test
 
 import (
 	"fmt"
-	"github.com/montanaflynn/stats"
 	"testing"
+
+	"github.com/montanaflynn/stats"
 )
 
 func ExampleProbGeom() {
@@ -65,7 +66,7 @@ func TestErrExpGeom(t *testing.T) {
 
 func ExampleVarGeom() {
 	p := 0.5
-	exp, _ := stats.ExpGeom(p)
+	exp, _ := stats.VarGeom(p)
 	fmt.Println(exp)
 	// Output: 2
 }
