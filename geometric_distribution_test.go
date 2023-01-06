@@ -66,27 +66,27 @@ func TestErrExpGeom(t *testing.T) {
 
 func ExampleVarGeom() {
 	p := 0.5
-	exp, _ := stats.VarGeom(p)
-	fmt.Println(exp)
+	vari, _ := stats.VarGeom(p)
+	fmt.Println(vari)
 	// Output: 2
 }
 
 func TestVarGeom(t *testing.T) {
 	p := 0.25
-	exp, err := stats.VarGeom(p)
+	vari, err := stats.VarGeom(p)
 	if err != nil {
 		t.Errorf("Returned an error when not expected")
 	}
-	fmt.Println(exp)
+	fmt.Println(vari)
 	// Output: 12.0
 }
 
 func TestErrVarGeom(t *testing.T) {
 	p := -1.0
-	exp, err := stats.VarGeom(p)
+	vari, err := stats.VarGeom(p)
 	if err == nil {
 		t.Errorf("Expected Erorr")
 	}
-	fmt.Println(exp)
+	fmt.Println(vari)
 	// Output: NaN
 }
