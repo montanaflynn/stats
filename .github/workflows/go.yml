@@ -11,21 +11,18 @@ on:
       - synchronize
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: "stable"
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: "stable"
 
-    - name: Test
-      run: go test -v ./...
+      - name: Run test with coverage
+        run: go test -race -coverprofile=coverage.txt -covermode=atomic
 
-    - name: Run coverage
-      run: go test -race -coverprofile=coverage.txt -covermode=atomic
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
