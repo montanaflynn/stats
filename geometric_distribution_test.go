@@ -2,6 +2,7 @@ package stats_test
 
 import (
 	"fmt"
+	"math"
 	"testing"
 
 	"github.com/montanaflynn/stats"
@@ -20,9 +21,13 @@ func TestProbGeomLarge(t *testing.T) {
 	p := 0.5
 	a := 1
 	b := 10000
-	chance, _ := stats.ProbGeom(a, b, p)
-	fmt.Println(chance)
-	// Output: 1
+	chance, err := stats.ProbGeom(a, b, p)
+	if err != nil {
+		t.Errorf("Returned an error")
+	}
+	if chance != 0.5 {
+		t.Errorf("ProbGeom(%d, %d, %.01f) => %.1f != %.1f", a, b, p, chance, 0.5)
+	}
 }
 
 func TestErrBoundsProbGeom(t *testing.T) {
@@ -33,8 +38,9 @@ func TestErrBoundsProbGeom(t *testing.T) {
 	if err == nil {
 		t.Errorf("Did not return an error when expected")
 	}
-	fmt.Println(chance)
-	// Output: NaN
+	if !math.IsNaN(chance) {
+		t.Errorf("ProbGeom(%d, %d, %.01f) => %.1f != %.1f", a, b, p, chance, math.NaN())
+	}
 }
 
 func ExampleExpGeom() {
@@ -50,18 +56,20 @@ func TestExpGeom(t *testing.T) {
 	if err != nil {
 		t.Errorf("Returned an error when not expected")
 	}
-	fmt.Println(exp)
-	// Output: 2
+	if exp != 2.0 {
+		t.Errorf("ExpGeom(%.01f) => %.1f != %.1f", p, exp, 2.0)
+	}
 }
 
 func TestErrExpGeom(t *testing.T) {
 	p := -1.0
 	exp, err := stats.ExpGeom(p)
 	if err == nil {
-		t.Errorf("Expected Error")
+		t.Errorf("Did not return an error")
 	}
-	fmt.Println(exp)
-	// Output: NaN
+	if !math.IsNaN(exp) {
+		t.Errorf("ExpGeom(%.01f) => %.1f != %.1f", p, exp, math.NaN())
+	}
 }
 
 func ExampleVarGeom() {
@@ -77,16 +85,18 @@ func TestVarGeom(t *testing.T) {
 	if err != nil {
 		t.Errorf("Returned an error when not expected")
 	}
-	fmt.Println(vari)
-	// Output: 12.0
+	if vari != 12.0 {
+		t.Errorf("VarGeom(%.01f) => %.1f != %.1f", p, vari, 12.0)
+	}
 }
 
 func TestErrVarGeom(t *testing.T) {
 	p := -1.0
 	vari, err := stats.VarGeom(p)
 	if err == nil {
-		t.Errorf("Expected Erorr")
+		t.Errorf("Did not return an error")
 	}
-	fmt.Println(vari)
-	// Output: NaN
+	if !math.IsNaN(vari) {
+		t.Errorf("VarGeom(%.01f) => %.1f != %.1f", p, vari, math.NaN())
+	}
 }
