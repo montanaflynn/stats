@@ -12,6 +12,7 @@
 - Remove travis CI config
 
 ### Update
+- Update changelog with v0.7.0 changes
 - Update github action go workflow
 - Update geometric distribution tests
 
