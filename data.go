@@ -1,5 +1,12 @@
 package stats
 
+import (
+	"fmt"
+	"sort"
+	"strconv"
+	"strings"
+)
+
 // Float64Data is a named type for []float64 with helper methods
 type Float64Data []float64
 
@@ -166,4 +173,94 @@ func (f Float64Data) Entropy() (float64, error) {
 // Quartiles returns the three quartile points from instance of Float64Data
 func (f Float64Data) Quartiles() (Quartiles, error) {
 	return Quartile(f)
+}
+
+func (f Float64Data) Count() int {
+	return len(f)
+}
+
+type description struct {
+	input       Float64Data
+	count       int
+	mean        float64
+	std         float64
+	min         float64
+	max         float64
+	percentiles []int
+	dtype       string
+}
+
+func (d description) String() string {
+	var s strings.Builder
+	// Indentation for readability.
+	const indent = 8
+
+	out := fmt.Sprintf("count %*s %d\n", indent-len("count"), "", d.count)
+	s.WriteString(out)
+
+	out = fmt.Sprintf("mean %*s %f\n", indent-len("mean"), "", d.mean)
+	s.WriteString(out)
+
+	out = fmt.Sprintf("std %*s %f\n", indent-len("std"), "", d.std)
+	s.WriteString(out)
+
+	out = fmt.Sprintf("min %*s %f\n", indent-len("min"), "", d.min)
+	s.WriteString(out)
+
+	for _, p := range d.percentiles {
+		v, _ := d.input.Percentile(float64(p))
+		out = fmt.Sprintf("%d%% %*s %f\n", p, indent-len(strconv.FormatInt(int64(p), 10))-1, "", v)
+		s.WriteString(out)
+	}
+
+	out = fmt.Sprintf("max %*s %f\n", indent-len("max"), "", d.max)
+	s.WriteString(out)
+
+	out = fmt.Sprintf("dtype %*s %T\n", indent-len("dtype"), "", d.input[0])
+	s.WriteString(out)
+
+	return s.String()
+}
+
+// Describe generate descriptive statistics. Return an error only if FloatData is empty.
+func (f Float64Data) Describe(percentiles ...int) error {
+	mean, err := f.Mean()
+	if err != nil {
+		return err
+	}
+
+	std, _ := f.StandardDeviation()
+
+	min, _ := f.Min()
+
+	// Percentiles.
+	mp := make(map[int]bool)
+	for _, p := range percentiles {
+		mp[p] = true
+	}
+
+	// check if defaults values are in the slice if not add them.
+	var pDefault = []int{25, 50, 75}
+	for _, d := range pDefault {
+		if _, ok := mp[d]; !ok {
+			percentiles = append(percentiles, d)
+		}
+	}
+	sort.Ints(percentiles)
+
+	max, _ := f.Max()
+
+	d := description{
+		input:       f,
+		count:       len(f),
+		mean:        mean,
+		std:         std,
+		min:         min,
+		percentiles: percentiles,
+		max:         max,
+	}
+
+	fmt.Print(d)
+
+	return nil
 }

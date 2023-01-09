@@ -1,6 +1,7 @@
 package stats_test
 
 import (
+	"errors"
 	"math"
 	"math/rand"
 	"reflect"
@@ -275,4 +276,24 @@ func TestQuartilesMethods(t *testing.T) {
 	if err != nil {
 		t.Errorf("%s returned an error", getFunctionName(data1.Quartiles))
 	}
+}
+
+func TestDescribe(t *testing.T) {
+	df := stats.Float64Data{1, 2, 3, 4, 10, 80, 123, 83, 48, 30}
+	err := df.Describe()
+	if err != nil {
+		t.Errorf("%s returned an error", getFunctionName(data1.Quartiles))
+	}
+
+	err = df.Describe(1, 5, 10, 90)
+	if err != nil {
+		t.Errorf("%s returned an error", getFunctionName(data1.Quartiles))
+	}
+
+	df = stats.Float64Data{}
+	err = df.Describe()
+	if !errors.Is(err, stats.ErrEmptyInput) {
+		t.Errorf("error: %s ", err.Error())
+	}
+
 }
