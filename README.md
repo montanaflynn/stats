@@ -119,6 +119,8 @@ func SampleVariance(input Float64Data) (svar float64, err error) {}
 func Sigmoid(input Float64Data) ([]float64, error) {}
 func SoftMax(input Float64Data) ([]float64, error) {}
 func StableSample(input Float64Data, takenum int) ([]float64, error) {}
+func Describe(input Float64Data, allowNaN bool, percentiles *[]float64) (*Description, error) {}
+func DescribePercentileFunc(input Float64Data, allowNaN bool, percentiles *[]float64, percentileFunc func(Float64Data, float64) (float64, error)) (*Description, error)
 func StandardDeviation(input Float64Data) (sdev float64, err error) {}
 func StandardDeviationPopulation(input Float64Data) (sdev float64, err error) {}
 func StandardDeviationSample(input Float64Data) (sdev float64, err error) {}
