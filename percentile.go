@@ -11,39 +11,33 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 		return math.NaN(), EmptyInputErr
 	}
 
-	if length == 1 {
-		return input[0], nil
-	}
-
-	if percent <= 0 || percent > 100 {
+	if percent < 0 || percent > 100 {
 		return math.NaN(), BoundsErr
 	}
 
 	// Start by sorting a copy of the slice
 	c := sortedCopy(input)
 
-	// Multiply percent by length of input
-	index := (percent / 100) * float64(len(c))
+	// Calculate rank
+	rank := (percent / 100) * float64(len(c)-1)
+
+	// Convert float to int
+	ri := int(rank)
 
 	// Check if the index is a whole number
-	if index == float64(int64(index)) {
-
-		// Convert float to int
-		i := int(index)
+	if rank == float64(ri) {
 
 		// Find the value at the index
-		percentile = c[i-1]
-
-	} else if index > 1 {
-
-		// Convert float to int via truncation
-		i := int(index)
-
-		// Find the average of the index and following values
-		percentile, _ = Mean(Float64Data{c[i-1], c[i]})
+		percentile = c[ri]
 
 	} else {
-		return math.NaN(), BoundsErr
+
+		// Calculate the fractional part of the rank
+		rf := rank - float64(ri)
+
+		// Interpolate
+		percentile = c[ri] + rf*(c[ri+1]-c[ri])
+
 	}
 
 	return percentile, nil
