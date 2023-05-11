@@ -76,6 +76,8 @@ func Correlation(data1, data2 Float64Data) (float64, error) {}
 func Covariance(data1, data2 Float64Data) (float64, error) {}
 func CovariancePopulation(data1, data2 Float64Data) (float64, error) {}
 func CumulativeSum(input Float64Data) ([]float64, error) {}
+func Describe(input Float64Data, allowNaN bool, percentiles *[]float64) (*Description, error) {}
+func DescribePercentileFunc(input Float64Data, allowNaN bool, percentiles *[]float64, percentileFunc func(Float64Data, float64) (float64, error)) (*Description, error) {}
 func Entropy(input Float64Data) (float64, error) {}
 func EuclideanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error) {}
 func GeometricMean(input Float64Data) (float64, error) {}

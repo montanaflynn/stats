@@ -180,10 +180,13 @@ func main() {
 	prob1 := 0.5
 	exp, _ := stats.ExpGeom(prob1)
 	fmt.Println(exp)
-	// Output: 
-	
-	prob2:= 0.5
+	// Output:
+
+	prob2 := 0.5
 	vari, _ := stats.VarGeom(prob2)
 	fmt.Println(vari)
 	// Output: 2
+
+	description, _ := stats.Describe([]float64{1.0, 2.0, 3.0}, true, &[]float64{25.0, 50.0, 75.0})
+	fmt.Println(description.String(2))
 }
