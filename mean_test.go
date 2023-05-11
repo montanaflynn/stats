@@ -44,6 +44,12 @@ func TestGeometricMean(t *testing.T) {
 	s1 := []float64{2, 18}
 	s2 := []float64{10, 51.2, 8}
 	s3 := []float64{1, 3, 9, 27, 81}
+	s4 := []float64{1, 0, 2, 3, 4}
+
+	s5 := make([]float64, 100, 100)
+	for i:=0; i<100; i++ {
+		s5[i] = 1e9
+	}
 
 	for _, c := range []struct {
 		in  []float64
@@ -52,6 +58,8 @@ func TestGeometricMean(t *testing.T) {
 		{s1, 6},
 		{s2, 16},
 		{s3, 9},
+		{s4, 0},
+		{s5, 1e9},
 	} {
 		gm, err := stats.GeometricMean(c.in)
 		if err != nil {
