@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/montanaflynn/stats"
 )
@@ -189,4 +190,21 @@ func main() {
 
 	description, _ := stats.Describe([]float64{1.0, 2.0, 3.0}, true, &[]float64{25.0, 50.0, 75.0})
 	fmt.Println(description.String(2))
+
+	dt1 := []float64{1, 3, 423, 4235, 342, 5, 123, 124, 23, 432, 543, 5, 346}
+	dt2 := []float64{6}
+	dt3 := append(dt1, dt2...)
+	dt1Mean, _ := stats.Mean(dt1)
+	SD1, _ := stats.StandardDeviation(dt1)
+	t1 := time.Now()
+	SD3, _ := stats.StandardDeviation(dt3)
+	t1Diff := time.Now().Sub(t1)
+	t1End := time.Now()
+	SD3New, _ := stats.StandardDeviationUnion(dt2, dt1Mean, len(dt1), SD1)
+	t2Diff := time.Now().Sub(t1End)
+
+	fmt.Printf("StandardDeviation took : %v\n", t1Diff)
+	fmt.Printf("StandardDeviationUnion took : %v\n", t2Diff)
+	fmt.Printf("StandardDeviation: %v\n", SD3)
+	fmt.Printf("StandardDeviationUnion : %v\n", SD3New)
 }
