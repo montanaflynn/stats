@@ -34,16 +34,18 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 		// Find the value at the index
 		percentile = c[i-1]
 
-	} else if index > 1 {
-
+	} else {
 		// Convert float to int via truncation
 		i := int(index)
 
-		// Find the average of the index and following values
-		percentile, _ = Mean(Float64Data{c[i-1], c[i]})
-
-	} else {
-		return math.NaN(), BoundsErr
+		// When 0 < index < 1, i == 0 and c[i-1] would underflow.
+		// In this boundary case, return the midpoint of the first two values.
+		if i == 0 {
+			percentile, _ = Mean(Float64Data{c[0], c[1]})
+		} else {
+			// Find the average of the index and following values
+			percentile, _ = Mean(Float64Data{c[i-1], c[i]})
+		}
 	}
 
 	return percentile, nil
