@@ -18,4 +18,12 @@ jobs:
         run: go test -race -coverprofile=coverage.txt -covermode=atomic
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        # Secrets are not available to workflows triggered from forked PRs.
+        # Without a token, Codecov may rate limit uploads (429).
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.txt
+          fail_ci_if_error: true
+          verbose: true
