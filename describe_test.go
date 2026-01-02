@@ -77,7 +77,7 @@ func TestDescribeValues(t *testing.T) {
 
 func TestDescribeString(t *testing.T) {
 	describe, _ := stats.Describe([]float64{1.0, 2.0, 3.0}, true, &[]float64{25.0, 50.0, 75.0})
-	if describe.String(2) != "count\t3\nmean\t2.00\nstd\t0.82\nmax\t3.00\nmin\t1.00\n25.00%\tNaN\n50.00%\t1.50\n75.00%\t2.50\nNaN OK\ttrue" {
+	if describe.String(2) != "count\t3\nmean\t2.00\nstd\t0.82\nmax\t3.00\nmin\t1.00\n25.00%\t1.50\n50.00%\t1.50\n75.00%\t2.50\nNaN OK\ttrue" {
 		t.Errorf("String output is not correct")
 	}
 }

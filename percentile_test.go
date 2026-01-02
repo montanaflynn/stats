@@ -36,13 +36,37 @@ func TestPercentile(t *testing.T) {
 	if err != stats.BoundsErr {
 		t.Errorf("Zero percent didn't return expected error; got %v", err)
 	}
-	_, err = stats.Percentile([]float64{1, 2, 3, 4, 5}, 0.13)
-	if err != stats.BoundsErr {
-		t.Errorf("Too low percent didn't return expected error; got %v", err)
+	m, err = stats.Percentile([]float64{1, 2, 3, 4, 5}, 0.13)
+	if err != nil {
+		t.Errorf("Too low percent shouldn't return an error; got %v", err)
+	}
+	if m != 1.5 {
+		t.Errorf("%.1f != %.1f", m, 1.5)
 	}
 	_, err = stats.Percentile([]float64{1, 2, 3, 4, 5}, 101)
 	if err != stats.BoundsErr {
 		t.Errorf("Too high percent didn't return expected error; got %v", err)
+	}
+}
+
+func TestPercentile_Issue88_ThreeValuesQ1(t *testing.T) {
+	input := []float64{193.71, 197.24, 216.39}
+
+	got, err := stats.Percentile(input, 25)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !close(got, 195.475) {
+		t.Fatalf("%v != %v", got, 195.475)
+	}
+
+	// Sanity check: issue report indicates 75th percentile was already correct.
+	got, err = stats.Percentile(input, 75)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !close(got, 206.815) {
+		t.Fatalf("%v != %v", got, 206.815)
 	}
 }
 
