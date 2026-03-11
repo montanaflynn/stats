@@ -17,12 +17,12 @@ func TestPercentile(t *testing.T) {
 		t.Errorf("%.1f != %.1f", m, 43.0)
 	}
 	m, _ = stats.Percentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 50)
-	if m != 5.0 {
-		t.Errorf("%.1f != %.1f", m, 5.0)
+	if m != 5.5 {
+		t.Errorf("%.1f != %.1f", m, 5.5)
 	}
 	m, _ = stats.Percentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 99.9)
-	if m != 9.5 {
-		t.Errorf("%.1f != %.1f", m, 9.5)
+	if !close(m, 9.991) {
+		t.Errorf("%v != %v", m, 9.991)
 	}
 	m, _ = stats.Percentile([]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 100)
 	if m != 10.0 {
@@ -40,8 +40,8 @@ func TestPercentile(t *testing.T) {
 	if err != nil {
 		t.Errorf("Too low percent shouldn't return an error; got %v", err)
 	}
-	if m != 1.5 {
-		t.Errorf("%.1f != %.1f", m, 1.5)
+	if !close(m, 1.0052) {
+		t.Errorf("%v != %v", m, 1.0052)
 	}
 	_, err = stats.Percentile([]float64{1, 2, 3, 4, 5}, 101)
 	if err != stats.BoundsErr {
@@ -67,6 +67,25 @@ func TestPercentile_Issue88_ThreeValuesQ1(t *testing.T) {
 	}
 	if !close(got, 206.815) {
 		t.Fatalf("%v != %v", got, 206.815)
+	}
+}
+
+func TestPercentile_Issue92(t *testing.T) {
+	data := []float64{20.737737800911837, 59.05787249563947, 16.547458636949685, 78.6771074284816}
+
+	m, _ := stats.Percentile(data, 50)
+	if !close(m, 39.89780514827565) {
+		t.Errorf("%v != %v", m, 39.89780514827565)
+	}
+
+	m, _ = stats.Percentile(data, 90)
+	if !close(m, 72.79133694862897) {
+		t.Errorf("%v != %v", m, 72.79133694862897)
+	}
+
+	m, _ = stats.Percentile(data, 95)
+	if !close(m, 75.7342221885553) {
+		t.Errorf("%v != %v", m, 75.7342221885553)
 	}
 }
 
