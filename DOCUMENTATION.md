@@ -29,7 +29,7 @@ Example Usage:
 	roundedMedian, _ := stats.Round(median, 0)
 	fmt.Println(roundedMedian) // 4
 
-MIT License Copyright (c) 2014-2020 Montana Flynn (<a href="https://montanaflynn.com">https://montanaflynn.com</a>)
+MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn.com">https://montanaflynn.com</a>)
 
 
 
