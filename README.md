@@ -182,31 +182,12 @@ To make things as seamless as possible please also consider the following steps:
 
 ## Releasing
 
-This is not required by contributors and mostly here as a reminder to myself as the maintainer of this repo. To release a new version we should update the [CHANGELOG.md](/CHANGELOG.md) and [DOCUMENTATION.md](/DOCUMENTATION.md).
-
-First install the tools used to generate the markdown files and release:
+Releases are automated with [GoReleaser](https://goreleaser.com/) via GitHub Actions. To create a new release, push a version tag:
 
 ```
-go install github.com/davecheney/godoc2md@latest
-go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-brew tap git-chglog/git-chglog
-brew install gnu-sed hub git-chglog
+git tag v0.x.x
+git push origin v0.x.x
 ```
-
-Then you can run these `make` directives:
-
-```
-# Generate DOCUMENTATION.md
-make docs
-```
-
-Then we can create a [CHANGELOG.md](/CHANGELOG.md) a new git tag and a github release:
-
-```
-make release TAG=v0.x.x
-```
-
-To authenticate `hub` for the release you will need to create a personal access token and use it as the password when it's requested.
 
 ## MIT License
 
