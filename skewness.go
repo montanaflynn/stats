@@ -1,58 +1,65 @@
 package stats
 
-import (
-	"errors"
-	"math"
-)
+import "math"
 
-func Skewness(dataset Float64Data) (float64, error) {
-	if len(dataset) < 2 {
-		return 0.0, errors.New("skewness requires at least two data points")
+// Skewness computes the population skewness of the dataset
+func Skewness(input Float64Data) (float64, error) {
+	return PopulationSkewness(input)
+}
+
+// PopulationSkewness computes the population skewness using the third
+// central moment normalized by the cube of the standard deviation.
+func PopulationSkewness(input Float64Data) (float64, error) {
+	if input.Len() < 2 {
+		return math.NaN(), ErrEmptyInput
 	}
-	mean, err := Mean(dataset)
 
+	mean, err := Mean(input)
 	if err != nil {
-		return 0.0, err
-	}
-	differences := Differences(dataset, mean)
-	sumofcubes, err := Sum(PowerofN(differences, 3))
-	if err != nil {
-		return 0, err
+		return math.NaN(), err
 	}
 
-	sumofsquares, err := Sum(PowerofN(differences, 2))
-
-	if err != nil {
-		return 0, err
+	// Compute sum of squared and cubed differences from the mean
+	var sumOfSquares, sumOfCubes float64
+	for _, v := range input {
+		d := v - mean
+		sumOfSquares += d * d
+		sumOfCubes += d * d * d
 	}
 
-	if sumofsquares == 0 {
-		return 0, errors.New("skewness undefined for zero variance")
+	if sumOfSquares == 0 {
+		return math.NaN(), ErrEmptyInput
 	}
 
-	if sumofcubes == 0 {
+	if sumOfCubes == 0 {
 		return 0.0, nil
 	}
 
-	variance := sumofsquares / float64(len(dataset))
+	n := float64(input.Len())
+	variance := sumOfSquares / n
 	stdDevCubed := math.Pow(variance, 3.0/2.0)
-	skewness := sumofcubes / stdDevCubed
 
-	return skewness, nil
+	return (sumOfCubes / n) / stdDevCubed, nil
 }
 
-func Differences(dataset Float64Data, mean float64) Float64Data {
-	diff := make([]float64, len(dataset))
-	for i, a := range dataset {
-		diff[i] = a - mean
+// SampleSkewness computes the adjusted Fisher-Pearson standardized moment
+// coefficient, correcting for bias in small samples.
+func SampleSkewness(input Float64Data) (float64, error) {
+	n := input.Len()
+	if n < 3 {
+		return math.NaN(), ErrEmptyInput
 	}
-	return diff
-}
 
-func PowerofN(dataset Float64Data, power float64) []float64 {
-	result := make([]float64, len(dataset))
-	for i, v := range dataset {
-		result[i] = math.Pow(v, power)
+	g1, err := PopulationSkewness(input)
+	if err != nil {
+		return math.NaN(), err
 	}
-	return result
+
+	if g1 == 0 {
+		return 0.0, nil
+	}
+
+	// Adjusted Fisher-Pearson: G1 = g1 * sqrt(n*(n-1)) / (n-2)
+	nf := float64(n)
+	return g1 * math.Sqrt(nf*(nf-1)) / (nf - 2), nil
 }

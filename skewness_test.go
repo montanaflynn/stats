@@ -1,67 +1,113 @@
-package stats
+package stats_test
 
 import (
-	"math"
 	"testing"
+
+	"github.com/montanaflynn/stats"
 )
 
-func almostEqual(a, b, tol float64) bool {
-	return math.Abs(a-b) <= tol
+// Reference values verified against scipy.stats.skew
+var skewnessTests = []struct {
+	name string
+	data stats.Float64Data
+}{
+	{"RightSkewed", stats.Float64Data{1, 2, 2, 3, 9}},
+	{"LeftSkewed", stats.Float64Data{9, 8, 8, 7, 1}},
+	{"Symmetric", stats.Float64Data{2, 4, 6, 8, 10}},
+	{"UniformRange", stats.Float64Data{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+	{"HeavilyRightSkewed", stats.Float64Data{1, 1, 1, 1, 1, 1, 1, 1, 1, 100}},
 }
 
-func TestSkewness_RightSkewed(t *testing.T) {
-	data := Float64Data{1, 2, 2, 3, 9}
-
-	skew, err := Skewness(data)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
+func TestSkewness(t *testing.T) {
+	// scipy.stats.skew(data, bias=True)
+	expected := []float64{
+		1.3210869678752710,
+		-1.3210869678752706,
+		0.0,
+		0.0,
+		2.6666666666666665,
 	}
 
-	if skew <= 0 {
-		t.Errorf("expected right skewed (>0), got %f", skew)
-	}
-}
-
-func TestSkewness_LeftSkewed(t *testing.T) {
-	data := Float64Data{9, 8, 8, 7, 1}
-
-	skew, err := Skewness(data)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-
-	if skew >= 0 {
-		t.Errorf("expected left skewed (<0), got %f", skew)
+	for i, tt := range skewnessTests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := stats.Skewness(tt.data)
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if !close(got, expected[i]) {
+				t.Errorf("got %v, want %v", got, expected[i])
+			}
+		})
 	}
 }
 
-func TestSkewness_Symmetric(t *testing.T) {
-	data := Float64Data{2, 4, 6, 8, 10}
-
-	skew, err := Skewness(data)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
+func TestPopulationSkewness(t *testing.T) {
+	// scipy.stats.skew(data, bias=True)
+	expected := []float64{
+		1.3210869678752710,
+		-1.3210869678752706,
+		0.0,
+		0.0,
+		2.6666666666666665,
 	}
 
-	if !almostEqual(skew, 0, 1e-9) {
-		t.Errorf("expected skewness ~0, got %f", skew)
+	for i, tt := range skewnessTests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := stats.PopulationSkewness(tt.data)
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if !close(got, expected[i]) {
+				t.Errorf("got %v, want %v", got, expected[i])
+			}
+		})
+	}
+}
+
+func TestSampleSkewness(t *testing.T) {
+	// scipy.stats.skew(data, bias=False)
+	expected := []float64{
+		1.9693601762387913,
+		-1.9693601762387909,
+		0.0,
+		0.0,
+		3.1622776601683795,
+	}
+
+	for i, tt := range skewnessTests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := stats.SampleSkewness(tt.data)
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if !close(got, expected[i]) {
+				t.Errorf("got %v, want %v", got, expected[i])
+			}
+		})
 	}
 }
 
 func TestSkewness_ZeroVariance(t *testing.T) {
-	data := Float64Data{5, 5, 5, 5}
-
-	_, err := Skewness(data)
-	if err == nil {
-		t.Fatal("expected error for zero variance, got nil")
+	for _, fn := range []func(stats.Float64Data) (float64, error){
+		stats.Skewness, stats.PopulationSkewness, stats.SampleSkewness,
+	} {
+		_, err := fn(stats.Float64Data{5, 5, 5, 5})
+		if err != stats.ErrEmptyInput {
+			t.Fatalf("expected ErrEmptyInput for zero variance, got %v", err)
+		}
 	}
 }
 
 func TestSkewness_TooSmallDataset(t *testing.T) {
-	data := Float64Data{42}
+	_, err := stats.Skewness(stats.Float64Data{42})
+	if err != stats.ErrEmptyInput {
+		t.Fatalf("expected ErrEmptyInput for dataset length < 2, got %v", err)
+	}
+}
 
-	_, err := Skewness(data)
-	if err == nil {
-		t.Fatal("expected error for dataset length < 2")
+func TestSampleSkewness_TooSmallDataset(t *testing.T) {
+	_, err := stats.SampleSkewness(stats.Float64Data{1, 2})
+	if err != stats.ErrEmptyInput {
+		t.Fatalf("expected ErrEmptyInput for dataset length < 3, got %v", err)
 	}
 }
