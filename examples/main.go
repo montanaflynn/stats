@@ -189,4 +189,24 @@ func main() {
 
 	description, _ := stats.Describe([]float64{1.0, 2.0, 3.0}, true, &[]float64{25.0, 50.0, 75.0})
 	fmt.Println(description.String(2))
+
+	// -----------------------------
+	// Skewness (Shape of distribution)
+	// -----------------------------
+
+	// Symmetric data
+	skew, _ := stats.Skewness([]float64{2, 4, 6, 8, 10})
+	fmt.Println("Skewness (symmetric):", skew)
+	// Output: ~0 (distribution is symmetric)
+
+	// Right-skewed data (long tail on the right)
+	skew, _ = stats.Skewness([]float64{1, 2, 2, 3, 9})
+	fmt.Println("Skewness (right-skewed):", skew)
+	// Output: positive value (> 0)
+
+	// Left-skewed data (long tail on the left)
+	skew, _ = stats.Skewness([]float64{9, 8, 8, 7, 1})
+	fmt.Println("Skewness (left-skewed):", skew)
+	// Output: negative value (< 0)
+
 }
