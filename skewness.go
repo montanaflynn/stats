@@ -14,10 +14,7 @@ func PopulationSkewness(input Float64Data) (float64, error) {
 		return math.NaN(), ErrEmptyInput
 	}
 
-	mean, err := Mean(input)
-	if err != nil {
-		return math.NaN(), err
-	}
+	mean, _ := Mean(input)
 
 	// Compute sum of squared and cubed differences from the mean
 	var sumOfSquares, sumOfCubes float64
