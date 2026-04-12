@@ -419,6 +419,94 @@ func TestNumacc4Data(t *testing.T) {
 	test("Lew AutoCorrelateNumacc4", r, -0.999, 1e-7, e, t)
 }
 
+// nistVarianceDataset holds NIST certified values for variance testing.
+// Certified sample variance = stddev^2 from the NIST reference.
+type nistVarianceDataset struct {
+	name      string
+	data      stats.Float64Data
+	stddev    float64
+	stddevTol float64
+}
+
+var nistVarianceDatasets = []nistVarianceDataset{
+	{"Lew", lew, 277.332168044316, 1e-13},
+	{"Lottery", lottery, 291.699727470969, 1e-15},
+	{"Mavro", mavro, 0.000429123454003053, 1e-11},
+	{"Michelson", michelson, 0.0790105478190518, 1e-13},
+	{"Pidigits", pidigits, 2.86733906028871, 1e-14},
+	{"NumAcc1", numacc1, 1.0, 1e-13},
+	{"NumAcc2", numacc2, 0.1, 1e-10},
+	{"NumAcc3", numacc3, 0.1, 1e-9},
+	{"NumAcc4", numacc4, 0.1, 1e-7},
+}
+
+func TestNistSampleVariance(t *testing.T) {
+	for _, ds := range nistVarianceDatasets {
+		r, e := stats.SampleVariance(ds.data)
+		certifiedVar := ds.stddev * ds.stddev
+		test(ds.name+" SampleVariance", r, certifiedVar, ds.stddevTol, e, t)
+	}
+}
+
+func TestNistPopulationVariance(t *testing.T) {
+	for _, ds := range nistVarianceDatasets {
+		r, e := stats.PopulationVariance(ds.data)
+		n := float64(ds.data.Len())
+		certifiedPopVar := ds.stddev * ds.stddev * (n - 1) / n
+		test(ds.name+" PopulationVariance", r, certifiedPopVar, ds.stddevTol, e, t)
+	}
+}
+
+// NIST StRD Linear Regression: Norris dataset
+// https://www.itl.nist.gov/div898/strd/lls/data/Norris.shtml
+// Certified values: B0 = -0.262323073774029, B1 = 1.00211681802045, R^2 = 0.999993745883712
+var (
+	norrisX = stats.Float64Data{
+		0.2, 337.4, 118.2, 884.6, 10.1, 226.5, 666.3, 996.3, 448.6, 777.0,
+		558.2, 0.4, 0.6, 775.5, 666.9, 338.0, 447.5, 11.6, 556.0, 228.1,
+		995.8, 887.6, 120.2, 0.3, 0.3, 556.8, 339.1, 887.2, 999.0, 779.0,
+		11.1, 118.3, 229.2, 669.1, 448.9, 0.5,
+	}
+	norrisY = stats.Float64Data{
+		0.1, 338.8, 118.1, 888.0, 9.2, 228.1, 668.5, 998.5, 449.1, 778.9,
+		559.2, 0.3, 0.1, 778.1, 668.8, 339.3, 448.9, 10.8, 557.7, 228.3,
+		998.0, 888.8, 119.6, 0.3, 0.6, 557.6, 339.3, 888.0, 998.5, 778.9,
+		10.2, 117.6, 228.9, 668.4, 449.2, 0.2,
+	}
+)
+
+func TestNistLinearRegressionNorris(t *testing.T) {
+	coords := make([]stats.Coordinate, len(norrisX))
+	for i := range norrisX {
+		coords[i] = stats.Coordinate{X: norrisX[i], Y: norrisY[i]}
+	}
+
+	regressions, err := stats.LinearRegression(coords)
+	if err != nil {
+		t.Fatalf("LinearRegression: %v", err)
+	}
+
+	// Certified coefficients
+	b0 := -0.262323073774029
+	b1 := 1.00211681802045
+
+	for i, c := range regressions {
+		expected := b0 + b1*norrisX[i]
+		test("Norris LinearRegression", c.Y, expected, 1e-10, nil, t)
+	}
+}
+
+func TestNistPearsonNorris(t *testing.T) {
+	// Certified R^2 = 0.999993745883712, so R = sqrt(R^2)
+	certifiedR := math.Sqrt(0.999993745883712)
+
+	r, e := stats.Pearson(norrisX, norrisY)
+	test("Norris Pearson", r, certifiedR, 1e-10, e, t)
+
+	r2, e := stats.Correlation(norrisX, norrisY)
+	test("Norris Correlation", r2, certifiedR, 1e-10, e, t)
+}
+
 func bench(d stats.Float64Data) {
 	_, _ = stats.Mean(d)
 	_, _ = stats.StdDevS(d)
