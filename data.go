@@ -97,6 +97,11 @@ func (f Float64Data) Pearson(d Float64Data) (float64, error) {
 	return Pearson(f, d)
 }
 
+// Spearman calculates the Spearman rank correlation coefficient between two variables.
+func (f Float64Data) Spearman(d Float64Data) (float64, error) {
+	return Spearman(f, d)
+}
+
 // Quartile returns the three quartile points from a slice of data
 func (f Float64Data) Quartile(d Float64Data) (Quartiles, error) {
 	return Quartile(d)

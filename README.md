@@ -121,6 +121,7 @@ func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error)
 func SampleSkewness(input Float64Data) (float64, error) {}
 func SampleVariance(input Float64Data) (svar float64, err error) {}
 func Skewness(input Float64Data) (float64, error) {}
+func Spearman(data1, data2 Float64Data) (float64, error) {}
 func Sigmoid(input Float64Data) ([]float64, error) {}
 func SoftMax(input Float64Data) ([]float64, error) {}
 func StableSample(input Float64Data, takenum int) ([]float64, error) {}
