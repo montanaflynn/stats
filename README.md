@@ -14,7 +14,7 @@ go get github.com/montanaflynn/stats
 
 ## Example Usage
 
-All the functions can be seen in [examples/main.go](examples/main.go) but here's a little taste:
+All the functions can be seen in [examples/functions/main.go](examples/functions/main.go) but here's a little taste:
 
 ```go
 // start with some source data to use
@@ -178,7 +178,7 @@ Pull request are always welcome no matter how big or small. I've included a [Mak
 
 To make things as seamless as possible please also consider the following steps:
 
-- Update `examples/main.go` with a simple example of the new feature
+- Update `examples/functions/main.go` with a simple example of the new feature
 - Update `README.md` documentation section with any new exported API
 - Keep 100% code coverage (you can check with `make coverage`)
 - Squash commits into single units of work with `git rebase -i new-feature`
