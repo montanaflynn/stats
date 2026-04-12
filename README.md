@@ -131,10 +131,12 @@ func StandardDeviationSample(input Float64Data) (sdev float64, err error) {}
 func StdDevP(input Float64Data) (sdev float64, err error) {}
 func StdDevS(input Float64Data) (sdev float64, err error) {}
 func Sum(input Float64Data) (sum float64, err error) {}
+func TTest(data1, data2 Float64Data, populationMean float64) (t float64, pvalue float64, err error) {}
 func Trimean(input Float64Data) (float64, error) {}
 func VarP(input Float64Data) (sdev float64, err error) {}
 func VarS(input Float64Data) (sdev float64, err error) {}
 func Variance(input Float64Data) (sdev float64, err error) {}
+func ZTest(data1, data2 Float64Data, populationMean, populationStdDev float64) (z float64, pvalue float64, err error) {}
 func ProbGeom(a int, b int, p float64) (prob float64, err error) {}
 func ExpGeom(p float64) (exp float64, err error) {}
 func VarGeom(p float64) (exp float64, err error) {}
