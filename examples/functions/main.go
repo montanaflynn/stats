@@ -124,7 +124,7 @@ func main() {
 
 	a, _ = stats.Round(2.18978102189781, 3)
 	fmt.Println(a)
-	// Output: 2.189
+	// Output: 2.19
 
 	e, _ := stats.ChebyshevDistance([]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2})
 	fmt.Println(e)
