@@ -154,6 +154,10 @@ func main() {
 	fmt.Println(cor)
 	// Output: 0.9912407071619302
 
+	sp, _ := stats.Spearman([]float64{1, 2, 3, 4, 5}, []float64{5, 6, 7, 8, 7})
+	fmt.Println(sp)
+	// Output: 0.8207826816681233
+
 	ac, _ := stats.AutoCorrelation([]float64{1, 2, 3, 4, 5}, 1)
 	fmt.Println(ac)
 	// Output: 0.4
