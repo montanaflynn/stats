@@ -82,6 +82,7 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func Pearson(data1, data2 Float64Data) (float64, error)](#Pearson)
 * [func Percentile(input Float64Data, percent float64) (percentile float64, err error)](#Percentile)
 * [func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)](#PercentileNearestRank)
+* [func PercentileWeighted(data, weights Float64Data, percent float64) (percentile float64, err error)](#PercentileWeighted)
 * [func PopulationSkewness(input Float64Data) (float64, error)](#PopulationSkewness)
 * [func PopulationVariance(input Float64Data) (pvar float64, err error)](#PopulationVariance)
 * [func ProbGeom(a int, b int, p float64) (prob float64, err error)](#ProbGeom)
@@ -641,6 +642,18 @@ Algorithm (for percent p and sorted data of length n):
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)
 ```
 PercentileNearestRank finds the relative standing in a slice of floats using the Nearest Rank method
+
+
+
+## <a name="PercentileWeighted">func</a> [PercentileWeighted](/percentile_weighted.go?s=400:520#L19)
+``` go
+func PercentileWeighted(data, weights Float64Data, percent float64) (percentile float64, err error)
+```
+PercentileWeighted finds the weighted percentile of a slice of floats
+using the weighted empirical CDF (inverse CDF / nearest-rank method).
+
+For a given percent p, it returns the smallest data value x such that
+the cumulative weight of all values <= x is at least p% of the total weight.
 
 
 
