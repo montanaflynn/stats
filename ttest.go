@@ -81,10 +81,7 @@ func regIncBeta(a, b, x float64) float64 {
 	// Use Lentz's continued fraction algorithm
 	f := 1.0
 	c := 1.0
-	d := 1.0 - (a+b)*x/(a+1)
-	if math.Abs(d) < 1e-30 {
-		d = 1e-30
-	}
+	d := clampTiny(1.0 - (a+b)*x/(a+1))
 	d = 1.0 / d
 	f = d
 
@@ -92,27 +89,15 @@ func regIncBeta(a, b, x float64) float64 {
 		m := float64(i)
 		// Numerator for even step
 		num := m * (b - m) * x / ((a + 2*m - 1) * (a + 2*m))
-		d = 1.0 + num*d
-		if math.Abs(d) < 1e-30 {
-			d = 1e-30
-		}
-		c = 1.0 + num/c
-		if math.Abs(c) < 1e-30 {
-			c = 1e-30
-		}
+		d = clampTiny(1.0 + num*d)
+		c = clampTiny(1.0 + num/c)
 		d = 1.0 / d
 		f *= c * d
 
 		// Numerator for odd step
 		num = -(a + m) * (a + b + m) * x / ((a + 2*m) * (a + 2*m + 1))
-		d = 1.0 + num*d
-		if math.Abs(d) < 1e-30 {
-			d = 1e-30
-		}
-		c = 1.0 + num/c
-		if math.Abs(c) < 1e-30 {
-			c = 1e-30
-		}
+		d = clampTiny(1.0 + num*d)
+		c = clampTiny(1.0 + num/c)
 		d = 1.0 / d
 		delta := c * d
 		f *= delta
@@ -123,6 +108,15 @@ func regIncBeta(a, b, x float64) float64 {
 	}
 
 	return front * f
+}
+
+// clampTiny prevents division by zero in Lentz's continued fraction
+// algorithm by replacing near-zero values with a small constant.
+func clampTiny(v float64) float64 {
+	if math.Abs(v) < 1e-30 {
+		return 1e-30
+	}
+	return v
 }
 
 // lgammaBeta computes log(Beta(a, b)) = log(Gamma(a)) + log(Gamma(b)) - log(Gamma(a+b))

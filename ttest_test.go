@@ -99,3 +99,32 @@ func TestTTestOneSampleNoEffect(t *testing.T) {
 		t.Errorf("p-value should be 1.0 when t=0, got %v", p)
 	}
 }
+
+func TestTTestOneSampleZeroVarianceDifferentMean(t *testing.T) {
+	// All identical values but different from population mean
+	data := stats.Float64Data{10.0, 10.0, 10.0, 10.0}
+
+	_, _, err := stats.TTest(data, nil, 5.0)
+	if err != stats.ErrBounds {
+		t.Errorf("expected ErrBounds for zero variance with different mean, got %v", err)
+	}
+}
+
+func TestTTestLargeStatistic(t *testing.T) {
+	// Very different groups to produce extreme t value
+	data1 := stats.Float64Data{100, 101, 102, 103, 104}
+	data2 := stats.Float64Data{1, 2, 3, 4, 5}
+
+	tstat, p, err := stats.TTest(data1, data2, 0)
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
+
+	if tstat < 50 {
+		t.Errorf("t statistic should be very large, got %v", tstat)
+	}
+
+	if p > 0.0001 {
+		t.Errorf("p-value should be extremely small, got %v", p)
+	}
+}

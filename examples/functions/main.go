@@ -191,6 +191,16 @@ func main() {
 	fmt.Println(vari)
 	// Output: 2
 
+	// Z-test: test if sample mean differs from known population mean
+	z, zp, _ := stats.ZTest([]float64{2.5, 3.1, 2.8, 3.0, 2.9}, nil, 2.5, 0.3)
+	fmt.Println(z, zp)
+	// Output: 2.981... 0.002...
+
+	// T-test: test if two sample means differ
+	tt, tp, _ := stats.TTest([]float64{5.1, 5.5, 4.8, 5.2, 5.0}, []float64{4.2, 4.8, 4.0, 4.5, 4.3}, 0)
+	fmt.Println(tt, tp)
+	// Output: 3.279... 0.011...
+
 	description, _ := stats.Describe([]float64{1.0, 2.0, 3.0}, true, &[]float64{25.0, 50.0, 75.0})
 	fmt.Println(description.String(2))
 
