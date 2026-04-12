@@ -507,6 +507,157 @@ func TestNistPearsonNorris(t *testing.T) {
 	test("Norris Correlation", r2, certifiedR, 1e-10, e, t)
 }
 
+func TestNistCovarianceNorris(t *testing.T) {
+	// Covariance(X,Y) = Pearson(X,Y) * StdDev(X) * StdDev(Y)
+	// Using NIST certified values:
+	// R = sqrt(0.999993745883712), StdDev(X) = certified from data, StdDev(Y) = certified from data
+	certifiedR := math.Sqrt(0.999993745883712)
+	sdX, _ := stats.StandardDeviationSample(norrisX)
+	sdY, _ := stats.StandardDeviationSample(norrisY)
+	certifiedCov := certifiedR * sdX * sdY
+
+	r, e := stats.Covariance(norrisX, norrisY)
+	test("Norris Covariance", r, certifiedCov, 1e-10, e, t)
+
+	// Population covariance = sample covariance * (n-1)/n
+	n := float64(norrisX.Len())
+	certifiedPopCov := certifiedCov * (n - 1) / n
+
+	r2, e := stats.CovariancePopulation(norrisX, norrisY)
+	test("Norris CovariancePopulation", r2, certifiedPopCov, 1e-10, e, t)
+}
+
+func TestNistSpearmanNorris(t *testing.T) {
+	// The Norris dataset has a near-perfect monotonic relationship.
+	// Spearman rank correlation should be very close to 1.
+	r, e := stats.Spearman(norrisX, norrisY)
+	if e != nil {
+		t.Fatalf("Spearman: %v", e)
+	}
+	// Near-perfect linear relationship but with some noise, so Spearman
+	// is high but not as close to 1 as Pearson.
+	if r < 0.99 {
+		t.Errorf("Norris Spearman: got %v, want > 0.99", r)
+	}
+}
+
+// TestNistMedian validates Median against datasets where the answer
+// can be independently verified from the sorted data.
+func TestNistMedian(t *testing.T) {
+	// Pidigits: 5000 digits of pi
+	r, e := stats.Median(pidigits)
+	test("Pidigits Median", r, 5, 1e-15, e, t)
+
+	// Lew: 200 values, all integers
+	r, e = stats.Median(lew)
+	test("Lew Median", r, -162, 1e-15, e, t)
+
+	// Mavro: 50 values, median of sorted[24] and sorted[25]
+	r, e = stats.Median(mavro)
+	test("Mavro Median", r, 2.0018, 1e-15, e, t)
+}
+
+// TestNistMinMax validates Min and Max against NIST datasets.
+func TestNistMinMax(t *testing.T) {
+	r, e := stats.Min(lew)
+	test("Lew Min", r, -579, 1e-15, e, t)
+	r, e = stats.Max(lew)
+	test("Lew Max", r, 300, 1e-15, e, t)
+
+	r, e = stats.Min(lottery)
+	test("Lottery Min", r, 4, 1e-15, e, t)
+	r, e = stats.Max(lottery)
+	test("Lottery Max", r, 999, 1e-15, e, t)
+
+	r, e = stats.Min(mavro)
+	test("Mavro Min", r, 2.00130, 1e-15, e, t)
+	r, e = stats.Max(mavro)
+	test("Mavro Max", r, 2.00270, 1e-15, e, t)
+
+	r, e = stats.Min(michelson)
+	test("Michelson Min", r, 299.62, 1e-15, e, t)
+	r, e = stats.Max(michelson)
+	test("Michelson Max", r, 300.07, 1e-15, e, t)
+}
+
+// TestNistQuartiles validates quartile calculations against NIST datasets.
+func TestNistQuartiles(t *testing.T) {
+	q, err := stats.Quartile(lew)
+	if err != nil {
+		t.Fatalf("Lew Quartile: %v", err)
+	}
+	test("Lew Q1", q.Q1, -453, 1e-15, nil, t)
+	test("Lew Q2", q.Q2, -162, 1e-15, nil, t)
+	test("Lew Q3", q.Q3, 94, 1e-15, nil, t)
+}
+
+// TestNistGeometricMean validates geometric mean on a dataset of positive values.
+func TestNistGeometricMean(t *testing.T) {
+	// Michelson data is all positive values close to 299.x.
+	// Certified by computing exp(mean(log(x))) independently.
+	r, e := stats.GeometricMean(michelson)
+	if e != nil {
+		t.Fatalf("Michelson GeometricMean: %v", e)
+	}
+
+	var logSum float64
+	for _, v := range michelson {
+		logSum += math.Log(v)
+	}
+	expected := math.Exp(logSum / float64(michelson.Len()))
+	test("Michelson GeometricMean", r, expected, 1e-14, nil, t)
+
+	// Mavro data: all values close to 2.001x
+	r, e = stats.GeometricMean(mavro)
+	if e != nil {
+		t.Fatalf("Mavro GeometricMean: %v", e)
+	}
+
+	logSum = 0
+	for _, v := range mavro {
+		logSum += math.Log(v)
+	}
+	expected = math.Exp(logSum / float64(mavro.Len()))
+	test("Mavro GeometricMean", r, expected, 1e-14, nil, t)
+}
+
+// TestNistHarmonicMean validates harmonic mean on a dataset of positive values.
+func TestNistHarmonicMean(t *testing.T) {
+	r, e := stats.HarmonicMean(lottery)
+	if e != nil {
+		t.Fatalf("Lottery HarmonicMean: %v", e)
+	}
+
+	// Compute expected: n / sum(1/x)
+	var recipSum float64
+	for _, v := range lottery {
+		recipSum += 1.0 / v
+	}
+	expected := float64(lottery.Len()) / recipSum
+	test("Lottery HarmonicMean", r, expected, 1e-14, nil, t)
+}
+
+// TestNistSum validates Sum against NIST datasets.
+// Certified sum = mean * n for each dataset.
+func TestNistSum(t *testing.T) {
+	type sumCase struct {
+		name string
+		data stats.Float64Data
+		mean float64
+	}
+	cases := []sumCase{
+		{"Lew", lew, -177.435000000000},
+		{"Lottery", lottery, 518.958715596330},
+		{"Mavro", mavro, 2.00185600000000},
+		{"Michelson", michelson, 299.852400000000},
+	}
+	for _, c := range cases {
+		r, e := stats.Sum(c.data)
+		expected := c.mean * float64(c.data.Len())
+		test(c.name+" Sum", r, expected, 1e-10, e, t)
+	}
+}
+
 func bench(d stats.Float64Data) {
 	_, _ = stats.Mean(d)
 	_, _ = stats.StdDevS(d)
