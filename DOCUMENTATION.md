@@ -99,11 +99,13 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func StdDevP(input Float64Data) (sdev float64, err error)](#StdDevP)
 * [func StdDevS(input Float64Data) (sdev float64, err error)](#StdDevS)
 * [func Sum(input Float64Data) (sum float64, err error)](#Sum)
+* [func TTest(data1, data2 Float64Data, populationMean float64) (t float64, pvalue float64, err error)](#TTest)
 * [func Trimean(input Float64Data) (float64, error)](#Trimean)
 * [func VarGeom(p float64) (exp float64, err error)](#VarGeom)
 * [func VarP(input Float64Data) (sdev float64, err error)](#VarP)
 * [func VarS(input Float64Data) (sdev float64, err error)](#VarS)
 * [func Variance(input Float64Data) (sdev float64, err error)](#Variance)
+* [func ZTest(data1, data2 Float64Data, populationMean, populationStdDev float64) (z float64, pvalue float64, err error)](#ZTest)
 * [type Coordinate](#Coordinate)
   * [func ExpReg(s []Coordinate) (regressions []Coordinate, err error)](#ExpReg)
   * [func LinReg(s []Coordinate) (regressions []Coordinate, err error)](#LinReg)
@@ -787,6 +789,22 @@ Sum adds all the numbers of a slice together
 
 
 
+## <a name="TTest">func</a> [TTest](/ttest.go?s=530:643#L16)
+``` go
+func TTest(data1, data2 Float64Data, populationMean float64) (t float64, pvalue float64, err error)
+```
+TTest performs a one-sample or two-sample (independent) Student's t-test.
+
+For a one-sample t-test, pass the sample data as data1, nil for data2,
+and the expected population mean as populationMean.
+
+For a two-sample independent t-test (assuming equal variance), pass both
+sample datasets. The populationMean parameter is ignored in this case.
+
+Returns the t statistic and the two-tailed p-value.
+
+
+
 ## <a name="Trimean">func</a> [Trimean](/quartile.go?s=1320:1368#L65)
 ``` go
 func Trimean(input Float64Data) (float64, error)
@@ -826,6 +844,23 @@ func Variance(input Float64Data) (sdev float64, err error)
 ```
 Variance the amount of variation in the dataset
 
+
+
+
+## <a name="ZTest">func</a> [ZTest](/ztest.go?s=530:660#L17)
+``` go
+func ZTest(data1, data2 Float64Data, populationMean, populationStdDev float64) (z float64, pvalue float64, err error)
+```
+ZTest performs a one-sample or two-sample Z-test.
+
+For a one-sample Z-test, pass the sample data as data1, nil for data2,
+the known population mean as populationMean, and the known population
+standard deviation as populationStdDev.
+
+For a two-sample Z-test, pass both sample datasets and the known population
+standard deviations. The populationMean parameter is ignored in this case.
+
+Returns the Z statistic and the two-tailed p-value.
 
 
 
