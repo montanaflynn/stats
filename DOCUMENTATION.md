@@ -82,6 +82,7 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func Pearson(data1, data2 Float64Data) (float64, error)](#Pearson)
 * [func Percentile(input Float64Data, percent float64) (percentile float64, err error)](#Percentile)
 * [func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)](#PercentileNearestRank)
+* [func PercentileWeighted(data, weights Float64Data, percent float64) (percentile float64, err error)](#PercentileWeighted)
 * [func PopulationSkewness(input Float64Data) (float64, error)](#PopulationSkewness)
 * [func PopulationVariance(input Float64Data) (pvar float64, err error)](#PopulationVariance)
 * [func ProbGeom(a int, b int, p float64) (prob float64, err error)](#ProbGeom)
@@ -186,7 +187,7 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [VarGeom](#example_VarGeom)
 
 #### <a name="pkg-files">Package files</a>
-[correlation.go](/src/github.com/montanaflynn/stats/correlation.go) [cumulative_sum.go](/src/github.com/montanaflynn/stats/cumulative_sum.go) [data.go](/src/github.com/montanaflynn/stats/data.go) [describe.go](/src/github.com/montanaflynn/stats/describe.go) [deviation.go](/src/github.com/montanaflynn/stats/deviation.go) [distances.go](/src/github.com/montanaflynn/stats/distances.go) [doc.go](/src/github.com/montanaflynn/stats/doc.go) [entropy.go](/src/github.com/montanaflynn/stats/entropy.go) [errors.go](/src/github.com/montanaflynn/stats/errors.go) [geometric_distribution.go](/src/github.com/montanaflynn/stats/geometric_distribution.go) [legacy.go](/src/github.com/montanaflynn/stats/legacy.go) [load.go](/src/github.com/montanaflynn/stats/load.go) [max.go](/src/github.com/montanaflynn/stats/max.go) [mean.go](/src/github.com/montanaflynn/stats/mean.go) [median.go](/src/github.com/montanaflynn/stats/median.go) [min.go](/src/github.com/montanaflynn/stats/min.go) [mode.go](/src/github.com/montanaflynn/stats/mode.go) [norm.go](/src/github.com/montanaflynn/stats/norm.go) [outlier.go](/src/github.com/montanaflynn/stats/outlier.go) [percentile.go](/src/github.com/montanaflynn/stats/percentile.go) [quartile.go](/src/github.com/montanaflynn/stats/quartile.go) [ranksum.go](/src/github.com/montanaflynn/stats/ranksum.go) [regression.go](/src/github.com/montanaflynn/stats/regression.go) [round.go](/src/github.com/montanaflynn/stats/round.go) [sample.go](/src/github.com/montanaflynn/stats/sample.go) [sigmoid.go](/src/github.com/montanaflynn/stats/sigmoid.go) [skewness.go](/src/github.com/montanaflynn/stats/skewness.go) [softmax.go](/src/github.com/montanaflynn/stats/softmax.go) [sum.go](/src/github.com/montanaflynn/stats/sum.go) [util.go](/src/github.com/montanaflynn/stats/util.go) [variance.go](/src/github.com/montanaflynn/stats/variance.go) 
+[correlation.go](/src/github.com/montanaflynn/stats/correlation.go) [cumulative_sum.go](/src/github.com/montanaflynn/stats/cumulative_sum.go) [data.go](/src/github.com/montanaflynn/stats/data.go) [describe.go](/src/github.com/montanaflynn/stats/describe.go) [deviation.go](/src/github.com/montanaflynn/stats/deviation.go) [distances.go](/src/github.com/montanaflynn/stats/distances.go) [doc.go](/src/github.com/montanaflynn/stats/doc.go) [entropy.go](/src/github.com/montanaflynn/stats/entropy.go) [errors.go](/src/github.com/montanaflynn/stats/errors.go) [geometric_distribution.go](/src/github.com/montanaflynn/stats/geometric_distribution.go) [legacy.go](/src/github.com/montanaflynn/stats/legacy.go) [load.go](/src/github.com/montanaflynn/stats/load.go) [max.go](/src/github.com/montanaflynn/stats/max.go) [mean.go](/src/github.com/montanaflynn/stats/mean.go) [median.go](/src/github.com/montanaflynn/stats/median.go) [min.go](/src/github.com/montanaflynn/stats/min.go) [mode.go](/src/github.com/montanaflynn/stats/mode.go) [norm.go](/src/github.com/montanaflynn/stats/norm.go) [outlier.go](/src/github.com/montanaflynn/stats/outlier.go) [percentile.go](/src/github.com/montanaflynn/stats/percentile.go) [percentile_weighted.go](/src/github.com/montanaflynn/stats/percentile_weighted.go) [quartile.go](/src/github.com/montanaflynn/stats/quartile.go) [ranksum.go](/src/github.com/montanaflynn/stats/ranksum.go) [regression.go](/src/github.com/montanaflynn/stats/regression.go) [round.go](/src/github.com/montanaflynn/stats/round.go) [sample.go](/src/github.com/montanaflynn/stats/sample.go) [sigmoid.go](/src/github.com/montanaflynn/stats/sigmoid.go) [skewness.go](/src/github.com/montanaflynn/stats/skewness.go) [softmax.go](/src/github.com/montanaflynn/stats/softmax.go) [sum.go](/src/github.com/montanaflynn/stats/sum.go) [ttest.go](/src/github.com/montanaflynn/stats/ttest.go) [util.go](/src/github.com/montanaflynn/stats/util.go) [variance.go](/src/github.com/montanaflynn/stats/variance.go) [ztest.go](/src/github.com/montanaflynn/stats/ztest.go) 
 
 
 
@@ -426,7 +427,7 @@ Mode gets the mode [most frequent value(s)] of a slice of float64s
 
 
 
-## <a name="Ncr">func</a> [Ncr](/norm.go?s=7384:7406#L239)
+## <a name="Ncr">func</a> [Ncr](/norm.go?s=7623:7645#L245)
 ``` go
 func Ncr(n, r int) int
 ```
@@ -435,7 +436,7 @@ Aaron Cannon's algorithm.
 
 
 
-## <a name="NormBoxMullerRvs">func</a> [NormBoxMullerRvs](/norm.go?s=667:736#L23)
+## <a name="NormBoxMullerRvs">func</a> [NormBoxMullerRvs](/norm.go?s=906:975#L29)
 ``` go
 func NormBoxMullerRvs(loc float64, scale float64, size int) []float64
 ```
@@ -444,7 +445,7 @@ For more information please visit: <a href="http://mathworld.wolfram.com/Box-Mul
 
 
 
-## <a name="NormCdf">func</a> [NormCdf](/norm.go?s=1826:1885#L52)
+## <a name="NormCdf">func</a> [NormCdf](/norm.go?s=2065:2124#L58)
 ``` go
 func NormCdf(x float64, loc float64, scale float64) float64
 ```
@@ -452,7 +453,7 @@ NormCdf is the cumulative distribution function.
 
 
 
-## <a name="NormEntropy">func</a> [NormEntropy](/norm.go?s=5773:5825#L180)
+## <a name="NormEntropy">func</a> [NormEntropy](/norm.go?s=6012:6064#L186)
 ``` go
 func NormEntropy(loc float64, scale float64) float64
 ```
@@ -460,7 +461,7 @@ NormEntropy is the differential entropy of the RV.
 
 
 
-## <a name="NormFit">func</a> [NormFit](/norm.go?s=6058:6097#L187)
+## <a name="NormFit">func</a> [NormFit](/norm.go?s=6297:6336#L193)
 ``` go
 func NormFit(data []float64) [2]float64
 ```
@@ -470,7 +471,7 @@ Returns array of Mean followed by Standard Deviation.
 
 
 
-## <a name="NormInterval">func</a> [NormInterval](/norm.go?s=6976:7047#L221)
+## <a name="NormInterval">func</a> [NormInterval](/norm.go?s=7215:7286#L227)
 ``` go
 func NormInterval(alpha float64, loc float64, scale float64) [2]float64
 ```
@@ -478,7 +479,7 @@ NormInterval finds endpoints of the range that contains alpha percent of the dis
 
 
 
-## <a name="NormIsf">func</a> [NormIsf](/norm.go?s=4330:4393#L137)
+## <a name="NormIsf">func</a> [NormIsf](/norm.go?s=4569:4632#L143)
 ``` go
 func NormIsf(p float64, loc float64, scale float64) (x float64)
 ```
@@ -486,7 +487,7 @@ NormIsf is the inverse survival function (inverse of sf).
 
 
 
-## <a name="NormLogCdf">func</a> [NormLogCdf](/norm.go?s=2016:2078#L57)
+## <a name="NormLogCdf">func</a> [NormLogCdf](/norm.go?s=2255:2317#L63)
 ``` go
 func NormLogCdf(x float64, loc float64, scale float64) float64
 ```
@@ -494,7 +495,7 @@ NormLogCdf is the log of the cumulative distribution function.
 
 
 
-## <a name="NormLogPdf">func</a> [NormLogPdf](/norm.go?s=1590:1652#L47)
+## <a name="NormLogPdf">func</a> [NormLogPdf](/norm.go?s=1829:1891#L53)
 ``` go
 func NormLogPdf(x float64, loc float64, scale float64) float64
 ```
@@ -502,7 +503,7 @@ NormLogPdf is the log of the probability density function.
 
 
 
-## <a name="NormLogSf">func</a> [NormLogSf](/norm.go?s=2423:2484#L67)
+## <a name="NormLogSf">func</a> [NormLogSf](/norm.go?s=2662:2723#L73)
 ``` go
 func NormLogSf(x float64, loc float64, scale float64) float64
 ```
@@ -510,7 +511,7 @@ NormLogSf is the log of the survival function.
 
 
 
-## <a name="NormMean">func</a> [NormMean](/norm.go?s=6560:6609#L206)
+## <a name="NormMean">func</a> [NormMean](/norm.go?s=6799:6848#L212)
 ``` go
 func NormMean(loc float64, scale float64) float64
 ```
@@ -518,7 +519,7 @@ NormMean is the mean/expected value of the distribution.
 
 
 
-## <a name="NormMedian">func</a> [NormMedian](/norm.go?s=6431:6482#L201)
+## <a name="NormMedian">func</a> [NormMedian](/norm.go?s=6670:6721#L207)
 ``` go
 func NormMedian(loc float64, scale float64) float64
 ```
@@ -526,7 +527,7 @@ NormMedian is the median of the distribution.
 
 
 
-## <a name="NormMoment">func</a> [NormMoment](/norm.go?s=4694:4752#L146)
+## <a name="NormMoment">func</a> [NormMoment](/norm.go?s=4933:4991#L152)
 ``` go
 func NormMoment(n int, loc float64, scale float64) float64
 ```
@@ -535,7 +536,7 @@ For more information please visit: <a href="https://math.stackexchange.com/quest
 
 
 
-## <a name="NormPdf">func</a> [NormPdf](/norm.go?s=1357:1416#L42)
+## <a name="NormPdf">func</a> [NormPdf](/norm.go?s=1596:1655#L48)
 ``` go
 func NormPdf(x float64, loc float64, scale float64) float64
 ```
@@ -543,7 +544,7 @@ NormPdf is the probability density function.
 
 
 
-## <a name="NormPpf">func</a> [NormPpf](/norm.go?s=2854:2917#L75)
+## <a name="NormPpf">func</a> [NormPpf](/norm.go?s=3093:3156#L81)
 ``` go
 func NormPpf(p float64, loc float64, scale float64) (x float64)
 ```
@@ -554,7 +555,7 @@ For more information please visit: <a href="https://stackedboxes.org/2017/05/01/
 
 
 
-## <a name="NormPpfRvs">func</a> [NormPpfRvs](/norm.go?s=247:310#L12)
+## <a name="NormPpfRvs">func</a> [NormPpfRvs](/norm.go?s=486:549#L18)
 ``` go
 func NormPpfRvs(loc float64, scale float64, size int) []float64
 ```
@@ -563,7 +564,7 @@ For more information please visit: <a href="https://demonstrations.wolfram.com/T
 
 
 
-## <a name="NormSample">func</a> [NormSample](/norm.go?s=130:200#L11)
+## <a name="NormSample">func</a> [NormSample](/norm.go?s=194:257#L12)
 ``` go
 func NormSample(loc float64, scale float64, size int) []float64
 ```
@@ -572,7 +573,7 @@ with the given mean (loc) and standard deviation (scale).
 
 
 
-## <a name="NormSf">func</a> [NormSf](/norm.go?s=2250:2308#L62)
+## <a name="NormSf">func</a> [NormSf](/norm.go?s=2489:2547#L68)
 ``` go
 func NormSf(x float64, loc float64, scale float64) float64
 ```
@@ -580,7 +581,7 @@ NormSf is the survival function (also defined as 1 - cdf, but sf is sometimes mo
 
 
 
-## <a name="NormStats">func</a> [NormStats](/norm.go?s=5277:5345#L162)
+## <a name="NormStats">func</a> [NormStats](/norm.go?s=5516:5584#L168)
 ``` go
 func NormStats(loc float64, scale float64, moments string) []float64
 ```
@@ -591,7 +592,7 @@ Returns array of m v s k in that order.
 
 
 
-## <a name="NormStd">func</a> [NormStd](/norm.go?s=6814:6862#L216)
+## <a name="NormStd">func</a> [NormStd](/norm.go?s=7053:7101#L222)
 ``` go
 func NormStd(loc float64, scale float64) float64
 ```
@@ -599,7 +600,7 @@ NormStd is the standard deviation of the distribution.
 
 
 
-## <a name="NormVar">func</a> [NormVar](/norm.go?s=6675:6723#L211)
+## <a name="NormVar">func</a> [NormVar](/norm.go?s=6914:6962#L217)
 ``` go
 func NormVar(loc float64, scale float64) float64
 ```
@@ -641,6 +642,24 @@ Algorithm (for percent p and sorted data of length n):
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)
 ```
 PercentileNearestRank finds the relative standing in a slice of floats using the Nearest Rank method
+
+
+
+## <a name="PercentileWeighted">func</a> [PercentileWeighted](/percentile_weighted.go?s=620:719#L19)
+``` go
+func PercentileWeighted(data, weights Float64Data, percent float64) (percentile float64, err error)
+```
+PercentileWeighted finds the weighted percentile of a slice of floats
+using the weighted empirical CDF (inverse CDF / nearest-rank method).
+
+For a given percent p, it returns the smallest data value x such that
+the cumulative weight of all values <= x is at least p% of the total
+weight. This matches the behavior of Python's statsmodels
+DescrStatsW.quantile.
+
+The data and weights slices must be the same length. Weights must be
+non-negative and at least one weight must be positive. The percent
+parameter must be between 0 and 100 (exclusive).
 
 
 
@@ -799,7 +818,7 @@ Sum adds all the numbers of a slice together
 
 
 
-## <a name="TTest">func</a> [TTest](/ttest.go?s=530:643#L16)
+## <a name="TTest">func</a> [TTest](/ttest.go?s=505:604#L16)
 ``` go
 func TTest(data1, data2 Float64Data, populationMean float64) (t float64, pvalue float64, err error)
 ```
@@ -812,6 +831,8 @@ For a two-sample independent t-test (assuming equal variance), pass both
 sample datasets. The populationMean parameter is ignored in this case.
 
 Returns the t statistic and the two-tailed p-value.
+
+<a href="https://en.wikipedia.org/wiki/Student%27s_t-test">https://en.wikipedia.org/wiki/Student%27s_t-test</a>
 
 
 
@@ -856,8 +877,7 @@ Variance the amount of variation in the dataset
 
 
 
-
-## <a name="ZTest">func</a> [ZTest](/ztest.go?s=530:660#L17)
+## <a name="ZTest">func</a> [ZTest](/ztest.go?s=537:654#L17)
 ``` go
 func ZTest(data1, data2 Float64Data, populationMean, populationStdDev float64) (z float64, pvalue float64, err error)
 ```
@@ -871,6 +891,9 @@ For a two-sample Z-test, pass both sample datasets and the known population
 standard deviations. The populationMean parameter is ignored in this case.
 
 Returns the Z statistic and the two-tailed p-value.
+
+<a href="https://en.wikipedia.org/wiki/Z-test">https://en.wikipedia.org/wiki/Z-test</a>
+
 
 
 

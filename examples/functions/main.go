@@ -66,6 +66,10 @@ func main() {
 	fmt.Println(a)
 	// Output: 40
 
+	wp, _ := stats.PercentileWeighted([]float64{1, 2, 9, 3.2, 4}, []float64{0, 0.5, 1, 0.3, 0.5}, 90)
+	fmt.Println(wp)
+	// Output: 9
+
 	c := []stats.Coordinate{
 		{1, 2.3},
 		{2, 3.3},
