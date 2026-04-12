@@ -165,6 +165,18 @@ func TestNormStd(t *testing.T) {
 	}
 }
 
+func TestNormSample(t *testing.T) {
+	samples := stats.NormSample(0, 1, 100)
+	if len(samples) != 100 {
+		t.Errorf("Input size=100, got %d", len(samples))
+	}
+
+	samples = stats.NormSample(5, 2, 50)
+	if len(samples) != 50 {
+		t.Errorf("Input size=50, got %d", len(samples))
+	}
+}
+
 func TestNormPpfRvs(t *testing.T) {
 	if len(stats.NormPpfRvs(0, 1, 101)) != 101 {
 		t.Error("Input size=101, Expected 101")

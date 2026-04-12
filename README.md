@@ -107,6 +107,7 @@ func NormMedian(loc float64, scale float64) float64 {}
 func NormMoment(n int, loc float64, scale float64) float64 {}
 func NormPdf(x float64, loc float64, scale float64) float64 {}
 func NormPpf(p float64, loc float64, scale float64) (x float64) {}
+func NormSample(loc float64, scale float64, size int) []float64 {}
 func NormPpfRvs(loc float64, scale float64, size int) []float64 {}
 func NormSf(x float64, loc float64, scale float64) float64 {}
 func NormStats(loc float64, scale float64, moments string) []float64 {}

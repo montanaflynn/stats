@@ -7,6 +7,12 @@ import (
 	"time"
 )
 
+// NormSample generates random samples from a normal distribution
+// with the given mean (loc) and standard deviation (scale).
+func NormSample(loc float64, scale float64, size int) []float64 {
+	return NormBoxMullerRvs(loc, scale, size)
+}
+
 // NormPpfRvs generates random variates using the Point Percentile Function.
 // For more information please visit: https://demonstrations.wolfram.com/TheMethodOfInverseTransforms/
 func NormPpfRvs(loc float64, scale float64, size int) []float64 {

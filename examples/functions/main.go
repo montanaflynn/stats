@@ -162,6 +162,11 @@ func main() {
 	fmt.Println(ac)
 	// Output: 0.4
 
+	// Sample from a normal distribution with mean=0, std=1
+	normSamples := stats.NormSample(0, 1, 5)
+	fmt.Println(len(normSamples))
+	// Output: 5
+
 	sig, _ := stats.Sigmoid([]float64{3.0, 1.0, 2.1})
 	fmt.Println(sig)
 	// Output: [0.9525741268224334 0.7310585786300049 0.8909031788043871]

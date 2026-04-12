@@ -74,6 +74,7 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func NormPdf(x float64, loc float64, scale float64) float64](#NormPdf)
 * [func NormPpf(p float64, loc float64, scale float64) (x float64)](#NormPpf)
 * [func NormPpfRvs(loc float64, scale float64, size int) []float64](#NormPpfRvs)
+* [func NormSample(loc float64, scale float64, size int) []float64](#NormSample)
 * [func NormSf(x float64, loc float64, scale float64) float64](#NormSf)
 * [func NormStats(loc float64, scale float64, moments string) []float64](#NormStats)
 * [func NormStd(loc float64, scale float64) float64](#NormStd)
@@ -559,6 +560,15 @@ func NormPpfRvs(loc float64, scale float64, size int) []float64
 ```
 NormPpfRvs generates random variates using the Point Percentile Function.
 For more information please visit: <a href="https://demonstrations.wolfram.com/TheMethodOfInverseTransforms/">https://demonstrations.wolfram.com/TheMethodOfInverseTransforms/</a>
+
+
+
+## <a name="NormSample">func</a> [NormSample](/norm.go?s=130:200#L11)
+``` go
+func NormSample(loc float64, scale float64, size int) []float64
+```
+NormSample generates random samples from a normal distribution
+with the given mean (loc) and standard deviation (scale).
 
 
 
