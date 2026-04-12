@@ -40,21 +40,26 @@ func AutoCorrelation(data Float64Data, lags int) (float64, error) {
 		return 0, EmptyInputErr
 	}
 
-	mean, _ := Mean(data)
-
-	var result, q float64
-
-	for i := 0; i < lags; i++ {
-		v := (data[0] - mean) * (data[0] - mean)
-		for i := 1; i < len(data); i++ {
-			delta0 := data[i-1] - mean
-			delta1 := data[i] - mean
-			q += (delta0*delta1 - q) / float64(i+1)
-			v += (delta1*delta1 - v) / float64(i+1)
-		}
-
-		result = q / v
+	if lags < 0 || lags >= len(data) {
+		return 0, BoundsErr
 	}
 
-	return result, nil
+	mean, _ := Mean(data)
+
+	var variance float64
+	for _, v := range data {
+		delta := v - mean
+		variance += delta * delta
+	}
+
+	if variance == 0 {
+		return 0, nil
+	}
+
+	var covariance float64
+	for i := lags; i < len(data); i++ {
+		covariance += (data[i] - mean) * (data[i-lags] - mean)
+	}
+
+	return covariance / variance, nil
 }
