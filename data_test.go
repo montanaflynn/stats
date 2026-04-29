@@ -108,8 +108,8 @@ func TestHelperMethods(t *testing.T) {
 
 	// Test GeometricMean
 	m, _ = data1.GeometricMean()
-	if m != 4.028070682618703 {
-		t.Errorf("GeometricMean() => %v != %v", m, 4.028070682618703)
+	if !math.IsNaN(m) {
+		t.Errorf("GeometricMean() => %v != %v", m, math.NaN())
 	}
 
 	// Test HarmonicMean
