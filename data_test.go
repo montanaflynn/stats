@@ -106,7 +106,7 @@ func TestHelperMethods(t *testing.T) {
 		t.Errorf("Mean() => %v != %v", m, 0.03737500000000005)
 	}
 
-	// Test GeometricMean
+	// Test GeometricMean (data1 contains negative values, so NaN is expected)
 	m, _ = data1.GeometricMean()
 	if !math.IsNaN(m) {
 		t.Errorf("GeometricMean() => %v != %v", m, math.NaN())
