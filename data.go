@@ -39,7 +39,7 @@ func (f Float64Data) Mode() ([]float64, error) { return Mode(f) }
 // GeometricMean returns the median of the data
 func (f Float64Data) GeometricMean() (float64, error) { return GeometricMean(f) }
 
-// HarmonicMean returns the mode of the data
+// HarmonicMean returns the harmonic mean of the data
 func (f Float64Data) HarmonicMean() (float64, error) { return HarmonicMean(f) }
 
 // MedianAbsoluteDeviation the median of the absolute deviations from the dataset median

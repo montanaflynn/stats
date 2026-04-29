@@ -82,7 +82,7 @@ func TestHarmonicMean(t *testing.T) {
 
 	hm, _ = stats.Round(hm, 2)
 	if hm != 2.19 {
-		t.Errorf("Geometric Mean %v != %v", hm, 2.19)
+		t.Errorf("Harmonic Mean %v != %v", hm, 2.19)
 	}
 
 	_, err = stats.HarmonicMean(s2)
