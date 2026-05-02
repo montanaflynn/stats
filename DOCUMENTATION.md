@@ -314,7 +314,7 @@ GeometricMean gets the geometric mean for a slice of numbers
 
 
 
-## <a name="HarmonicMean">func</a> [HarmonicMean](/mean.go?s=717:770#L40)
+## <a name="HarmonicMean">func</a> [HarmonicMean](/mean.go?s=842:895#L41)
 ``` go
 func HarmonicMean(input Float64Data) (float64, error)
 ```
@@ -1017,7 +1017,7 @@ LoadRawData parses and converts a slice of mixed data types to floats
 
 
 
-### <a name="Float64Data.AutoCorrelation">func</a> (Float64Data) [AutoCorrelation](/data.go?s=3257:3320#L91)
+### <a name="Float64Data.AutoCorrelation">func</a> (Float64Data) [AutoCorrelation](/data.go?s=3274:3337#L91)
 ``` go
 func (f Float64Data) AutoCorrelation(lags int) (float64, error)
 ```
@@ -1026,7 +1026,7 @@ AutoCorrelation is the correlation of a signal with a delayed copy of itself as 
 
 
 
-### <a name="Float64Data.Correlation">func</a> (Float64Data) [Correlation](/data.go?s=3058:3122#L86)
+### <a name="Float64Data.Correlation">func</a> (Float64Data) [Correlation](/data.go?s=3075:3139#L86)
 ``` go
 func (f Float64Data) Correlation(d Float64Data) (float64, error)
 ```
@@ -1035,7 +1035,7 @@ Correlation describes the degree of relationship between two sets of data
 
 
 
-### <a name="Float64Data.Covariance">func</a> (Float64Data) [Covariance](/data.go?s=4979:5042#L146)
+### <a name="Float64Data.Covariance">func</a> (Float64Data) [Covariance](/data.go?s=4996:5059#L146)
 ``` go
 func (f Float64Data) Covariance(d Float64Data) (float64, error)
 ```
@@ -1044,7 +1044,7 @@ Covariance is a measure of how much two sets of data change
 
 
 
-### <a name="Float64Data.CovariancePopulation">func</a> (Float64Data) [CovariancePopulation](/data.go?s=5161:5234#L151)
+### <a name="Float64Data.CovariancePopulation">func</a> (Float64Data) [CovariancePopulation](/data.go?s=5178:5251#L151)
 ``` go
 func (f Float64Data) CovariancePopulation(d Float64Data) (float64, error)
 ```
@@ -1062,7 +1062,7 @@ CumulativeSum returns the cumulative sum of the data
 
 
 
-### <a name="Float64Data.Entropy">func</a> (Float64Data) [Entropy](/data.go?s=5658:5705#L167)
+### <a name="Float64Data.Entropy">func</a> (Float64Data) [Entropy](/data.go?s=5675:5722#L167)
 ``` go
 func (f Float64Data) Entropy() (float64, error)
 ```
@@ -1071,11 +1071,11 @@ Entropy provides calculation of the entropy
 
 
 
-### <a name="Float64Data.GeometricMean">func</a> (Float64Data) [GeometricMean](/data.go?s=1332:1385#L40)
+### <a name="Float64Data.GeometricMean">func</a> (Float64Data) [GeometricMean](/data.go?s=1340:1393#L40)
 ``` go
 func (f Float64Data) GeometricMean() (float64, error)
 ```
-GeometricMean returns the median of the data
+GeometricMean returns the geometric mean of the data
 
 
 
@@ -1089,16 +1089,16 @@ Get item in slice
 
 
 
-### <a name="Float64Data.HarmonicMean">func</a> (Float64Data) [HarmonicMean](/data.go?s=1460:1512#L43)
+### <a name="Float64Data.HarmonicMean">func</a> (Float64Data) [HarmonicMean](/data.go?s=1477:1529#L43)
 ``` go
 func (f Float64Data) HarmonicMean() (float64, error)
 ```
-HarmonicMean returns the mode of the data
+HarmonicMean returns the harmonic mean of the data
 
 
 
 
-### <a name="Float64Data.InterQuartileRange">func</a> (Float64Data) [InterQuartileRange](/data.go?s=3933:3991#L111)
+### <a name="Float64Data.InterQuartileRange">func</a> (Float64Data) [InterQuartileRange](/data.go?s=3950:4008#L111)
 ``` go
 func (f Float64Data) InterQuartileRange() (float64, error)
 ```
@@ -1152,7 +1152,7 @@ Median returns the median of the data
 
 
 
-### <a name="Float64Data.MedianAbsoluteDeviation">func</a> (Float64Data) [MedianAbsoluteDeviation](/data.go?s=1630:1693#L46)
+### <a name="Float64Data.MedianAbsoluteDeviation">func</a> (Float64Data) [MedianAbsoluteDeviation](/data.go?s=1647:1710#L46)
 ``` go
 func (f Float64Data) MedianAbsoluteDeviation() (float64, error)
 ```
@@ -1161,7 +1161,7 @@ MedianAbsoluteDeviation the median of the absolute deviations from the dataset m
 
 
 
-### <a name="Float64Data.MedianAbsoluteDeviationPopulation">func</a> (Float64Data) [MedianAbsoluteDeviationPopulation](/data.go?s=1842:1915#L51)
+### <a name="Float64Data.MedianAbsoluteDeviationPopulation">func</a> (Float64Data) [MedianAbsoluteDeviationPopulation](/data.go?s=1859:1932#L51)
 ``` go
 func (f Float64Data) MedianAbsoluteDeviationPopulation() (float64, error)
 ```
@@ -1170,7 +1170,7 @@ MedianAbsoluteDeviationPopulation finds the median of the absolute deviations fr
 
 
 
-### <a name="Float64Data.Midhinge">func</a> (Float64Data) [Midhinge](/data.go?s=4090:4151#L116)
+### <a name="Float64Data.Midhinge">func</a> (Float64Data) [Midhinge](/data.go?s=4107:4168#L116)
 ``` go
 func (f Float64Data) Midhinge(d Float64Data) (float64, error)
 ```
@@ -1197,7 +1197,7 @@ Mode returns the mode of the data
 
 
 
-### <a name="Float64Data.Pearson">func</a> (Float64Data) [Pearson](/data.go?s=3455:3515#L96)
+### <a name="Float64Data.Pearson">func</a> (Float64Data) [Pearson](/data.go?s=3472:3532#L96)
 ``` go
 func (f Float64Data) Pearson(d Float64Data) (float64, error)
 ```
@@ -1206,7 +1206,7 @@ Pearson calculates the Pearson product-moment correlation coefficient between tw
 
 
 
-### <a name="Float64Data.Percentile">func</a> (Float64Data) [Percentile](/data.go?s=2696:2755#L76)
+### <a name="Float64Data.Percentile">func</a> (Float64Data) [Percentile](/data.go?s=2713:2772#L76)
 ``` go
 func (f Float64Data) Percentile(p float64) (float64, error)
 ```
@@ -1215,7 +1215,7 @@ Percentile finds the relative standing in a slice of floats
 
 
 
-### <a name="Float64Data.PercentileNearestRank">func</a> (Float64Data) [PercentileNearestRank](/data.go?s=2869:2939#L81)
+### <a name="Float64Data.PercentileNearestRank">func</a> (Float64Data) [PercentileNearestRank](/data.go?s=2886:2956#L81)
 ``` go
 func (f Float64Data) PercentileNearestRank(p float64) (float64, error)
 ```
@@ -1224,7 +1224,7 @@ PercentileNearestRank finds the relative standing using the Nearest Rank method
 
 
 
-### <a name="Float64Data.PopulationVariance">func</a> (Float64Data) [PopulationVariance](/data.go?s=4673:4731#L136)
+### <a name="Float64Data.PopulationVariance">func</a> (Float64Data) [PopulationVariance](/data.go?s=4690:4748#L136)
 ``` go
 func (f Float64Data) PopulationVariance() (float64, error)
 ```
@@ -1233,7 +1233,7 @@ PopulationVariance finds the amount of variance within a population
 
 
 
-### <a name="Float64Data.Quartile">func</a> (Float64Data) [Quartile](/data.go?s=3788:3851#L106)
+### <a name="Float64Data.Quartile">func</a> (Float64Data) [Quartile](/data.go?s=3805:3868#L106)
 ``` go
 func (f Float64Data) Quartile(d Float64Data) (Quartiles, error)
 ```
@@ -1242,7 +1242,7 @@ Quartile returns the three quartile points from a slice of data
 
 
 
-### <a name="Float64Data.QuartileOutliers">func</a> (Float64Data) [QuartileOutliers](/data.go?s=2542:2599#L71)
+### <a name="Float64Data.QuartileOutliers">func</a> (Float64Data) [QuartileOutliers](/data.go?s=2559:2616#L71)
 ``` go
 func (f Float64Data) QuartileOutliers() (Outliers, error)
 ```
@@ -1251,7 +1251,7 @@ QuartileOutliers finds the mild and extreme outliers
 
 
 
-### <a name="Float64Data.Quartiles">func</a> (Float64Data) [Quartiles](/data.go?s=5806:5857#L172)
+### <a name="Float64Data.Quartiles">func</a> (Float64Data) [Quartiles](/data.go?s=5823:5874#L172)
 ``` go
 func (f Float64Data) Quartiles() (Quartiles, error)
 ```
@@ -1260,7 +1260,7 @@ Quartiles returns the three quartile points from instance of Float64Data
 
 
 
-### <a name="Float64Data.Sample">func</a> (Float64Data) [Sample](/data.go?s=4386:4447#L126)
+### <a name="Float64Data.Sample">func</a> (Float64Data) [Sample](/data.go?s=4403:4464#L126)
 ``` go
 func (f Float64Data) Sample(n int, r bool) ([]float64, error)
 ```
@@ -1269,7 +1269,7 @@ Sample returns sample from input with replacement or without
 
 
 
-### <a name="Float64Data.SampleVariance">func</a> (Float64Data) [SampleVariance](/data.go?s=4830:4884#L141)
+### <a name="Float64Data.SampleVariance">func</a> (Float64Data) [SampleVariance](/data.go?s=4847:4901#L141)
 ``` go
 func (f Float64Data) SampleVariance() (float64, error)
 ```
@@ -1278,7 +1278,7 @@ SampleVariance finds the amount of variance within a sample
 
 
 
-### <a name="Float64Data.Sigmoid">func</a> (Float64Data) [Sigmoid](/data.go?s=5347:5396#L156)
+### <a name="Float64Data.Sigmoid">func</a> (Float64Data) [Sigmoid](/data.go?s=5364:5413#L156)
 ``` go
 func (f Float64Data) Sigmoid() ([]float64, error)
 ```
@@ -1287,7 +1287,7 @@ Sigmoid returns the input values along the sigmoid or s-shaped curve
 
 
 
-### <a name="Float64Data.SoftMax">func</a> (Float64Data) [SoftMax](/data.go?s=5537:5586#L162)
+### <a name="Float64Data.SoftMax">func</a> (Float64Data) [SoftMax](/data.go?s=5554:5603#L162)
 ``` go
 func (f Float64Data) SoftMax() ([]float64, error)
 ```
@@ -1297,7 +1297,7 @@ with sum of all the probabilities being equal to one.
 
 
 
-### <a name="Float64Data.Spearman">func</a> (Float64Data) [Spearman](/data.go?s=3631:3692#L101)
+### <a name="Float64Data.Spearman">func</a> (Float64Data) [Spearman](/data.go?s=3648:3709#L101)
 ``` go
 func (f Float64Data) Spearman(d Float64Data) (float64, error)
 ```
@@ -1306,7 +1306,7 @@ Spearman calculates the Spearman rank correlation coefficient between two variab
 
 
 
-### <a name="Float64Data.StandardDeviation">func</a> (Float64Data) [StandardDeviation](/data.go?s=2026:2083#L56)
+### <a name="Float64Data.StandardDeviation">func</a> (Float64Data) [StandardDeviation](/data.go?s=2043:2100#L56)
 ``` go
 func (f Float64Data) StandardDeviation() (float64, error)
 ```
@@ -1315,7 +1315,7 @@ StandardDeviation the amount of variation in the dataset
 
 
 
-### <a name="Float64Data.StandardDeviationPopulation">func</a> (Float64Data) [StandardDeviationPopulation](/data.go?s=2199:2266#L61)
+### <a name="Float64Data.StandardDeviationPopulation">func</a> (Float64Data) [StandardDeviationPopulation](/data.go?s=2216:2283#L61)
 ``` go
 func (f Float64Data) StandardDeviationPopulation() (float64, error)
 ```
@@ -1324,7 +1324,7 @@ StandardDeviationPopulation finds the amount of variation from the population
 
 
 
-### <a name="Float64Data.StandardDeviationSample">func</a> (Float64Data) [StandardDeviationSample](/data.go?s=2382:2445#L66)
+### <a name="Float64Data.StandardDeviationSample">func</a> (Float64Data) [StandardDeviationSample](/data.go?s=2399:2462#L66)
 ``` go
 func (f Float64Data) StandardDeviationSample() (float64, error)
 ```
@@ -1351,7 +1351,7 @@ Swap switches out two numbers in slice
 
 
 
-### <a name="Float64Data.Trimean">func</a> (Float64Data) [Trimean](/data.go?s=4237:4297#L121)
+### <a name="Float64Data.Trimean">func</a> (Float64Data) [Trimean](/data.go?s=4254:4314#L121)
 ``` go
 func (f Float64Data) Trimean(d Float64Data) (float64, error)
 ```
@@ -1360,7 +1360,7 @@ Trimean finds the average of the median and the midhinge
 
 
 
-### <a name="Float64Data.Variance">func</a> (Float64Data) [Variance](/data.go?s=4528:4576#L131)
+### <a name="Float64Data.Variance">func</a> (Float64Data) [Variance](/data.go?s=4545:4593#L131)
 ``` go
 func (f Float64Data) Variance() (float64, error)
 ```

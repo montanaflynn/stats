@@ -36,7 +36,7 @@ func (f Float64Data) Median() (float64, error) { return Median(f) }
 // Mode returns the mode of the data
 func (f Float64Data) Mode() ([]float64, error) { return Mode(f) }
 
-// GeometricMean returns the median of the data
+// GeometricMean returns the geometric mean of the data
 func (f Float64Data) GeometricMean() (float64, error) { return GeometricMean(f) }
 
 // HarmonicMean returns the harmonic mean of the data
