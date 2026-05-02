@@ -44,6 +44,9 @@ func TestGeometricMean(t *testing.T) {
 	s1 := []float64{2, 18}
 	s2 := []float64{10, 51.2, 8}
 	s3 := []float64{1, 3, 9, 27, 81}
+	s4 := []float64{5}
+	s5 := []float64{10, -5, 2}
+	s6 := []float64{1, 0, 9}
 
 	for _, c := range []struct {
 		in  []float64
@@ -52,6 +55,7 @@ func TestGeometricMean(t *testing.T) {
 		{s1, 6},
 		{s2, 16},
 		{s3, 9},
+		{s4, 5},
 	} {
 		gm, err := stats.GeometricMean(c.in)
 		if err != nil {
@@ -68,6 +72,16 @@ func TestGeometricMean(t *testing.T) {
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}
+
+	_, err = stats.GeometricMean(s5)
+	if err == nil {
+		t.Errorf("Should have returned a negative number error")
+	}
+
+	_, err = stats.GeometricMean(s6)
+	if err == nil {
+		t.Errorf("Should have returned a zero number error")
+	}
 }
 
 func TestHarmonicMean(t *testing.T) {
@@ -82,7 +96,7 @@ func TestHarmonicMean(t *testing.T) {
 
 	hm, _ = stats.Round(hm, 2)
 	if hm != 2.19 {
-		t.Errorf("Geometric Mean %v != %v", hm, 2.19)
+		t.Errorf("Harmonic Mean %v != %v", hm, 2.19)
 	}
 
 	_, err = stats.HarmonicMean(s2)
