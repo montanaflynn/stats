@@ -25,9 +25,9 @@ docs:
 
 release:
 	@test -n "${TAG}" || { echo "TAG is required, e.g. make release TAG=v0.10.0"; exit 1; }
-	git-chglog --next-tag ${TAG} --output CHANGELOG.md
+	sh scripts/update-changelog.sh ${TAG}
 	git add CHANGELOG.md
 	git commit -m "chore: update changelog for ${TAG}"
-	git tag ${TAG}
+	git tag -a ${TAG} -m "${TAG}"
 	git push origin master ${TAG}
 
