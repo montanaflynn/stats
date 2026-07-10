@@ -36,12 +36,19 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 
 ## <a name="pkg-index">Index</a>
 * [Variables](#pkg-variables)
+* [func ArgMax(input Float64Data) (int, error)](#ArgMax)
+* [func ArgMin(input Float64Data) (int, error)](#ArgMin)
 * [func AutoCorrelation(data Float64Data, lags int) (float64, error)](#AutoCorrelation)
 * [func ChebyshevDistance(dataPointX, dataPointY Float64Data) (distance float64, err error)](#ChebyshevDistance)
+* [func CoefficientOfVariation(input Float64Data) (float64, error)](#CoefficientOfVariation)
 * [func Correlation(data1, data2 Float64Data) (float64, error)](#Correlation)
 * [func Covariance(data1, data2 Float64Data) (float64, error)](#Covariance)
 * [func CovariancePopulation(data1, data2 Float64Data) (float64, error)](#CovariancePopulation)
+* [func CumulativeMax(input Float64Data) ([]float64, error)](#CumulativeMax)
+* [func CumulativeMin(input Float64Data) ([]float64, error)](#CumulativeMin)
+* [func CumulativeProduct(input Float64Data) ([]float64, error)](#CumulativeProduct)
 * [func CumulativeSum(input Float64Data) ([]float64, error)](#CumulativeSum)
+* [func Diff(input Float64Data) ([]float64, error)](#Diff)
 * [func Entropy(input Float64Data) (float64, error)](#Entropy)
 * [func EuclideanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error)](#EuclideanDistance)
 * [func ExpGeom(p float64) (exp float64, err error)](#ExpGeom)
@@ -58,6 +65,8 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func Min(input Float64Data) (min float64, err error)](#Min)
 * [func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (distance float64, err error)](#MinkowskiDistance)
 * [func Mode(input Float64Data) (mode []float64, err error)](#Mode)
+* [func MovingAverage(input Float64Data, window int) ([]float64, error)](#MovingAverage)
+* [func MovingStdDev(input Float64Data, window int) ([]float64, error)](#MovingStdDev)
 * [func Ncr(n, r int) int](#Ncr)
 * [func NormBoxMullerRvs(loc float64, scale float64, size int) []float64](#NormBoxMullerRvs)
 * [func NormCdf(x float64, loc float64, scale float64) float64](#NormCdf)
@@ -80,12 +89,15 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func NormStd(loc float64, scale float64) float64](#NormStd)
 * [func NormVar(loc float64, scale float64) float64](#NormVar)
 * [func Pearson(data1, data2 Float64Data) (float64, error)](#Pearson)
+* [func PercentChange(input Float64Data) ([]float64, error)](#PercentChange)
 * [func Percentile(input Float64Data, percent float64) (percentile float64, err error)](#Percentile)
 * [func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)](#PercentileNearestRank)
 * [func PercentileWeighted(data, weights Float64Data, percent float64) (percentile float64, err error)](#PercentileWeighted)
 * [func PopulationSkewness(input Float64Data) (float64, error)](#PopulationSkewness)
 * [func PopulationVariance(input Float64Data) (pvar float64, err error)](#PopulationVariance)
 * [func ProbGeom(a int, b int, p float64) (prob float64, err error)](#ProbGeom)
+* [func Range(input Float64Data) (float64, error)](#Range)
+* [func Rank(input Float64Data) ([]float64, error)](#Rank)
 * [func Round(input float64, places int) (rounded float64, err error)](#Round)
 * [func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error)](#Sample)
 * [func SampleSkewness(input Float64Data) (float64, error)](#SampleSkewness)
@@ -107,6 +119,8 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func VarP(input Float64Data) (sdev float64, err error)](#VarP)
 * [func VarS(input Float64Data) (sdev float64, err error)](#VarS)
 * [func Variance(input Float64Data) (sdev float64, err error)](#Variance)
+* [func WeightedMean(data, weights Float64Data) (float64, error)](#WeightedMean)
+* [func ZScore(input Float64Data) ([]float64, error)](#ZScore)
 * [func ZTest(data1, data2 Float64Data, populationMean, populationStdDev float64) (z float64, pvalue float64, err error)](#ZTest)
 * [type Coordinate](#Coordinate)
   * [func ExpReg(s []Coordinate) (regressions []Coordinate, err error)](#ExpReg)
@@ -118,11 +132,18 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
   * [func (d *Description) String(decimals int) string](#Description.String)
 * [type Float64Data](#Float64Data)
   * [func LoadRawData(raw interface{}) (f Float64Data)](#LoadRawData)
+  * [func (f Float64Data) ArgMax() (int, error)](#Float64Data.ArgMax)
+  * [func (f Float64Data) ArgMin() (int, error)](#Float64Data.ArgMin)
   * [func (f Float64Data) AutoCorrelation(lags int) (float64, error)](#Float64Data.AutoCorrelation)
+  * [func (f Float64Data) CoefficientOfVariation() (float64, error)](#Float64Data.CoefficientOfVariation)
   * [func (f Float64Data) Correlation(d Float64Data) (float64, error)](#Float64Data.Correlation)
   * [func (f Float64Data) Covariance(d Float64Data) (float64, error)](#Float64Data.Covariance)
   * [func (f Float64Data) CovariancePopulation(d Float64Data) (float64, error)](#Float64Data.CovariancePopulation)
+  * [func (f Float64Data) CumulativeMax() ([]float64, error)](#Float64Data.CumulativeMax)
+  * [func (f Float64Data) CumulativeMin() ([]float64, error)](#Float64Data.CumulativeMin)
+  * [func (f Float64Data) CumulativeProduct() ([]float64, error)](#Float64Data.CumulativeProduct)
   * [func (f Float64Data) CumulativeSum() ([]float64, error)](#Float64Data.CumulativeSum)
+  * [func (f Float64Data) Diff() ([]float64, error)](#Float64Data.Diff)
   * [func (f Float64Data) Entropy() (float64, error)](#Float64Data.Entropy)
   * [func (f Float64Data) GeometricMean() (float64, error)](#Float64Data.GeometricMean)
   * [func (f Float64Data) Get(i int) float64](#Float64Data.Get)
@@ -138,13 +159,18 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
   * [func (f Float64Data) Midhinge(d Float64Data) (float64, error)](#Float64Data.Midhinge)
   * [func (f Float64Data) Min() (float64, error)](#Float64Data.Min)
   * [func (f Float64Data) Mode() ([]float64, error)](#Float64Data.Mode)
+  * [func (f Float64Data) MovingAverage(window int) ([]float64, error)](#Float64Data.MovingAverage)
+  * [func (f Float64Data) MovingStdDev(window int) ([]float64, error)](#Float64Data.MovingStdDev)
   * [func (f Float64Data) Pearson(d Float64Data) (float64, error)](#Float64Data.Pearson)
+  * [func (f Float64Data) PercentChange() ([]float64, error)](#Float64Data.PercentChange)
   * [func (f Float64Data) Percentile(p float64) (float64, error)](#Float64Data.Percentile)
   * [func (f Float64Data) PercentileNearestRank(p float64) (float64, error)](#Float64Data.PercentileNearestRank)
   * [func (f Float64Data) PopulationVariance() (float64, error)](#Float64Data.PopulationVariance)
   * [func (f Float64Data) Quartile(d Float64Data) (Quartiles, error)](#Float64Data.Quartile)
   * [func (f Float64Data) QuartileOutliers() (Outliers, error)](#Float64Data.QuartileOutliers)
   * [func (f Float64Data) Quartiles() (Quartiles, error)](#Float64Data.Quartiles)
+  * [func (f Float64Data) Range() (float64, error)](#Float64Data.Range)
+  * [func (f Float64Data) Rank() ([]float64, error)](#Float64Data.Rank)
   * [func (f Float64Data) Sample(n int, r bool) ([]float64, error)](#Float64Data.Sample)
   * [func (f Float64Data) SampleVariance() (float64, error)](#Float64Data.SampleVariance)
   * [func (f Float64Data) Sigmoid() ([]float64, error)](#Float64Data.Sigmoid)
@@ -157,6 +183,8 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
   * [func (f Float64Data) Swap(i, j int)](#Float64Data.Swap)
   * [func (f Float64Data) Trimean(d Float64Data) (float64, error)](#Float64Data.Trimean)
   * [func (f Float64Data) Variance() (float64, error)](#Float64Data.Variance)
+  * [func (f Float64Data) WeightedMean(weights Float64Data) (float64, error)](#Float64Data.WeightedMean)
+  * [func (f Float64Data) ZScore() ([]float64, error)](#Float64Data.ZScore)
 * [type Outliers](#Outliers)
   * [func QuartileOutliers(input Float64Data) (Outliers, error)](#QuartileOutliers)
 * [type Quartiles](#Quartiles)
@@ -167,10 +195,16 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
   * [func LogarithmicRegression(s Series) (regressions Series, err error)](#LogarithmicRegression)
 
 #### <a name="pkg-examples">Examples</a>
+* [ArgMax](#example_ArgMax)
+* [ArgMin](#example_ArgMin)
 * [AutoCorrelation](#example_AutoCorrelation)
 * [ChebyshevDistance](#example_ChebyshevDistance)
 * [Correlation](#example_Correlation)
+* [CumulativeMax](#example_CumulativeMax)
+* [CumulativeMin](#example_CumulativeMin)
+* [CumulativeProduct](#example_CumulativeProduct)
 * [CumulativeSum](#example_CumulativeSum)
+* [Diff](#example_Diff)
 * [Entropy](#example_Entropy)
 * [ExpGeom](#example_ExpGeom)
 * [LinearRegression](#example_LinearRegression)
@@ -178,16 +212,22 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [Max](#example_Max)
 * [Median](#example_Median)
 * [Min](#example_Min)
+* [MovingAverage](#example_MovingAverage)
+* [MovingStdDev](#example_MovingStdDev)
+* [PercentChange](#example_PercentChange)
 * [ProbGeom](#example_ProbGeom)
+* [Range](#example_Range)
+* [Rank](#example_Rank)
 * [Round](#example_Round)
 * [Sigmoid](#example_Sigmoid)
 * [SoftMax](#example_SoftMax)
 * [Spearman](#example_Spearman)
 * [Sum](#example_Sum)
 * [VarGeom](#example_VarGeom)
+* [ZScore](#example_ZScore)
 
 #### <a name="pkg-files">Package files</a>
-[correlation.go](/src/github.com/montanaflynn/stats/correlation.go) [cumulative_sum.go](/src/github.com/montanaflynn/stats/cumulative_sum.go) [data.go](/src/github.com/montanaflynn/stats/data.go) [describe.go](/src/github.com/montanaflynn/stats/describe.go) [deviation.go](/src/github.com/montanaflynn/stats/deviation.go) [distances.go](/src/github.com/montanaflynn/stats/distances.go) [doc.go](/src/github.com/montanaflynn/stats/doc.go) [entropy.go](/src/github.com/montanaflynn/stats/entropy.go) [errors.go](/src/github.com/montanaflynn/stats/errors.go) [geometric_distribution.go](/src/github.com/montanaflynn/stats/geometric_distribution.go) [legacy.go](/src/github.com/montanaflynn/stats/legacy.go) [load.go](/src/github.com/montanaflynn/stats/load.go) [max.go](/src/github.com/montanaflynn/stats/max.go) [mean.go](/src/github.com/montanaflynn/stats/mean.go) [median.go](/src/github.com/montanaflynn/stats/median.go) [min.go](/src/github.com/montanaflynn/stats/min.go) [mode.go](/src/github.com/montanaflynn/stats/mode.go) [norm.go](/src/github.com/montanaflynn/stats/norm.go) [outlier.go](/src/github.com/montanaflynn/stats/outlier.go) [percentile.go](/src/github.com/montanaflynn/stats/percentile.go) [percentile_weighted.go](/src/github.com/montanaflynn/stats/percentile_weighted.go) [quartile.go](/src/github.com/montanaflynn/stats/quartile.go) [ranksum.go](/src/github.com/montanaflynn/stats/ranksum.go) [regression.go](/src/github.com/montanaflynn/stats/regression.go) [round.go](/src/github.com/montanaflynn/stats/round.go) [sample.go](/src/github.com/montanaflynn/stats/sample.go) [sigmoid.go](/src/github.com/montanaflynn/stats/sigmoid.go) [skewness.go](/src/github.com/montanaflynn/stats/skewness.go) [softmax.go](/src/github.com/montanaflynn/stats/softmax.go) [sum.go](/src/github.com/montanaflynn/stats/sum.go) [ttest.go](/src/github.com/montanaflynn/stats/ttest.go) [util.go](/src/github.com/montanaflynn/stats/util.go) [variance.go](/src/github.com/montanaflynn/stats/variance.go) [ztest.go](/src/github.com/montanaflynn/stats/ztest.go) 
+[coefficient_of_variation.go](/src/github.com/montanaflynn/stats/coefficient_of_variation.go) [correlation.go](/src/github.com/montanaflynn/stats/correlation.go) [cumulative.go](/src/github.com/montanaflynn/stats/cumulative.go) [cumulative_sum.go](/src/github.com/montanaflynn/stats/cumulative_sum.go) [data.go](/src/github.com/montanaflynn/stats/data.go) [describe.go](/src/github.com/montanaflynn/stats/describe.go) [deviation.go](/src/github.com/montanaflynn/stats/deviation.go) [diff.go](/src/github.com/montanaflynn/stats/diff.go) [distances.go](/src/github.com/montanaflynn/stats/distances.go) [doc.go](/src/github.com/montanaflynn/stats/doc.go) [entropy.go](/src/github.com/montanaflynn/stats/entropy.go) [errors.go](/src/github.com/montanaflynn/stats/errors.go) [extremes.go](/src/github.com/montanaflynn/stats/extremes.go) [geometric_distribution.go](/src/github.com/montanaflynn/stats/geometric_distribution.go) [legacy.go](/src/github.com/montanaflynn/stats/legacy.go) [load.go](/src/github.com/montanaflynn/stats/load.go) [max.go](/src/github.com/montanaflynn/stats/max.go) [mean.go](/src/github.com/montanaflynn/stats/mean.go) [median.go](/src/github.com/montanaflynn/stats/median.go) [min.go](/src/github.com/montanaflynn/stats/min.go) [mode.go](/src/github.com/montanaflynn/stats/mode.go) [norm.go](/src/github.com/montanaflynn/stats/norm.go) [outlier.go](/src/github.com/montanaflynn/stats/outlier.go) [percentile.go](/src/github.com/montanaflynn/stats/percentile.go) [percentile_weighted.go](/src/github.com/montanaflynn/stats/percentile_weighted.go) [quartile.go](/src/github.com/montanaflynn/stats/quartile.go) [rank.go](/src/github.com/montanaflynn/stats/rank.go) [ranksum.go](/src/github.com/montanaflynn/stats/ranksum.go) [regression.go](/src/github.com/montanaflynn/stats/regression.go) [rolling.go](/src/github.com/montanaflynn/stats/rolling.go) [round.go](/src/github.com/montanaflynn/stats/round.go) [sample.go](/src/github.com/montanaflynn/stats/sample.go) [sigmoid.go](/src/github.com/montanaflynn/stats/sigmoid.go) [skewness.go](/src/github.com/montanaflynn/stats/skewness.go) [softmax.go](/src/github.com/montanaflynn/stats/softmax.go) [sum.go](/src/github.com/montanaflynn/stats/sum.go) [ttest.go](/src/github.com/montanaflynn/stats/ttest.go) [util.go](/src/github.com/montanaflynn/stats/util.go) [variance.go](/src/github.com/montanaflynn/stats/variance.go) [weighted_mean.go](/src/github.com/montanaflynn/stats/weighted_mean.go) [zscore.go](/src/github.com/montanaflynn/stats/zscore.go) [ztest.go](/src/github.com/montanaflynn/stats/ztest.go) 
 
 
 
@@ -233,6 +273,24 @@ Legacy error names that didn't start with Err
 
 
 
+## <a name="ArgMax">func</a> [ArgMax](/extremes.go?s=129:172#L5)
+``` go
+func ArgMax(input Float64Data) (int, error)
+```
+ArgMax finds the index of the highest number in a slice,
+returning the first occurrence in the case of ties
+
+
+
+## <a name="ArgMin">func</a> [ArgMin](/extremes.go?s=671:714#L28)
+``` go
+func ArgMin(input Float64Data) (int, error)
+```
+ArgMin finds the index of the lowest number in a slice,
+returning the first occurrence in the case of ties
+
+
+
 ## <a name="AutoCorrelation">func</a> [AutoCorrelation](/correlation.go?s=2282:2347#L102)
 ``` go
 func AutoCorrelation(data Float64Data, lags int) (float64, error)
@@ -246,6 +304,19 @@ AutoCorrelation is the correlation of a signal with a delayed copy of itself as 
 func ChebyshevDistance(dataPointX, dataPointY Float64Data) (distance float64, err error)
 ```
 ChebyshevDistance computes the Chebyshev distance between two data sets
+
+
+
+## <a name="CoefficientOfVariation">func</a> [CoefficientOfVariation](/coefficient_of_variation.go?s=322:385#L11)
+``` go
+func CoefficientOfVariation(input Float64Data) (float64, error)
+```
+CoefficientOfVariation finds the coefficient of variation of a slice
+of floats, defined as the sample standard deviation divided by the
+mean. This matches the behavior of Python's scipy.stats.variation
+with ddof=1.
+
+The input must not be empty and its mean must not be zero.
 
 
 
@@ -273,11 +344,46 @@ CovariancePopulation computes covariance for entire population between two varia
 
 
 
+## <a name="CumulativeMax">func</a> [CumulativeMax](/cumulative.go?s=486:542#L24)
+``` go
+func CumulativeMax(input Float64Data) ([]float64, error)
+```
+CumulativeMax calculates the cumulative maximum of the input slice
+
+
+
+## <a name="CumulativeMin">func</a> [CumulativeMin](/cumulative.go?s=874:930#L44)
+``` go
+func CumulativeMin(input Float64Data) ([]float64, error)
+```
+CumulativeMin calculates the cumulative minimum of the input slice
+
+
+
+## <a name="CumulativeProduct">func</a> [CumulativeProduct](/cumulative.go?s=89:149#L4)
+``` go
+func CumulativeProduct(input Float64Data) ([]float64, error)
+```
+CumulativeProduct calculates the cumulative product of the input slice
+
+
+
 ## <a name="CumulativeSum">func</a> [CumulativeSum](/cumulative_sum.go?s=81:137#L4)
 ``` go
 func CumulativeSum(input Float64Data) ([]float64, error)
 ```
 CumulativeSum calculates the cumulative sum of the input slice
+
+
+
+## <a name="Diff">func</a> [Diff](/diff.go?s=238:285#L7)
+``` go
+func Diff(input Float64Data) ([]float64, error)
+```
+Diff calculates the successive differences of the input slice,
+returning input[i] - input[i-1] for each i in 1..len(input)-1.
+The output has length len(input) - 1; a single-element input
+returns an empty slice.
 
 
 
@@ -424,6 +530,32 @@ Return:
 func Mode(input Float64Data) (mode []float64, err error)
 ```
 Mode gets the mode [most frequent value(s)] of a slice of float64s
+
+
+
+## <a name="MovingAverage">func</a> [MovingAverage](/rolling.go?s=362:430#L8)
+``` go
+func MovingAverage(input Float64Data, window int) ([]float64, error)
+```
+MovingAverage calculates the rolling mean of the input over a trailing
+window. Only fully-populated windows produce output, so the result has
+len(input)-window+1 entries and entry i is the mean of input[i : i+window].
+The window must satisfy 1 <= window <= len(input) or ErrBounds is
+returned. An empty input returns ErrEmptyInput.
+
+
+
+## <a name="MovingStdDev">func</a> [MovingStdDev](/rolling.go?s=1239:1306#L36)
+``` go
+func MovingStdDev(input Float64Data, window int) ([]float64, error)
+```
+MovingStdDev calculates the rolling sample standard deviation of the input
+over a trailing window. Only fully-populated windows produce output, so the
+result has len(input)-window+1 entries and entry i is the sample standard
+deviation of input[i : i+window]. The window must satisfy
+2 <= window <= len(input) or ErrBounds is returned, since the sample
+standard deviation of a single value is undefined. An empty input returns
+ErrEmptyInput.
 
 
 
@@ -616,6 +748,20 @@ Pearson calculates the Pearson product-moment correlation coefficient between tw
 
 
 
+## <a name="PercentChange">func</a> [PercentChange](/diff.go?s=891:947#L29)
+``` go
+func PercentChange(input Float64Data) ([]float64, error)
+```
+PercentChange calculates the fractional change between successive
+elements of the input slice, returning
+(input[i] - input[i-1]) / input[i-1] for each i in 1..len(input)-1.
+The output has length len(input) - 1; a single-element input
+returns an empty slice. A zero denominator follows IEEE 754
+semantics, yielding +Inf, -Inf, or NaN (for 0/0), matching the
+behavior of pandas pct_change.
+
+
+
 ## <a name="Percentile">func</a> [Percentile](/percentile.go?s=598:681#L20)
 ``` go
 func Percentile(input Float64Data, percent float64) (percentile float64, err error)
@@ -687,6 +833,25 @@ func ProbGeom(a int, b int, p float64) (prob float64, err error)
 ProbGeom generates the probability for a geometric random variable
 with parameter p to achieve success in the interval of [a, b] trials
 See <a href="https://en.wikipedia.org/wiki/Geometric_distribution">https://en.wikipedia.org/wiki/Geometric_distribution</a> for more information
+
+
+
+## <a name="Range">func</a> [Range](/extremes.go?s=1181:1227#L51)
+``` go
+func Range(input Float64Data) (float64, error)
+```
+Range finds the difference between the highest and
+lowest numbers in a slice
+
+
+
+## <a name="Rank">func</a> [Rank](/rank.go?s=183:230#L6)
+``` go
+func Rank(input Float64Data) ([]float64, error)
+```
+Rank assigns fractional (average) ranks to the input values.
+Ranks are 1-based and tied values receive the average of the
+ranks they would have been assigned.
 
 
 
@@ -877,6 +1042,30 @@ Variance the amount of variation in the dataset
 
 
 
+## <a name="WeightedMean">func</a> [WeightedMean](/weighted_mean.go?s=415:476#L12)
+``` go
+func WeightedMean(data, weights Float64Data) (float64, error)
+```
+WeightedMean finds the weighted mean of a slice of floats, defined as
+the sum of each data value multiplied by its weight divided by the sum
+of all the weights. This matches the behavior of Python's
+numpy.average with the weights argument.
+
+The data and weights slices must be the same length. Weights must be
+non-negative and at least one weight must be positive.
+
+
+
+## <a name="ZScore">func</a> [ZScore](/zscore.go?s=205:254#L6)
+``` go
+func ZScore(input Float64Data) ([]float64, error)
+```
+ZScore standardizes the input values by subtracting the mean
+and dividing by the sample standard deviation, returning the
+number of standard deviations each value is from the mean.
+
+
+
 ## <a name="ZTest">func</a> [ZTest](/ztest.go?s=537:654#L17)
 ``` go
 func ZTest(data1, data2 Float64Data, populationMean, populationStdDev float64) (z float64, pvalue float64, err error)
@@ -936,7 +1125,7 @@ LogReg is a shortcut to LogarithmicRegression
 
 
 
-## <a name="Description">type</a> [Description](/describe.go?s=89:349#L6)
+## <a name="Description">type</a> [Description](/describe.go?s=89:381#L6)
 ``` go
 type Description struct {
     Count                  int
@@ -944,6 +1133,7 @@ type Description struct {
     Std                    float64
     Max                    float64
     Min                    float64
+    Range                  float64
     DescriptionPercentiles []descriptionPercentile
     AllowedNaN             bool
 }
@@ -957,14 +1147,14 @@ Holds information about the dataset provided to Describe
 
 
 
-### <a name="Describe">func</a> [Describe](/describe.go?s=579:672#L23)
+### <a name="Describe">func</a> [Describe](/describe.go?s=611:704#L24)
 ``` go
 func Describe(input Float64Data, allowNaN bool, percentiles *[]float64) (*Description, error)
 ```
 Describe generates descriptive statistics about a provided dataset, similar to python's pandas.describe()
 
 
-### <a name="DescribePercentileFunc">func</a> [DescribePercentileFunc](/describe.go?s=917:1084#L29)
+### <a name="DescribePercentileFunc">func</a> [DescribePercentileFunc](/describe.go?s=949:1116#L30)
 ``` go
 func DescribePercentileFunc(input Float64Data, allowNaN bool, percentiles *[]float64, percentileFunc func(Float64Data, float64) (float64, error)) (*Description, error)
 ```
@@ -975,7 +1165,7 @@ Takes in a function to use for percentile calculation
 
 
 
-### <a name="Description.String">func</a> (\*Description) [String](/describe.go?s=2078:2127#L68)
+### <a name="Description.String">func</a> (\*Description) [String](/describe.go?s=2161:2210#L71)
 ``` go
 func (d *Description) String(decimals int) string
 ```
@@ -987,6 +1177,7 @@ Represents the Description instance in a string format with specified number of 
 	std     0.82
 	max     3.00
 	min     1.00
+	range   2.00
 	25.00%  NaN
 	50.00%  1.50
 	75.00%  2.50
@@ -1017,11 +1208,38 @@ LoadRawData parses and converts a slice of mixed data types to floats
 
 
 
+### <a name="Float64Data.ArgMax">func</a> (Float64Data) [ArgMax](/extremes.go?s=1521:1563#L66)
+``` go
+func (f Float64Data) ArgMax() (int, error)
+```
+ArgMax returns the index of the highest number in the data
+
+
+
+
+### <a name="Float64Data.ArgMin">func</a> (Float64Data) [ArgMin](/extremes.go?s=1647:1689#L69)
+``` go
+func (f Float64Data) ArgMin() (int, error)
+```
+ArgMin returns the index of the lowest number in the data
+
+
+
+
 ### <a name="Float64Data.AutoCorrelation">func</a> (Float64Data) [AutoCorrelation](/data.go?s=3274:3337#L91)
 ``` go
 func (f Float64Data) AutoCorrelation(lags int) (float64, error)
 ```
 AutoCorrelation is the correlation of a signal with a delayed copy of itself as a function of delay
+
+
+
+
+### <a name="Float64Data.CoefficientOfVariation">func</a> (Float64Data) [CoefficientOfVariation](/coefficient_of_variation.go?s=768:830#L29)
+``` go
+func (f Float64Data) CoefficientOfVariation() (float64, error)
+```
+CoefficientOfVariation finds the sample standard deviation divided by the mean
 
 
 
@@ -1053,11 +1271,47 @@ CovariancePopulation computes covariance for entire population between two varia
 
 
 
+### <a name="Float64Data.CumulativeMax">func</a> (Float64Data) [CumulativeMax](/cumulative.go?s=1416:1471#L69)
+``` go
+func (f Float64Data) CumulativeMax() ([]float64, error)
+```
+CumulativeMax calculates the cumulative maximum of the data
+
+
+
+
+### <a name="Float64Data.CumulativeMin">func</a> (Float64Data) [CumulativeMin](/cumulative.go?s=1565:1620#L74)
+``` go
+func (f Float64Data) CumulativeMin() ([]float64, error)
+```
+CumulativeMin calculates the cumulative minimum of the data
+
+
+
+
+### <a name="Float64Data.CumulativeProduct">func</a> (Float64Data) [CumulativeProduct](/cumulative.go?s=1259:1318#L64)
+``` go
+func (f Float64Data) CumulativeProduct() ([]float64, error)
+```
+CumulativeProduct calculates the cumulative product of the data
+
+
+
+
 ### <a name="Float64Data.CumulativeSum">func</a> (Float64Data) [CumulativeSum](/data.go?s=883:938#L28)
 ``` go
 func (f Float64Data) CumulativeSum() ([]float64, error)
 ```
 CumulativeSum returns the cumulative sum of the data
+
+
+
+
+### <a name="Float64Data.Diff">func</a> (Float64Data) [Diff](/diff.go?s=1220:1266#L45)
+``` go
+func (f Float64Data) Diff() ([]float64, error)
+```
+Diff returns the successive differences of the data
 
 
 
@@ -1197,11 +1451,38 @@ Mode returns the mode of the data
 
 
 
+### <a name="Float64Data.MovingAverage">func</a> (Float64Data) [MovingAverage](/rolling.go?s=1768:1833#L58)
+``` go
+func (f Float64Data) MovingAverage(window int) ([]float64, error)
+```
+MovingAverage returns the rolling mean of the data over a trailing window
+
+
+
+
+### <a name="Float64Data.MovingStdDev">func</a> (Float64Data) [MovingStdDev](/rolling.go?s=1969:2033#L63)
+``` go
+func (f Float64Data) MovingStdDev(window int) ([]float64, error)
+```
+MovingStdDev returns the rolling sample standard deviation of the data over a trailing window
+
+
+
+
 ### <a name="Float64Data.Pearson">func</a> (Float64Data) [Pearson](/data.go?s=3472:3532#L96)
 ``` go
 func (f Float64Data) Pearson(d Float64Data) (float64, error)
 ```
 Pearson calculates the Pearson product-moment correlation coefficient between two variables.
+
+
+
+
+### <a name="Float64Data.PercentChange">func</a> (Float64Data) [PercentChange](/diff.go?s=1374:1429#L48)
+``` go
+func (f Float64Data) PercentChange() ([]float64, error)
+```
+PercentChange returns the fractional change between successive elements of the data
 
 
 
@@ -1256,6 +1537,24 @@ QuartileOutliers finds the mild and extreme outliers
 func (f Float64Data) Quartiles() (Quartiles, error)
 ```
 Quartiles returns the three quartile points from instance of Float64Data
+
+
+
+
+### <a name="Float64Data.Range">func</a> (Float64Data) [Range](/extremes.go?s=1795:1840#L72)
+``` go
+func (f Float64Data) Range() (float64, error)
+```
+Range returns the difference between the highest and lowest numbers in the data
+
+
+
+
+### <a name="Float64Data.Rank">func</a> (Float64Data) [Rank](/rank.go?s=382:428#L14)
+``` go
+func (f Float64Data) Rank() ([]float64, error)
+```
+Rank assigns fractional (average) ranks to the input values
 
 
 
@@ -1365,6 +1664,25 @@ Trimean finds the average of the median and the midhinge
 func (f Float64Data) Variance() (float64, error)
 ```
 Variance the amount of variation in the dataset
+
+
+
+
+### <a name="Float64Data.WeightedMean">func</a> (Float64Data) [WeightedMean](/weighted_mean.go?s=976:1047#L40)
+``` go
+func (f Float64Data) WeightedMean(weights Float64Data) (float64, error)
+```
+WeightedMean finds the weighted mean of the data using the given weights
+
+
+
+
+### <a name="Float64Data.ZScore">func</a> (Float64Data) [ZScore](/zscore.go?s=632:680#L27)
+``` go
+func (f Float64Data) ZScore() ([]float64, error)
+```
+ZScore standardizes the input values by subtracting the mean
+and dividing by the sample standard deviation
 
 
 

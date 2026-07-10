@@ -19,6 +19,18 @@ func main() {
 	fmt.Println(a)
 	// Output: 5
 
+	argmax, _ := stats.ArgMax([]float64{2, 8, 4, 6})
+	fmt.Println(argmax)
+	// Output: 1
+
+	argmin, _ := stats.ArgMin([]float64{2, 8, 4, 6})
+	fmt.Println(argmin)
+	// Output: 0
+
+	rng, _ := stats.Range([]float64{2, 8, 4, 6})
+	fmt.Println(rng)
+	// Output: 6
+
 	a, _ = stats.Sum([]float64{1.1, 2.2, 3.3})
 	fmt.Println(a)
 	// Output: 6.6
@@ -26,9 +38,33 @@ func main() {
 	cs, _ := stats.CumulativeSum([]float64{1.1, 2.2, 3.3})
 	fmt.Println(cs) // [1.1 3.3000000000000003 6.6]
 
+	cp, _ := stats.CumulativeProduct([]float64{1, 2, 3, 4})
+	fmt.Println(cp)
+	// Output: [1 2 6 24]
+
+	cmax, _ := stats.CumulativeMax([]float64{1, 3, 2, 5, 4})
+	fmt.Println(cmax)
+	// Output: [1 3 3 5 5]
+
+	cmin, _ := stats.CumulativeMin([]float64{5, 3, 4, 1, 2})
+	fmt.Println(cmin)
+	// Output: [5 3 3 1 1]
+
+	df, _ := stats.Diff([]float64{1, 2, 4, 7})
+	fmt.Println(df)
+	// Output: [1 2 3]
+
+	pc, _ := stats.PercentChange([]float64{1, 2, 4, 8})
+	fmt.Println(pc)
+	// Output: [1 1 1]
+
 	a, _ = stats.Mean([]float64{1, 2, 3, 4, 5})
 	fmt.Println(a)
 	// Output: 3
+
+	wm, _ := stats.WeightedMean([]float64{1, 2, 3}, []float64{1, 1, 2})
+	fmt.Println(wm)
+	// Output: 2.25
 
 	a, _ = stats.Median([]float64{1, 2, 3, 4, 5, 6, 7})
 	fmt.Println(a)
@@ -57,6 +93,26 @@ func main() {
 	a, _ = stats.StandardDeviationSample([]float64{1, 2, 3})
 	fmt.Println(a)
 	// Output: 1
+
+	cv, _ := stats.CoefficientOfVariation([]float64{1, 2, 3})
+	fmt.Println(cv)
+	// Output: 0.5
+
+	zs, _ := stats.ZScore([]float64{1, 2, 3})
+	fmt.Println(zs)
+	// Output: [-1 0 1]
+
+	rk, _ := stats.Rank([]float64{10, 20, 20, 30})
+	fmt.Println(rk)
+	// Output: [1 2.5 2.5 4]
+
+	ma, _ := stats.MovingAverage([]float64{1, 2, 3, 4, 5}, 3)
+	fmt.Println(ma)
+	// Output: [2 3 4]
+
+	msd, _ := stats.MovingStdDev([]float64{1, 2, 3, 4, 5}, 3)
+	fmt.Println(msd)
+	// Output: [1 1 1]
 
 	a, _ = stats.Percentile([]float64{1, 2, 3, 4, 5}, 75)
 	fmt.Println(a)
