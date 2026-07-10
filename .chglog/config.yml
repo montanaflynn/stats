@@ -1,0 +1,27 @@
+style: github
+template: CHANGELOG.tpl.md
+info:
+  title: CHANGELOG
+  repository_url: https://github.com/montanaflynn/stats
+options:
+  commits:
+    filters:
+      Type:
+        - Add
+        - Fix
+        - Update
+        - Remove
+        - feat
+        - fix
+  commit_groups:
+    title_maps:
+      feat: Add
+      fix: Fix
+  header:
+    pattern: "^(\\w+)(?:\\(.*\\))?!?:?\\s(.*)$"
+    pattern_maps:
+      - Type
+      - Subject
+  notes:
+    keywords:
+      - BREAKING CHANGE
