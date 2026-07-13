@@ -288,4 +288,84 @@ func main() {
 	fmt.Println("Skewness (left-skewed):", skew)
 	// Output: negative value (< 0)
 
+	// -----------------------------
+	// Kurtosis (Tailedness of distribution)
+	// -----------------------------
+
+	kurt, _ := stats.Kurtosis([]float64{2, 4, 6, 8, 10})
+	fmt.Println(kurt)
+	// Output: -1.3
+
+	kurt, _ = stats.PopulationKurtosis([]float64{2, 4, 6, 8, 10})
+	fmt.Println(kurt)
+	// Output: -1.3
+
+	kurt, _ = stats.SampleKurtosis([]float64{2, 4, 6, 8, 10})
+	fmt.Println(kurt)
+	// Output: -1.2000000000000002
+
+	cl, _ := stats.Clip([]float64{-2, 3, 7, 12}, 0, 10)
+	fmt.Println(cl)
+	// Output: [0 3 7 10]
+
+	rsc, _ := stats.Rescale([]float64{2, 4, 6, 8, 10})
+	fmt.Println(rsc)
+	// Output: [0 0.25 0.5 0.75 1]
+
+	tmean, _ := stats.TrimmedMean([]float64{1, 2, 3, 4, 100}, 0.2)
+	fmt.Println(tmean)
+	// Output: 3
+
+	win, _ := stats.Winsorize([]float64{1, 2, 3, 4, 100}, 0.2)
+	fmt.Println(win)
+	// Output: [2 2 3 4 4]
+
+	mmed, _ := stats.MovingMedian([]float64{1, 9, 2, 8, 3}, 3)
+	fmt.Println(mmed)
+	// Output: [2 8 3]
+
+	mmin, _ := stats.MovingMin([]float64{1, 9, 2, 8, 3}, 3)
+	fmt.Println(mmin)
+	// Output: [1 2 2]
+
+	mmax, _ := stats.MovingMax([]float64{1, 9, 2, 8, 3}, 3)
+	fmt.Println(mmax)
+	// Output: [9 9 8]
+
+	msum, _ := stats.MovingSum([]float64{1, 2, 3, 4, 5}, 3)
+	fmt.Println(msum)
+	// Output: [6 9 12]
+
+	ewma, _ := stats.EWMA([]float64{1, 2, 3, 4, 5}, 0.5)
+	fmt.Println(ewma)
+	// Output: [1 1.5 2.25 3.125 4.0625]
+
+	sem, _ := stats.SEM([]float64{1, 2, 3, 4, 5})
+	fmt.Println(sem)
+	// Output: 0.7071067811865476
+
+	rms, _ := stats.RMS([]float64{1, 2, 3, 4, 5})
+	fmt.Println(rms)
+	// Output: 3.3166247903554
+
+	prod, _ := stats.Product([]float64{1, 2, 3, 4})
+	fmt.Println(prod)
+	// Output: 24
+
+	pos, _ := stats.PercentileOfScore([]float64{1, 2, 3, 4, 5}, 4)
+	fmt.Println(pos)
+	// Output: 70
+
+	kt, _ := stats.KendallTau([]float64{1, 2, 3, 4, 5}, []float64{1, 3, 2, 4, 5})
+	fmt.Println(kt)
+	// Output: 0.8
+
+	counts, edges, _ := stats.Histogram([]float64{1, 2, 2, 3, 5}, 4)
+	fmt.Println(counts, edges)
+	// Output: [1 2 1 1] [1 2 3 4 5]
+
+	interp, _ := stats.Interp([]float64{0, 1.5, 3}, []float64{1, 2, 3}, []float64{10, 20, 30})
+	fmt.Println(interp)
+	// Output: [10 15 30]
+
 }

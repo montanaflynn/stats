@@ -40,6 +40,7 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func ArgMin(input Float64Data) (int, error)](#ArgMin)
 * [func AutoCorrelation(data Float64Data, lags int) (float64, error)](#AutoCorrelation)
 * [func ChebyshevDistance(dataPointX, dataPointY Float64Data) (distance float64, err error)](#ChebyshevDistance)
+* [func Clip(input Float64Data, min, max float64) ([]float64, error)](#Clip)
 * [func CoefficientOfVariation(input Float64Data) (float64, error)](#CoefficientOfVariation)
 * [func Correlation(data1, data2 Float64Data) (float64, error)](#Correlation)
 * [func Covariance(data1, data2 Float64Data) (float64, error)](#Covariance)
@@ -49,12 +50,17 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func CumulativeProduct(input Float64Data) ([]float64, error)](#CumulativeProduct)
 * [func CumulativeSum(input Float64Data) ([]float64, error)](#CumulativeSum)
 * [func Diff(input Float64Data) ([]float64, error)](#Diff)
+* [func EWMA(input Float64Data, alpha float64) ([]float64, error)](#EWMA)
 * [func Entropy(input Float64Data) (float64, error)](#Entropy)
 * [func EuclideanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error)](#EuclideanDistance)
 * [func ExpGeom(p float64) (exp float64, err error)](#ExpGeom)
 * [func GeometricMean(input Float64Data) (float64, error)](#GeometricMean)
 * [func HarmonicMean(input Float64Data) (float64, error)](#HarmonicMean)
+* [func Histogram(input Float64Data, bins int) ([]int, []float64, error)](#Histogram)
 * [func InterQuartileRange(input Float64Data) (float64, error)](#InterQuartileRange)
+* [func Interp(x, xp, fp Float64Data) ([]float64, error)](#Interp)
+* [func KendallTau(data1, data2 Float64Data) (float64, error)](#KendallTau)
+* [func Kurtosis(input Float64Data) (float64, error)](#Kurtosis)
 * [func ManhattanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error)](#ManhattanDistance)
 * [func Max(input Float64Data) (max float64, err error)](#Max)
 * [func Mean(input Float64Data) (float64, error)](#Mean)
@@ -66,7 +72,11 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (distance float64, err error)](#MinkowskiDistance)
 * [func Mode(input Float64Data) (mode []float64, err error)](#Mode)
 * [func MovingAverage(input Float64Data, window int) ([]float64, error)](#MovingAverage)
+* [func MovingMax(input Float64Data, window int) ([]float64, error)](#MovingMax)
+* [func MovingMedian(input Float64Data, window int) ([]float64, error)](#MovingMedian)
+* [func MovingMin(input Float64Data, window int) ([]float64, error)](#MovingMin)
 * [func MovingStdDev(input Float64Data, window int) ([]float64, error)](#MovingStdDev)
+* [func MovingSum(input Float64Data, window int) ([]float64, error)](#MovingSum)
 * [func Ncr(n, r int) int](#Ncr)
 * [func NormBoxMullerRvs(loc float64, scale float64, size int) []float64](#NormBoxMullerRvs)
 * [func NormCdf(x float64, loc float64, scale float64) float64](#NormCdf)
@@ -92,14 +102,21 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func PercentChange(input Float64Data) ([]float64, error)](#PercentChange)
 * [func Percentile(input Float64Data, percent float64) (percentile float64, err error)](#Percentile)
 * [func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)](#PercentileNearestRank)
+* [func PercentileOfScore(input Float64Data, score float64) (float64, error)](#PercentileOfScore)
 * [func PercentileWeighted(data, weights Float64Data, percent float64) (percentile float64, err error)](#PercentileWeighted)
+* [func PopulationKurtosis(input Float64Data) (float64, error)](#PopulationKurtosis)
 * [func PopulationSkewness(input Float64Data) (float64, error)](#PopulationSkewness)
 * [func PopulationVariance(input Float64Data) (pvar float64, err error)](#PopulationVariance)
 * [func ProbGeom(a int, b int, p float64) (prob float64, err error)](#ProbGeom)
+* [func Product(input Float64Data) (float64, error)](#Product)
+* [func RMS(input Float64Data) (float64, error)](#RMS)
 * [func Range(input Float64Data) (float64, error)](#Range)
 * [func Rank(input Float64Data) ([]float64, error)](#Rank)
+* [func Rescale(input Float64Data) ([]float64, error)](#Rescale)
 * [func Round(input float64, places int) (rounded float64, err error)](#Round)
+* [func SEM(input Float64Data) (float64, error)](#SEM)
 * [func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error)](#Sample)
+* [func SampleKurtosis(input Float64Data) (float64, error)](#SampleKurtosis)
 * [func SampleSkewness(input Float64Data) (float64, error)](#SampleSkewness)
 * [func SampleVariance(input Float64Data) (svar float64, err error)](#SampleVariance)
 * [func Sigmoid(input Float64Data) ([]float64, error)](#Sigmoid)
@@ -115,11 +132,13 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func Sum(input Float64Data) (sum float64, err error)](#Sum)
 * [func TTest(data1, data2 Float64Data, populationMean float64) (t float64, pvalue float64, err error)](#TTest)
 * [func Trimean(input Float64Data) (float64, error)](#Trimean)
+* [func TrimmedMean(input Float64Data, percent float64) (float64, error)](#TrimmedMean)
 * [func VarGeom(p float64) (exp float64, err error)](#VarGeom)
 * [func VarP(input Float64Data) (sdev float64, err error)](#VarP)
 * [func VarS(input Float64Data) (sdev float64, err error)](#VarS)
 * [func Variance(input Float64Data) (sdev float64, err error)](#Variance)
 * [func WeightedMean(data, weights Float64Data) (float64, error)](#WeightedMean)
+* [func Winsorize(input Float64Data, percent float64) ([]float64, error)](#Winsorize)
 * [func ZScore(input Float64Data) ([]float64, error)](#ZScore)
 * [func ZTest(data1, data2 Float64Data, populationMean, populationStdDev float64) (z float64, pvalue float64, err error)](#ZTest)
 * [type Coordinate](#Coordinate)
@@ -135,6 +154,7 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
   * [func (f Float64Data) ArgMax() (int, error)](#Float64Data.ArgMax)
   * [func (f Float64Data) ArgMin() (int, error)](#Float64Data.ArgMin)
   * [func (f Float64Data) AutoCorrelation(lags int) (float64, error)](#Float64Data.AutoCorrelation)
+  * [func (f Float64Data) Clip(min, max float64) ([]float64, error)](#Float64Data.Clip)
   * [func (f Float64Data) CoefficientOfVariation() (float64, error)](#Float64Data.CoefficientOfVariation)
   * [func (f Float64Data) Correlation(d Float64Data) (float64, error)](#Float64Data.Correlation)
   * [func (f Float64Data) Covariance(d Float64Data) (float64, error)](#Float64Data.Covariance)
@@ -144,11 +164,15 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
   * [func (f Float64Data) CumulativeProduct() ([]float64, error)](#Float64Data.CumulativeProduct)
   * [func (f Float64Data) CumulativeSum() ([]float64, error)](#Float64Data.CumulativeSum)
   * [func (f Float64Data) Diff() ([]float64, error)](#Float64Data.Diff)
+  * [func (f Float64Data) EWMA(alpha float64) ([]float64, error)](#Float64Data.EWMA)
   * [func (f Float64Data) Entropy() (float64, error)](#Float64Data.Entropy)
   * [func (f Float64Data) GeometricMean() (float64, error)](#Float64Data.GeometricMean)
   * [func (f Float64Data) Get(i int) float64](#Float64Data.Get)
   * [func (f Float64Data) HarmonicMean() (float64, error)](#Float64Data.HarmonicMean)
+  * [func (f Float64Data) Histogram(bins int) ([]int, []float64, error)](#Float64Data.Histogram)
   * [func (f Float64Data) InterQuartileRange() (float64, error)](#Float64Data.InterQuartileRange)
+  * [func (f Float64Data) KendallTau(d Float64Data) (float64, error)](#Float64Data.KendallTau)
+  * [func (f Float64Data) Kurtosis() (float64, error)](#Float64Data.Kurtosis)
   * [func (f Float64Data) Len() int](#Float64Data.Len)
   * [func (f Float64Data) Less(i, j int) bool](#Float64Data.Less)
   * [func (f Float64Data) Max() (float64, error)](#Float64Data.Max)
@@ -160,18 +184,29 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
   * [func (f Float64Data) Min() (float64, error)](#Float64Data.Min)
   * [func (f Float64Data) Mode() ([]float64, error)](#Float64Data.Mode)
   * [func (f Float64Data) MovingAverage(window int) ([]float64, error)](#Float64Data.MovingAverage)
+  * [func (f Float64Data) MovingMax(window int) ([]float64, error)](#Float64Data.MovingMax)
+  * [func (f Float64Data) MovingMedian(window int) ([]float64, error)](#Float64Data.MovingMedian)
+  * [func (f Float64Data) MovingMin(window int) ([]float64, error)](#Float64Data.MovingMin)
   * [func (f Float64Data) MovingStdDev(window int) ([]float64, error)](#Float64Data.MovingStdDev)
+  * [func (f Float64Data) MovingSum(window int) ([]float64, error)](#Float64Data.MovingSum)
   * [func (f Float64Data) Pearson(d Float64Data) (float64, error)](#Float64Data.Pearson)
   * [func (f Float64Data) PercentChange() ([]float64, error)](#Float64Data.PercentChange)
   * [func (f Float64Data) Percentile(p float64) (float64, error)](#Float64Data.Percentile)
   * [func (f Float64Data) PercentileNearestRank(p float64) (float64, error)](#Float64Data.PercentileNearestRank)
+  * [func (f Float64Data) PercentileOfScore(score float64) (float64, error)](#Float64Data.PercentileOfScore)
+  * [func (f Float64Data) PopulationKurtosis() (float64, error)](#Float64Data.PopulationKurtosis)
   * [func (f Float64Data) PopulationVariance() (float64, error)](#Float64Data.PopulationVariance)
+  * [func (f Float64Data) Product() (float64, error)](#Float64Data.Product)
   * [func (f Float64Data) Quartile(d Float64Data) (Quartiles, error)](#Float64Data.Quartile)
   * [func (f Float64Data) QuartileOutliers() (Outliers, error)](#Float64Data.QuartileOutliers)
   * [func (f Float64Data) Quartiles() (Quartiles, error)](#Float64Data.Quartiles)
+  * [func (f Float64Data) RMS() (float64, error)](#Float64Data.RMS)
   * [func (f Float64Data) Range() (float64, error)](#Float64Data.Range)
   * [func (f Float64Data) Rank() ([]float64, error)](#Float64Data.Rank)
+  * [func (f Float64Data) Rescale() ([]float64, error)](#Float64Data.Rescale)
+  * [func (f Float64Data) SEM() (float64, error)](#Float64Data.SEM)
   * [func (f Float64Data) Sample(n int, r bool) ([]float64, error)](#Float64Data.Sample)
+  * [func (f Float64Data) SampleKurtosis() (float64, error)](#Float64Data.SampleKurtosis)
   * [func (f Float64Data) SampleVariance() (float64, error)](#Float64Data.SampleVariance)
   * [func (f Float64Data) Sigmoid() ([]float64, error)](#Float64Data.Sigmoid)
   * [func (f Float64Data) SoftMax() ([]float64, error)](#Float64Data.SoftMax)
@@ -182,8 +217,10 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
   * [func (f Float64Data) Sum() (float64, error)](#Float64Data.Sum)
   * [func (f Float64Data) Swap(i, j int)](#Float64Data.Swap)
   * [func (f Float64Data) Trimean(d Float64Data) (float64, error)](#Float64Data.Trimean)
+  * [func (f Float64Data) TrimmedMean(percent float64) (float64, error)](#Float64Data.TrimmedMean)
   * [func (f Float64Data) Variance() (float64, error)](#Float64Data.Variance)
   * [func (f Float64Data) WeightedMean(weights Float64Data) (float64, error)](#Float64Data.WeightedMean)
+  * [func (f Float64Data) Winsorize(percent float64) ([]float64, error)](#Float64Data.Winsorize)
   * [func (f Float64Data) ZScore() ([]float64, error)](#Float64Data.ZScore)
 * [type Outliers](#Outliers)
   * [func QuartileOutliers(input Float64Data) (Outliers, error)](#QuartileOutliers)
@@ -199,35 +236,53 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [ArgMin](#example_ArgMin)
 * [AutoCorrelation](#example_AutoCorrelation)
 * [ChebyshevDistance](#example_ChebyshevDistance)
+* [Clip](#example_Clip)
 * [Correlation](#example_Correlation)
 * [CumulativeMax](#example_CumulativeMax)
 * [CumulativeMin](#example_CumulativeMin)
 * [CumulativeProduct](#example_CumulativeProduct)
 * [CumulativeSum](#example_CumulativeSum)
 * [Diff](#example_Diff)
+* [EWMA](#example_EWMA)
 * [Entropy](#example_Entropy)
 * [ExpGeom](#example_ExpGeom)
+* [Histogram](#example_Histogram)
+* [Interp](#example_Interp)
+* [KendallTau](#example_KendallTau)
+* [Kurtosis](#example_Kurtosis)
 * [LinearRegression](#example_LinearRegression)
 * [LoadRawData](#example_LoadRawData)
 * [Max](#example_Max)
 * [Median](#example_Median)
 * [Min](#example_Min)
 * [MovingAverage](#example_MovingAverage)
+* [MovingMax](#example_MovingMax)
+* [MovingMedian](#example_MovingMedian)
+* [MovingMin](#example_MovingMin)
 * [MovingStdDev](#example_MovingStdDev)
+* [MovingSum](#example_MovingSum)
 * [PercentChange](#example_PercentChange)
+* [PercentileOfScore](#example_PercentileOfScore)
 * [ProbGeom](#example_ProbGeom)
+* [Product](#example_Product)
+* [RMS](#example_RMS)
 * [Range](#example_Range)
 * [Rank](#example_Rank)
+* [Rescale](#example_Rescale)
 * [Round](#example_Round)
+* [SEM](#example_SEM)
+* [SampleKurtosis](#example_SampleKurtosis)
 * [Sigmoid](#example_Sigmoid)
 * [SoftMax](#example_SoftMax)
 * [Spearman](#example_Spearman)
 * [Sum](#example_Sum)
+* [TrimmedMean](#example_TrimmedMean)
 * [VarGeom](#example_VarGeom)
+* [Winsorize](#example_Winsorize)
 * [ZScore](#example_ZScore)
 
 #### <a name="pkg-files">Package files</a>
-[coefficient_of_variation.go](/src/github.com/montanaflynn/stats/coefficient_of_variation.go) [correlation.go](/src/github.com/montanaflynn/stats/correlation.go) [cumulative.go](/src/github.com/montanaflynn/stats/cumulative.go) [cumulative_sum.go](/src/github.com/montanaflynn/stats/cumulative_sum.go) [data.go](/src/github.com/montanaflynn/stats/data.go) [describe.go](/src/github.com/montanaflynn/stats/describe.go) [deviation.go](/src/github.com/montanaflynn/stats/deviation.go) [diff.go](/src/github.com/montanaflynn/stats/diff.go) [distances.go](/src/github.com/montanaflynn/stats/distances.go) [doc.go](/src/github.com/montanaflynn/stats/doc.go) [entropy.go](/src/github.com/montanaflynn/stats/entropy.go) [errors.go](/src/github.com/montanaflynn/stats/errors.go) [extremes.go](/src/github.com/montanaflynn/stats/extremes.go) [geometric_distribution.go](/src/github.com/montanaflynn/stats/geometric_distribution.go) [legacy.go](/src/github.com/montanaflynn/stats/legacy.go) [load.go](/src/github.com/montanaflynn/stats/load.go) [max.go](/src/github.com/montanaflynn/stats/max.go) [mean.go](/src/github.com/montanaflynn/stats/mean.go) [median.go](/src/github.com/montanaflynn/stats/median.go) [min.go](/src/github.com/montanaflynn/stats/min.go) [mode.go](/src/github.com/montanaflynn/stats/mode.go) [norm.go](/src/github.com/montanaflynn/stats/norm.go) [outlier.go](/src/github.com/montanaflynn/stats/outlier.go) [percentile.go](/src/github.com/montanaflynn/stats/percentile.go) [percentile_weighted.go](/src/github.com/montanaflynn/stats/percentile_weighted.go) [quartile.go](/src/github.com/montanaflynn/stats/quartile.go) [rank.go](/src/github.com/montanaflynn/stats/rank.go) [ranksum.go](/src/github.com/montanaflynn/stats/ranksum.go) [regression.go](/src/github.com/montanaflynn/stats/regression.go) [rolling.go](/src/github.com/montanaflynn/stats/rolling.go) [round.go](/src/github.com/montanaflynn/stats/round.go) [sample.go](/src/github.com/montanaflynn/stats/sample.go) [sigmoid.go](/src/github.com/montanaflynn/stats/sigmoid.go) [skewness.go](/src/github.com/montanaflynn/stats/skewness.go) [softmax.go](/src/github.com/montanaflynn/stats/softmax.go) [sum.go](/src/github.com/montanaflynn/stats/sum.go) [ttest.go](/src/github.com/montanaflynn/stats/ttest.go) [util.go](/src/github.com/montanaflynn/stats/util.go) [variance.go](/src/github.com/montanaflynn/stats/variance.go) [weighted_mean.go](/src/github.com/montanaflynn/stats/weighted_mean.go) [zscore.go](/src/github.com/montanaflynn/stats/zscore.go) [ztest.go](/src/github.com/montanaflynn/stats/ztest.go) 
+[clip.go](/src/github.com/montanaflynn/stats/clip.go) [coefficient_of_variation.go](/src/github.com/montanaflynn/stats/coefficient_of_variation.go) [correlation.go](/src/github.com/montanaflynn/stats/correlation.go) [cumulative.go](/src/github.com/montanaflynn/stats/cumulative.go) [cumulative_sum.go](/src/github.com/montanaflynn/stats/cumulative_sum.go) [data.go](/src/github.com/montanaflynn/stats/data.go) [describe.go](/src/github.com/montanaflynn/stats/describe.go) [deviation.go](/src/github.com/montanaflynn/stats/deviation.go) [diff.go](/src/github.com/montanaflynn/stats/diff.go) [distances.go](/src/github.com/montanaflynn/stats/distances.go) [doc.go](/src/github.com/montanaflynn/stats/doc.go) [entropy.go](/src/github.com/montanaflynn/stats/entropy.go) [errors.go](/src/github.com/montanaflynn/stats/errors.go) [ewma.go](/src/github.com/montanaflynn/stats/ewma.go) [extremes.go](/src/github.com/montanaflynn/stats/extremes.go) [geometric_distribution.go](/src/github.com/montanaflynn/stats/geometric_distribution.go) [histogram.go](/src/github.com/montanaflynn/stats/histogram.go) [interp.go](/src/github.com/montanaflynn/stats/interp.go) [kendall.go](/src/github.com/montanaflynn/stats/kendall.go) [kurtosis.go](/src/github.com/montanaflynn/stats/kurtosis.go) [legacy.go](/src/github.com/montanaflynn/stats/legacy.go) [load.go](/src/github.com/montanaflynn/stats/load.go) [max.go](/src/github.com/montanaflynn/stats/max.go) [mean.go](/src/github.com/montanaflynn/stats/mean.go) [median.go](/src/github.com/montanaflynn/stats/median.go) [min.go](/src/github.com/montanaflynn/stats/min.go) [mode.go](/src/github.com/montanaflynn/stats/mode.go) [moving.go](/src/github.com/montanaflynn/stats/moving.go) [norm.go](/src/github.com/montanaflynn/stats/norm.go) [outlier.go](/src/github.com/montanaflynn/stats/outlier.go) [percentile.go](/src/github.com/montanaflynn/stats/percentile.go) [percentile_of_score.go](/src/github.com/montanaflynn/stats/percentile_of_score.go) [percentile_weighted.go](/src/github.com/montanaflynn/stats/percentile_weighted.go) [product.go](/src/github.com/montanaflynn/stats/product.go) [quartile.go](/src/github.com/montanaflynn/stats/quartile.go) [rank.go](/src/github.com/montanaflynn/stats/rank.go) [ranksum.go](/src/github.com/montanaflynn/stats/ranksum.go) [regression.go](/src/github.com/montanaflynn/stats/regression.go) [rescale.go](/src/github.com/montanaflynn/stats/rescale.go) [rms.go](/src/github.com/montanaflynn/stats/rms.go) [rolling.go](/src/github.com/montanaflynn/stats/rolling.go) [round.go](/src/github.com/montanaflynn/stats/round.go) [sample.go](/src/github.com/montanaflynn/stats/sample.go) [sem.go](/src/github.com/montanaflynn/stats/sem.go) [sigmoid.go](/src/github.com/montanaflynn/stats/sigmoid.go) [skewness.go](/src/github.com/montanaflynn/stats/skewness.go) [softmax.go](/src/github.com/montanaflynn/stats/softmax.go) [sum.go](/src/github.com/montanaflynn/stats/sum.go) [trimmed_mean.go](/src/github.com/montanaflynn/stats/trimmed_mean.go) [ttest.go](/src/github.com/montanaflynn/stats/ttest.go) [util.go](/src/github.com/montanaflynn/stats/util.go) [variance.go](/src/github.com/montanaflynn/stats/variance.go) [weighted_mean.go](/src/github.com/montanaflynn/stats/weighted_mean.go) [winsorize.go](/src/github.com/montanaflynn/stats/winsorize.go) [zscore.go](/src/github.com/montanaflynn/stats/zscore.go) [ztest.go](/src/github.com/montanaflynn/stats/ztest.go) 
 
 
 
@@ -304,6 +359,15 @@ AutoCorrelation is the correlation of a signal with a delayed copy of itself as 
 func ChebyshevDistance(dataPointX, dataPointY Float64Data) (distance float64, err error)
 ```
 ChebyshevDistance computes the Chebyshev distance between two data sets
+
+
+
+## <a name="Clip">func</a> [Clip](/clip.go?s=109:174#L5)
+``` go
+func Clip(input Float64Data, min, max float64) ([]float64, error)
+```
+Clip clamps each value in the input slice into the
+inclusive range between min and max.
 
 
 
@@ -387,6 +451,19 @@ returns an empty slice.
 
 
 
+## <a name="EWMA">func</a> [EWMA](/ewma.go?s=392:454#L9)
+``` go
+func EWMA(input Float64Data, alpha float64) ([]float64, error)
+```
+EWMA calculates the exponentially weighted moving average of the input
+with smoothing factor alpha. The first output equals the first input and
+each subsequent entry is alpha*input[i] + (1-alpha)*output[i-1], so the
+result has the same length as the input. The alpha must satisfy
+0 < alpha <= 1 or ErrBounds is returned. An empty input returns
+ErrEmptyInput.
+
+
+
 ## <a name="Entropy">func</a> [Entropy](/entropy.go?s=77:125#L6)
 ``` go
 func Entropy(input Float64Data) (float64, error)
@@ -428,11 +505,56 @@ HarmonicMean gets the harmonic mean for a slice of numbers
 
 
 
+## <a name="Histogram">func</a> [Histogram](/histogram.go?s=327:396#L10)
+``` go
+func Histogram(input Float64Data, bins int) ([]int, []float64, error)
+```
+Histogram calculates the histogram of a slice using the given
+number of equal-width bins over [min, max], returning the count
+of values in each bin along with the bins+1 bin edges. Each bin
+is half-open [edges[i], edges[i+1]) except the last, which also
+includes the maximum value.
+
+
+
 ## <a name="InterQuartileRange">func</a> [InterQuartileRange](/quartile.go?s=821:880#L45)
 ``` go
 func InterQuartileRange(input Float64Data) (float64, error)
 ```
 InterQuartileRange finds the range between Q1 and Q3
+
+
+
+## <a name="Interp">func</a> [Interp](/interp.go?s=547:600#L12)
+``` go
+func Interp(x, xp, fp Float64Data) ([]float64, error)
+```
+Interp calculates the one-dimensional piecewise-linear interpolant to a
+function with given discrete data points (xp, fp), evaluated at each x.
+Values of x below xp[0] return fp[0] and values above xp[len(xp)-1] return
+fp[len(xp)-1], so no extrapolation is performed. Unlike numpy's interp,
+which silently returns nonsense for unsorted coordinates, xp must be
+strictly increasing or ErrBounds is returned. An empty x or xp returns
+ErrEmptyInput and xp and fp of different lengths return ErrSize.
+
+
+
+## <a name="KendallTau">func</a> [KendallTau](/kendall.go?s=302:360#L9)
+``` go
+func KendallTau(data1, data2 Float64Data) (float64, error)
+```
+KendallTau calculates Kendall's tau-b rank correlation coefficient
+between two variables. Tau-b corrects for ties, matching the values
+produced by SciPy's kendalltau and pandas' corr(method="kendall").
+Pairs are compared with a simple O(n^2) loop for clarity.
+
+
+
+## <a name="Kurtosis">func</a> [Kurtosis](/kurtosis.go?s=97:146#L6)
+``` go
+func Kurtosis(input Float64Data) (float64, error)
+```
+Kurtosis computes the population excess kurtosis of the dataset
 
 
 
@@ -545,6 +667,42 @@ returned. An empty input returns ErrEmptyInput.
 
 
 
+## <a name="MovingMax">func</a> [MovingMax](/moving.go?s=1892:1956#L60)
+``` go
+func MovingMax(input Float64Data, window int) ([]float64, error)
+```
+MovingMax calculates the rolling maximum of the input over a trailing
+window. Only fully-populated windows produce output, so the result has
+len(input)-window+1 entries and entry i is the maximum of
+input[i : i+window]. The window must satisfy 1 <= window <= len(input) or
+ErrBounds is returned. An empty input returns ErrEmptyInput.
+
+
+
+## <a name="MovingMedian">func</a> [MovingMedian](/moving.go?s=365:432#L8)
+``` go
+func MovingMedian(input Float64Data, window int) ([]float64, error)
+```
+MovingMedian calculates the rolling median of the input over a trailing
+window. Only fully-populated windows produce output, so the result has
+len(input)-window+1 entries and entry i is the median of input[i : i+window].
+The window must satisfy 1 <= window <= len(input) or ErrBounds is
+returned. An empty input returns ErrEmptyInput.
+
+
+
+## <a name="MovingMin">func</a> [MovingMin](/moving.go?s=1136:1200#L34)
+``` go
+func MovingMin(input Float64Data, window int) ([]float64, error)
+```
+MovingMin calculates the rolling minimum of the input over a trailing
+window. Only fully-populated windows produce output, so the result has
+len(input)-window+1 entries and entry i is the minimum of
+input[i : i+window]. The window must satisfy 1 <= window <= len(input) or
+ErrBounds is returned. An empty input returns ErrEmptyInput.
+
+
+
 ## <a name="MovingStdDev">func</a> [MovingStdDev](/rolling.go?s=1239:1306#L36)
 ``` go
 func MovingStdDev(input Float64Data, window int) ([]float64, error)
@@ -556,6 +714,18 @@ deviation of input[i : i+window]. The window must satisfy
 2 <= window <= len(input) or ErrBounds is returned, since the sample
 standard deviation of a single value is undefined. An empty input returns
 ErrEmptyInput.
+
+
+
+## <a name="MovingSum">func</a> [MovingSum](/moving.go?s=2640:2704#L86)
+``` go
+func MovingSum(input Float64Data, window int) ([]float64, error)
+```
+MovingSum calculates the rolling sum of the input over a trailing
+window. Only fully-populated windows produce output, so the result has
+len(input)-window+1 entries and entry i is the sum of input[i : i+window].
+The window must satisfy 1 <= window <= len(input) or ErrBounds is
+returned. An empty input returns ErrEmptyInput.
 
 
 
@@ -791,6 +961,19 @@ PercentileNearestRank finds the relative standing in a slice of floats using the
 
 
 
+## <a name="PercentileOfScore">func</a> [PercentileOfScore](/percentile_of_score.go?s=374:447#L11)
+``` go
+func PercentileOfScore(input Float64Data, score float64) (float64, error)
+```
+PercentileOfScore calculates the percentile rank of a score
+relative to a slice of floats, defined as the percentage of
+values strictly below the score plus half the percentage of
+values equal to the score. The result is between 0 and 100.
+This matches the behavior of Python's
+scipy.stats.percentileofscore with kind="rank".
+
+
+
 ## <a name="PercentileWeighted">func</a> [PercentileWeighted](/percentile_weighted.go?s=620:719#L19)
 ``` go
 func PercentileWeighted(data, weights Float64Data, percent float64) (percentile float64, err error)
@@ -806,6 +989,16 @@ DescrStatsW.quantile.
 The data and weights slices must be the same length. Weights must be
 non-negative and at least one weight must be positive. The percent
 parameter must be between 0 and 100 (exclusive).
+
+
+
+## <a name="PopulationKurtosis">func</a> [PopulationKurtosis](/kurtosis.go?s=391:450#L13)
+``` go
+func PopulationKurtosis(input Float64Data) (float64, error)
+```
+PopulationKurtosis computes the population excess kurtosis (Fisher
+definition) using the fourth central moment normalized by the squared
+variance, so a normal distribution has a kurtosis of zero.
 
 
 
@@ -836,6 +1029,27 @@ See <a href="https://en.wikipedia.org/wiki/Geometric_distribution">https://en.wi
 
 
 
+## <a name="Product">func</a> [Product](/product.go?s=299:347#L10)
+``` go
+func Product(input Float64Data) (float64, error)
+```
+Product calculates the product of a slice of floats by
+multiplying the values from left to right. It is the scalar
+counterpart of CumulativeProduct. Large inputs can overflow
+to Inf; use GeometricMean for an overflow-safe summary of
+multiplicative data.
+
+
+
+## <a name="RMS">func</a> [RMS](/rms.go?s=156:200#L7)
+``` go
+func RMS(input Float64Data) (float64, error)
+```
+RMS calculates the root mean square of a slice of floats,
+defined as the square root of the mean of the squared values.
+
+
+
 ## <a name="Range">func</a> [Range](/extremes.go?s=1181:1227#L51)
 ``` go
 func Range(input Float64Data) (float64, error)
@@ -855,6 +1069,16 @@ ranks they would have been assigned.
 
 
 
+## <a name="Rescale">func</a> [Rescale](/rescale.go?s=174:224#L6)
+``` go
+func Rescale(input Float64Data) ([]float64, error)
+```
+Rescale normalizes the input values to the range of 0 to 1
+by subtracting the minimum and dividing by the range,
+also known as min-max normalization.
+
+
+
 ## <a name="Round">func</a> [Round](/round.go?s=88:154#L6)
 ``` go
 func Round(input float64, places int) (rounded float64, err error)
@@ -863,11 +1087,31 @@ Round a float to a specific decimal place or precision
 
 
 
+## <a name="SEM">func</a> [SEM](/sem.go?s=265:309#L9)
+``` go
+func SEM(input Float64Data) (float64, error)
+```
+SEM calculates the standard error of the mean of a slice
+of floats, defined as the sample standard deviation divided
+by the square root of the sample size. This matches the
+behavior of Python's scipy.stats.sem with ddof=1.
+
+
+
 ## <a name="Sample">func</a> [Sample](/sample.go?s=112:192#L9)
 ``` go
 func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error)
 ```
 Sample returns sample from input with replacement or without
+
+
+
+## <a name="SampleKurtosis">func</a> [SampleKurtosis](/kurtosis.go?s=1071:1126#L41)
+``` go
+func SampleKurtosis(input Float64Data) (float64, error)
+```
+SampleKurtosis computes the bias-corrected sample excess kurtosis,
+matching pandas .kurt() and scipy.stats.kurtosis with bias=False.
 
 
 
@@ -1009,6 +1253,21 @@ Trimean finds the average of the median and the midhinge
 
 
 
+## <a name="TrimmedMean">func</a> [TrimmedMean](/trimmed_mean.go?s=450:519#L13)
+``` go
+func TrimmedMean(input Float64Data, percent float64) (float64, error)
+```
+TrimmedMean finds the mean of a slice of floats after removing a
+fraction of the smallest and largest values. This matches the
+behavior of Python's scipy.stats.trim_mean.
+
+The percent parameter is the fraction removed from each tail and
+must be in the range [0, 0.5). The number of elements trimmed from
+each tail is floor(len(input) * percent). A percent of zero returns
+the same result as Mean.
+
+
+
 ## <a name="VarGeom">func</a> [VarGeom](/geometric_distribution.go?s=885:933#L37)
 ``` go
 func VarGeom(p float64) (exp float64, err error)
@@ -1053,6 +1312,24 @@ numpy.average with the weights argument.
 
 The data and weights slices must be the same length. Weights must be
 non-negative and at least one weight must be positive.
+
+
+
+## <a name="Winsorize">func</a> [Winsorize](/winsorize.go?s=618:687#L16)
+``` go
+func Winsorize(input Float64Data, percent float64) ([]float64, error)
+```
+Winsorize limits the effect of outliers in a slice of floats by
+clamping a fraction of the smallest and largest values. This matches
+the behavior of Python's scipy.stats.mstats.winsorize with symmetric
+limits.
+
+The percent parameter is the fraction clamped in each tail and must
+be in the range [0, 0.5). With k = floor(len(input) * percent),
+values below the k-th smallest value are set to it and values above
+the k-th largest value are set to it. The returned slice preserves
+the original element order and a percent of zero returns a copy of
+the input.
 
 
 
@@ -1235,6 +1512,16 @@ AutoCorrelation is the correlation of a signal with a delayed copy of itself as 
 
 
 
+### <a name="Float64Data.Clip">func</a> (Float64Data) [Clip](/clip.go?s=550:612#L30)
+``` go
+func (f Float64Data) Clip(min, max float64) ([]float64, error)
+```
+Clip clamps each value in the input slice into the
+inclusive range between min and max.
+
+
+
+
 ### <a name="Float64Data.CoefficientOfVariation">func</a> (Float64Data) [CoefficientOfVariation](/coefficient_of_variation.go?s=768:830#L29)
 ``` go
 func (f Float64Data) CoefficientOfVariation() (float64, error)
@@ -1316,6 +1603,15 @@ Diff returns the successive differences of the data
 
 
 
+### <a name="Float64Data.EWMA">func</a> (Float64Data) [EWMA](/ewma.go?s=848:907#L30)
+``` go
+func (f Float64Data) EWMA(alpha float64) ([]float64, error)
+```
+EWMA returns the exponentially weighted moving average of the data with smoothing factor alpha
+
+
+
+
 ### <a name="Float64Data.Entropy">func</a> (Float64Data) [Entropy](/data.go?s=5675:5722#L167)
 ``` go
 func (f Float64Data) Entropy() (float64, error)
@@ -1352,11 +1648,39 @@ HarmonicMean returns the harmonic mean of the data
 
 
 
+### <a name="Float64Data.Histogram">func</a> (Float64Data) [Histogram](/histogram.go?s=1359:1425#L55)
+``` go
+func (f Float64Data) Histogram(bins int) ([]int, []float64, error)
+```
+Histogram returns the counts and equal-width bin edges of the data
+
+
+
+
 ### <a name="Float64Data.InterQuartileRange">func</a> (Float64Data) [InterQuartileRange](/data.go?s=3950:4008#L111)
 ``` go
 func (f Float64Data) InterQuartileRange() (float64, error)
 ```
 InterQuartileRange finds the range between Q1 and Q3
+
+
+
+
+### <a name="Float64Data.KendallTau">func</a> (Float64Data) [KendallTau](/kendall.go?s=1384:1447#L55)
+``` go
+func (f Float64Data) KendallTau(d Float64Data) (float64, error)
+```
+KendallTau calculates Kendall's tau-b rank correlation coefficient
+between two variables.
+
+
+
+
+### <a name="Float64Data.Kurtosis">func</a> (Float64Data) [Kurtosis](/kurtosis.go?s=1501:1549#L58)
+``` go
+func (f Float64Data) Kurtosis() (float64, error)
+```
+Kurtosis finds the population excess kurtosis of a slice of floats
 
 
 
@@ -1460,11 +1784,47 @@ MovingAverage returns the rolling mean of the data over a trailing window
 
 
 
+### <a name="Float64Data.MovingMax">func</a> (Float64Data) [MovingMax](/moving.go?s=3475:3536#L118)
+``` go
+func (f Float64Data) MovingMax(window int) ([]float64, error)
+```
+MovingMax returns the rolling maximum of the data over a trailing window
+
+
+
+
+### <a name="Float64Data.MovingMedian">func</a> (Float64Data) [MovingMedian](/moving.go?s=3125:3189#L108)
+``` go
+func (f Float64Data) MovingMedian(window int) ([]float64, error)
+```
+MovingMedian returns the rolling median of the data over a trailing window
+
+
+
+
+### <a name="Float64Data.MovingMin">func</a> (Float64Data) [MovingMin](/moving.go?s=3303:3364#L113)
+``` go
+func (f Float64Data) MovingMin(window int) ([]float64, error)
+```
+MovingMin returns the rolling minimum of the data over a trailing window
+
+
+
+
 ### <a name="Float64Data.MovingStdDev">func</a> (Float64Data) [MovingStdDev](/rolling.go?s=1969:2033#L63)
 ``` go
 func (f Float64Data) MovingStdDev(window int) ([]float64, error)
 ```
 MovingStdDev returns the rolling sample standard deviation of the data over a trailing window
+
+
+
+
+### <a name="Float64Data.MovingSum">func</a> (Float64Data) [MovingSum](/moving.go?s=3643:3704#L123)
+``` go
+func (f Float64Data) MovingSum(window int) ([]float64, error)
+```
+MovingSum returns the rolling sum of the data over a trailing window
 
 
 
@@ -1505,11 +1865,38 @@ PercentileNearestRank finds the relative standing using the Nearest Rank method
 
 
 
+### <a name="Float64Data.PercentileOfScore">func</a> (Float64Data) [PercentileOfScore](/percentile_of_score.go?s=786:856#L29)
+``` go
+func (f Float64Data) PercentileOfScore(score float64) (float64, error)
+```
+PercentileOfScore calculates the percentile rank of a score relative to the data
+
+
+
+
+### <a name="Float64Data.PopulationKurtosis">func</a> (Float64Data) [PopulationKurtosis](/kurtosis.go?s=1655:1713#L63)
+``` go
+func (f Float64Data) PopulationKurtosis() (float64, error)
+```
+PopulationKurtosis finds the population excess kurtosis of a slice of floats
+
+
+
+
 ### <a name="Float64Data.PopulationVariance">func</a> (Float64Data) [PopulationVariance](/data.go?s=4690:4748#L136)
 ``` go
 func (f Float64Data) PopulationVariance() (float64, error)
 ```
 PopulationVariance finds the amount of variance within a population
+
+
+
+
+### <a name="Float64Data.Product">func</a> (Float64Data) [Product](/product.go?s=544:591#L24)
+``` go
+func (f Float64Data) Product() (float64, error)
+```
+Product calculates the product of the data
 
 
 
@@ -1541,6 +1928,15 @@ Quartiles returns the three quartile points from instance of Float64Data
 
 
 
+### <a name="Float64Data.RMS">func</a> (Float64Data) [RMS](/rms.go?s=454:497#L21)
+``` go
+func (f Float64Data) RMS() (float64, error)
+```
+RMS calculates the root mean square of the data
+
+
+
+
 ### <a name="Float64Data.Range">func</a> (Float64Data) [Range](/extremes.go?s=1795:1840#L72)
 ``` go
 func (f Float64Data) Range() (float64, error)
@@ -1559,11 +1955,39 @@ Rank assigns fractional (average) ranks to the input values
 
 
 
+### <a name="Float64Data.Rescale">func</a> (Float64Data) [Rescale](/rescale.go?s=603:652#L27)
+``` go
+func (f Float64Data) Rescale() ([]float64, error)
+```
+Rescale normalizes the input values to the range of 0 to 1
+by subtracting the minimum and dividing by the range
+
+
+
+
+### <a name="Float64Data.SEM">func</a> (Float64Data) [SEM](/sem.go?s=625:668#L22)
+``` go
+func (f Float64Data) SEM() (float64, error)
+```
+SEM calculates the standard error of the mean of the data
+
+
+
+
 ### <a name="Float64Data.Sample">func</a> (Float64Data) [Sample](/data.go?s=4403:4464#L126)
 ``` go
 func (f Float64Data) Sample(n int, r bool) ([]float64, error)
 ```
 Sample returns sample from input with replacement or without
+
+
+
+
+### <a name="Float64Data.SampleKurtosis">func</a> (Float64Data) [SampleKurtosis](/kurtosis.go?s=1836:1890#L68)
+``` go
+func (f Float64Data) SampleKurtosis() (float64, error)
+```
+SampleKurtosis finds the bias-corrected sample excess kurtosis of a slice of floats
 
 
 
@@ -1659,6 +2083,16 @@ Trimean finds the average of the median and the midhinge
 
 
 
+### <a name="Float64Data.TrimmedMean">func</a> (Float64Data) [TrimmedMean](/trimmed_mean.go?s=1132:1198#L36)
+``` go
+func (f Float64Data) TrimmedMean(percent float64) (float64, error)
+```
+TrimmedMean finds the mean of the data after removing a fraction of
+the smallest and largest values from each tail
+
+
+
+
 ### <a name="Float64Data.Variance">func</a> (Float64Data) [Variance](/data.go?s=4545:4593#L131)
 ``` go
 func (f Float64Data) Variance() (float64, error)
@@ -1673,6 +2107,16 @@ Variance the amount of variation in the dataset
 func (f Float64Data) WeightedMean(weights Float64Data) (float64, error)
 ```
 WeightedMean finds the weighted mean of the data using the given weights
+
+
+
+
+### <a name="Float64Data.Winsorize">func</a> (Float64Data) [Winsorize](/winsorize.go?s=1319:1385#L48)
+``` go
+func (f Float64Data) Winsorize(percent float64) ([]float64, error)
+```
+Winsorize returns a copy of the data with a fraction of the smallest
+and largest values in each tail clamped
 
 
 

@@ -74,6 +74,7 @@ func ArgMax(input Float64Data) (int, error) {}
 func ArgMin(input Float64Data) (int, error) {}
 func AutoCorrelation(data Float64Data, lags int) (float64, error) {}
 func ChebyshevDistance(dataPointX, dataPointY Float64Data) (distance float64, err error) {}
+func Clip(input Float64Data, min, max float64) ([]float64, error) {}
 func CoefficientOfVariation(input Float64Data) (float64, error) {}
 func Correlation(data1, data2 Float64Data) (float64, error) {}
 func Covariance(data1, data2 Float64Data) (float64, error) {}
@@ -85,11 +86,16 @@ func CumulativeSum(input Float64Data) ([]float64, error) {}
 func Describe(input Float64Data, allowNaN bool, percentiles *[]float64) (*Description, error) {}
 func DescribePercentileFunc(input Float64Data, allowNaN bool, percentiles *[]float64, percentileFunc func(Float64Data, float64) (float64, error)) (*Description, error) {}
 func Diff(input Float64Data) ([]float64, error) {}
+func EWMA(input Float64Data, alpha float64) ([]float64, error) {}
 func Entropy(input Float64Data) (float64, error) {}
 func EuclideanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error) {}
 func GeometricMean(input Float64Data) (float64, error) {}
 func HarmonicMean(input Float64Data) (float64, error) {}
+func Histogram(input Float64Data, bins int) ([]int, []float64, error) {}
 func InterQuartileRange(input Float64Data) (float64, error) {}
+func Interp(x, xp, fp Float64Data) ([]float64, error) {}
+func KendallTau(data1, data2 Float64Data) (float64, error) {}
+func Kurtosis(input Float64Data) (float64, error) {}
 func ManhattanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error) {}
 func Max(input Float64Data) (max float64, err error) {}
 func Mean(input Float64Data) (float64, error) {}
@@ -101,7 +107,11 @@ func Min(input Float64Data) (min float64, err error) {}
 func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (distance float64, err error) {}
 func Mode(input Float64Data) (mode []float64, err error) {}
 func MovingAverage(input Float64Data, window int) ([]float64, error) {}
+func MovingMax(input Float64Data, window int) ([]float64, error) {}
+func MovingMedian(input Float64Data, window int) ([]float64, error) {}
+func MovingMin(input Float64Data, window int) ([]float64, error) {}
 func MovingStdDev(input Float64Data, window int) ([]float64, error) {}
+func MovingSum(input Float64Data, window int) ([]float64, error) {}
 func NormBoxMullerRvs(loc float64, scale float64, size int) []float64 {}
 func NormCdf(x float64, loc float64, scale float64) float64 {}
 func NormEntropy(loc float64, scale float64) float64 {}
@@ -126,12 +136,19 @@ func Pearson(data1, data2 Float64Data) (float64, error) {}
 func PercentChange(input Float64Data) ([]float64, error) {}
 func Percentile(input Float64Data, percent float64) (percentile float64, err error) {}
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error) {}
+func PercentileOfScore(input Float64Data, score float64) (float64, error) {}
 func PercentileWeighted(data, weights Float64Data, percent float64) (percentile float64, err error) {}
+func PopulationKurtosis(input Float64Data) (float64, error) {}
 func PopulationSkewness(input Float64Data) (float64, error) {}
 func PopulationVariance(input Float64Data) (pvar float64, err error) {}
+func Product(input Float64Data) (float64, error) {}
+func RMS(input Float64Data) (float64, error) {}
 func Range(input Float64Data) (float64, error) {}
 func Rank(input Float64Data) ([]float64, error) {}
+func Rescale(input Float64Data) ([]float64, error) {}
+func SEM(input Float64Data) (float64, error) {}
 func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error) {}
+func SampleKurtosis(input Float64Data) (float64, error) {}
 func SampleSkewness(input Float64Data) (float64, error) {}
 func SampleVariance(input Float64Data) (svar float64, err error) {}
 func Skewness(input Float64Data) (float64, error) {}
@@ -147,10 +164,12 @@ func StdDevS(input Float64Data) (sdev float64, err error) {}
 func Sum(input Float64Data) (sum float64, err error) {}
 func TTest(data1, data2 Float64Data, populationMean float64) (t float64, pvalue float64, err error) {}
 func Trimean(input Float64Data) (float64, error) {}
+func TrimmedMean(input Float64Data, percent float64) (float64, error) {}
 func VarP(input Float64Data) (sdev float64, err error) {}
 func VarS(input Float64Data) (sdev float64, err error) {}
 func Variance(input Float64Data) (sdev float64, err error) {}
 func WeightedMean(data, weights Float64Data) (float64, error) {}
+func Winsorize(input Float64Data, percent float64) ([]float64, error) {}
 func ZScore(input Float64Data) ([]float64, error) {}
 func ZTest(data1, data2 Float64Data, populationMean, populationStdDev float64) (z float64, pvalue float64, err error) {}
 func ProbGeom(a int, b int, p float64) (prob float64, err error) {}
