@@ -1,6 +1,6 @@
 # Stats - Golang Statistics Package
 
-[![][action-svg]][action-url] [![][codecov-svg]][codecov-url] [![][goreport-svg]][goreport-url] [![][godoc-svg]][godoc-url] [![][pkggodev-svg]][pkggodev-url] [![][license-svg]][license-url]
+[![][action-svg]][action-url] [![][codecov-svg]][codecov-url] [![][godoc-svg]][godoc-url] [![][pkggodev-svg]][pkggodev-url] [![][license-svg]][license-url]
 
 A well tested and comprehensive Golang statistics library / package / module with no dependencies.
 
@@ -226,9 +226,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 [codecov-url]: https://app.codecov.io/gh/montanaflynn/stats
 [codecov-svg]: https://img.shields.io/codecov/c/github/montanaflynn/stats?token=wnw8dActnH
-
-[goreport-url]: https://goreportcard.com/report/github.com/montanaflynn/stats
-[goreport-svg]: https://goreportcard.com/badge/github.com/montanaflynn/stats
 
 [godoc-url]: https://godoc.org/github.com/montanaflynn/stats
 [godoc-svg]: https://godoc.org/github.com/montanaflynn/stats?status.svg
