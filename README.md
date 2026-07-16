@@ -223,12 +223,13 @@ To make things as seamless as possible please also consider the following steps:
 
 ## Releasing
 
-Releases are automated with [GoReleaser](https://goreleaser.com/) via GitHub Actions. To create a new release, push a version tag:
+Releases are automated with [GoReleaser](https://goreleaser.com/) via GitHub Actions. To create a new release, run the release target with the next version tag:
 
 ```
-git tag v0.x.x
-git push origin v0.x.x
+make release TAG=v0.x.x
 ```
+
+This updates `CHANGELOG.md`, commits it, creates an annotated tag, and pushes the commit and tag to GitHub, where the release workflow publishes the release.
 
 ## MIT License
 
@@ -238,7 +239,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORpublicS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [action-url]: https://github.com/montanaflynn/stats/actions
 [action-svg]: https://img.shields.io/github/actions/workflow/status/montanaflynn/stats/go.yml
