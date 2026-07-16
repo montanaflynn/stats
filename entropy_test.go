@@ -37,6 +37,21 @@ func TestEntropy(t *testing.T) {
 	}
 }
 
+func TestEntropyInputNotMutated(t *testing.T) {
+	input := []float64{4, 8, 5, 1}
+	_, err := stats.Entropy(input)
+	if err != nil {
+		t.Error(err)
+	}
+
+	original := []float64{4, 8, 5, 1}
+	for i, v := range original {
+		if input[i] != v {
+			t.Errorf("input was mutated: %v != %v", input[i], v)
+		}
+	}
+}
+
 func BenchmarkEntropySmallFloatSlice(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_, _ = stats.Entropy(makeFloatSlice(5))
