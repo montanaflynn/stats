@@ -1,6 +1,6 @@
 # Stats - Golang Statistics Package
 
-[![][action-svg]][action-url] [![][codecov-svg]][codecov-url] [![][godoc-svg]][godoc-url] [![][pkggodev-svg]][pkggodev-url] [![][license-svg]][license-url]
+[![][action-svg]][action-url] [![][codecov-svg]][codecov-url] [![][pkggodev-svg]][pkggodev-url] [![][license-svg]][license-url]
 
 A well tested and comprehensive Golang statistics library / package / module with no dependencies.
 
@@ -34,20 +34,19 @@ fmt.Println(roundedMedian) // 4
 
 ## Documentation
 
-The entire API documentation is available on [GoDoc.org](http://godoc.org/github.com/montanaflynn/stats) or [pkg.go.dev](https://pkg.go.dev/github.com/montanaflynn/stats).
+The entire API documentation is available on [pkg.go.dev](https://pkg.go.dev/github.com/montanaflynn/stats).
 
 You can also view docs offline with the following commands:
 
 ```
 # Command line
-godoc .              # show all exported apis
-godoc . Median       # show a single function
-godoc -ex . Round    # show function with example
-godoc . Float64Data  # show the type and methods
+go doc -all .       # show all exported apis
+go doc Median       # show a single function
+go doc Float64Data  # show the type and methods
 
-# Local website
-godoc -http=:4444    # start the godoc server on port 4444
-open http://localhost:4444/pkg/github.com/montanaflynn/stats/
+# Local website (go install golang.org/x/pkgsite/cmd/pkgsite@latest)
+pkgsite -http=:4444 # start the pkgsite server on port 4444
+open http://localhost:4444/github.com/montanaflynn/stats
 ```
 
 The exported API is as follows:
@@ -246,9 +245,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 [codecov-url]: https://app.codecov.io/gh/montanaflynn/stats
 [codecov-svg]: https://img.shields.io/codecov/c/github/montanaflynn/stats?token=wnw8dActnH
-
-[godoc-url]: https://godoc.org/github.com/montanaflynn/stats
-[godoc-svg]: https://godoc.org/github.com/montanaflynn/stats?status.svg
 
 [pkggodev-url]: https://pkg.go.dev/github.com/montanaflynn/stats
 [pkggodev-svg]: https://gistcdn.githack.com/montanaflynn/b02f1d78d8c0de8435895d7e7cd0d473/raw/17f2a5a69f1323ecd42c00e0683655da96d9ecc8/badge.svg
