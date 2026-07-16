@@ -4,6 +4,23 @@
 
 
 
+
+<a name="v0.12.0"></a>
+## [v0.12.0] - 2026-07-16
+
+<a name="v0.11.0"></a>
+## [v0.11.0] - 2026-07-13
+### Add
+- Add Interp for piecewise-linear interpolation ([#121](https://github.com/montanaflynn/stats/issues/121))
+- Add Histogram with equal-width bins ([#120](https://github.com/montanaflynn/stats/issues/120))
+- Add KendallTau rank correlation coefficient ([#119](https://github.com/montanaflynn/stats/issues/119))
+- Add SEM, RMS, Product, and PercentileOfScore ([#118](https://github.com/montanaflynn/stats/issues/118))
+- Add MovingMedian, MovingMin, MovingMax, MovingSum, and EWMA ([#117](https://github.com/montanaflynn/stats/issues/117))
+- Add TrimmedMean and Winsorize robust statistics ([#116](https://github.com/montanaflynn/stats/issues/116))
+- Add Kurtosis, PopulationKurtosis, and SampleKurtosis ([#115](https://github.com/montanaflynn/stats/issues/115))
+- Add Clip and Rescale elementwise transforms ([#114](https://github.com/montanaflynn/stats/issues/114))
+
+
 <a name="v0.11.0"></a>
 ## [v0.11.0] - 2026-07-13
 ### Add
@@ -598,7 +615,9 @@
 - Merge pull request [#4](https://github.com/montanaflynn/stats/issues/4) from saromanov/sample
 
 
-[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.12.0...HEAD
+[v0.12.0]: https://github.com/montanaflynn/stats/compare/v0.11.0...v0.12.0
+[v0.11.0]: https://github.com/montanaflynn/stats/compare/v0.10.0...v0.11.0
 [v0.11.0]: https://github.com/montanaflynn/stats/compare/v0.10.0...v0.11.0
 [v0.10.0]: https://github.com/montanaflynn/stats/compare/v0.9.0...v0.10.0
 [v0.10.0]: https://github.com/montanaflynn/stats/compare/v0.9.0...v0.10.0
