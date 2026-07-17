@@ -6,6 +6,19 @@
 
 
 
+
+<a name="v0.12.2"></a>
+## [v0.12.2] - 2026-07-17
+### Fix
+- Regression stability and invalid domains ([#124](https://github.com/montanaflynn/stats/issues/124))
+
+
+<a name="v0.12.1"></a>
+## [v0.12.1] - 2026-07-16
+### Fix
+- Stop Entropy from mutating its input slice ([#123](https://github.com/montanaflynn/stats/issues/123))
+
+
 <a name="v0.12.1"></a>
 ## [v0.12.1] - 2026-07-16
 ### Fix
@@ -625,7 +638,9 @@
 - Merge pull request [#4](https://github.com/montanaflynn/stats/issues/4) from saromanov/sample
 
 
-[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.12.1...HEAD
+[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.12.2...HEAD
+[v0.12.2]: https://github.com/montanaflynn/stats/compare/v0.12.1...v0.12.2
+[v0.12.1]: https://github.com/montanaflynn/stats/compare/v0.12.0...v0.12.1
 [v0.12.1]: https://github.com/montanaflynn/stats/compare/v0.12.0...v0.12.1
 [v0.12.0]: https://github.com/montanaflynn/stats/compare/v0.11.0...v0.12.0
 [v0.12.0]: https://github.com/montanaflynn/stats/compare/v0.11.0...v0.12.0
