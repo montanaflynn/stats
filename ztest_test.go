@@ -26,6 +26,21 @@ func TestZTestOneSample(t *testing.T) {
 	}
 }
 
+func TestZTestLargeZ(t *testing.T) {
+	// NormSf underflowed past about 8.24 sigma, so the p-value came back as
+	// exactly 0 for any effect larger than that.
+	z, p, err := stats.ZTest(stats.Float64Data{2.5, 2.5, 2.5, 2.5}, nil, 0, 0.5)
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
+	if z != 10 {
+		t.Errorf("z statistic: got %v, want 10", z)
+	}
+	if want := 1.523970604832105e-23; !tolerance(p, want, 1e-12) {
+		t.Errorf("p-value: got %v, want %v", p, want)
+	}
+}
+
 func TestZTestTwoSample(t *testing.T) {
 	data1 := stats.Float64Data{5.1, 5.5, 4.8, 5.2, 5.0}
 	data2 := stats.Float64Data{4.2, 4.8, 4.0, 4.5, 4.3}
