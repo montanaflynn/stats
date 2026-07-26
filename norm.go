@@ -51,27 +51,53 @@ func NormPdf(x float64, loc float64, scale float64) float64 {
 
 // NormLogPdf is the log of the probability density function.
 func NormLogPdf(x float64, loc float64, scale float64) float64 {
-	return math.Log((math.Pow(math.E, -(math.Pow(x-loc, 2))/(2*math.Pow(scale, 2)))) / (scale * math.Sqrt(2*math.Pi)))
+	z := (x - loc) / scale
+	return -0.5*z*z - math.Log(scale) - 0.5*math.Log(2*math.Pi)
 }
 
 // NormCdf is the cumulative distribution function.
 func NormCdf(x float64, loc float64, scale float64) float64 {
-	return 0.5 * (1 + math.Erf((x-loc)/(scale*math.Sqrt(2))))
+	return 0.5 * math.Erfc(-(x-loc)/(scale*math.Sqrt2))
 }
 
 // NormLogCdf is the log of the cumulative distribution function.
 func NormLogCdf(x float64, loc float64, scale float64) float64 {
-	return math.Log(0.5 * (1 + math.Erf((x-loc)/(scale*math.Sqrt(2)))))
+	z := (x - loc) / scale
+	if z > 0 {
+		return math.Log1p(-0.5 * math.Erfc(z/math.Sqrt2))
+	}
+	return normLogTail(-z)
 }
 
 // NormSf is the survival function (also defined as 1 - cdf, but sf is sometimes more accurate).
 func NormSf(x float64, loc float64, scale float64) float64 {
-	return 1 - 0.5*(1+math.Erf((x-loc)/(scale*math.Sqrt(2))))
+	return 0.5 * math.Erfc((x-loc)/(scale*math.Sqrt2))
 }
 
 // NormLogSf is the log of the survival function.
 func NormLogSf(x float64, loc float64, scale float64) float64 {
-	return math.Log(1 - 0.5*(1+math.Erf((x-loc)/(scale*math.Sqrt(2)))))
+	z := (x - loc) / scale
+	if z < 0 {
+		return math.Log1p(-0.5 * math.Erfc(-z/math.Sqrt2))
+	}
+	return normLogTail(z)
+}
+
+// normSmallestNormal is the smallest positive normal float64; below it math.Erfc
+// keeps only a handful of significant bits.
+const normSmallestNormal = 2.2250738585072014e-308
+
+// normLogTail returns log(sf(z)) for z >= 0.
+func normLogTail(z float64) float64 {
+	if q := 0.5 * math.Erfc(z/math.Sqrt2); q >= normSmallestNormal {
+		return math.Log(q)
+	}
+	// math.Erfc has decayed into the subnormals, so switch to the Mills ratio
+	// expansion sf(z) = pdf(z)/z * (1 - 1/z^2 + 3/z^4 - 15/z^6 + 105/z^8 - ...),
+	// whose first dropped term is below 1e-12 this far out.
+	r := 1 / (z * z)
+	return -0.5*z*z - math.Log(z) - 0.5*math.Log(2*math.Pi) +
+		math.Log1p(r*(-1+r*(3+r*(-15+r*105))))
 }
 
 // NormPpf is the point percentile function.
@@ -225,11 +251,10 @@ func NormStd(loc float64, scale float64) float64 {
 
 // NormInterval finds endpoints of the range that contains alpha percent of the distribution.
 func NormInterval(alpha float64, loc float64, scale float64) [2]float64 {
-	q1 := (1.0 - alpha) / 2
-	q2 := (1.0 + alpha) / 2
-	a := NormPpf(q1, loc, scale)
-	b := NormPpf(q2, loc, scale)
-	return [2]float64{a, b}
+	// Derive both endpoints from the lower tail: (1+alpha)/2 rounds to 1 once
+	// alpha is within an ulp of it, which sends the upper endpoint to +Inf.
+	z := NormPpf((1.0-alpha)/2, 0, 1)
+	return [2]float64{loc + scale*z, loc - scale*z}
 }
 
 // factorial is the naive factorial algorithm.
