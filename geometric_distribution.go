@@ -15,7 +15,8 @@ func ProbGeom(a int, b int, p float64) (prob float64, err error) {
 	prob = 0
 	q := 1 - p // probability of failure
 
-	for k := a + 1; k <= b; k++ {
+	// interval is inclusive of a, so start at k = a
+	for k := a; k <= b; k++ {
 		prob = prob + p*math.Pow(q, float64(k-1))
 	}
 
