@@ -194,6 +194,88 @@ func TestNormIntervalSymmetry(t *testing.T) {
 	}
 }
 
+// NormIsf negated the whole affine result, so loc came back with the wrong
+// sign. Only loc == 0 was ever exercised, where -ppf(p) happens to be right.
+func TestNormIsfLocScale(t *testing.T) {
+	if got, want := stats.NormIsf(0.025, 100, 15), 129.39945976810083; !veryclose(got, want) {
+		t.Errorf("NormIsf(0.025, 100, 15), got %v, want %v", got, want)
+	}
+	for _, loc := range []float64{0, 1, -1, 0.5, -3.25, 100, -100} {
+		for _, scale := range []float64{1, 2, 0.5, 15, 0.1} {
+			for _, p := range []float64{1e-300, 1e-8, 0.001, 0.025, 0.1, 0.4, 0.5, 0.6, 0.9, 1 - 1e-8} {
+				if got, want := stats.NormIsf(p, loc, scale), loc+scale*stats.NormIsf(p, 0, 1); got != want {
+					t.Errorf("NormIsf(%v, %v, %v), got %v, want %v", p, loc, scale, got, want)
+				}
+			}
+		}
+	}
+}
+
+func TestNormIsfEdges(t *testing.T) {
+	if got := stats.NormIsf(0, 5, 2); !math.IsInf(got, 1) {
+		t.Errorf("NormIsf(0, 5, 2), got %v, want +Inf", got)
+	}
+	if got := stats.NormIsf(1, 5, 2); !math.IsInf(got, -1) {
+		t.Errorf("NormIsf(1, 5, 2), got %v, want -Inf", got)
+	}
+	if got := stats.NormIsf(1.5, 0, 1); !math.IsNaN(got) {
+		t.Errorf("NormIsf(1.5, 0, 1), got %v, want NaN", got)
+	}
+	if got, want := stats.NormIsf(1e-300, 0, 1), 37.047096299361201; !veryclose(got, want) {
+		t.Errorf("NormIsf(1e-300, 0, 1), got %v, want %v", got, want)
+	}
+}
+
+// Above the median the Halley correction differenced cdf(x) and p after both
+// had rounded to 1, leaving the raw Acklam estimate uncorrected.
+var normPpfUpperRef = []struct{ p, x float64 }{
+	{0.75, 0.67448975019608171},
+	{0.9, 1.2815515655446006},
+	{0.99, 2.3263478740408408},
+	{0.999, 3.0902323061678132},
+	{1 - 1e-6, 4.7534243088170873},
+	{1 - 1e-9, 5.9978070196016375},
+	{1 - 1e-12, 7.0344869100478356},
+	{1 - 1e-15, 7.9414444874159784},
+}
+
+func TestNormPpfUpperTail(t *testing.T) {
+	for _, c := range normPpfUpperRef {
+		if got := stats.NormPpf(c.p, 0, 1); !veryclose(got, c.x) {
+			t.Errorf("NormPpf(%v), got %v, want %v", c.p, got, c.x)
+		}
+	}
+}
+
+// Driven from the upper half so that 1-q is exact and the two sides really are
+// complementary probabilities.
+func TestNormPpfReflection(t *testing.T) {
+	for _, q := range []float64{0.5, 0.51, 0.6, 0.75, 0.9, 0.99, 0.999, 1 - 1e-6,
+		1 - 1e-9, 1 - 1e-12, 1 - 1e-15, math.Nextafter(1, 0)} {
+		if got, want := stats.NormPpf(q, 0, 1), -stats.NormPpf(1-q, 0, 1); !veryclose(got, want) {
+			t.Errorf("NormPpf(%v) = %v, -NormPpf(%v) = %v", q, got, 1-q, want)
+		}
+		if got, want := stats.NormIsf(q, 0, 1), stats.NormPpf(1-q, 0, 1); !veryclose(got, want) {
+			t.Errorf("NormIsf(%v) = %v, NormPpf(%v) = %v", q, got, 1-q, want)
+		}
+	}
+}
+
+func TestNormQuantileRoundTrip(t *testing.T) {
+	for _, loc := range []float64{0, -2.5, 100} {
+		for _, scale := range []float64{1, 0.1, 15} {
+			for _, p := range []float64{1e-300, 1e-100, 1e-8, 0.025, 0.3, 0.5, 0.7, 0.975, 1 - 1e-8} {
+				if got := stats.NormSf(stats.NormIsf(p, loc, scale), loc, scale); !tolerance(got, p, 1e-11) {
+					t.Errorf("NormSf(NormIsf(%v, %v, %v)), got %v, want %v", p, loc, scale, got, p)
+				}
+				if got := stats.NormCdf(stats.NormPpf(p, loc, scale), loc, scale); !tolerance(got, p, 1e-11) {
+					t.Errorf("NormCdf(NormPpf(%v, %v, %v)), got %v, want %v", p, loc, scale, got, p)
+				}
+			}
+		}
+	}
+}
+
 func TestNormMoment(t *testing.T) {
 	if stats.NormMoment(4, 0, 1) != 3 {
 		t.Error("Input 3, Expected 3")
