@@ -14,7 +14,7 @@ func ExampleProbGeom() {
 	b := 2
 	chance, _ := stats.ProbGeom(a, b, p)
 	fmt.Println(chance)
-	// Output: 0.25
+	// Output: 0.75
 }
 
 func TestProbGeomLarge(t *testing.T) {
@@ -25,8 +25,54 @@ func TestProbGeomLarge(t *testing.T) {
 	if err != nil {
 		t.Errorf("Returned an error")
 	}
-	if chance != 0.5 {
-		t.Errorf("ProbGeom(%d, %d, %.01f) => %.1f != %.1f", a, b, p, chance, 0.5)
+	// total probability mass over the whole support converges to 1
+	if chance != 1.0 {
+		t.Errorf("ProbGeom(%d, %d, %.01f) => %.1f != %.1f", a, b, p, chance, 1.0)
+	}
+}
+
+// P(interval [a,a]) is the single-trial mass p*q^(a-1); the empty loop returned 0.
+func TestProbGeomSinglePoint(t *testing.T) {
+	cases := []struct {
+		a    int
+		p    float64
+		want float64
+	}{
+		{1, 0.5, 0.5},
+		{2, 0.5, 0.25},
+		{3, 0.25, 0.140625},
+	}
+	for _, c := range cases {
+		got, err := stats.ProbGeom(c.a, c.a, c.p)
+		if err != nil {
+			t.Errorf("ProbGeom(%d, %d, %v) returned an error", c.a, c.a, c.p)
+		}
+		if got != c.want {
+			t.Errorf("ProbGeom(%d, %d, %v) => %v != %v", c.a, c.a, c.p, got, c.want)
+		}
+	}
+}
+
+// Total mass over the support converges to 1 for any valid p.
+func TestProbGeomTotalMass(t *testing.T) {
+	for _, p := range []float64{0.3, 0.1, 0.9} {
+		got, err := stats.ProbGeom(1, 100000, p)
+		if err != nil {
+			t.Errorf("ProbGeom total mass returned an error for p=%v", p)
+		}
+		if math.Abs(got-1.0) > 1e-9 {
+			t.Errorf("ProbGeom(1, 100000, %v) => %v, want ~1", p, got)
+		}
+	}
+}
+
+// Splitting an interval at m must sum back to the whole: [a,b] = [a,m] + [m+1,b].
+func TestProbGeomAdditivity(t *testing.T) {
+	whole, _ := stats.ProbGeom(1, 10, 0.3)
+	lo, _ := stats.ProbGeom(1, 4, 0.3)
+	hi, _ := stats.ProbGeom(5, 10, 0.3)
+	if math.Abs(whole-(lo+hi)) > 1e-12 {
+		t.Errorf("ProbGeom additivity: %v != %v + %v", whole, lo, hi)
 	}
 }
 
