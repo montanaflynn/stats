@@ -158,7 +158,15 @@ func NormPpf(p float64, loc float64, scale float64) (x float64) {
 			(((((b1*r+b2)*r+b3)*r+b4)*r+b5)*r + 1)
 	}
 
-	e := 0.5*math.Erfc(-x/math.Sqrt2) - p
+	// Halley correction on cdf(x)-p. Above the median cdf(x) and p have both
+	// already rounded to 1, so the difference is taken between the survival
+	// functions instead; 1-p is exact for p >= 0.5.
+	var e float64
+	if p > 0.5 {
+		e = (1 - p) - 0.5*math.Erfc(x/math.Sqrt2)
+	} else {
+		e = 0.5*math.Erfc(-x/math.Sqrt2) - p
+	}
 	u := e * math.Sqrt(2*math.Pi) * math.Exp(x*x/2)
 	x = x - u/(1+x*u/2)
 
@@ -166,11 +174,10 @@ func NormPpf(p float64, loc float64, scale float64) (x float64) {
 }
 
 // NormIsf is the inverse survival function (inverse of sf).
-func NormIsf(p float64, loc float64, scale float64) (x float64) {
-	if -NormPpf(p, loc, scale) == 0 {
-		return 0
-	}
-	return -NormPpf(p, loc, scale)
+func NormIsf(p float64, loc float64, scale float64) float64 {
+	// isf(p) == ppf(1-p), reached by reflecting the standard normal so that
+	// loc stays out of the negation and 1-p is never formed.
+	return loc - scale*NormPpf(p, 0, 1)
 }
 
 // NormMoment approximates the non-central (raw) moment of order n.
