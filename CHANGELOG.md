@@ -7,6 +7,15 @@
 
 
 
+
+<a name="v0.12.3"></a>
+## [v0.12.3] - 2026-08-10
+### Fix
+- ProbGeom off-by-one that drops the first interval term ([#127](https://github.com/montanaflynn/stats/issues/127))
+- NormIsf ignores loc, NormPpf uncorrected above the median ([#126](https://github.com/montanaflynn/stats/issues/126))
+- Normal tail collapses to 0/-Inf past ~8 sigma ([#125](https://github.com/montanaflynn/stats/issues/125))
+
+
 <a name="v0.12.2"></a>
 ## [v0.12.2] - 2026-07-17
 ### Fix
@@ -596,7 +605,8 @@
 - Merge pull request [#4](https://github.com/montanaflynn/stats/issues/4) from saromanov/sample
 
 
-[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.12.2...HEAD
+[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.12.3...HEAD
+[v0.12.3]: https://github.com/montanaflynn/stats/compare/v0.12.2...v0.12.3
 [v0.12.2]: https://github.com/montanaflynn/stats/compare/v0.12.1...v0.12.2
 [v0.12.1]: https://github.com/montanaflynn/stats/compare/v0.12.0...v0.12.1
 [v0.12.0]: https://github.com/montanaflynn/stats/compare/v0.11.0...v0.12.0
