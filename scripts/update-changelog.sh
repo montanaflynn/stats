@@ -10,7 +10,7 @@ TAG="$1"
 LAST=$(grep -m1 -o '<a name="v[0-9][^"]*"' CHANGELOG.md | cut -d'"' -f2)
 [ -n "$LAST" ] || { echo "cannot find newest version in CHANGELOG.md" >&2; exit 1; }
 
-FROM=$(git tag --sort=v:refname | awk -v last="$LAST" '$0 == last { getline; print; exit }')
+FROM=$(git tag --sort=v:refname | awk -v last="$LAST" '$0 == last { if ((getline line) > 0) print line; exit }')
 RANGE="${FROM:-$TAG}.."
 
 TMP=$(mktemp -d)

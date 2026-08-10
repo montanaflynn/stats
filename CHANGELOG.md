@@ -19,15 +19,6 @@
 - Stop Entropy from mutating its input slice ([#123](https://github.com/montanaflynn/stats/issues/123))
 
 
-<a name="v0.12.1"></a>
-## [v0.12.1] - 2026-07-16
-### Fix
-- Stop Entropy from mutating its input slice ([#123](https://github.com/montanaflynn/stats/issues/123))
-
-
-<a name="v0.12.0"></a>
-## [v0.12.0] - 2026-07-16
-
 <a name="v0.12.0"></a>
 ## [v0.12.0] - 2026-07-16
 
@@ -42,39 +33,6 @@
 - Add TrimmedMean and Winsorize robust statistics ([#116](https://github.com/montanaflynn/stats/issues/116))
 - Add Kurtosis, PopulationKurtosis, and SampleKurtosis ([#115](https://github.com/montanaflynn/stats/issues/115))
 - Add Clip and Rescale elementwise transforms ([#114](https://github.com/montanaflynn/stats/issues/114))
-
-
-<a name="v0.11.0"></a>
-## [v0.11.0] - 2026-07-13
-### Add
-- Add Interp for piecewise-linear interpolation ([#121](https://github.com/montanaflynn/stats/issues/121))
-- Add Histogram with equal-width bins ([#120](https://github.com/montanaflynn/stats/issues/120))
-- Add KendallTau rank correlation coefficient ([#119](https://github.com/montanaflynn/stats/issues/119))
-- Add SEM, RMS, Product, and PercentileOfScore ([#118](https://github.com/montanaflynn/stats/issues/118))
-- Add MovingMedian, MovingMin, MovingMax, MovingSum, and EWMA ([#117](https://github.com/montanaflynn/stats/issues/117))
-- Add TrimmedMean and Winsorize robust statistics ([#116](https://github.com/montanaflynn/stats/issues/116))
-- Add Kurtosis, PopulationKurtosis, and SampleKurtosis ([#115](https://github.com/montanaflynn/stats/issues/115))
-- Add Clip and Rescale elementwise transforms ([#114](https://github.com/montanaflynn/stats/issues/114))
-
-
-<a name="v0.10.0"></a>
-## [v0.10.0] - 2026-07-10
-### Add
-- Add MovingAverage and MovingStdDev ([#112](https://github.com/montanaflynn/stats/issues/112))
-- Add ZScore and Rank functions ([#111](https://github.com/montanaflynn/stats/issues/111))
-- Add WeightedMean and CoefficientOfVariation ([#110](https://github.com/montanaflynn/stats/issues/110))
-- Add ArgMax, ArgMin and Range functions ([#109](https://github.com/montanaflynn/stats/issues/109))
-- Add CumulativeProduct, CumulativeMax and CumulativeMin ([#108](https://github.com/montanaflynn/stats/issues/108))
-- Add Diff and PercentChange functions ([#107](https://github.com/montanaflynn/stats/issues/107))
-- Add weighted percentile function ([#102](https://github.com/montanaflynn/stats/issues/102))
-- Add NormSample function for normal distribution sampling ([#100](https://github.com/montanaflynn/stats/issues/100))
-- Add Z-test and T-test functions ([#99](https://github.com/montanaflynn/stats/issues/99))
-- Add Spearman rank correlation function ([#98](https://github.com/montanaflynn/stats/issues/98))
-
-### Fix
-- Stabilize GeometricMean and add input validation
-- Use math.Round to avoid ARM64 FMA fusion miscompile ([#97](https://github.com/montanaflynn/stats/issues/97))
-- Correct AutoCorrelation lag handling ([#83](https://github.com/montanaflynn/stats/issues/83)) ([#95](https://github.com/montanaflynn/stats/issues/95))
 
 
 <a name="v0.10.0"></a>
@@ -641,12 +599,8 @@
 [Unreleased]: https://github.com/montanaflynn/stats/compare/v0.12.2...HEAD
 [v0.12.2]: https://github.com/montanaflynn/stats/compare/v0.12.1...v0.12.2
 [v0.12.1]: https://github.com/montanaflynn/stats/compare/v0.12.0...v0.12.1
-[v0.12.1]: https://github.com/montanaflynn/stats/compare/v0.12.0...v0.12.1
-[v0.12.0]: https://github.com/montanaflynn/stats/compare/v0.11.0...v0.12.0
 [v0.12.0]: https://github.com/montanaflynn/stats/compare/v0.11.0...v0.12.0
 [v0.11.0]: https://github.com/montanaflynn/stats/compare/v0.10.0...v0.11.0
-[v0.11.0]: https://github.com/montanaflynn/stats/compare/v0.10.0...v0.11.0
-[v0.10.0]: https://github.com/montanaflynn/stats/compare/v0.9.0...v0.10.0
 [v0.10.0]: https://github.com/montanaflynn/stats/compare/v0.9.0...v0.10.0
 [v0.9.0]: https://github.com/montanaflynn/stats/compare/v0.8.2...v0.9.0
 [v0.8.2]: https://github.com/montanaflynn/stats/compare/v0.8.1...v0.8.2
