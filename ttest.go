@@ -76,7 +76,7 @@ func regIncBeta(a, b, x float64) float64 {
 	}
 
 	lbeta := lgammaBeta(a, b)
-	front := math.Exp(math.Log(x)*a + math.Log(1-x)*b - lbeta) / a
+	front := math.Exp(math.Log(x)*a+math.Log(1-x)*b-lbeta) / a
 
 	// Use Lentz's continued fraction algorithm
 	f := 1.0

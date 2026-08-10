@@ -127,11 +127,11 @@ func main() {
 	// Output: 9
 
 	c := []stats.Coordinate{
-		{1, 2.3},
-		{2, 3.3},
-		{3, 3.7},
-		{4, 4.3},
-		{5, 5.3},
+		{X: 1, Y: 2.3},
+		{X: 2, Y: 3.3},
+		{X: 3, Y: 3.7},
+		{X: 4, Y: 4.3},
+		{X: 5, Y: 5.3},
 	}
 
 	r, _ := stats.LinearRegression(c)
