@@ -970,7 +970,7 @@ relative to a slice of floats, defined as the percentage of
 values strictly below the score plus half the percentage of
 values equal to the score. The result is between 0 and 100.
 This matches the behavior of Python's
-scipy.stats.percentileofscore with kind="rank".
+scipy.stats.percentileofscore with kind="mean".
 
 
 
