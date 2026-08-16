@@ -536,6 +536,7 @@ fp[len(xp)-1], so no extrapolation is performed. Unlike numpy's interp,
 which silently returns nonsense for unsorted coordinates, xp must be
 strictly increasing or ErrBounds is returned. An empty x or xp returns
 ErrEmptyInput and xp and fp of different lengths return ErrSize.
+A NaN in xp returns ErrBounds and a NaN in x gives a NaN in the output.
 
 
 
