@@ -2,6 +2,7 @@ package stats_test
 
 import (
 	"fmt"
+	"math"
 	"reflect"
 	"testing"
 
@@ -50,10 +51,23 @@ func TestInterpInvalidInput(t *testing.T) {
 		{[]float64{1.5}, []float64{1, 2}, []float64{10}, stats.ErrSize},
 		{[]float64{1.5}, []float64{2, 1}, []float64{10, 20}, stats.ErrBounds},
 		{[]float64{1.5}, []float64{1, 1}, []float64{10, 20}, stats.ErrBounds},
+		{[]float64{1.5}, []float64{1, math.NaN(), 3}, []float64{10, 20, 30}, stats.ErrBounds},
+		{[]float64{1.5}, []float64{math.NaN()}, []float64{10}, stats.ErrBounds},
 	} {
 		_, err := stats.Interp(c.x, c.xp, c.fp)
 		if err != c.err {
 			t.Errorf("Interp(%.1f, %.1f, %.1f) => %v != %v", c.x, c.xp, c.fp, err, c.err)
 		}
+	}
+}
+
+func TestInterpNaNInput(t *testing.T) {
+	x := []float64{1.5, math.NaN(), 2.5}
+	got, err := stats.Interp(x, []float64{1, 2, 3}, []float64{10, 20, 30})
+	if err != nil {
+		t.Fatalf("Returned an error: %v", err)
+	}
+	if got[0] != 15 || !math.IsNaN(got[1]) || got[2] != 25 {
+		t.Errorf("Interp(%v, ...) => %v != [15 NaN 25]", x, got)
 	}
 }
