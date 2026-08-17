@@ -26,7 +26,7 @@ func PercentileWeighted(data, weights Float64Data, percent float64) (percentile 
 		return math.NaN(), ErrSize
 	}
 
-	if percent <= 0 || percent > 100 {
+	if math.IsNaN(percent) || percent <= 0 || percent > 100 {
 		return math.NaN(), ErrBounds
 	}
 

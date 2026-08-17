@@ -12,6 +12,7 @@ import (
 // which silently returns nonsense for unsorted coordinates, xp must be
 // strictly increasing or ErrBounds is returned. An empty x or xp returns
 // ErrEmptyInput and xp and fp of different lengths return ErrSize.
+// A NaN in xp returns ErrBounds and a NaN in x gives a NaN in the output.
 func Interp(x, xp, fp Float64Data) ([]float64, error) {
 
 	if x.Len() == 0 || xp.Len() == 0 {
@@ -22,8 +23,9 @@ func Interp(x, xp, fp Float64Data) ([]float64, error) {
 		return nil, ErrSize
 	}
 
-	for i := 1; i < xp.Len(); i++ {
-		if xp[i] <= xp[i-1] {
+	// NaN loses every comparison, so the ordering check can't catch it
+	for i := 0; i < xp.Len(); i++ {
+		if math.IsNaN(xp[i]) || (i > 0 && xp[i] <= xp[i-1]) {
 			return nil, ErrBounds
 		}
 	}
@@ -32,6 +34,8 @@ func Interp(x, xp, fp Float64Data) ([]float64, error) {
 
 	for i, xv := range x {
 		switch {
+		case math.IsNaN(xv):
+			output[i] = math.NaN()
 		case xv <= xp[0]:
 			output[i] = fp[0]
 		case xv >= xp[xp.Len()-1]:
