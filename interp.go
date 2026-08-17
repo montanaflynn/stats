@@ -44,8 +44,22 @@ func Interp(x, xp, fp Float64Data) ([]float64, error) {
 			// The first index with xp[j] >= xv, which the clamping
 			// above guarantees is within [1, len(xp)-1]
 			j := sort.SearchFloat64s(xp, xv)
+			if xv == xp[j] {
+				// An exact knot hit returns fp[j] exactly, with no
+				// interpolation arithmetic that could lose precision
+				output[i] = fp[j]
+				continue
+			}
 			t := (xv - xp[j-1]) / (xp[j] - xp[j-1])
-			output[i] = fp[j-1] + t*(fp[j]-fp[j-1])
+			if math.IsInf(xp[j]-xp[j-1], 1) {
+				// The knot spacing overflows float64, so halve each
+				// term before dividing; halving is exact for the huge
+				// values that make an overflowing difference possible
+				t = (xv/2 - xp[j-1]/2) / (xp[j]/2 - xp[j-1]/2)
+			}
+			// The symmetric form stays finite for any finite fp where
+			// fp[j]-fp[j-1] would overflow, since 0 < t < 1 here
+			output[i] = fp[j-1]*(1-t) + fp[j]*t
 		}
 	}
 

@@ -28,6 +28,14 @@ func TestInterp(t *testing.T) {
 		{[]float64{-1, 0.5, 2}, []float64{1}, []float64{5}, []float64{5, 5, 5}},
 		{[]float64{-10}, []float64{0, 1}, []float64{2, 4}, []float64{2}},
 		{[]float64{10}, []float64{0, 1}, []float64{2, 4}, []float64{4}},
+		// Exact knot hits return fp[j] exactly even when the naive
+		// arithmetic would suffer catastrophic cancellation
+		{[]float64{2}, []float64{1, 2, 3}, []float64{1e16, 1, 1}, []float64{1}},
+		// Knot spacing that overflows float64
+		{[]float64{0}, []float64{-math.MaxFloat64, math.MaxFloat64}, []float64{0, 100}, []float64{50}},
+		{[]float64{math.MaxFloat64 / 2}, []float64{-math.MaxFloat64, math.MaxFloat64}, []float64{0, 100}, []float64{75}},
+		// fp spread that overflows float64
+		{[]float64{0.5}, []float64{0, 1}, []float64{-math.MaxFloat64, math.MaxFloat64}, []float64{0}},
 	} {
 		got, err := stats.Interp(c.x, c.xp, c.fp)
 		if err != nil {
