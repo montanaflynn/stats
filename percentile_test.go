@@ -1,6 +1,7 @@
 package stats_test
 
 import (
+	"math"
 	"reflect"
 	"testing"
 
@@ -46,6 +47,10 @@ func TestPercentile(t *testing.T) {
 	_, err = stats.Percentile([]float64{1, 2, 3, 4, 5}, 101)
 	if err != stats.BoundsErr {
 		t.Errorf("Too high percent didn't return expected error; got %v", err)
+	}
+	_, err = stats.Percentile([]float64{1, 2, 3, 4, 5}, math.NaN())
+	if err != stats.BoundsErr {
+		t.Errorf("NaN percent didn't return expected error; got %v", err)
 	}
 }
 
@@ -161,6 +166,11 @@ func TestPercentileNearestRank(t *testing.T) {
 	_, err = stats.PercentileNearestRank([]float64{1, 2, 3, 4, 5}, 110)
 	if err == nil {
 		t.Errorf("Should have returned an percentage must not be above 100 error")
+	}
+
+	_, err = stats.PercentileNearestRank([]float64{1, 2, 3, 4, 5}, math.NaN())
+	if err != stats.BoundsErr {
+		t.Errorf("NaN percentage didn't return expected error; got %v", err)
 	}
 
 }
