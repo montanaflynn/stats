@@ -8,6 +8,16 @@
 
 
 
+
+<a name="v0.12.4"></a>
+## [v0.12.4] - 2026-08-17
+### Fix
+- Make Interp robust to extreme values and exact knot hits ([#132](https://github.com/montanaflynn/stats/issues/132))
+- Reject NaN percent in PercentileWeighted ([#131](https://github.com/montanaflynn/stats/issues/131))
+- Reject NaN percent in Percentile and PercentileNearestRank ([#130](https://github.com/montanaflynn/stats/issues/130))
+- Interp panics when x or xp contains a NaN ([#129](https://github.com/montanaflynn/stats/issues/129))
+
+
 <a name="v0.12.3"></a>
 ## [v0.12.3] - 2026-08-10
 ### Fix
@@ -605,7 +615,8 @@
 - Merge pull request [#4](https://github.com/montanaflynn/stats/issues/4) from saromanov/sample
 
 
-[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.12.3...HEAD
+[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.12.4...HEAD
+[v0.12.4]: https://github.com/montanaflynn/stats/compare/v0.12.3...v0.12.4
 [v0.12.3]: https://github.com/montanaflynn/stats/compare/v0.12.2...v0.12.3
 [v0.12.2]: https://github.com/montanaflynn/stats/compare/v0.12.1...v0.12.2
 [v0.12.1]: https://github.com/montanaflynn/stats/compare/v0.12.0...v0.12.1
