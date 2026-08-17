@@ -83,7 +83,7 @@ MIT License Copyright (c) 2014-2026 Montana Flynn (<a href="https://montanaflynn
 * [func NormEntropy(loc float64, scale float64) float64](#NormEntropy)
 * [func NormFit(data []float64) [2]float64](#NormFit)
 * [func NormInterval(alpha float64, loc float64, scale float64) [2]float64](#NormInterval)
-* [func NormIsf(p float64, loc float64, scale float64) (x float64)](#NormIsf)
+* [func NormIsf(p float64, loc float64, scale float64) float64](#NormIsf)
 * [func NormLogCdf(x float64, loc float64, scale float64) float64](#NormLogCdf)
 * [func NormLogPdf(x float64, loc float64, scale float64) float64](#NormLogPdf)
 * [func NormLogSf(x float64, loc float64, scale float64) float64](#NormLogSf)
@@ -480,7 +480,7 @@ EuclideanDistance computes the Euclidean distance between two data sets
 
 
 
-## <a name="ExpGeom">func</a> [ExpGeom](/geometric_distribution.go?s=652:700#L27)
+## <a name="ExpGeom">func</a> [ExpGeom](/geometric_distribution.go?s=816:864#L28)
 ``` go
 func ExpGeom(p float64) (exp float64, err error)
 ```
@@ -525,7 +525,7 @@ InterQuartileRange finds the range between Q1 and Q3
 
 
 
-## <a name="Interp">func</a> [Interp](/interp.go?s=547:600#L12)
+## <a name="Interp">func</a> [Interp](/interp.go?s=635:688#L16)
 ``` go
 func Interp(x, xp, fp Float64Data) ([]float64, error)
 ```
@@ -730,7 +730,7 @@ returned. An empty input returns ErrEmptyInput.
 
 
 
-## <a name="Ncr">func</a> [Ncr](/norm.go?s=7623:7645#L245)
+## <a name="Ncr">func</a> [Ncr](/norm.go?s=8827:8849#L277)
 ``` go
 func Ncr(n, r int) int
 ```
@@ -748,7 +748,7 @@ For more information please visit: <a href="http://mathworld.wolfram.com/Box-Mul
 
 
 
-## <a name="NormCdf">func</a> [NormCdf](/norm.go?s=2065:2124#L58)
+## <a name="NormCdf">func</a> [NormCdf](/norm.go?s=2034:2093#L59)
 ``` go
 func NormCdf(x float64, loc float64, scale float64) float64
 ```
@@ -756,7 +756,7 @@ NormCdf is the cumulative distribution function.
 
 
 
-## <a name="NormEntropy">func</a> [NormEntropy](/norm.go?s=6012:6064#L186)
+## <a name="NormEntropy">func</a> [NormEntropy](/norm.go?s=7117:7169#L219)
 ``` go
 func NormEntropy(loc float64, scale float64) float64
 ```
@@ -764,7 +764,7 @@ NormEntropy is the differential entropy of the RV.
 
 
 
-## <a name="NormFit">func</a> [NormFit](/norm.go?s=6297:6336#L193)
+## <a name="NormFit">func</a> [NormFit](/norm.go?s=7402:7441#L226)
 ``` go
 func NormFit(data []float64) [2]float64
 ```
@@ -774,7 +774,7 @@ Returns array of Mean followed by Standard Deviation.
 
 
 
-## <a name="NormInterval">func</a> [NormInterval](/norm.go?s=7215:7286#L227)
+## <a name="NormInterval">func</a> [NormInterval](/norm.go?s=8320:8391#L260)
 ``` go
 func NormInterval(alpha float64, loc float64, scale float64) [2]float64
 ```
@@ -782,15 +782,15 @@ NormInterval finds endpoints of the range that contains alpha percent of the dis
 
 
 
-## <a name="NormIsf">func</a> [NormIsf](/norm.go?s=4569:4632#L143)
+## <a name="NormIsf">func</a> [NormIsf](/norm.go?s=5589:5648#L177)
 ``` go
-func NormIsf(p float64, loc float64, scale float64) (x float64)
+func NormIsf(p float64, loc float64, scale float64) float64
 ```
 NormIsf is the inverse survival function (inverse of sf).
 
 
 
-## <a name="NormLogCdf">func</a> [NormLogCdf](/norm.go?s=2255:2317#L63)
+## <a name="NormLogCdf">func</a> [NormLogCdf](/norm.go?s=2218:2280#L64)
 ``` go
 func NormLogCdf(x float64, loc float64, scale float64) float64
 ```
@@ -806,7 +806,7 @@ NormLogPdf is the log of the probability density function.
 
 
 
-## <a name="NormLogSf">func</a> [NormLogSf](/norm.go?s=2662:2723#L73)
+## <a name="NormLogSf">func</a> [NormLogSf](/norm.go?s=2664:2725#L78)
 ``` go
 func NormLogSf(x float64, loc float64, scale float64) float64
 ```
@@ -814,7 +814,7 @@ NormLogSf is the log of the survival function.
 
 
 
-## <a name="NormMean">func</a> [NormMean](/norm.go?s=6799:6848#L212)
+## <a name="NormMean">func</a> [NormMean](/norm.go?s=7904:7953#L245)
 ``` go
 func NormMean(loc float64, scale float64) float64
 ```
@@ -822,7 +822,7 @@ NormMean is the mean/expected value of the distribution.
 
 
 
-## <a name="NormMedian">func</a> [NormMedian](/norm.go?s=6670:6721#L207)
+## <a name="NormMedian">func</a> [NormMedian](/norm.go?s=7775:7826#L240)
 ``` go
 func NormMedian(loc float64, scale float64) float64
 ```
@@ -830,7 +830,7 @@ NormMedian is the median of the distribution.
 
 
 
-## <a name="NormMoment">func</a> [NormMoment](/norm.go?s=4933:4991#L152)
+## <a name="NormMoment">func</a> [NormMoment](/norm.go?s=6038:6096#L185)
 ``` go
 func NormMoment(n int, loc float64, scale float64) float64
 ```
@@ -847,7 +847,7 @@ NormPdf is the probability density function.
 
 
 
-## <a name="NormPpf">func</a> [NormPpf](/norm.go?s=3093:3156#L81)
+## <a name="NormPpf">func</a> [NormPpf](/norm.go?s=3828:3891#L107)
 ``` go
 func NormPpf(p float64, loc float64, scale float64) (x float64)
 ```
@@ -876,7 +876,7 @@ with the given mean (loc) and standard deviation (scale).
 
 
 
-## <a name="NormSf">func</a> [NormSf](/norm.go?s=2489:2547#L68)
+## <a name="NormSf">func</a> [NormSf](/norm.go?s=2498:2556#L73)
 ``` go
 func NormSf(x float64, loc float64, scale float64) float64
 ```
@@ -884,7 +884,7 @@ NormSf is the survival function (also defined as 1 - cdf, but sf is sometimes mo
 
 
 
-## <a name="NormStats">func</a> [NormStats](/norm.go?s=5516:5584#L168)
+## <a name="NormStats">func</a> [NormStats](/norm.go?s=6621:6689#L201)
 ``` go
 func NormStats(loc float64, scale float64, moments string) []float64
 ```
@@ -895,7 +895,7 @@ Returns array of m v s k in that order.
 
 
 
-## <a name="NormStd">func</a> [NormStd](/norm.go?s=7053:7101#L222)
+## <a name="NormStd">func</a> [NormStd](/norm.go?s=8158:8206#L255)
 ``` go
 func NormStd(loc float64, scale float64) float64
 ```
@@ -903,7 +903,7 @@ NormStd is the standard deviation of the distribution.
 
 
 
-## <a name="NormVar">func</a> [NormVar](/norm.go?s=6914:6962#L217)
+## <a name="NormVar">func</a> [NormVar](/norm.go?s=8019:8067#L250)
 ``` go
 func NormVar(loc float64, scale float64) float64
 ```
@@ -954,7 +954,7 @@ Algorithm (for percent p and sorted data of length n):
 
 
 
-## <a name="PercentileNearestRank">func</a> [PercentileNearestRank](/percentile.go?s=1382:1476#L55)
+## <a name="PercentileNearestRank">func</a> [PercentileNearestRank](/percentile.go?s=1405:1499#L55)
 ``` go
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)
 ```
@@ -1269,7 +1269,7 @@ the same result as Mean.
 
 
 
-## <a name="VarGeom">func</a> [VarGeom](/geometric_distribution.go?s=885:933#L37)
+## <a name="VarGeom">func</a> [VarGeom](/geometric_distribution.go?s=1049:1097#L38)
 ``` go
 func VarGeom(p float64) (exp float64, err error)
 ```
@@ -2197,25 +2197,30 @@ Series is a container for a series of data
 
 
 
-### <a name="ExponentialRegression">func</a> [ExponentialRegression](/regression.go?s=1061:1129#L49)
+### <a name="ExponentialRegression">func</a> [ExponentialRegression](/regression.go?s=1269:1337#L54)
 ``` go
 func ExponentialRegression(s Series) (regressions Series, err error)
 ```
-ExponentialRegression returns an exponential regression on data series
+ExponentialRegression returns an exponential regression on data series.
+A non-positive Y value returns ErrYCoord, and a series without at least two
+distinct X values returns ErrBounds.
 
 
-### <a name="LinearRegression">func</a> [LinearRegression](/regression.go?s=262:325#L14)
+### <a name="LinearRegression">func</a> [LinearRegression](/regression.go?s=333:396#L15)
 ``` go
 func LinearRegression(s Series) (regressions Series, err error)
 ```
-LinearRegression finds the least squares linear regression on data series
+LinearRegression finds the least squares linear regression on data series.
+A series without at least two distinct X values returns ErrBounds.
 
 
-### <a name="LogarithmicRegression">func</a> [LogarithmicRegression](/regression.go?s=1875:1943#L84)
+### <a name="LogarithmicRegression">func</a> [LogarithmicRegression](/regression.go?s=2368:2436#L98)
 ``` go
 func LogarithmicRegression(s Series) (regressions Series, err error)
 ```
-LogarithmicRegression returns an logarithmic regression on data series
+LogarithmicRegression returns a logarithmic regression on data series.
+A non-positive X value or a series without at least two distinct X values
+returns ErrBounds.
 
 
 
