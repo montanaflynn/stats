@@ -105,6 +105,11 @@ func TestPercentileWeightedInvalidPercent(t *testing.T) {
 	if err != stats.ErrBounds {
 		t.Errorf("expected ErrBounds for percent=-5, got %v", err)
 	}
+
+	_, err = stats.PercentileWeighted(data, weights, math.NaN())
+	if err != stats.ErrBounds {
+		t.Errorf("expected ErrBounds for percent=NaN, got %v", err)
+	}
 }
 
 func TestPercentileWeightedNegativeWeight(t *testing.T) {
