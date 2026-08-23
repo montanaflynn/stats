@@ -23,12 +23,12 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 		return math.NaN(), EmptyInputErr
 	}
 
-	if length == 1 {
-		return input[0], nil
-	}
-
 	if math.IsNaN(percent) || percent <= 0 || percent > 100 {
 		return math.NaN(), BoundsErr
+	}
+
+	if length == 1 {
+		return input[0], nil
 	}
 
 	// Start by sorting a copy of the slice

@@ -52,6 +52,12 @@ func TestPercentile(t *testing.T) {
 	if err != stats.BoundsErr {
 		t.Errorf("NaN percent didn't return expected error; got %v", err)
 	}
+	for _, percent := range []float64{0, -1, 101, math.NaN()} {
+		_, err = stats.Percentile([]float64{43}, percent)
+		if err != stats.BoundsErr {
+			t.Errorf("Percent %v on one value didn't return expected error; got %v", percent, err)
+		}
+	}
 }
 
 func TestPercentile_Issue88_ThreeValuesQ1(t *testing.T) {
