@@ -9,6 +9,13 @@
 
 
 
+
+<a name="v0.12.5"></a>
+## [v0.12.5] - 2026-08-28
+### Fix
+- Enforce percent bounds in Percentile for single-element input ([#133](https://github.com/montanaflynn/stats/issues/133))
+
+
 <a name="v0.12.4"></a>
 ## [v0.12.4] - 2026-08-17
 ### Fix
@@ -615,7 +622,8 @@
 - Merge pull request [#4](https://github.com/montanaflynn/stats/issues/4) from saromanov/sample
 
 
-[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.12.4...HEAD
+[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.12.5...HEAD
+[v0.12.5]: https://github.com/montanaflynn/stats/compare/v0.12.4...v0.12.5
 [v0.12.4]: https://github.com/montanaflynn/stats/compare/v0.12.3...v0.12.4
 [v0.12.3]: https://github.com/montanaflynn/stats/compare/v0.12.2...v0.12.3
 [v0.12.2]: https://github.com/montanaflynn/stats/compare/v0.12.1...v0.12.2
