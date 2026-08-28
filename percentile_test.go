@@ -52,6 +52,45 @@ func TestPercentile(t *testing.T) {
 	if err != stats.BoundsErr {
 		t.Errorf("NaN percent didn't return expected error; got %v", err)
 	}
+	for _, percent := range []float64{0, -1, 101, math.NaN()} {
+		_, err = stats.Percentile([]float64{43}, percent)
+		if err != stats.BoundsErr {
+			t.Errorf("Percent %v on one value didn't return expected error; got %v", percent, err)
+		}
+	}
+}
+
+func TestPercentile_BoundsIndependentOfLength(t *testing.T) {
+	invalid := []float64{0, -1, 101, math.NaN(), math.Inf(1), math.Inf(-1)}
+	valid := []float64{0.13, 50, 90, 100}
+
+	for length := 1; length <= 5; length++ {
+		input := makeFloatSlice(length)
+
+		for _, percent := range invalid {
+			got, err := stats.Percentile(input, percent)
+			if err != stats.BoundsErr {
+				t.Errorf("length %d, percent %v: expected BoundsErr, got %v", length, percent, err)
+			}
+			if !math.IsNaN(got) {
+				t.Errorf("length %d, percent %v: expected NaN value on error, got %v", length, percent, got)
+			}
+		}
+
+		for _, percent := range valid {
+			if _, err := stats.Percentile(input, percent); err != nil {
+				t.Errorf("length %d, percent %v: unexpected error %v", length, percent, err)
+			}
+		}
+	}
+
+	// A single value is its own percentile for every valid percent.
+	for _, percent := range valid {
+		got, err := stats.Percentile([]float64{43}, percent)
+		if err != nil || got != 43 {
+			t.Errorf("percent %v on one value: expected 43, got %v (err %v)", percent, got, err)
+		}
+	}
 }
 
 func TestPercentile_Issue88_ThreeValuesQ1(t *testing.T) {

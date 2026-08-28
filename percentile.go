@@ -7,8 +7,10 @@ import (
 // Percentile finds the relative standing in a slice of floats.
 //
 // The function uses the Linear Interpolation Between Closest Ranks method
-// as recommended by NIST [1] and used by Excel (PERCENTILE), Google Sheets,
-// NumPy (default), and other standard tools.
+// (Hyndman & Fan type 7), the default in Excel (PERCENTILE, PERCENTILE.INC),
+// Google Sheets, NumPy, and R. Note that NIST [1] describes the closely
+// related p(N+1) variant (Hyndman & Fan type 6, Excel PERCENTILE.EXC),
+// which gives different results for the same input.
 //
 // Algorithm (for percent p and sorted data of length n):
 //
@@ -23,12 +25,16 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 		return math.NaN(), EmptyInputErr
 	}
 
-	if length == 1 {
-		return input[0], nil
-	}
-
 	if math.IsNaN(percent) || percent <= 0 || percent > 100 {
 		return math.NaN(), BoundsErr
+	}
+
+	// A single value is its own percentile for every valid percent. The
+	// general path below gives the same answer (rank 0, no interpolation),
+	// so this only skips the sortedCopy allocation. It must stay after the
+	// bounds check so invalid percents are rejected at every length.
+	if length == 1 {
+		return input[0], nil
 	}
 
 	// Start by sorting a copy of the slice
