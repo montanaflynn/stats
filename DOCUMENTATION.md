@@ -940,8 +940,10 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 Percentile finds the relative standing in a slice of floats.
 
 The function uses the Linear Interpolation Between Closest Ranks method
-as recommended by NIST [1] and used by Excel (PERCENTILE), Google Sheets,
-NumPy (default), and other standard tools.
+(Hyndman & Fan type 7), the default in Excel (PERCENTILE, PERCENTILE.INC),
+Google Sheets, NumPy, and R. Note that NIST [1] describes the closely
+related p(N+1) variant (Hyndman & Fan type 6, Excel PERCENTILE.EXC),
+which gives different results for the same input.
 
 Algorithm (for percent p and sorted data of length n):
 
