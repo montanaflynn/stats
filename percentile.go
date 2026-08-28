@@ -29,6 +29,10 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 		return math.NaN(), BoundsErr
 	}
 
+	// A single value is its own percentile for every valid percent. The
+	// general path below gives the same answer (rank 0, no interpolation),
+	// so this only skips the sortedCopy allocation. It must stay after the
+	// bounds check so invalid percents are rejected at every length.
 	if length == 1 {
 		return input[0], nil
 	}
