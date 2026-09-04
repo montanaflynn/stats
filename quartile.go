@@ -32,10 +32,20 @@ func Quartile(input Float64Data) (Quartiles, error) {
 		c2 = c1 + 1
 	}
 
-	// Find the Medians with the cutoff points
-	Q1, _ := Median(copy[:c1])
-	Q2, _ := Median(copy)
-	Q3, _ := Median(copy[c2:])
+	// Empty halves make Median return ErrEmptyInput; propagate it instead of
+	// returning NaN quartiles.
+	Q1, err := Median(copy[:c1])
+	if err != nil {
+		return Quartiles{}, err
+	}
+	Q2, err := Median(copy)
+	if err != nil {
+		return Quartiles{}, err
+	}
+	Q3, err := Median(copy[c2:])
+	if err != nil {
+		return Quartiles{}, err
+	}
 
 	return Quartiles{Q1, Q2, Q3}, nil
 
@@ -46,7 +56,10 @@ func InterQuartileRange(input Float64Data) (float64, error) {
 	if input.Len() == 0 {
 		return math.NaN(), EmptyInputErr
 	}
-	qs, _ := Quartile(input)
+	qs, err := Quartile(input)
+	if err != nil {
+		return math.NaN(), err
+	}
 	iqr := qs.Q3 - qs.Q1
 	return iqr, nil
 }
@@ -56,7 +69,10 @@ func Midhinge(input Float64Data) (float64, error) {
 	if input.Len() == 0 {
 		return math.NaN(), EmptyInputErr
 	}
-	qs, _ := Quartile(input)
+	qs, err := Quartile(input)
+	if err != nil {
+		return math.NaN(), err
+	}
 	mh := (qs.Q1 + qs.Q3) / 2
 	return mh, nil
 }
@@ -68,7 +84,10 @@ func Trimean(input Float64Data) (float64, error) {
 	}
 
 	c := sortedCopy(input)
-	q, _ := Quartile(c)
+	q, err := Quartile(c)
+	if err != nil {
+		return math.NaN(), err
+	}
 
 	return (q.Q1 + (q.Q2 * 2) + q.Q3) / 4, nil
 }

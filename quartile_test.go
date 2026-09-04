@@ -41,6 +41,18 @@ func TestQuartile(t *testing.T) {
 	}
 }
 
+func TestQuartileSingleElement(t *testing.T) {
+	// A single element has no halves, so Quartile must error rather than
+	// return NaN with a nil error.
+	quartiles, err := stats.Quartile([]float64{1})
+	if err == nil {
+		t.Errorf("Single element slice should have returned an error")
+	}
+	if quartiles != (stats.Quartiles{}) {
+		t.Errorf("Errored result should be the zero Quartiles value, got %+v", quartiles)
+	}
+}
+
 func TestInterQuartileRange(t *testing.T) {
 	s1 := []float64{102, 104, 105, 107, 108, 109, 110, 112, 115, 116, 118}
 	iqr, _ := stats.InterQuartileRange(s1)
@@ -52,6 +64,11 @@ func TestInterQuartileRange(t *testing.T) {
 	_, err := stats.InterQuartileRange([]float64{})
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
+	}
+
+	_, err = stats.InterQuartileRange([]float64{1})
+	if err == nil {
+		t.Errorf("Single element slice should have returned an error")
 	}
 }
 
@@ -67,6 +84,11 @@ func TestMidhinge(t *testing.T) {
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
 	}
+
+	_, err = stats.Midhinge([]float64{1})
+	if err == nil {
+		t.Errorf("Single element slice should have returned an error")
+	}
 }
 
 func TestTrimean(t *testing.T) {
@@ -80,5 +102,10 @@ func TestTrimean(t *testing.T) {
 	_, err := stats.Trimean([]float64{})
 	if err == nil {
 		t.Errorf("Empty slice should have returned an error")
+	}
+
+	_, err = stats.Trimean([]float64{1})
+	if err == nil {
+		t.Errorf("Single element slice should have returned an error")
 	}
 }
