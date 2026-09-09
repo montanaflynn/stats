@@ -31,3 +31,11 @@ func TestQuartileOutliers(t *testing.T) {
 		t.Errorf("Empty slice should have returned an error")
 	}
 }
+
+func TestQuartileOutliersSingleElement(t *testing.T) {
+	// Quartiles are undefined for a single element, so the fences are too.
+	_, err := stats.QuartileOutliers([]float64{1})
+	if err != stats.EmptyInputErr {
+		t.Errorf("Single element slice should have returned EmptyInputErr, got %v", err)
+	}
+}

@@ -517,7 +517,7 @@ includes the maximum value.
 
 
 
-## <a name="InterQuartileRange">func</a> [InterQuartileRange](/quartile.go?s=821:880#L45)
+## <a name="InterQuartileRange">func</a> [InterQuartileRange](/quartile.go?s=1056:1115#L49)
 ``` go
 func InterQuartileRange(input Float64Data) (float64, error)
 ```
@@ -607,7 +607,7 @@ MedianAbsoluteDeviationPopulation finds the median of the absolute deviations fr
 
 
 
-## <a name="Midhinge">func</a> [Midhinge](/quartile.go?s=1075:1124#L55)
+## <a name="Midhinge">func</a> [Midhinge](/quartile.go?s=1296:1345#L59)
 ``` go
 func Midhinge(input Float64Data) (float64, error)
 ```
@@ -933,7 +933,7 @@ behavior of pandas pct_change.
 
 
 
-## <a name="Percentile">func</a> [Percentile](/percentile.go?s=598:681#L20)
+## <a name="Percentile">func</a> [Percentile](/percentile.go?s=751:834#L22)
 ``` go
 func Percentile(input Float64Data, percent float64) (percentile float64, err error)
 ```
@@ -956,7 +956,7 @@ Algorithm (for percent p and sorted data of length n):
 
 
 
-## <a name="PercentileNearestRank">func</a> [PercentileNearestRank](/percentile.go?s=1405:1499#L55)
+## <a name="PercentileNearestRank">func</a> [PercentileNearestRank](/percentile.go?s=1841:1935#L61)
 ``` go
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)
 ```
@@ -1248,7 +1248,7 @@ Returns the t statistic and the two-tailed p-value.
 
 
 
-## <a name="Trimean">func</a> [Trimean](/quartile.go?s=1320:1368#L65)
+## <a name="Trimean">func</a> [Trimean](/quartile.go?s=1527:1575#L69)
 ``` go
 func Trimean(input Float64Data) (float64, error)
 ```
@@ -2177,11 +2177,14 @@ Quartiles holds the three quartile points
 
 
 
-### <a name="Quartile">func</a> [Quartile](/quartile.go?s=205:256#L13)
+### <a name="Quartile">func</a> [Quartile](/quartile.go?s=356:407#L16)
 ``` go
 func Quartile(input Float64Data) (Quartiles, error)
 ```
-Quartile returns the three quartile points from a slice of data
+Quartile returns the three quartile points from a slice of data.
+
+The input must contain at least two elements: Q1 and Q3 are the medians of
+the lower and upper halves, which are empty for a single element.
 
 
 
