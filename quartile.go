@@ -9,11 +9,14 @@ type Quartiles struct {
 	Q3 float64
 }
 
-// Quartile returns the three quartile points from a slice of data
+// Quartile returns the three quartile points from a slice of data.
+//
+// The input must contain at least two elements: Q1 and Q3 are the medians of
+// the lower and upper halves, which are empty for a single element.
 func Quartile(input Float64Data) (Quartiles, error) {
 
 	il := input.Len()
-	if il == 0 {
+	if il < 2 {
 		return Quartiles{}, EmptyInputErr
 	}
 
@@ -32,20 +35,11 @@ func Quartile(input Float64Data) (Quartiles, error) {
 		c2 = c1 + 1
 	}
 
-	// Empty halves make Median return ErrEmptyInput; propagate it instead of
-	// returning NaN quartiles.
-	Q1, err := Median(copy[:c1])
-	if err != nil {
-		return Quartiles{}, err
-	}
-	Q2, err := Median(copy)
-	if err != nil {
-		return Quartiles{}, err
-	}
-	Q3, err := Median(copy[c2:])
-	if err != nil {
-		return Quartiles{}, err
-	}
+	// Find the Medians with the cutoff points. Both halves have at least
+	// one element once il >= 2, so Median cannot fail here.
+	Q1, _ := Median(copy[:c1])
+	Q2, _ := Median(copy)
+	Q3, _ := Median(copy[c2:])
 
 	return Quartiles{Q1, Q2, Q3}, nil
 
@@ -53,9 +47,6 @@ func Quartile(input Float64Data) (Quartiles, error) {
 
 // InterQuartileRange finds the range between Q1 and Q3
 func InterQuartileRange(input Float64Data) (float64, error) {
-	if input.Len() == 0 {
-		return math.NaN(), EmptyInputErr
-	}
 	qs, err := Quartile(input)
 	if err != nil {
 		return math.NaN(), err
@@ -66,9 +57,6 @@ func InterQuartileRange(input Float64Data) (float64, error) {
 
 // Midhinge finds the average of the first and third quartiles
 func Midhinge(input Float64Data) (float64, error) {
-	if input.Len() == 0 {
-		return math.NaN(), EmptyInputErr
-	}
 	qs, err := Quartile(input)
 	if err != nil {
 		return math.NaN(), err
@@ -79,12 +67,7 @@ func Midhinge(input Float64Data) (float64, error) {
 
 // Trimean finds the average of the median and the midhinge
 func Trimean(input Float64Data) (float64, error) {
-	if input.Len() == 0 {
-		return math.NaN(), EmptyInputErr
-	}
-
-	c := sortedCopy(input)
-	q, err := Quartile(c)
+	q, err := Quartile(input)
 	if err != nil {
 		return math.NaN(), err
 	}

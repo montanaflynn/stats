@@ -45,8 +45,8 @@ func TestQuartileSingleElement(t *testing.T) {
 	// A single element has no halves, so Quartile must error rather than
 	// return NaN with a nil error.
 	quartiles, err := stats.Quartile([]float64{1})
-	if err == nil {
-		t.Errorf("Single element slice should have returned an error")
+	if err != stats.EmptyInputErr {
+		t.Errorf("Single element slice should have returned EmptyInputErr, got %v", err)
 	}
 	if quartiles != (stats.Quartiles{}) {
 		t.Errorf("Errored result should be the zero Quartiles value, got %+v", quartiles)
