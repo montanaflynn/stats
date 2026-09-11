@@ -130,7 +130,7 @@ func TestExponentialRegressionYCoordErr(t *testing.T) {
 	c := []stats.Coordinate{{1, -5}, {4, 25}, {6, 5}}
 	_, err := stats.ExponentialRegression(c)
 	if err != stats.YCoordErr {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 }
 
