@@ -25,7 +25,7 @@ func PopulationSkewness(input Float64Data) (float64, error) {
 	}
 
 	if sumOfSquares == 0 {
-		return math.NaN(), ErrEmptyInput
+		return math.NaN(), ErrZero
 	}
 
 	if sumOfCubes == 0 {
