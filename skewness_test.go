@@ -92,8 +92,8 @@ func TestSkewness_ZeroVariance(t *testing.T) {
 		stats.Skewness, stats.PopulationSkewness, stats.SampleSkewness,
 	} {
 		_, err := fn(stats.Float64Data{5, 5, 5, 5})
-		if err != stats.ErrEmptyInput {
-			t.Fatalf("expected ErrEmptyInput for zero variance, got %v", err)
+		if err != stats.ErrZero {
+			t.Fatalf("expected ErrZero for zero variance, got %v", err)
 		}
 	}
 }
