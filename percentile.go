@@ -47,8 +47,14 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 	k := int(rank)
 	f := rank - float64(k)
 
-	if k+1 < length {
-		percentile = c[k] + f*(c[k+1]-c[k])
+	if k+1 < length && f != 0 {
+		delta := c[k+1] - c[k]
+		if math.IsInf(delta, 1) {
+			// Weight the endpoints separately when their difference overflows.
+			percentile = (1-f)*c[k] + f*c[k+1]
+		} else {
+			percentile = c[k] + f*delta
+		}
 	} else {
 		percentile = c[k]
 	}
