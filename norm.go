@@ -2,6 +2,7 @@ package stats
 
 import (
 	"math"
+	"math/big"
 	"math/rand"
 	"strings"
 	"time"
@@ -284,9 +285,14 @@ func Ncr(n, r int) int {
 	if r == 1 {
 		return n
 	}
-	ret := int(n - r + 1)
-	for i, j := ret+1, int(2); j <= r; i, j = i+1, j+1 {
-		ret = ret * i / j
+	// ret*i overflows int before the division, so a coefficient that still
+	// fits in int used to come back negative. Ncr(62, 28) is the case.
+	ret := big.NewInt(int64(n - r + 1))
+	mul := new(big.Int)
+	div := new(big.Int)
+	for i, j := int64(n-r+1)+1, int64(2); j <= int64(r); i, j = i+1, j+1 {
+		ret.Mul(ret, mul.SetInt64(i))
+		ret.Quo(ret, div.SetInt64(j))
 	}
-	return ret
+	return int(ret.Int64())
 }

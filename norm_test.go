@@ -373,4 +373,13 @@ func TestNcr(t *testing.T) {
 	if stats.Ncr(4, 3) != 4 {
 		t.Error("Input 4 choose 3, Expected 4")
 	}
+	// 62 choose 28 fits in int. The product in the multiplicative loop
+	// overflows int before the division and used to come back negative.
+	const want = 349615716557887465
+	if got := stats.Ncr(62, 28); got != want {
+		t.Errorf("Ncr(62, 28) = %d, want %d", got, want)
+	}
+	if got := stats.Ncr(62, 34); got != want {
+		t.Errorf("Ncr(62, 34) = %d, want %d", got, want)
+	}
 }
