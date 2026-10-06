@@ -2,6 +2,7 @@ package stats_test
 
 import (
 	"math"
+	"math/big"
 	"reflect"
 	"testing"
 
@@ -282,6 +283,100 @@ func TestNormMoment(t *testing.T) {
 	}
 	if stats.NormMoment(4, 0, 1) != 3 {
 		t.Error("Input 3, Expected 3")
+	}
+}
+
+// exactNormMoment computes E[X^n] for X ~ N(loc, scale^2) with exact rational
+// arithmetic from the closed form
+// sum_j C(n, 2j) * loc^(n-2j) * scale^(2j) * (2j-1)!!.
+func exactNormMoment(n int, loc, scale float64) float64 {
+	mu := new(big.Rat).SetFloat64(loc)
+	sigma := new(big.Rat).SetFloat64(scale)
+	sum := new(big.Rat)
+	for j := 0; 2*j <= n; j++ {
+		term := new(big.Rat).SetInt(new(big.Int).Binomial(int64(n), int64(2*j)))
+		for i := 0; i < n-2*j; i++ {
+			term.Mul(term, mu)
+		}
+		for i := 0; i < 2*j; i++ {
+			term.Mul(term, sigma)
+		}
+		for k := 2*j - 1; k > 1; k -= 2 {
+			term.Mul(term, new(big.Rat).SetInt64(int64(k)))
+		}
+		sum.Add(sum, term)
+	}
+	f, _ := sum.Float64()
+	return f
+}
+
+func TestNormMomentHighOrder(t *testing.T) {
+	// The standard normal's even moments are double factorials:
+	// E[Z^22] = 21!! = 13749310575.
+	if got := stats.NormMoment(22, 0, 1); !tolerance(got, 13749310575, 1e-14) {
+		t.Errorf("NormMoment(22, 0, 1) = %v, want 13749310575", got)
+	}
+	if got := stats.NormMoment(21, 0, 1); got != 0 {
+		t.Errorf("NormMoment(21, 0, 1) = %v, want 0", got)
+	}
+
+	for _, c := range []struct{ loc, scale float64 }{
+		{1.5, 2},
+		{-1.5, 2},
+		{0.25, 0.5},
+		{-3, 0.1},
+		{0, 3},
+	} {
+		for n := 0; n <= 60; n++ {
+			want := exactNormMoment(n, c.loc, c.scale)
+			if got := stats.NormMoment(n, c.loc, c.scale); !tolerance(got, want, 1e-13) {
+				t.Errorf("NormMoment(%d, %v, %v) = %v, want %v", n, c.loc, c.scale, got, want)
+			}
+		}
+	}
+}
+
+func TestNormMomentEdgeCases(t *testing.T) {
+	if got := stats.NormMoment(-1, 1, 1); got != 0 {
+		t.Errorf("NormMoment(-1, 1, 1) = %v, want 0", got)
+	}
+	if got := stats.NormMoment(0, 5, 2); got != 1 {
+		t.Errorf("NormMoment(0, 5, 2) = %v, want 1", got)
+	}
+	// A zero scale is a point mass at loc, so E[X^n] = loc^n.
+	if got := stats.NormMoment(5, -2, 0); got != -32 {
+		t.Errorf("NormMoment(5, -2, 0) = %v, want -32", got)
+	}
+
+	// Moments too large for a float64 overflow to ±Inf rather than wrapping
+	// or turning into NaN, and odd moments of a centered normal stay 0.
+	if got := stats.NormMoment(400, 0, 1); !math.IsInf(got, 1) {
+		t.Errorf("NormMoment(400, 0, 1) = %v, want +Inf", got)
+	}
+	if got := stats.NormMoment(401, 0, 1); got != 0 {
+		t.Errorf("NormMoment(401, 0, 1) = %v, want 0", got)
+	}
+	if got := stats.NormMoment(401, -1, 1); !math.IsInf(got, -1) {
+		t.Errorf("NormMoment(401, -1, 1) = %v, want -Inf", got)
+	}
+	if got := stats.NormMoment(3, -1e200, 0); !math.IsInf(got, -1) {
+		t.Errorf("NormMoment(3, -1e200, 0) = %v, want -Inf", got)
+	}
+}
+
+func TestNcrSmallInputs(t *testing.T) {
+	for _, c := range []struct{ n, r, want int }{
+		{0, 0, 1},
+		{1, 1, 1},
+		{5, 0, 1},
+		{5, 5, 1},
+		{6, 2, 15},
+		{6, 4, 15},
+		{10, 5, 252},
+	} {
+		if got := stats.Ncr(c.n, c.r); got != c.want {
+			t.Errorf("Ncr(%d, %d) = %d, want %d", c.n, c.r, got, c.want)
+		}
 	}
 }
 

@@ -180,18 +180,34 @@ func NormIsf(p float64, loc float64, scale float64) float64 {
 	return loc - scale*NormPpf(p, 0, 1)
 }
 
-// NormMoment approximates the non-central (raw) moment of order n.
+// NormMoment returns the non-central (raw) moment of order n, E[X^n] for
+// X ~ N(loc, scale^2). It returns 0 for n < 0.
+// It uses the recurrence M(n) = loc*M(n-1) + (n-1)*scale^2*M(n-2), with
+// M(0) = 1 and M(1) = loc, evaluated in float64, so it only overflows to
+// ±Inf when the moment itself is too large for a float64.
 // For more information please visit: https://math.stackexchange.com/questions/1945448/methods-for-finding-raw-moments-of-the-normal-distribution
 func NormMoment(n int, loc float64, scale float64) float64 {
-	toReturn := 0.0
-	for i := 0; i < n+1; i++ {
-		if (n-i)%2 == 0 {
-			toReturn += float64(Ncr(n, i)) * (math.Pow(loc, float64(i))) * (math.Pow(scale, float64(n-i))) *
-				(float64(factorial(n-i)) / ((math.Pow(2.0, float64((n-i)/2))) *
-					float64(factorial((n-i)/2))))
-		}
+	if n < 0 {
+		return 0
 	}
-	return toReturn
+	if n == 0 {
+		return 1
+	}
+	variance := scale * scale
+	prev, cur := 1.0, loc // M(0), M(1)
+	for k := 2; k <= n; k++ {
+		// Skip terms whose coefficient is exactly zero so that an earlier
+		// moment that overflowed to ±Inf does not turn 0*Inf into NaN.
+		next := 0.0
+		if loc != 0 {
+			next = loc * cur
+		}
+		if variance != 0 {
+			next += float64(k-1) * variance * prev
+		}
+		prev, cur = cur, next
+	}
+	return cur
 }
 
 // NormStats returns the mean, variance, skew, and/or kurtosis.
@@ -262,14 +278,6 @@ func NormInterval(alpha float64, loc float64, scale float64) [2]float64 {
 	// alpha is within an ulp of it, which sends the upper endpoint to +Inf.
 	z := NormPpf((1.0-alpha)/2, 0, 1)
 	return [2]float64{loc + scale*z, loc - scale*z}
-}
-
-// factorial is the naive factorial algorithm.
-func factorial(x int) int {
-	if x == 0 {
-		return 1
-	}
-	return x * factorial(x-1)
 }
 
 // Ncr is an N choose R algorithm.
