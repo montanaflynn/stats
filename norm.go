@@ -287,10 +287,9 @@ func gcd(a, b int) int {
 // to choose r items from n without regard to order.
 //
 // Ncr returns 0 when r < 0 or r > n, since no such selection exists.
-// When the coefficient is too large to fit in an int, Ncr returns the
-// largest int (math.MaxInt64 on 64-bit platforms, math.MaxInt32 on
-// 32-bit platforms) rather than an overflowed value. Use
-// big.Int.Binomial from math/big for exact results of any size.
+// When the coefficient is too large to fit in an int, Ncr returns
+// math.MaxInt instead of an overflowed value, so a result equal to
+// math.MaxInt almost certainly means the true value did not fit.
 func Ncr(n, r int) int {
 	if r < 0 || r > n {
 		return 0
