@@ -280,21 +280,39 @@ func NormInterval(alpha float64, loc float64, scale float64) [2]float64 {
 	return [2]float64{loc + scale*z, loc - scale*z}
 }
 
-// Ncr is an N choose R algorithm.
-// Aaron Cannon's algorithm.
+// gcd returns the greatest common divisor of two positive ints.
+func gcd(a, b int) int {
+	for b != 0 {
+		a, b = b, a%b
+	}
+	return a
+}
+
+// Ncr returns the binomial coefficient "n choose r", the number of ways
+// to choose r items from n without regard to order.
+//
+// Ncr returns 0 when r < 0 or r > n, since no such selection exists.
+// When the coefficient is too large to fit in an int, Ncr returns
+// math.MaxInt instead of an overflowed value, so a result equal to
+// math.MaxInt almost certainly means the true value did not fit.
 func Ncr(n, r int) int {
-	if n <= 1 || r == 0 || n == r {
-		return 1
+	if r < 0 || r > n {
+		return 0
 	}
-	if newR := n - r; newR < r {
-		r = newR
+	if n-r < r {
+		r = n - r
 	}
-	if r == 1 {
-		return n
-	}
-	ret := int(n - r + 1)
-	for i, j := ret+1, int(2); j <= r; i, j = i+1, j+1 {
-		ret = ret * i / j
+	// After step j, ret is C(n-r+j, j). Dividing out gcd(ret, j) first
+	// keeps ret*i/j exact without forming the possibly-overflowing ret*i.
+	ret := 1
+	for j := 1; j <= r; j++ {
+		i := n - r + j
+		g := gcd(ret, j)
+		ret, i = ret/g, i/(j/g)
+		if ret > math.MaxInt/i {
+			return math.MaxInt
+		}
+		ret *= i
 	}
 	return ret
 }

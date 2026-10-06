@@ -730,12 +730,17 @@ returned. An empty input returns ErrEmptyInput.
 
 
 
-## <a name="Ncr">func</a> [Ncr](/norm.go?s=9104:9126#L285)
+## <a name="Ncr">func</a> [Ncr](/norm.go?s=9576:9598#L298)
 ``` go
 func Ncr(n, r int) int
 ```
-Ncr is an N choose R algorithm.
-Aaron Cannon's algorithm.
+Ncr returns the binomial coefficient "n choose r", the number of ways
+to choose r items from n without regard to order.
+
+Ncr returns 0 when r < 0 or r > n, since no such selection exists.
+When the coefficient is too large to fit in an int, Ncr returns
+math.MaxInt instead of an overflowed value, so a result equal to
+math.MaxInt almost certainly means the true value did not fit.
 
 
 

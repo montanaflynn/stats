@@ -4,6 +4,7 @@ import (
 	"math"
 	"math/big"
 	"reflect"
+	"strconv"
 	"testing"
 
 	"github.com/montanaflynn/stats"
@@ -467,5 +468,46 @@ func TestNcr(t *testing.T) {
 	}
 	if stats.Ncr(4, 3) != 4 {
 		t.Error("Input 4 choose 3, Expected 4")
+	}
+	if stats.Ncr(0, 0) != 1 {
+		t.Error("Input 0 choose 0, Expected 1")
+	}
+	if stats.Ncr(10, 5) != 252 {
+		t.Error("Input 10 choose 5, Expected 252")
+	}
+
+	// Selections that cannot exist have zero ways.
+	for _, c := range [][2]int{{5, 7}, {5, -1}, {1, 5}, {0, 3}, {-1, 0}} {
+		if got := stats.Ncr(c[0], c[1]); got != 0 {
+			t.Errorf("Ncr(%d, %d) = %d, want 0", c[0], c[1], got)
+		}
+	}
+
+	// 34 choose 17 fits in int64 but not int32. 62 choose 28 overflowed the
+	// old multiplicative loop before its division. 66 choose 33 is the
+	// largest central coefficient that fits in int64.
+	for _, c := range []struct {
+		n, r int
+		want int64
+	}{
+		{34, 17, 2333606220},
+		{62, 28, 349615716557887465},
+		{62, 34, 349615716557887465},
+		{66, 33, 7219428434016265740},
+	} {
+		got := stats.Ncr(c.n, c.r)
+		if strconv.IntSize == 64 && int64(got) != c.want {
+			t.Errorf("Ncr(%d, %d) = %d, want %d", c.n, c.r, got, c.want)
+		}
+		if strconv.IntSize == 32 && got != math.MaxInt {
+			t.Errorf("Ncr(%d, %d) = %d, want %d", c.n, c.r, got, math.MaxInt)
+		}
+	}
+
+	// Coefficients too large for int saturate instead of wrapping.
+	for _, c := range [][2]int{{67, 33}, {68, 34}, {70, 35}, {1000, 500}} {
+		if got := stats.Ncr(c[0], c[1]); got != math.MaxInt {
+			t.Errorf("Ncr(%d, %d) = %d, want %d", c[0], c[1], got, math.MaxInt)
+		}
 	}
 }
