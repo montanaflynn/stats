@@ -39,3 +39,12 @@ jobs:
           files: coverage.txt
           fail_ci_if_error: true
           verbose: true
+
+  # Single status for branch protection, which requires a check named "test"
+  test-result:
+    name: test
+    if: always()
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - run: test "${{ needs.test.result }}" = success
