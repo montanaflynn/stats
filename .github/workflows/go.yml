@@ -43,9 +43,9 @@ jobs:
           fail_ci_if_error: true
           verbose: true
 
-  # Single status for branch protection, which requires a check named "test"
-  test-result:
-    name: test
+  # Single status for branch protection, which requires a check named "tests"
+  tests:
+    name: tests
     if: always()
     needs: test
     runs-on: ubuntu-latest
