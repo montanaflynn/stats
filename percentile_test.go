@@ -228,7 +228,7 @@ func BenchmarkPercentileNearestRankLargeFloatSlice(b *testing.B) {
 	}
 }
 
-func TestPercentile_ExtremeFiniteValues(t *testing.T) {
+func TestPercentile_ExtremeValues(t *testing.T) {
 	large := math.Ldexp(1, 1023)
 	for _, test := range []struct {
 		name          string
@@ -245,6 +245,9 @@ func TestPercentile_ExtremeFiniteValues(t *testing.T) {
 		{"equal large values", []float64{large, large}, 50, large},
 		{"equal subnormal values", []float64{math.SmallestNonzeroFloat64, math.SmallestNonzeroFloat64}, 50, math.SmallestNonzeroFloat64},
 		{"ordinary values", []float64{0, 10}, 40, 4},
+		{"exact rank beside infinity", []float64{1, 2, math.Inf(1)}, 50, 2},
+		{"negative infinity endpoint", []float64{-math.Inf(1), 5}, 50, math.Inf(-1)},
+		{"positive infinity endpoint", []float64{5, math.Inf(1)}, 50, math.Inf(1)},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			original := append([]float64(nil), test.input...)
