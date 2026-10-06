@@ -248,6 +248,8 @@ func TestPercentile_ExtremeValues(t *testing.T) {
 		{"exact rank beside infinity", []float64{1, 2, math.Inf(1)}, 50, 2},
 		{"negative infinity endpoint", []float64{-math.Inf(1), 5}, 50, math.Inf(-1)},
 		{"positive infinity endpoint", []float64{5, math.Inf(1)}, 50, math.Inf(1)},
+		{"equal positive infinities", []float64{math.Inf(1), math.Inf(1)}, 50, math.Inf(1)},
+		{"equal negative infinities", []float64{math.Inf(-1), math.Inf(-1)}, 50, math.Inf(-1)},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			original := append([]float64(nil), test.input...)
