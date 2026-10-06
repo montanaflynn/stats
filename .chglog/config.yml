@@ -13,10 +13,20 @@ options:
         - Remove
         - feat
         - fix
+        - chore
+        - ci
   commit_groups:
+    sort_by: Custom
     title_maps:
       feat: Add
       fix: Fix
+      chore: Chore
+      ci: CI
+    title_order:
+      - feat
+      - fix
+      - ci
+      - chore
   header:
     pattern: "^(\\w+)(?:\\(.*\\))?!?:?\\s(.*)$"
     pattern_maps:
