@@ -2,7 +2,6 @@ package stats
 
 import (
 	"math"
-	"math/big"
 	"math/rand"
 	"strings"
 	"time"
@@ -273,26 +272,43 @@ func factorial(x int) int {
 	return x * factorial(x-1)
 }
 
-// Ncr is an N choose R algorithm.
-// Aaron Cannon's algorithm.
+// maxInt is the largest value an int can hold on this platform.
+const maxInt = int(^uint(0) >> 1)
+
+// gcd returns the greatest common divisor of two positive ints.
+func gcd(a, b int) int {
+	for b != 0 {
+		a, b = b, a%b
+	}
+	return a
+}
+
+// Ncr returns the binomial coefficient "n choose r", the number of ways
+// to choose r items from n without regard to order.
+//
+// Ncr returns 0 when r < 0 or r > n, since no such selection exists.
+// When the coefficient is too large to fit in an int, Ncr returns the
+// largest int (math.MaxInt64 on 64-bit platforms, math.MaxInt32 on
+// 32-bit platforms) rather than an overflowed value. Use
+// big.Int.Binomial from math/big for exact results of any size.
 func Ncr(n, r int) int {
-	if n <= 1 || r == 0 || n == r {
-		return 1
+	if r < 0 || r > n {
+		return 0
 	}
-	if newR := n - r; newR < r {
-		r = newR
+	if n-r < r {
+		r = n - r
 	}
-	if r == 1 {
-		return n
+	// After step j, ret is C(n-r+j, j). Dividing out gcd(ret, j) first
+	// keeps ret*i/j exact without forming the possibly-overflowing ret*i.
+	ret := 1
+	for j := 1; j <= r; j++ {
+		i := n - r + j
+		g := gcd(ret, j)
+		ret, i = ret/g, i/(j/g)
+		if ret > maxInt/i {
+			return maxInt
+		}
+		ret *= i
 	}
-	// ret*i overflows int before the division, so a coefficient that still
-	// fits in int used to come back negative. Ncr(62, 28) is the case.
-	ret := big.NewInt(int64(n - r + 1))
-	mul := new(big.Int)
-	div := new(big.Int)
-	for i, j := int64(n-r+1)+1, int64(2); j <= int64(r); i, j = i+1, j+1 {
-		ret.Mul(ret, mul.SetInt64(i))
-		ret.Quo(ret, div.SetInt64(j))
-	}
-	return int(ret.Int64())
+	return ret
 }
