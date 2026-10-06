@@ -227,3 +227,39 @@ func BenchmarkPercentileNearestRankLargeFloatSlice(b *testing.B) {
 		_, _ = stats.PercentileNearestRank(lf, 50)
 	}
 }
+
+func TestPercentile_ExtremeValues(t *testing.T) {
+	large := math.Ldexp(1, 1023)
+	for _, test := range []struct {
+		name          string
+		input         []float64
+		percent, want float64
+	}{
+		{"maximum midpoint", []float64{-math.MaxFloat64, math.MaxFloat64}, 50, 0},
+		{"large lower quartile", []float64{-large, large}, 25, -large / 2},
+		{"large midpoint", []float64{-large, large}, 50, 0},
+		{"large upper quartile", []float64{-large, large}, 75, large / 2},
+		{"underflowed rank", []float64{-large, large}, math.SmallestNonzeroFloat64, -large},
+		{"exact interior rank", []float64{-math.MaxFloat64, -large, math.MaxFloat64}, 50, -large},
+		{"upper endpoint", []float64{-large, large}, 100, large},
+		{"equal large values", []float64{large, large}, 50, large},
+		{"equal subnormal values", []float64{math.SmallestNonzeroFloat64, math.SmallestNonzeroFloat64}, 50, math.SmallestNonzeroFloat64},
+		{"ordinary values", []float64{0, 10}, 40, 4},
+		{"exact rank beside infinity", []float64{1, 2, math.Inf(1)}, 50, 2},
+		{"negative infinity endpoint", []float64{-math.Inf(1), 5}, 50, math.Inf(-1)},
+		{"positive infinity endpoint", []float64{5, math.Inf(1)}, 50, math.Inf(1)},
+		{"equal positive infinities", []float64{math.Inf(1), math.Inf(1)}, 50, math.Inf(1)},
+		{"equal negative infinities", []float64{math.Inf(-1), math.Inf(-1)}, 50, math.Inf(-1)},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			original := append([]float64(nil), test.input...)
+			got, err := stats.Percentile(test.input, test.percent)
+			if err != nil || got != test.want {
+				t.Errorf("Percentile(%v, %v) = %v, %v; want %v, nil", test.input, test.percent, got, err, test.want)
+			}
+			if !reflect.DeepEqual(test.input, original) {
+				t.Error("Percentile changed its input")
+			}
+		})
+	}
+}

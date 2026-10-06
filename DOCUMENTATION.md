@@ -942,7 +942,7 @@ behavior of pandas pct_change.
 
 
 
-## <a name="Percentile">func</a> [Percentile](/percentile.go?s=751:834#L22)
+## <a name="Percentile">func</a> [Percentile](/percentile.go?s=1020:1103#L27)
 ``` go
 func Percentile(input Float64Data, percent float64) (percentile float64, err error)
 ```
@@ -959,13 +959,18 @@ Algorithm (for percent p and sorted data of length n):
 
 	1. Compute the rank: rank = (p / 100) * (n - 1)
 	2. Split into integer part k and fractional part f
-	3. Result = data[k] + f * (data[k+1] - data[k])
+	3. Result = data[k] + f * (data[k+1] - data[k]), or data[k] when f is 0
+	   or data[k] equals data[k+1]
+
+When data[k+1] - data[k] is infinite, because it overflows or an endpoint
+is infinite, the endpoints are weighted separately as
+(1 - f) * data[k] + f * data[k+1] so large finite inputs stay finite.
 
 [1] <a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc262.htm">https://www.itl.nist.gov/div898/handbook/prc/section2/prc262.htm</a>
 
 
 
-## <a name="PercentileNearestRank">func</a> [PercentileNearestRank](/percentile.go?s=1841:1935#L61)
+## <a name="PercentileNearestRank">func</a> [PercentileNearestRank](/percentile.go?s=2425:2519#L74)
 ``` go
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)
 ```
