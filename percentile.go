@@ -16,7 +16,12 @@ import (
 //
 //  1. Compute the rank: rank = (p / 100) * (n - 1)
 //  2. Split into integer part k and fractional part f
-//  3. Result = data[k] + f * (data[k+1] - data[k])
+//  3. Result = data[k] + f * (data[k+1] - data[k]), or data[k] when f is 0
+//     or data[k] equals data[k+1]
+//
+// When data[k+1] - data[k] is infinite, because it overflows or an endpoint
+// is infinite, the endpoints are weighted separately as
+// (1 - f) * data[k] + f * data[k+1] so large finite inputs stay finite.
 //
 // [1] https://www.itl.nist.gov/div898/handbook/prc/section2/prc262.htm
 func Percentile(input Float64Data, percent float64) (percentile float64, err error) {
@@ -42,13 +47,21 @@ func Percentile(input Float64Data, percent float64) (percentile float64, err err
 
 	// Use the standard linear interpolation method:
 	// rank = (percent / 100) * (n - 1)
-	// result = c[k] + f * (c[k+1] - c[k])
+	// result = c[k] + f * (c[k+1] - c[k]), or c[k] for an exact rank or
+	// when c[k] and c[k+1] are equal
 	rank := (percent / 100) * float64(length-1)
 	k := int(rank)
 	f := rank - float64(k)
 
-	if k+1 < length {
-		percentile = c[k] + f*(c[k+1]-c[k])
+	if k+1 < length && f != 0 && c[k+1] != c[k] {
+		delta := c[k+1] - c[k]
+		if math.IsInf(delta, 1) {
+			// Weight the endpoints separately when their difference is
+			// infinite, from overflow or from an infinite endpoint.
+			percentile = (1-f)*c[k] + f*c[k+1]
+		} else {
+			percentile = c[k] + f*delta
+		}
 	} else {
 		percentile = c[k]
 	}

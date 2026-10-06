@@ -730,12 +730,17 @@ returned. An empty input returns ErrEmptyInput.
 
 
 
-## <a name="Ncr">func</a> [Ncr](/norm.go?s=8827:8849#L277)
+## <a name="Ncr">func</a> [Ncr](/norm.go?s=9576:9598#L298)
 ``` go
 func Ncr(n, r int) int
 ```
-Ncr is an N choose R algorithm.
-Aaron Cannon's algorithm.
+Ncr returns the binomial coefficient "n choose r", the number of ways
+to choose r items from n without regard to order.
+
+Ncr returns 0 when r < 0 or r > n, since no such selection exists.
+When the coefficient is too large to fit in an int, Ncr returns
+math.MaxInt instead of an overflowed value, so a result equal to
+math.MaxInt almost certainly means the true value did not fit.
 
 
 
@@ -756,7 +761,7 @@ NormCdf is the cumulative distribution function.
 
 
 
-## <a name="NormEntropy">func</a> [NormEntropy](/norm.go?s=7117:7169#L219)
+## <a name="NormEntropy">func</a> [NormEntropy](/norm.go?s=7526:7578#L235)
 ``` go
 func NormEntropy(loc float64, scale float64) float64
 ```
@@ -764,7 +769,7 @@ NormEntropy is the differential entropy of the RV.
 
 
 
-## <a name="NormFit">func</a> [NormFit](/norm.go?s=7402:7441#L226)
+## <a name="NormFit">func</a> [NormFit](/norm.go?s=7811:7850#L242)
 ``` go
 func NormFit(data []float64) [2]float64
 ```
@@ -774,7 +779,7 @@ Returns array of Mean followed by Standard Deviation.
 
 
 
-## <a name="NormInterval">func</a> [NormInterval](/norm.go?s=8320:8391#L260)
+## <a name="NormInterval">func</a> [NormInterval](/norm.go?s=8729:8800#L276)
 ``` go
 func NormInterval(alpha float64, loc float64, scale float64) [2]float64
 ```
@@ -814,7 +819,7 @@ NormLogSf is the log of the survival function.
 
 
 
-## <a name="NormMean">func</a> [NormMean](/norm.go?s=7904:7953#L245)
+## <a name="NormMean">func</a> [NormMean](/norm.go?s=8313:8362#L261)
 ``` go
 func NormMean(loc float64, scale float64) float64
 ```
@@ -822,7 +827,7 @@ NormMean is the mean/expected value of the distribution.
 
 
 
-## <a name="NormMedian">func</a> [NormMedian](/norm.go?s=7775:7826#L240)
+## <a name="NormMedian">func</a> [NormMedian](/norm.go?s=8184:8235#L256)
 ``` go
 func NormMedian(loc float64, scale float64) float64
 ```
@@ -830,11 +835,15 @@ NormMedian is the median of the distribution.
 
 
 
-## <a name="NormMoment">func</a> [NormMoment](/norm.go?s=6038:6096#L185)
+## <a name="NormMoment">func</a> [NormMoment](/norm.go?s=6299:6357#L189)
 ``` go
 func NormMoment(n int, loc float64, scale float64) float64
 ```
-NormMoment approximates the non-central (raw) moment of order n.
+NormMoment returns the non-central (raw) moment of order n, E[X^n] for
+X ~ N(loc, scale^2). It returns 0 for n < 0.
+It uses the recurrence M(n) = loc*M(n-1) + (n-1)*scale^2*M(n-2), with
+M(0) = 1 and M(1) = loc, evaluated in float64, so it only overflows to
+±Inf when the moment itself is too large for a float64.
 For more information please visit: <a href="https://math.stackexchange.com/questions/1945448/methods-for-finding-raw-moments-of-the-normal-distribution">https://math.stackexchange.com/questions/1945448/methods-for-finding-raw-moments-of-the-normal-distribution</a>
 
 
@@ -884,7 +893,7 @@ NormSf is the survival function (also defined as 1 - cdf, but sf is sometimes mo
 
 
 
-## <a name="NormStats">func</a> [NormStats](/norm.go?s=6621:6689#L201)
+## <a name="NormStats">func</a> [NormStats](/norm.go?s=7030:7098#L217)
 ``` go
 func NormStats(loc float64, scale float64, moments string) []float64
 ```
@@ -895,7 +904,7 @@ Returns array of m v s k in that order.
 
 
 
-## <a name="NormStd">func</a> [NormStd](/norm.go?s=8158:8206#L255)
+## <a name="NormStd">func</a> [NormStd](/norm.go?s=8567:8615#L271)
 ``` go
 func NormStd(loc float64, scale float64) float64
 ```
@@ -903,7 +912,7 @@ NormStd is the standard deviation of the distribution.
 
 
 
-## <a name="NormVar">func</a> [NormVar](/norm.go?s=8019:8067#L250)
+## <a name="NormVar">func</a> [NormVar](/norm.go?s=8428:8476#L266)
 ``` go
 func NormVar(loc float64, scale float64) float64
 ```
@@ -933,7 +942,7 @@ behavior of pandas pct_change.
 
 
 
-## <a name="Percentile">func</a> [Percentile](/percentile.go?s=751:834#L22)
+## <a name="Percentile">func</a> [Percentile](/percentile.go?s=1020:1103#L27)
 ``` go
 func Percentile(input Float64Data, percent float64) (percentile float64, err error)
 ```
@@ -950,13 +959,18 @@ Algorithm (for percent p and sorted data of length n):
 
 	1. Compute the rank: rank = (p / 100) * (n - 1)
 	2. Split into integer part k and fractional part f
-	3. Result = data[k] + f * (data[k+1] - data[k])
+	3. Result = data[k] + f * (data[k+1] - data[k]), or data[k] when f is 0
+	   or data[k] equals data[k+1]
+
+When data[k+1] - data[k] is infinite, because it overflows or an endpoint
+is infinite, the endpoints are weighted separately as
+(1 - f) * data[k] + f * data[k+1] so large finite inputs stay finite.
 
 [1] <a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc262.htm">https://www.itl.nist.gov/div898/handbook/prc/section2/prc262.htm</a>
 
 
 
-## <a name="PercentileNearestRank">func</a> [PercentileNearestRank](/percentile.go?s=1841:1935#L61)
+## <a name="PercentileNearestRank">func</a> [PercentileNearestRank](/percentile.go?s=2425:2519#L74)
 ``` go
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)
 ```
@@ -1118,7 +1132,7 @@ matching pandas .kurt() and scipy.stats.kurtosis with bias=False.
 
 
 
-## <a name="SampleSkewness">func</a> [SampleSkewness](/skewness.go?s=1049:1104#L44)
+## <a name="SampleSkewness">func</a> [SampleSkewness](/skewness.go?s=1043:1098#L44)
 ``` go
 func SampleSkewness(input Float64Data) (float64, error)
 ```
