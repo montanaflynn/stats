@@ -2,6 +2,7 @@ package stats_test
 
 import (
 	"fmt"
+	"math"
 	"reflect"
 	"testing"
 
@@ -55,7 +56,7 @@ func TestEWMAInvalidInput(t *testing.T) {
 	if err != stats.ErrEmptyInput {
 		t.Errorf("Empty input should have returned ErrEmptyInput, got %v", err)
 	}
-	for _, alpha := range []float64{0, -0.5, 1.5} {
+	for _, alpha := range []float64{0, -0.5, 1.5, math.NaN()} {
 		_, err := stats.EWMA([]float64{1, 2, 3}, alpha)
 		if err != stats.ErrBounds {
 			t.Errorf("Alpha %v should have returned ErrBounds, got %v", alpha, err)

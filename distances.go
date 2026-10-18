@@ -70,7 +70,8 @@ func ManhattanDistance(dataPointX, dataPointY Float64Data) (distance float64, er
 //	            returned distance is manhattan distance and
 //	            lambda = 2; it is euclidean distance. Lambda
 //	            reaching to infinite - distance would be chebysev
-//	            distance.
+//	            distance. A negative or NaN lambda returns
+//	            ErrBounds.
 //
 // Return:
 //
@@ -79,6 +80,9 @@ func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (dist
 	err = validateData(dataPointX, dataPointY)
 	if err != nil {
 		return math.NaN(), err
+	}
+	if math.IsNaN(lambda) || lambda < 0 {
+		return math.NaN(), ErrBounds
 	}
 	for i := 0; i < len(dataPointY); i++ {
 		distance = distance + math.Pow(math.Abs(dataPointX[i]-dataPointY[i]), lambda)

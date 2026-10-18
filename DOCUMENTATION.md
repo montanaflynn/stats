@@ -362,12 +362,13 @@ ChebyshevDistance computes the Chebyshev distance between two data sets
 
 
 
-## <a name="Clip">func</a> [Clip](/clip.go?s=109:174#L5)
+## <a name="Clip">func</a> [Clip](/clip.go?s=199:264#L8)
 ``` go
 func Clip(input Float64Data, min, max float64) ([]float64, error)
 ```
 Clip clamps each value in the input slice into the
-inclusive range between min and max.
+inclusive range between min and max. A min greater than max,
+or a min or max that is NaN, returns ErrBounds.
 
 
 
@@ -451,7 +452,7 @@ returns an empty slice.
 
 
 
-## <a name="EWMA">func</a> [EWMA](/ewma.go?s=392:454#L9)
+## <a name="EWMA">func</a> [EWMA](/ewma.go?s=435:497#L11)
 ``` go
 func EWMA(input Float64Data, alpha float64) ([]float64, error)
 ```
@@ -459,8 +460,8 @@ EWMA calculates the exponentially weighted moving average of the input
 with smoothing factor alpha. The first output equals the first input and
 each subsequent entry is alpha*input[i] + (1-alpha)*output[i-1], so the
 result has the same length as the input. The alpha must satisfy
-0 < alpha <= 1 or ErrBounds is returned. An empty input returns
-ErrEmptyInput.
+0 < alpha <= 1 or ErrBounds is returned, so a NaN alpha is rejected.
+An empty input returns ErrEmptyInput.
 
 
 
@@ -480,7 +481,7 @@ EuclideanDistance computes the Euclidean distance between two data sets
 
 
 
-## <a name="ExpGeom">func</a> [ExpGeom](/geometric_distribution.go?s=816:864#L28)
+## <a name="ExpGeom">func</a> [ExpGeom](/geometric_distribution.go?s=940:988#L33)
 ``` go
 func ExpGeom(p float64) (exp float64, err error)
 ```
@@ -623,7 +624,7 @@ Min finds the lowest number in a set of data
 
 
 
-## <a name="MinkowskiDistance">func</a> [MinkowskiDistance](/distances.go?s=2133:2237#L78)
+## <a name="MinkowskiDistance">func</a> [MinkowskiDistance](/distances.go?s=2192:2296#L79)
 ``` go
 func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (distance float64, err error)
 ```
@@ -639,7 +640,8 @@ Arguments:
 	            returned distance is manhattan distance and
 	            lambda = 2; it is euclidean distance. Lambda
 	            reaching to infinite - distance would be chebysev
-	            distance.
+	            distance. A negative or NaN lambda returns
+	            ErrBounds.
 
 Return:
 
@@ -978,7 +980,7 @@ PercentileNearestRank finds the relative standing in a slice of floats using the
 
 
 
-## <a name="PercentileOfScore">func</a> [PercentileOfScore](/percentile_of_score.go?s=374:447#L11)
+## <a name="PercentileOfScore">func</a> [PercentileOfScore](/percentile_of_score.go?s=408:481#L12)
 ``` go
 func PercentileOfScore(input Float64Data, score float64) (float64, error)
 ```
@@ -987,7 +989,8 @@ relative to a slice of floats, defined as the percentage of
 values strictly below the score plus half the percentage of
 values equal to the score. The result is between 0 and 100.
 This matches the behavior of Python's
-scipy.stats.percentileofscore with kind="mean".
+scipy.stats.percentileofscore with kind="mean". A NaN score
+returns ErrBounds.
 
 
 
@@ -1036,12 +1039,13 @@ PopulationVariance finds the amount of variance within a population
 
 
 
-## <a name="ProbGeom">func</a> [ProbGeom](/geometric_distribution.go?s=258:322#L10)
+## <a name="ProbGeom">func</a> [ProbGeom](/geometric_distribution.go?s=309:373#L11)
 ``` go
 func ProbGeom(a int, b int, p float64) (prob float64, err error)
 ```
 ProbGeom generates the probability for a geometric random variable
-with parameter p to achieve success in the interval of [a, b] trials
+with parameter p to achieve success in the interval of [a, b] trials.
+A p outside [0, 1], or NaN, returns ErrBounds.
 See <a href="https://en.wikipedia.org/wiki/Geometric_distribution">https://en.wikipedia.org/wiki/Geometric_distribution</a> for more information
 
 
@@ -1285,7 +1289,7 @@ the same result as Mean.
 
 
 
-## <a name="VarGeom">func</a> [VarGeom](/geometric_distribution.go?s=1049:1097#L38)
+## <a name="VarGeom">func</a> [VarGeom](/geometric_distribution.go?s=1173:1221#L43)
 ``` go
 func VarGeom(p float64) (exp float64, err error)
 ```
@@ -1529,7 +1533,7 @@ AutoCorrelation is the correlation of a signal with a delayed copy of itself as 
 
 
 
-### <a name="Float64Data.Clip">func</a> (Float64Data) [Clip](/clip.go?s=550:612#L30)
+### <a name="Float64Data.Clip">func</a> (Float64Data) [Clip](/clip.go?s=678:740#L33)
 ``` go
 func (f Float64Data) Clip(min, max float64) ([]float64, error)
 ```
@@ -1620,7 +1624,7 @@ Diff returns the successive differences of the data
 
 
 
-### <a name="Float64Data.EWMA">func</a> (Float64Data) [EWMA](/ewma.go?s=848:907#L30)
+### <a name="Float64Data.EWMA">func</a> (Float64Data) [EWMA](/ewma.go?s=912:971#L32)
 ``` go
 func (f Float64Data) EWMA(alpha float64) ([]float64, error)
 ```
@@ -1882,7 +1886,7 @@ PercentileNearestRank finds the relative standing using the Nearest Rank method
 
 
 
-### <a name="Float64Data.PercentileOfScore">func</a> (Float64Data) [PercentileOfScore](/percentile_of_score.go?s=786:856#L29)
+### <a name="Float64Data.PercentileOfScore">func</a> (Float64Data) [PercentileOfScore](/percentile_of_score.go?s=879:949#L34)
 ``` go
 func (f Float64Data) PercentileOfScore(score float64) (float64, error)
 ```

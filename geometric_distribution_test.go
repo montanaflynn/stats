@@ -89,6 +89,24 @@ func TestErrBoundsProbGeom(t *testing.T) {
 	}
 }
 
+func TestProbGeomInvalidP(t *testing.T) {
+	for _, p := range []float64{-0.5, 1.5, math.NaN(), math.Inf(1)} {
+		chance, err := stats.ProbGeom(1, 3, p)
+		if err != stats.ErrBounds {
+			t.Errorf("ProbGeom(1, 3, %v) returned %v, want ErrBounds", p, err)
+		}
+		if !math.IsNaN(chance) {
+			t.Errorf("ProbGeom(1, 3, %v) = %v, want NaN", p, chance)
+		}
+	}
+	// The endpoints of [0, 1] are valid.
+	for _, p := range []float64{0, 1} {
+		if _, err := stats.ProbGeom(1, 3, p); err != nil {
+			t.Errorf("ProbGeom(1, 3, %v) returned %v", p, err)
+		}
+	}
+}
+
 func ExampleExpGeom() {
 	p := 0.5
 	exp, _ := stats.ExpGeom(p)
