@@ -43,15 +43,15 @@ func StandardDeviationPopulation(input Float64Data) (sdev float64, err error) {
 	return math.Sqrt(vp), nil
 }
 
-// StandardDeviationSample finds the amount of variation from a sample
+// StandardDeviationSample finds the amount of variation from a sample. It
+// returns ErrTooFew for a single element.
 func StandardDeviationSample(input Float64Data) (sdev float64, err error) {
 
-	if input.Len() == 0 {
-		return math.NaN(), EmptyInputErr
-	}
-
 	// Get the sample variance
-	vs, _ := SampleVariance(input)
+	vs, err := SampleVariance(input)
+	if err != nil {
+		return math.NaN(), err
+	}
 
 	// Return the sample standard deviation
 	return math.Sqrt(vs), nil

@@ -243,19 +243,6 @@ func hasNaN(xs []float64) bool {
 // callers that only check err are not handed garbage.
 func TestFiniteInputNoSilentNaN(t *testing.T) {
 	known := newKnownIssues(t,
-		// Sample statistics divide by n-1, which is 0 for one element. numpy,
-		// scipy and pandas also return NaN here.
-		"CoefficientOfVariation(single)",
-		"Covariance(single)",
-		"SampleVariance(single)",
-		"SEM(single)",
-		"StandardDeviationSample(single)",
-		"ZScore(single)",
-		"CoefficientOfVariation(unevensingle)",
-		"SampleVariance(unevensingle)",
-		"SEM(unevensingle)",
-		"StandardDeviationSample(unevensingle)",
-		"ZScore(unevensingle)",
 		// The mean or the squared deviations overflow for huge values, as they
 		// do in numpy and pandas.
 		"AutoCorrelation(huge)",

@@ -32,7 +32,8 @@ func TestCorrelation(t *testing.T) {
 		{"Empty Slice Error", [][]float64{s4, s4}, math.NaN(), stats.EmptyInputErr},
 		{"Different Length Error", [][]float64{s1, s2}, math.NaN(), stats.SizeErr},
 		{"Correlation Value", [][]float64{s1, s3}, 0.9912407071619302, nil},
-		{"Same Input Value", [][]float64{s5, s5}, 0.00, nil},
+		{"Same Input Value", [][]float64{s5, s5}, math.NaN(), stats.ErrZero},
+		{"Single Pair", [][]float64{{1}, {2}}, math.NaN(), stats.ErrTooFew},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -119,7 +120,8 @@ func TestSpearman(t *testing.T) {
 		},
 
 		// Zero standard deviation case (all same values)
-		{"Same Input Value", []float64{0, 0, 0}, []float64{0, 0, 0}, 0.00, nil},
+		{"Same Input Value", []float64{0, 0, 0}, []float64{0, 0, 0}, math.NaN(), stats.ErrZero},
+		{"Single Pair", []float64{1}, []float64{2}, math.NaN(), stats.ErrTooFew},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -211,7 +213,7 @@ func TestAutoCorrelation(t *testing.T) {
 	}
 
 	constant := []float64{3, 3, 3, 3, 3}
-	if a, err := stats.AutoCorrelation(constant, 1); err != nil || a != 0 {
-		t.Errorf("AutoCorrelation of constant series should be 0, got %v err=%v", a, err)
+	if a, err := stats.AutoCorrelation(constant, 1); err != stats.ErrZero || !math.IsNaN(a) {
+		t.Errorf("AutoCorrelation of constant series should be NaN with ErrZero, got %v err=%v", a, err)
 	}
 }
