@@ -2,6 +2,7 @@ package stats_test
 
 import (
 	"fmt"
+	"math"
 	"testing"
 
 	"github.com/montanaflynn/stats"
@@ -67,6 +68,42 @@ func TestDataSetDistances(t *testing.T) {
 		if err == nil {
 			t.Errorf("Empty slices should have resulted in an error")
 		}
+	}
+}
+
+func TestEuclideanDistanceScale(t *testing.T) {
+	for _, scale := range []float64{1, 1e200, 1e-200} {
+		t.Run(fmt.Sprintf("scale=%g", scale), func(t *testing.T) {
+			for _, sign := range []float64{-1, 1} {
+				got, err := stats.EuclideanDistance(
+					stats.Float64Data{sign * 3 * scale, sign * 4 * scale},
+					stats.Float64Data{0, 0},
+				)
+				if err != nil {
+					t.Fatal(err)
+				}
+				want := 5 * scale
+				if math.IsNaN(got) || math.IsInf(got, 0) || math.Abs(got/want-1) > 1e-15 {
+					t.Errorf("distance = %g, want %g", got, want)
+				}
+			}
+		})
+	}
+}
+
+func TestEuclideanDistanceNonFinite(t *testing.T) {
+	for _, point := range []stats.Float64Data{
+		{math.NaN(), math.Inf(1)},
+		{math.Inf(1), math.NaN()},
+	} {
+		got, err := stats.EuclideanDistance(point, stats.Float64Data{0, 0})
+		if err != nil || !math.IsNaN(got) {
+			t.Errorf("distance = (%g, %v), want (NaN, nil)", got, err)
+		}
+	}
+	got, err := stats.EuclideanDistance(stats.Float64Data{math.Inf(1)}, stats.Float64Data{0})
+	if err != nil || !math.IsInf(got, 1) {
+		t.Errorf("distance = (%g, %v), want (+Inf, nil)", got, err)
 	}
 }
 

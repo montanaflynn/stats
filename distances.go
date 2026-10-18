@@ -41,9 +41,13 @@ func EuclideanDistance(dataPointX, dataPointY Float64Data) (distance float64, er
 	}
 	distance = 0
 	for i := 0; i < len(dataPointX); i++ {
-		distance = distance + ((dataPointX[i] - dataPointY[i]) * (dataPointX[i] - dataPointY[i]))
+		delta := dataPointX[i] - dataPointY[i]
+		if math.IsNaN(delta) {
+			return delta, nil
+		}
+		distance = math.Hypot(distance, delta)
 	}
-	return math.Sqrt(distance), nil
+	return distance, nil
 }
 
 // ManhattanDistance computes the Manhattan distance between two data sets
