@@ -299,6 +299,44 @@ func TestFiniteInputNoSilentNaN(t *testing.T) {
 	}
 }
 
+// TestNaNInputPropagates checks that a NaN in the data yields a NaN result
+// or an error, as Mean and Sum do, rather than a finite result computed as if
+// the NaN were absent or sorted below every number.
+func TestNaNInputPropagates(t *testing.T) {
+	known := newKnownIssues(t,
+		// Comparisons with NaN are false, so NaN is skipped by max and min
+		// scans and sorted below every number. numpy and scipy return NaN,
+		// and numpy.histogram raises.
+		"ChebyshevDistance",
+		"CumulativeMax",
+		"CumulativeMin",
+		"Histogram",
+		"KendallTau",
+		"Max",
+		"Median",
+		"MedianAbsoluteDeviation",
+		"Min",
+		"Percentile",
+		"PercentileNearestRank",
+		"PercentileOfScore",
+		"Range",
+		"Rank",
+		"Spearman",
+	)
+	defer known.done()
+	in := inputs()["nan"]
+	for _, c := range robustCases() {
+		// Mode reports no repeated value, which is true with a NaN.
+		if c.name == "Mode" {
+			continue
+		}
+		out, err, p := safeCall(c, in[0], in[1])
+		if p == nil && err == nil && !hasNaN(out) {
+			known.failf(c.name, "%s(%v) = %v with nil error", c.name, in[0], out)
+		}
+	}
+}
+
 // TestScaleEquivariance checks f(s*x) = s^d * f(x) for scales that keep
 // every input and result representable. Intermediate overflow or underflow
 // (squaring 1e200, say) shows up as Inf, 0, or NaN at the extreme scales.
