@@ -1270,7 +1270,7 @@ Sum adds all the numbers of a slice together
 
 
 
-## <a name="TTest">func</a> [TTest](/ttest.go?s=505:604#L16)
+## <a name="TTest">func</a> [TTest](/ttest.go?s=823:922#L22)
 ``` go
 func TTest(data1, data2 Float64Data, populationMean float64) (t float64, pvalue float64, err error)
 ```
@@ -1281,6 +1281,12 @@ and the expected population mean as populationMean.
 
 For a two-sample independent t-test (assuming equal variance), pass both
 sample datasets. The populationMean parameter is ignored in this case.
+Either sample may have a single element as long as there are at least
+three values in total, matching scipy.stats.ttest_ind.
+
+When the data has zero variance the t statistic is undefined: if the
+means being compared are equal TTest returns a t of 0 and a p-value of 1,
+otherwise it returns ErrBounds.
 
 Returns the t statistic and the two-tailed p-value.
 
