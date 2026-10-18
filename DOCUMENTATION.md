@@ -328,25 +328,29 @@ Legacy error names that didn't start with Err
 
 
 
-## <a name="ArgMax">func</a> [ArgMax](/extremes.go?s=129:172#L5)
+## <a name="ArgMax">func</a> [ArgMax](/extremes.go?s=256:299#L9)
 ``` go
 func ArgMax(input Float64Data) (int, error)
 ```
 ArgMax finds the index of the highest number in a slice,
-returning the first occurrence in the case of ties
+returning the first occurrence in the case of ties. A NaN is
+treated as the highest value, matching numpy.argmax, so the
+index of the first NaN is returned.
 
 
 
-## <a name="ArgMin">func</a> [ArgMin](/extremes.go?s=671:714#L28)
+## <a name="ArgMin">func</a> [ArgMin](/extremes.go?s=993:1036#L38)
 ``` go
 func ArgMin(input Float64Data) (int, error)
 ```
 ArgMin finds the index of the lowest number in a slice,
-returning the first occurrence in the case of ties
+returning the first occurrence in the case of ties. A NaN is
+treated as the lowest value, matching numpy.argmin, so the
+index of the first NaN is returned.
 
 
 
-## <a name="AutoCorrelation">func</a> [AutoCorrelation](/correlation.go?s=2282:2347#L102)
+## <a name="AutoCorrelation">func</a> [AutoCorrelation](/correlation.go?s=2426:2491#L108)
 ``` go
 func AutoCorrelation(data Float64Data, lags int) (float64, error)
 ```
@@ -354,11 +358,12 @@ AutoCorrelation is the correlation of a signal with a delayed copy of itself as 
 
 
 
-## <a name="ChebyshevDistance">func</a> [ChebyshevDistance](/distances.go?s=368:456#L20)
+## <a name="ChebyshevDistance">func</a> [ChebyshevDistance](/distances.go?s=429:517#L21)
 ``` go
 func ChebyshevDistance(dataPointX, dataPointY Float64Data) (distance float64, err error)
 ```
-ChebyshevDistance computes the Chebyshev distance between two data sets
+ChebyshevDistance computes the Chebyshev distance between two data sets.
+If any coordinate difference is NaN the distance is NaN.
 
 
 
@@ -409,23 +414,27 @@ CovariancePopulation computes covariance for entire population between two varia
 
 
 
-## <a name="CumulativeMax">func</a> [CumulativeMax](/cumulative.go?s=486:542#L24)
+## <a name="CumulativeMax">func</a> [CumulativeMax](/cumulative.go?s=587:643#L28)
 ``` go
 func CumulativeMax(input Float64Data) ([]float64, error)
 ```
-CumulativeMax calculates the cumulative maximum of the input slice
+CumulativeMax calculates the cumulative maximum of the input slice.
+Like NumPy's maximum.accumulate, every value from the first NaN
+onward is NaN.
 
 
 
-## <a name="CumulativeMin">func</a> [CumulativeMin](/cumulative.go?s=874:930#L44)
+## <a name="CumulativeMin">func</a> [CumulativeMin](/cumulative.go?s=1080:1136#L50)
 ``` go
 func CumulativeMin(input Float64Data) ([]float64, error)
 ```
-CumulativeMin calculates the cumulative minimum of the input slice
+CumulativeMin calculates the cumulative minimum of the input slice.
+Like NumPy's minimum.accumulate, every value from the first NaN
+onward is NaN.
 
 
 
-## <a name="CumulativeProduct">func</a> [CumulativeProduct](/cumulative.go?s=89:149#L4)
+## <a name="CumulativeProduct">func</a> [CumulativeProduct](/cumulative.go?s=104:164#L6)
 ``` go
 func CumulativeProduct(input Float64Data) ([]float64, error)
 ```
@@ -473,7 +482,7 @@ Entropy provides calculation of the entropy
 
 
 
-## <a name="EuclideanDistance">func</a> [EuclideanDistance](/distances.go?s=836:924#L36)
+## <a name="EuclideanDistance">func</a> [EuclideanDistance](/distances.go?s=986:1074#L38)
 ``` go
 func EuclideanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error)
 ```
@@ -506,7 +515,7 @@ HarmonicMean gets the harmonic mean for a slice of numbers
 
 
 
-## <a name="Histogram">func</a> [Histogram](/histogram.go?s=327:396#L10)
+## <a name="Histogram">func</a> [Histogram](/histogram.go?s=407:476#L11)
 ``` go
 func Histogram(input Float64Data, bins int) ([]int, []float64, error)
 ```
@@ -514,7 +523,8 @@ Histogram calculates the histogram of a slice using the given
 number of equal-width bins over [min, max], returning the count
 of values in each bin along with the bins+1 bin edges. Each bin
 is half-open [edges[i], edges[i+1]) except the last, which also
-includes the maximum value.
+includes the maximum value. A NaN cannot be placed in any
+bin, so input containing a NaN returns ErrNaN.
 
 
 
@@ -541,7 +551,7 @@ A NaN in xp returns ErrBounds and a NaN in x gives a NaN in the output.
 
 
 
-## <a name="KendallTau">func</a> [KendallTau](/kendall.go?s=302:360#L9)
+## <a name="KendallTau">func</a> [KendallTau](/kendall.go?s=358:416#L10)
 ``` go
 func KendallTau(data1, data2 Float64Data) (float64, error)
 ```
@@ -549,6 +559,7 @@ KendallTau calculates Kendall's tau-b rank correlation coefficient
 between two variables. Tau-b corrects for ties, matching the values
 produced by SciPy's kendalltau and pandas' corr(method="kendall").
 Pairs are compared with a simple O(n^2) loop for clarity.
+If either variable contains a NaN the result is NaN.
 
 
 
@@ -560,7 +571,7 @@ Kurtosis computes the population excess kurtosis of the dataset
 
 
 
-## <a name="ManhattanDistance">func</a> [ManhattanDistance](/distances.go?s=1277:1365#L50)
+## <a name="ManhattanDistance">func</a> [ManhattanDistance](/distances.go?s=1427:1515#L52)
 ``` go
 func ManhattanDistance(dataPointX, dataPointY Float64Data) (distance float64, err error)
 ```
@@ -568,11 +579,12 @@ ManhattanDistance computes the Manhattan distance between two data sets
 
 
 
-## <a name="Max">func</a> [Max](/max.go?s=78:130#L8)
+## <a name="Max">func</a> [Max](/max.go?s=129:181#L9)
 ``` go
 func Max(input Float64Data) (max float64, err error)
 ```
-Max finds the highest number in a slice
+Max finds the highest number in a slice. If the slice contains a NaN
+the result is NaN.
 
 
 
@@ -584,11 +596,12 @@ Mean gets the average of a slice of numbers
 
 
 
-## <a name="Median">func</a> [Median](/median.go?s=85:143#L6)
+## <a name="Median">func</a> [Median](/median.go?s=136:194#L7)
 ``` go
 func Median(input Float64Data) (median float64, err error)
 ```
-Median gets the median number in a slice of numbers
+Median gets the median number in a slice of numbers. If the slice
+contains a NaN the result is NaN.
 
 
 
@@ -600,11 +613,12 @@ MedianAbsoluteDeviation finds the median of the absolute deviations from the dat
 
 
 
-## <a name="MedianAbsoluteDeviationPopulation">func</a> [MedianAbsoluteDeviationPopulation](/deviation.go?s=360:442#L11)
+## <a name="MedianAbsoluteDeviationPopulation">func</a> [MedianAbsoluteDeviationPopulation](/deviation.go?s=411:493#L12)
 ``` go
 func MedianAbsoluteDeviationPopulation(input Float64Data) (mad float64, err error)
 ```
-MedianAbsoluteDeviationPopulation finds the median of the absolute deviations from the population median
+MedianAbsoluteDeviationPopulation finds the median of the absolute deviations from the population median.
+If the input contains a NaN the result is NaN.
 
 
 
@@ -616,15 +630,16 @@ Midhinge finds the average of the first and third quartiles
 
 
 
-## <a name="Min">func</a> [Min](/min.go?s=78:130#L6)
+## <a name="Min">func</a> [Min](/min.go?s=128:180#L7)
 ``` go
 func Min(input Float64Data) (min float64, err error)
 ```
-Min finds the lowest number in a set of data
+Min finds the lowest number in a set of data. If the data contains a
+NaN the result is NaN.
 
 
 
-## <a name="MinkowskiDistance">func</a> [MinkowskiDistance](/distances.go?s=2192:2296#L79)
+## <a name="MinkowskiDistance">func</a> [MinkowskiDistance](/distances.go?s=2342:2446#L81)
 ``` go
 func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (distance float64, err error)
 ```
@@ -944,7 +959,7 @@ behavior of pandas pct_change.
 
 
 
-## <a name="Percentile">func</a> [Percentile](/percentile.go?s=1020:1103#L27)
+## <a name="Percentile">func</a> [Percentile](/percentile.go?s=1073:1156#L29)
 ``` go
 func Percentile(input Float64Data, percent float64) (percentile float64, err error)
 ```
@@ -968,19 +983,22 @@ When data[k+1] - data[k] is infinite, because it overflows or an endpoint
 is infinite, the endpoints are weighted separately as
 (1 - f) * data[k] + f * data[k+1] so large finite inputs stay finite.
 
+If the input contains a NaN the result is NaN.
+
 [1] <a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc262.htm">https://www.itl.nist.gov/div898/handbook/prc/section2/prc262.htm</a>
 
 
 
-## <a name="PercentileNearestRank">func</a> [PercentileNearestRank](/percentile.go?s=2425:2519#L74)
+## <a name="PercentileNearestRank">func</a> [PercentileNearestRank](/percentile.go?s=2641:2735#L82)
 ``` go
 func PercentileNearestRank(input Float64Data, percent float64) (percentile float64, err error)
 ```
-PercentileNearestRank finds the relative standing in a slice of floats using the Nearest Rank method
+PercentileNearestRank finds the relative standing in a slice of floats using the Nearest Rank method.
+If the input contains a NaN the result is NaN.
 
 
 
-## <a name="PercentileOfScore">func</a> [PercentileOfScore](/percentile_of_score.go?s=408:481#L12)
+## <a name="PercentileOfScore">func</a> [PercentileOfScore](/percentile_of_score.go?s=462:535#L13)
 ``` go
 func PercentileOfScore(input Float64Data, score float64) (float64, error)
 ```
@@ -990,7 +1008,8 @@ values strictly below the score plus half the percentage of
 values equal to the score. The result is between 0 and 100.
 This matches the behavior of Python's
 scipy.stats.percentileofscore with kind="mean". A NaN score
-returns ErrBounds.
+returns ErrBounds, and if the input contains a NaN the result
+is NaN.
 
 
 
@@ -1071,22 +1090,24 @@ defined as the square root of the mean of the squared values.
 
 
 
-## <a name="Range">func</a> [Range](/extremes.go?s=1181:1227#L51)
+## <a name="Range">func</a> [Range](/extremes.go?s=1638:1684#L66)
 ``` go
 func Range(input Float64Data) (float64, error)
 ```
 Range finds the difference between the highest and
-lowest numbers in a slice
+lowest numbers in a slice. If the slice contains a NaN
+the result is NaN.
 
 
 
-## <a name="Rank">func</a> [Rank](/rank.go?s=183:230#L6)
+## <a name="Rank">func</a> [Rank](/rank.go?s=271:318#L9)
 ``` go
 func Rank(input Float64Data) ([]float64, error)
 ```
 Rank assigns fractional (average) ranks to the input values.
 Ranks are 1-based and tied values receive the average of the
-ranks they would have been assigned.
+ranks they would have been assigned. Like SciPy's rankdata,
+if the input contains a NaN every rank is NaN.
 
 
 
@@ -1182,13 +1203,14 @@ is commonly used in machine learning neural networks.
 
 
 
-## <a name="Spearman">func</a> [Spearman](/correlation.go?s=1006:1062#L41)
+## <a name="Spearman">func</a> [Spearman](/correlation.go?s=1062:1118#L42)
 ``` go
 func Spearman(data1, data2 Float64Data) (float64, error)
 ```
 Spearman calculates the Spearman rank correlation coefficient between two variables.
 It works by ranking the data and then computing the Pearson correlation of the ranks.
 This method handles tied values using fractional (average) ranking.
+If either variable contains a NaN the result is NaN.
 
 
 
@@ -1200,7 +1222,7 @@ StableSample like stable sort, it returns samples from input while keeps the ord
 
 
 
-## <a name="StandardDeviation">func</a> [StandardDeviation](/deviation.go?s=695:762#L27)
+## <a name="StandardDeviation">func</a> [StandardDeviation](/deviation.go?s=746:813#L28)
 ``` go
 func StandardDeviation(input Float64Data) (sdev float64, err error)
 ```
@@ -1208,7 +1230,7 @@ StandardDeviation the amount of variation in the dataset
 
 
 
-## <a name="StandardDeviationPopulation">func</a> [StandardDeviationPopulation](/deviation.go?s=892:969#L32)
+## <a name="StandardDeviationPopulation">func</a> [StandardDeviationPopulation](/deviation.go?s=943:1020#L33)
 ``` go
 func StandardDeviationPopulation(input Float64Data) (sdev float64, err error)
 ```
@@ -1216,7 +1238,7 @@ StandardDeviationPopulation finds the amount of variation from the population
 
 
 
-## <a name="StandardDeviationSample">func</a> [StandardDeviationSample](/deviation.go?s=1250:1323#L46)
+## <a name="StandardDeviationSample">func</a> [StandardDeviationSample](/deviation.go?s=1301:1374#L47)
 ``` go
 func StandardDeviationSample(input Float64Data) (sdev float64, err error)
 ```
@@ -1506,7 +1528,7 @@ LoadRawData parses and converts a slice of mixed data types to floats
 
 
 
-### <a name="Float64Data.ArgMax">func</a> (Float64Data) [ArgMax](/extremes.go?s=1521:1563#L66)
+### <a name="Float64Data.ArgMax">func</a> (Float64Data) [ArgMax](/extremes.go?s=1978:2020#L81)
 ``` go
 func (f Float64Data) ArgMax() (int, error)
 ```
@@ -1515,7 +1537,7 @@ ArgMax returns the index of the highest number in the data
 
 
 
-### <a name="Float64Data.ArgMin">func</a> (Float64Data) [ArgMin](/extremes.go?s=1647:1689#L69)
+### <a name="Float64Data.ArgMin">func</a> (Float64Data) [ArgMin](/extremes.go?s=2104:2146#L84)
 ``` go
 func (f Float64Data) ArgMin() (int, error)
 ```
@@ -1579,7 +1601,7 @@ CovariancePopulation computes covariance for entire population between two varia
 
 
 
-### <a name="Float64Data.CumulativeMax">func</a> (Float64Data) [CumulativeMax](/cumulative.go?s=1416:1471#L69)
+### <a name="Float64Data.CumulativeMax">func</a> (Float64Data) [CumulativeMax](/cumulative.go?s=1641:1696#L75)
 ``` go
 func (f Float64Data) CumulativeMax() ([]float64, error)
 ```
@@ -1588,7 +1610,7 @@ CumulativeMax calculates the cumulative maximum of the data
 
 
 
-### <a name="Float64Data.CumulativeMin">func</a> (Float64Data) [CumulativeMin](/cumulative.go?s=1565:1620#L74)
+### <a name="Float64Data.CumulativeMin">func</a> (Float64Data) [CumulativeMin](/cumulative.go?s=1790:1845#L80)
 ``` go
 func (f Float64Data) CumulativeMin() ([]float64, error)
 ```
@@ -1597,7 +1619,7 @@ CumulativeMin calculates the cumulative minimum of the data
 
 
 
-### <a name="Float64Data.CumulativeProduct">func</a> (Float64Data) [CumulativeProduct](/cumulative.go?s=1259:1318#L64)
+### <a name="Float64Data.CumulativeProduct">func</a> (Float64Data) [CumulativeProduct](/cumulative.go?s=1484:1543#L70)
 ``` go
 func (f Float64Data) CumulativeProduct() ([]float64, error)
 ```
@@ -1669,7 +1691,7 @@ HarmonicMean returns the harmonic mean of the data
 
 
 
-### <a name="Float64Data.Histogram">func</a> (Float64Data) [Histogram](/histogram.go?s=1359:1425#L55)
+### <a name="Float64Data.Histogram">func</a> (Float64Data) [Histogram](/histogram.go?s=1489:1555#L60)
 ``` go
 func (f Float64Data) Histogram(bins int) ([]int, []float64, error)
 ```
@@ -1687,7 +1709,7 @@ InterQuartileRange finds the range between Q1 and Q3
 
 
 
-### <a name="Float64Data.KendallTau">func</a> (Float64Data) [KendallTau](/kendall.go?s=1384:1447#L55)
+### <a name="Float64Data.KendallTau">func</a> (Float64Data) [KendallTau](/kendall.go?s=1565:1628#L61)
 ``` go
 func (f Float64Data) KendallTau(d Float64Data) (float64, error)
 ```
@@ -1886,7 +1908,7 @@ PercentileNearestRank finds the relative standing using the Nearest Rank method
 
 
 
-### <a name="Float64Data.PercentileOfScore">func</a> (Float64Data) [PercentileOfScore](/percentile_of_score.go?s=879:949#L34)
+### <a name="Float64Data.PercentileOfScore">func</a> (Float64Data) [PercentileOfScore](/percentile_of_score.go?s=1040:1110#L40)
 ``` go
 func (f Float64Data) PercentileOfScore(score float64) (float64, error)
 ```
@@ -1958,7 +1980,7 @@ RMS calculates the root mean square of the data
 
 
 
-### <a name="Float64Data.Range">func</a> (Float64Data) [Range](/extremes.go?s=1795:1840#L72)
+### <a name="Float64Data.Range">func</a> (Float64Data) [Range](/extremes.go?s=2252:2297#L87)
 ``` go
 func (f Float64Data) Range() (float64, error)
 ```
@@ -1967,7 +1989,7 @@ Range returns the difference between the highest and lowest numbers in the data
 
 
 
-### <a name="Float64Data.Rank">func</a> (Float64Data) [Rank](/rank.go?s=382:428#L14)
+### <a name="Float64Data.Rank">func</a> (Float64Data) [Rank](/rank.go?s=607:653#L24)
 ``` go
 func (f Float64Data) Rank() ([]float64, error)
 ```

@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"math"
 	"sort"
 	"time"
 )
@@ -21,6 +22,17 @@ func copyslice(input Float64Data) Float64Data {
 	s := make(Float64Data, input.Len())
 	copy(s, input)
 	return s
+}
+
+// hasNaN reports whether the input contains a NaN, which sorting
+// places below every number and comparisons silently skip
+func hasNaN(input Float64Data) bool {
+	for _, v := range input {
+		if math.IsNaN(v) {
+			return true
+		}
+	}
+	return false
 }
 
 // sortedCopy returns a sorted copy of float64s

@@ -6,6 +6,7 @@ import "math"
 // between two variables. Tau-b corrects for ties, matching the values
 // produced by SciPy's kendalltau and pandas' corr(method="kendall").
 // Pairs are compared with a simple O(n^2) loop for clarity.
+// If either variable contains a NaN the result is NaN.
 func KendallTau(data1, data2 Float64Data) (float64, error) {
 
 	l1 := data1.Len()
@@ -17,6 +18,11 @@ func KendallTau(data1, data2 Float64Data) (float64, error) {
 
 	if l1 != l2 {
 		return math.NaN(), ErrSize
+	}
+
+	// A pair with a NaN is neither concordant nor discordant
+	if hasNaN(data1) || hasNaN(data2) {
+		return math.NaN(), nil
 	}
 
 	// Count concordant and discordant pairs along with pairs
