@@ -47,6 +47,39 @@ func TestSampleVariance(t *testing.T) {
 	}
 }
 
+func TestSampleStatisticsSingleElement(t *testing.T) {
+	one := stats.Float64Data{3}
+	for _, c := range []struct {
+		name string
+		call func() (float64, error)
+	}{
+		{"SampleVariance", func() (float64, error) { return stats.SampleVariance(one) }},
+		{"VarS", func() (float64, error) { return stats.VarS(one) }},
+		{"StandardDeviationSample", func() (float64, error) { return stats.StandardDeviationSample(one) }},
+		{"StdDevS", func() (float64, error) { return stats.StdDevS(one) }},
+		{"SEM", func() (float64, error) { return stats.SEM(one) }},
+		{"CoefficientOfVariation", func() (float64, error) { return stats.CoefficientOfVariation(one) }},
+		{"Covariance", func() (float64, error) { return stats.Covariance(one, stats.Float64Data{2}) }},
+		{"ZScore", func() (float64, error) {
+			z, err := stats.ZScore(one)
+			if z != nil {
+				t.Errorf("ZScore should return nil, got %v", z)
+			}
+			return math.NaN(), err
+		}},
+	} {
+		got, err := c.call()
+		if err != stats.ErrTooFew || !math.IsNaN(got) {
+			t.Errorf("%s(%v) = %v, %v; want NaN, ErrTooFew", c.name, one, got, err)
+		}
+	}
+
+	// Two elements are enough for the sample statistics
+	if v, err := stats.SampleVariance(stats.Float64Data{1, 3}); err != nil || v != 2 {
+		t.Errorf("SampleVariance([1 3]) = %v, %v; want 2, nil", v, err)
+	}
+}
+
 func TestCovariance(t *testing.T) {
 	s1 := []float64{1, 2, 3, 4, 5}
 	s2 := []float64{10, -51.2, 8}

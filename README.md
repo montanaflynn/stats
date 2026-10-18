@@ -61,6 +61,7 @@ var (
     ErrSize       = statsError{"Must be the same length."}
     ErrInfValue   = statsError{"Value is infinite."}
     ErrYCoord     = statsError{"Y Value must be greater than zero."}
+    ErrTooFew     = tooFewError{statsError{"Input has too few elements."}} // errors.Is(ErrTooFew, ErrEmptyInput)
 )
 
 func Round(input float64, places int) (rounded float64, err error) {}
