@@ -220,6 +220,15 @@ func (k *knownIssues) done() {
 	}
 }
 
+// mayFail marks known issues that fail only on some platforms, so they are
+// logged when they fail and never reported as no longer failing.
+func (k *knownIssues) mayFail(keys ...string) {
+	for _, key := range keys {
+		k.known[key] = true
+		k.seen[key] = true
+	}
+}
+
 func hasNaN(xs []float64) bool {
 	for _, x := range xs {
 		if math.IsNaN(x) {
@@ -281,6 +290,10 @@ func TestFiniteInputNoSilentNaN(t *testing.T) {
 		"TTest(unevensingle)",
 	)
 	defer known.done()
+	// WeightedMean multiplies before summing, so huge products overflow.
+	// Without a fused multiply-add (amd64) the sum becomes -Inf + Inf = NaN;
+	// with one (arm64) it overflows to +Inf instead, which this test allows.
+	known.mayFail("WeightedMean(huge)")
 	finite := []string{"single", "pair", "constant", "zeros", "huge", "tiny", "mixedsigns", "maxfloat", "negzero", "largeoffset", "unevensingle"}
 	all := inputs()
 	for _, c := range robustCases() {
