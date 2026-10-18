@@ -523,7 +523,7 @@ HarmonicMean gets the harmonic mean for a slice of numbers
 
 
 
-## <a name="Histogram">func</a> [Histogram](/histogram.go?s=407:476#L11)
+## <a name="Histogram">func</a> [Histogram](/histogram.go?s=420:489#L14)
 ``` go
 func Histogram(input Float64Data, bins int) ([]int, []float64, error)
 ```
@@ -1122,7 +1122,7 @@ if the input contains a NaN every rank is NaN.
 
 
 
-## <a name="Rescale">func</a> [Rescale](/rescale.go?s=174:224#L6)
+## <a name="Rescale">func</a> [Rescale](/rescale.go?s=189:239#L8)
 ``` go
 func Rescale(input Float64Data) ([]float64, error)
 ```
@@ -1713,7 +1713,7 @@ HarmonicMean returns the harmonic mean of the data
 
 
 
-### <a name="Float64Data.Histogram">func</a> (Float64Data) [Histogram](/histogram.go?s=1489:1555#L60)
+### <a name="Float64Data.Histogram">func</a> (Float64Data) [Histogram](/histogram.go?s=1807:1873#L73)
 ``` go
 func (f Float64Data) Histogram(bins int) ([]int, []float64, error)
 ```
@@ -2020,7 +2020,7 @@ Rank assigns fractional (average) ranks to the input values
 
 
 
-### <a name="Float64Data.Rescale">func</a> (Float64Data) [Rescale](/rescale.go?s=603:652#L27)
+### <a name="Float64Data.Rescale">func</a> (Float64Data) [Rescale](/rescale.go?s=879:928#L39)
 ``` go
 func (f Float64Data) Rescale() ([]float64, error)
 ```

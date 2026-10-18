@@ -2,6 +2,7 @@ package stats_test
 
 import (
 	"fmt"
+	"math"
 	"testing"
 
 	"github.com/montanaflynn/stats"
@@ -53,6 +54,21 @@ func TestRescaleConstantInput(t *testing.T) {
 	_, err := stats.Rescale([]float64{5, 5, 5})
 	if err != stats.ErrZero {
 		t.Errorf("expected ErrZero, got %v", err)
+	}
+}
+
+func TestRescaleRangeOverflow(t *testing.T) {
+	// max - min overflows, but every rescaled value is in [0, 1]
+	m := math.MaxFloat64
+	r, err := stats.Rescale([]float64{-m, -m / 2, 0, m / 2, m})
+	if err != nil {
+		t.Fatal(err)
+	}
+	expected := []float64{0, 0.25, 0.5, 0.75, 1}
+	for i, v := range expected {
+		if r[i] != v {
+			t.Errorf("r[%d] = %v, want %v", i, r[i], v)
+		}
 	}
 }
 
