@@ -165,6 +165,8 @@ func inputs() map[string][2]stats.Float64Data {
 		"maxfloat":    {{math.MaxFloat64, math.MaxFloat64}, {1, 2}},
 		"negzero":     {{math.Copysign(0, -1), 0, 1}, {1, 2, 3}},
 		"largeoffset": {{1e9 + 1, 1e9 + 2, 1e9 + 3}, {1, 2, 3}},
+		// Different lengths with a single first element, for two-sample tests.
+		"unevensingle": {{3}, {2, 4}},
 	}
 }
 
@@ -232,14 +234,21 @@ func hasNaN(xs []float64) bool {
 // callers that only check err are not handed garbage.
 func TestFiniteInputNoSilentNaN(t *testing.T) {
 	known := newKnownIssues(t,
-		// Sample statistics divide by n-1, which is 0 for one element.
+		// Sample statistics divide by n-1, which is 0 for one element. numpy,
+		// scipy and pandas also return NaN here.
 		"CoefficientOfVariation(single)",
 		"Covariance(single)",
 		"SampleVariance(single)",
 		"SEM(single)",
 		"StandardDeviationSample(single)",
 		"ZScore(single)",
-		// The mean or the squared deviations overflow for huge values.
+		"CoefficientOfVariation(unevensingle)",
+		"SampleVariance(unevensingle)",
+		"SEM(unevensingle)",
+		"StandardDeviationSample(unevensingle)",
+		"ZScore(unevensingle)",
+		// The mean or the squared deviations overflow for huge values, as they
+		// do in numpy and pandas.
 		"AutoCorrelation(huge)",
 		"AutoCorrelation(maxfloat)",
 		"CoefficientOfVariation(maxfloat)",
@@ -259,14 +268,20 @@ func TestFiniteInputNoSilentNaN(t *testing.T) {
 		"Skewness(maxfloat)",
 		"TTest(maxfloat)",
 		"ZScore(maxfloat)",
-		// max - min overflows for values of opposite sign.
+		// max - min overflows for values of opposite sign. numpy.histogram
+		// raises an error for this range instead.
 		"Histogram(huge)",
 		"Rescale(huge)",
-		// The two-sample t-test divides by a zero pooled variance.
+		// The two-sample t-test divides by a zero pooled variance, returning
+		// NaN like scipy.stats.ttest_ind.
 		"TTest(zeros)",
+		// The two-sample t-test takes the sample variance of a single
+		// element, which is NaN. scipy.stats.ttest_ind gives a finite result
+		// because the pooled variance has n1+n2-2 = 1 degree of freedom.
+		"TTest(unevensingle)",
 	)
 	defer known.done()
-	finite := []string{"single", "pair", "constant", "zeros", "huge", "tiny", "mixedsigns", "maxfloat", "negzero", "largeoffset"}
+	finite := []string{"single", "pair", "constant", "zeros", "huge", "tiny", "mixedsigns", "maxfloat", "negzero", "largeoffset", "unevensingle"}
 	all := inputs()
 	for _, c := range robustCases() {
 		// PercentChange documents IEEE 754 NaN for 0/0, like pandas.
@@ -289,26 +304,31 @@ func TestFiniteInputNoSilentNaN(t *testing.T) {
 // (squaring 1e200, say) shows up as Inf, 0, or NaN at the extreme scales.
 func TestScaleEquivariance(t *testing.T) {
 	known := newKnownIssues(t,
-		// Squared deviations overflow or underflow at 1e±200.
+		// Correlation divides by the product of overflowing standard
+		// deviations. scipy.stats.pearsonr normalizes first and stays exact.
+		"Correlation",
+		"Pearson",
+		// Squared deviations overflow or underflow at 1e±200, as they do in
+		// numpy and scipy.
 		"AutoCorrelation",
 		"CoefficientOfVariation",
-		"Correlation",
 		"EuclideanDistance",
 		"MovingStdDev",
-		"Pearson",
 		"RMS",
 		"SEM",
 		"StandardDeviation",
 		"StandardDeviationSample",
 		"ZScore",
-		// Cubed and fourth-power deviations overflow or underflow from 1e±100.
+		// Cubed and fourth-power deviations overflow or underflow from 1e±100,
+		// as they do in scipy, except skewness that underflows to 0 rather
+		// than NaN.
 		"Kurtosis",
 		"PopulationKurtosis",
 		"PopulationSkewness",
 		"SampleKurtosis",
 		"SampleSkewness",
 		"Skewness",
-		// |x-y|^lambda overflows or underflows.
+		// |x-y|^lambda overflows or underflows, as in scipy.
 		"MinkowskiDistance",
 	)
 	defer known.done()
@@ -363,11 +383,13 @@ func scaled(xs []float64, f float64) []float64 {
 func TestInvalidParameters(t *testing.T) {
 	known := newKnownIssues(t,
 		// Range checks like min > max are false for NaN, so NaN slips past.
+		// numpy.clip and scipy.stats.percentileofscore return NaN.
 		"Clip(max=NaN)",
 		"Clip(min=NaN)",
 		"EWMA(alpha=NaN)",
 		"PercentileOfScore(NaN)",
-		// Out-of-domain values are not validated.
+		// Out-of-domain values are not validated. scipy raises for p <= 0 in
+		// minkowski and returns NaN for p outside [0, 1] in geom.
 		"MinkowskiDistance(lambda=-1)",
 		"ProbGeom(p=-0.5)",
 	)
@@ -437,6 +459,8 @@ func TestConstantInput(t *testing.T) {
 	known := newKnownIssues(t,
 		// Mean sums before dividing, so n values near MaxFloat64 overflow, and
 		// Median, the quartiles and the variance family inherit the overflow.
+		// numpy and pandas overflow the same way; Python's statistics module
+		// and scipy.stats.iqr do not.
 		"InterQuartileRange",
 		"Mean",
 		"Median",
