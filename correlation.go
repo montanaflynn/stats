@@ -38,6 +38,7 @@ func Pearson(data1, data2 Float64Data) (float64, error) {
 // Spearman calculates the Spearman rank correlation coefficient between two variables.
 // It works by ranking the data and then computing the Pearson correlation of the ranks.
 // This method handles tied values using fractional (average) ranking.
+// If either variable contains a NaN the result is NaN.
 func Spearman(data1, data2 Float64Data) (float64, error) {
 
 	l1 := data1.Len()
@@ -49,6 +50,11 @@ func Spearman(data1, data2 Float64Data) (float64, error) {
 
 	if l1 != l2 {
 		return math.NaN(), SizeErr
+	}
+
+	// A NaN has no rank
+	if hasNaN(data1) || hasNaN(data2) {
+		return math.NaN(), nil
 	}
 
 	ranks1 := rankData(data1)
