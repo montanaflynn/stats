@@ -432,18 +432,7 @@ func scaled(xs []float64, f float64) []float64 {
 // is rejected with an error, or at least propagates as NaN, rather than
 // producing a plausible finite result with a nil error.
 func TestInvalidParameters(t *testing.T) {
-	known := newKnownIssues(t,
-		// Range checks like min > max are false for NaN, so NaN slips past.
-		// numpy.clip and scipy.stats.percentileofscore return NaN.
-		"Clip(max=NaN)",
-		"Clip(min=NaN)",
-		"EWMA(alpha=NaN)",
-		"PercentileOfScore(NaN)",
-		// Out-of-domain values are not validated. scipy raises for p <= 0 in
-		// minkowski and returns NaN for p outside [0, 1] in geom.
-		"MinkowskiDistance(lambda=-1)",
-		"ProbGeom(p=-0.5)",
-	)
+	known := newKnownIssues(t)
 	defer known.done()
 	a := stats.Float64Data{3.2, 1.1, 4.8, 2.5, 9.0, 7.3, 0.4, 5.5}
 	b := stats.Float64Data{1.5, 2.7, 3.1, 4.9, 5.2, 6.8, 7.4, 8.6}
