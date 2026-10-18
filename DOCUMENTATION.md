@@ -353,7 +353,7 @@ index of the first NaN is returned.
 
 
 
-## <a name="AutoCorrelation">func</a> [AutoCorrelation](/correlation.go?s=2790:2855#L116)
+## <a name="AutoCorrelation">func</a> [AutoCorrelation](/correlation.go?s=3496:3561#L136)
 ``` go
 func AutoCorrelation(data Float64Data, lags int) (float64, error)
 ```
@@ -948,7 +948,7 @@ NormVar is the variance of the distribution.
 
 
 
-## <a name="Pearson">func</a> [Pearson](/correlation.go?s=848:903#L40)
+## <a name="Pearson">func</a> [Pearson](/correlation.go?s=1554:1609#L60)
 ``` go
 func Pearson(data1, data2 Float64Data) (float64, error)
 ```
@@ -1216,7 +1216,7 @@ is commonly used in machine learning neural networks.
 
 
 
-## <a name="Spearman">func</a> [Spearman](/correlation.go?s=1348:1404#L49)
+## <a name="Spearman">func</a> [Spearman](/correlation.go?s=2054:2110#L69)
 ``` go
 func Spearman(data1, data2 Float64Data) (float64, error)
 ```

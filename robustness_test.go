@@ -248,12 +248,10 @@ func TestFiniteInputNoSilentNaN(t *testing.T) {
 		"AutoCorrelation(huge)",
 		"AutoCorrelation(maxfloat)",
 		"CoefficientOfVariation(maxfloat)",
-		"Correlation(maxfloat)",
 		"Covariance(maxfloat)",
 		"CovariancePopulation(maxfloat)",
 		"Kurtosis(huge)",
 		"Kurtosis(maxfloat)",
-		"Pearson(maxfloat)",
 		"PopulationKurtosis(huge)",
 		"PopulationKurtosis(maxfloat)",
 		"PopulationSkewness(huge)",
@@ -310,10 +308,6 @@ func TestNaNInputPropagates(t *testing.T) {
 // (squaring 1e200, say) shows up as Inf, 0, or NaN at the extreme scales.
 func TestScaleEquivariance(t *testing.T) {
 	known := newKnownIssues(t,
-		// Correlation divides by the product of overflowing standard
-		// deviations. scipy.stats.pearsonr normalizes first and stays exact.
-		"Correlation",
-		"Pearson",
 		// Squared deviations overflow or underflow at 1e±200, as they do in
 		// numpy and scipy.
 		"AutoCorrelation",
