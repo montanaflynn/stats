@@ -57,6 +57,43 @@ func TestCorrelation(t *testing.T) {
 	}
 }
 
+func TestCorrelationScale(t *testing.T) {
+	a := []float64{3.2, 1.1, 4.8, 2.5, 9.0, 7.3, 0.4, 5.5}
+	b := []float64{1.5, 2.7, 3.1, 4.9, 5.2, 6.8, 7.4, 8.6}
+	// scipy.stats.pearsonr(a, b) at every scale below
+	want := 0.22609894303162795
+	for _, scale := range []float64{1, 1e200, 1e-200, -1e200, 1e300, 1e-300} {
+		t.Run(fmt.Sprintf("scale=%g", scale), func(t *testing.T) {
+			sa, sb := make([]float64, len(a)), make([]float64, len(b))
+			for i := range a {
+				sa[i], sb[i] = a[i]*scale, b[i]*math.Abs(scale)
+			}
+			got, err := stats.Correlation(sa, sb)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if scale < 0 {
+				got = -got
+			}
+			if !tolerance(got, want, 1e-12) {
+				t.Errorf("Correlation = %v, want %v", got, want)
+			}
+		})
+	}
+}
+
+func TestCorrelationNonFinite(t *testing.T) {
+	for _, data := range [][]float64{
+		{1, math.NaN(), 3},
+		{1, math.Inf(1), 3},
+	} {
+		got, err := stats.Correlation(data, []float64{1, 2, 3})
+		if err != nil || !math.IsNaN(got) {
+			t.Errorf("Correlation(%v) = (%v, %v), want (NaN, nil)", data, got, err)
+		}
+	}
+}
+
 func ExampleSpearman() {
 	s1 := []float64{1, 2, 3, 4, 5}
 	s2 := []float64{5, 6, 7, 8, 7}

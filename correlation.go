@@ -25,6 +25,10 @@ func Correlation(data1, data2 Float64Data) (float64, error) {
 		return 0, ErrTooFew
 	}
 
+	// Correlation is scale-invariant, so scale each input to unit magnitude
+	// first to keep the squared deviations from overflowing or underflowing.
+	data1, data2 = scaleToUnit(data1), scaleToUnit(data2)
+
 	sdev1, _ := StandardDeviationPopulation(data1)
 	sdev2, _ := StandardDeviationPopulation(data2)
 
@@ -34,6 +38,22 @@ func Correlation(data1, data2 Float64Data) (float64, error) {
 
 	covp, _ := CovariancePopulation(data1, data2)
 	return covp / (sdev1 * sdev2), nil
+}
+
+// scaleToUnit returns a copy of input multiplied by a power of two so its
+// largest magnitude is in [0.5, 1). Scaling by a power of two is exact, so
+// scale-invariant statistics computed from the copy are unchanged.
+func scaleToUnit(input Float64Data) Float64Data {
+	var max float64
+	for _, v := range input {
+		max = math.Max(max, math.Abs(v))
+	}
+	_, exp := math.Frexp(max)
+	scaled := make(Float64Data, len(input))
+	for i, v := range input {
+		scaled[i] = math.Ldexp(v, -exp)
+	}
+	return scaled
 }
 
 // Pearson calculates the Pearson product-moment correlation coefficient between two variables
