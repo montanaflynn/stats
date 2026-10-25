@@ -220,15 +220,6 @@ func (k *knownIssues) done() {
 	}
 }
 
-// mayFail marks known issues that fail only on some platforms, so they are
-// logged when they fail and never reported as no longer failing.
-func (k *knownIssues) mayFail(keys ...string) {
-	for _, key := range keys {
-		k.known[key] = true
-		k.seen[key] = true
-	}
-}
-
 func hasNaN(xs []float64) bool {
 	for _, x := range xs {
 		if math.IsNaN(x) {
@@ -243,31 +234,17 @@ func hasNaN(xs []float64) bool {
 // callers that only check err are not handed garbage.
 func TestFiniteInputNoSilentNaN(t *testing.T) {
 	known := newKnownIssues(t,
-		// The mean or the squared deviations overflow for huge values, as they
-		// do in numpy and pandas.
+		// The squared deviations overflow for huge values, as they do in numpy
+		// and pandas.
 		"AutoCorrelation(huge)",
-		"AutoCorrelation(maxfloat)",
-		"CoefficientOfVariation(maxfloat)",
-		"Covariance(maxfloat)",
-		"CovariancePopulation(maxfloat)",
 		"Kurtosis(huge)",
-		"Kurtosis(maxfloat)",
 		"PopulationKurtosis(huge)",
-		"PopulationKurtosis(maxfloat)",
 		"PopulationSkewness(huge)",
-		"PopulationSkewness(maxfloat)",
 		"SampleKurtosis(huge)",
 		"SampleSkewness(huge)",
 		"Skewness(huge)",
-		"Skewness(maxfloat)",
-		"TTest(maxfloat)",
-		"ZScore(maxfloat)",
 	)
 	defer known.done()
-	// WeightedMean multiplies before summing, so huge products overflow.
-	// Without a fused multiply-add (amd64) the sum becomes -Inf + Inf = NaN;
-	// with one (arm64) it overflows to +Inf instead, which this test allows.
-	known.mayFail("WeightedMean(huge)")
 	finite := []string{"single", "pair", "constant", "zeros", "huge", "tiny", "mixedsigns", "maxfloat", "negzero", "largeoffset", "unevensingle"}
 	all := inputs()
 	for _, c := range robustCases() {
@@ -445,31 +422,7 @@ func allNaN(xs []float64) bool {
 // math.MaxFloat64 a naive sum or midpoint overflows even though the answer
 // is c itself.
 func TestConstantInput(t *testing.T) {
-	known := newKnownIssues(t,
-		// Mean sums before dividing, so n values near MaxFloat64 overflow, and
-		// Median, the quartiles and the variance family inherit the overflow.
-		// numpy and pandas overflow the same way; Python's statistics module
-		// and scipy.stats.iqr do not.
-		"InterQuartileRange",
-		"Mean",
-		"Median",
-		"MedianAbsoluteDeviation",
-		"Midhinge",
-		"MovingAverage",
-		"MovingMedian",
-		"MovingStdDev",
-		"NormFit.loc",
-		"NormFit.scale",
-		"PopulationVariance",
-		"Quartile",
-		"SampleVariance",
-		"SEM",
-		"StandardDeviation",
-		"StandardDeviationSample",
-		"Trimean",
-		"TrimmedMean",
-		"WeightedMean",
-	)
+	known := newKnownIssues(t)
 	defer known.done()
 	location := []struct {
 		name string
