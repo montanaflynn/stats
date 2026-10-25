@@ -281,13 +281,6 @@ func TestFiniteInputNoSilentNaN(t *testing.T) {
 		// raises an error for this range instead.
 		"Histogram(huge)",
 		"Rescale(huge)",
-		// The two-sample t-test divides by a zero pooled variance, returning
-		// NaN like scipy.stats.ttest_ind.
-		"TTest(zeros)",
-		// The two-sample t-test takes the sample variance of a single
-		// element, which is NaN. scipy.stats.ttest_ind gives a finite result
-		// because the pooled variance has n1+n2-2 = 1 degree of freedom.
-		"TTest(unevensingle)",
 	)
 	defer known.done()
 	// WeightedMean multiplies before summing, so huge products overflow.

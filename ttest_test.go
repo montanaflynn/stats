@@ -110,6 +110,40 @@ func TestTTestOneSampleZeroVarianceDifferentMean(t *testing.T) {
 	}
 }
 
+func TestTTestTwoSampleSingleElement(t *testing.T) {
+	// scipy.stats.ttest_ind([1], [2, 3])
+	tstat, p, err := stats.TTest(stats.Float64Data{1}, stats.Float64Data{2, 3}, 0)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !close(tstat, -1.7320508075688774) {
+		t.Errorf("t statistic = %v, want -1.7320508075688774", tstat)
+	}
+	if !tolerance(p, 0.3333333333333333, 1e-10) {
+		t.Errorf("p-value = %v, want 0.3333333333333333", p)
+	}
+}
+
+func TestTTestTwoSampleZeroVarianceEqualMeans(t *testing.T) {
+	tstat, p, err := stats.TTest(stats.Float64Data{1, 1}, stats.Float64Data{1, 1, 1}, 0)
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
+	if tstat != 0 || p != 1.0 {
+		t.Errorf("got t=%v p=%v, want t=0 p=1", tstat, p)
+	}
+}
+
+func TestTTestTwoSampleZeroVarianceDifferentMeans(t *testing.T) {
+	tstat, p, err := stats.TTest(stats.Float64Data{1, 1}, stats.Float64Data{2, 2}, 0)
+	if err != stats.ErrBounds {
+		t.Errorf("expected ErrBounds for zero variance with different means, got %v", err)
+	}
+	if !math.IsNaN(tstat) || !math.IsNaN(p) {
+		t.Errorf("got t=%v p=%v, want NaN", tstat, p)
+	}
+}
+
 func TestTTestLargeStatistic(t *testing.T) {
 	// Very different groups to produce extreme t value
 	data1 := stats.Float64Data{100, 101, 102, 103, 104}
