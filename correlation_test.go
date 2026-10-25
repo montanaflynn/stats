@@ -254,3 +254,17 @@ func TestAutoCorrelation(t *testing.T) {
 		t.Errorf("AutoCorrelation of constant series should be 0 with ErrZero, got %v err=%v", a, err)
 	}
 }
+
+func TestAutoCorrelationExtremeScales(t *testing.T) {
+	base := stats.Float64Data{1, 2, 3, 10, 4}
+	want, _ := stats.AutoCorrelation(base, 1)
+	for _, s := range []float64{1e200, 1e-200} {
+		d := make(stats.Float64Data, len(base))
+		for i, v := range base {
+			d[i] = v * s
+		}
+		if got, err := stats.AutoCorrelation(d, 1); err != nil || !close(got, want) {
+			t.Errorf("AutoCorrelation(%v, 1) = %v, %v; want %v", d, got, err, want)
+		}
+	}
+}

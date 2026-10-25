@@ -9,17 +9,32 @@ func _variance(input Float64Data, sample int) (variance float64, err error) {
 		return math.NaN(), EmptyInputErr
 	}
 
+	v, e := scaledVariance(input, sample)
+	return math.Ldexp(v, 2*e), nil
+}
+
+// scaledVariance returns the variance of the input divided by 2^(2e), where
+// 2^e is near its largest magnitude. Squaring the scaled deviations cannot
+// overflow or underflow, and scaling by a power of two is exact, so the
+// variance is math.Ldexp(v, 2*e) and the standard deviation is
+// math.Ldexp(math.Sqrt(v), e) even when the variance itself overflows.
+func scaledVariance(input Float64Data, sample int) (variance float64, e int) {
+	e = unitExponent(input)
+	f := math.Ldexp(1, -e)
+
 	// Sum the square of the mean subtracted from each number
 	m, _ := Mean(input)
+	m *= f
 
 	for _, n := range input {
-		variance += (n - m) * (n - m)
+		d := n*f - m
+		variance += d * d
 	}
 
 	// When getting the mean of the squared differences
 	// "sample" will allow us to know if it's a sample
 	// or population and wether to subtract by one or not
-	return variance / float64((input.Len() - (1 * sample))), nil
+	return variance / float64((input.Len() - (1 * sample))), e
 }
 
 // Variance the amount of variation in the dataset

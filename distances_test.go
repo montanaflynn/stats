@@ -67,9 +67,15 @@ func TestDataSetDistances(t *testing.T) {
 			t.Errorf("Different length slices should have resulted in an error")
 		}
 
-		_, err = stats.MinkowskiDistance([]float64{999, 999, 999}, []float64{1, 1, 1}, 1000)
+		_, err = stats.MinkowskiDistance([]float64{math.Inf(1), 999, 999}, []float64{1, 1, 1}, 3)
 		if err == nil {
 			t.Errorf("Infinite distance should have resulted in an error")
+		}
+
+		// 998^1000 overflows, but the distance 998 * 3^(1/1000) does not
+		d, err := stats.MinkowskiDistance([]float64{999, 999, 999}, []float64{1, 1, 1}, 1000)
+		if err != nil || !close(d, 999.0970175522357) {
+			t.Errorf("MinkowskiDistance with overflowing powers = %v, %v; want 999.0970175522357", d, err)
 		}
 	}
 
@@ -93,4 +99,22 @@ func ExampleChebyshevDistance() {
 	cd, _ := stats.ChebyshevDistance(d1, d2)
 	fmt.Println(cd)
 	// Output: 6
+}
+
+func TestMinkowskiDistanceExtremeScales(t *testing.T) {
+	want := math.Cbrt(8 + 27)
+	for _, s := range []float64{1e200, 1e-200} {
+		x, y := stats.Float64Data{1 * s, 2 * s}, stats.Float64Data{3 * s, 5 * s}
+		if d, err := stats.MinkowskiDistance(x, y, 3); err != nil || !close(d, want*s) {
+			t.Errorf("MinkowskiDistance(%v, %v, 3) = %v, %v; want %v", x, y, d, err, want*s)
+		}
+	}
+	// Differences of opposite-signed coordinates overflow before scaling
+	m := math.MaxFloat64
+	if d, err := stats.MinkowskiDistance(stats.Float64Data{m}, stats.Float64Data{-m}, 2); err != stats.ErrInfValue {
+		t.Errorf("MinkowskiDistance(MaxFloat64, -MaxFloat64) = %v, %v; want ErrInfValue", d, err)
+	}
+	if d, err := stats.MinkowskiDistance(stats.Float64Data{1, 2}, stats.Float64Data{1, 2}, 3); err != nil || d != 0 {
+		t.Errorf("MinkowskiDistance of equal points = %v, %v; want 0", d, err)
+	}
 }

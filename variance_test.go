@@ -131,3 +131,17 @@ func TestCovariancePopulation(t *testing.T) {
 		t.Errorf("Empty slice should have returned an error")
 	}
 }
+
+func TestVarianceExtremeScales(t *testing.T) {
+	// Squaring deviations of 1e±150 overflows or underflows, but the
+	// variances 1.25e±300 and 5/3e±300 do not
+	for _, s := range []float64{1e150, 1e-150} {
+		d := stats.Float64Data{1 * s, 2 * s, 3 * s, 4 * s}
+		if v, err := stats.PopulationVariance(d); err != nil || !close(v, 1.25*s*s) {
+			t.Errorf("PopulationVariance(%v) = %v, %v; want %v", d, v, err, 1.25*s*s)
+		}
+		if v, err := stats.SampleVariance(d); err != nil || !close(v, 5.0/3*s*s) {
+			t.Errorf("SampleVariance(%v) = %v, %v; want %v", d, v, err, 5.0/3*s*s)
+		}
+	}
+}
