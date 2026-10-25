@@ -138,8 +138,34 @@ func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (dist
 		distance = distance + math.Pow(math.Abs(dataPointX[i]-dataPointY[i]), lambda)
 	}
 	distance = math.Pow(distance, 1/lambda)
+
+	// The powers overflow or underflow for differences far from unit
+	// magnitude, so compute them again from scaled differences
+	if (math.IsInf(distance, 1) || distance == 0) && lambda > 0 {
+		distance = scaledMinkowskiDistance(dataPointX, dataPointY, lambda)
+	}
+
 	if math.IsInf(distance, 1) {
 		return math.NaN(), InfValue
 	}
 	return distance, nil
+}
+
+// scaledMinkowskiDistance computes the Minkowski distance from differences
+// scaled by powers of two, first so the differences cannot overflow and then
+// so the largest is in [0.5, 1), and scales the result back. Scaling by a
+// power of two is exact.
+func scaledMinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) float64 {
+	e := unitExponent(append(append(Float64Data{}, dataPointX...), dataPointY...))
+	f := math.Ldexp(1, -e)
+	diffs := make(Float64Data, len(dataPointX))
+	for i := range diffs {
+		diffs[i] = math.Abs(dataPointX[i]*f - dataPointY[i]*f)
+	}
+	de := unitExponent(diffs)
+	var sum float64
+	for _, d := range diffs {
+		sum += math.Pow(math.Ldexp(d, -de), lambda)
+	}
+	return math.Ldexp(math.Pow(sum, 1/lambda), e+de)
 }

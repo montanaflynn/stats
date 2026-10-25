@@ -163,3 +163,17 @@ func ExampleSampleKurtosis() {
 	fmt.Printf("%.1f\n", k)
 	// Output: -1.2
 }
+
+func TestKurtosisExtremeScales(t *testing.T) {
+	base := stats.Float64Data{1, 2, 3, 10}
+	want, _ := stats.Kurtosis(base)
+	for _, s := range []float64{1e100, 1e200, 1e-100, 1e-200, -1e200} {
+		d := make(stats.Float64Data, len(base))
+		for i, v := range base {
+			d[i] = v * s
+		}
+		if got, err := stats.Kurtosis(d); err != nil || !close(got, want) {
+			t.Errorf("Kurtosis(%v) = %v, %v; want %v", d, got, err, want)
+		}
+	}
+}

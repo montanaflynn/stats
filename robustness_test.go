@@ -233,17 +233,7 @@ func hasNaN(xs []float64) bool {
 // result alongside a nil error. A NaN result must come with an error so
 // callers that only check err are not handed garbage.
 func TestFiniteInputNoSilentNaN(t *testing.T) {
-	known := newKnownIssues(t,
-		// The squared deviations overflow for huge values, as they do in numpy
-		// and pandas.
-		"AutoCorrelation(huge)",
-		"Kurtosis(huge)",
-		"PopulationKurtosis(huge)",
-		"PopulationSkewness(huge)",
-		"SampleKurtosis(huge)",
-		"SampleSkewness(huge)",
-		"Skewness(huge)",
-	)
+	known := newKnownIssues(t)
 	defer known.done()
 	finite := []string{"single", "pair", "constant", "zeros", "huge", "tiny", "mixedsigns", "maxfloat", "negzero", "largeoffset", "unevensingle"}
 	all := inputs()
@@ -284,29 +274,7 @@ func TestNaNInputPropagates(t *testing.T) {
 // every input and result representable. Intermediate overflow or underflow
 // (squaring 1e200, say) shows up as Inf, 0, or NaN at the extreme scales.
 func TestScaleEquivariance(t *testing.T) {
-	known := newKnownIssues(t,
-		// Squared deviations overflow or underflow at 1e±200, as they do in
-		// numpy and scipy.
-		"AutoCorrelation",
-		"CoefficientOfVariation",
-		"MovingStdDev",
-		"RMS",
-		"SEM",
-		"StandardDeviation",
-		"StandardDeviationSample",
-		"ZScore",
-		// Cubed and fourth-power deviations overflow or underflow from 1e±100,
-		// as they do in scipy, except skewness that underflows to 0 rather
-		// than NaN.
-		"Kurtosis",
-		"PopulationKurtosis",
-		"PopulationSkewness",
-		"SampleKurtosis",
-		"SampleSkewness",
-		"Skewness",
-		// |x-y|^lambda overflows or underflows, as in scipy.
-		"MinkowskiDistance",
-	)
+	known := newKnownIssues(t)
 	defer known.done()
 	a := stats.Float64Data{3.2, 1.1, 4.8, 2.5, 9.0, 7.3, 0.4, 5.5}
 	b := stats.Float64Data{1.5, 2.7, 3.1, 4.9, 5.2, 6.8, 7.4, 8.6}

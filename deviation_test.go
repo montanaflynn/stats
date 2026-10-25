@@ -93,3 +93,22 @@ func TestStandardDeviationSample(t *testing.T) {
 		t.Errorf("%.1f != %.1f", m, math.NaN())
 	}
 }
+
+func TestStandardDeviationExtremeScales(t *testing.T) {
+	// The variance overflows or underflows, but the deviation does not
+	for _, s := range []float64{1e200, 1e-200, 1e300} {
+		d := stats.Float64Data{1 * s, 2 * s, 3 * s, 4 * s}
+		if sd, err := stats.StandardDeviationPopulation(d); err != nil || !close(sd, math.Sqrt(1.25)*s) {
+			t.Errorf("StandardDeviationPopulation(%v) = %v, %v; want %v", d, sd, err, math.Sqrt(1.25)*s)
+		}
+		if sd, err := stats.StandardDeviationSample(d); err != nil || !close(sd, math.Sqrt(5.0/3)*s) {
+			t.Errorf("StandardDeviationSample(%v) = %v, %v; want %v", d, sd, err, math.Sqrt(5.0/3)*s)
+		}
+	}
+	if sd, err := stats.StandardDeviationSample(stats.Float64Data{}); err != stats.ErrEmptyInput || !math.IsNaN(sd) {
+		t.Errorf("StandardDeviationSample of empty input = %v, %v; want NaN, ErrEmptyInput", sd, err)
+	}
+	if sd, err := stats.StandardDeviationSample(stats.Float64Data{1, math.Inf(1)}); err != nil || !math.IsNaN(sd) {
+		t.Errorf("StandardDeviationSample with Inf = %v, %v; want NaN", sd, err)
+	}
+}

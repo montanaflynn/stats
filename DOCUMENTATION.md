@@ -353,7 +353,7 @@ index of the first NaN is returned.
 
 
 
-## <a name="AutoCorrelation">func</a> [AutoCorrelation](/correlation.go?s=3521:3586#L137)
+## <a name="AutoCorrelation">func</a> [AutoCorrelation](/correlation.go?s=3440:3505#L133)
 ``` go
 func AutoCorrelation(data Float64Data, lags int) (float64, error)
 ```
@@ -405,7 +405,7 @@ constant, so it returns 0 with ErrTooFew or ErrZero respectively.
 
 
 
-## <a name="Covariance">func</a> [Covariance](/variance.go?s=1496:1554#L59)
+## <a name="Covariance">func</a> [Covariance](/variance.go?s=2070:2128#L74)
 ``` go
 func Covariance(data1, data2 Float64Data) (float64, error)
 ```
@@ -414,7 +414,7 @@ sample covariance, so it returns ErrTooFew for a single pair.
 
 
 
-## <a name="CovariancePopulation">func</a> [CovariancePopulation](/variance.go?s=2125:2193#L91)
+## <a name="CovariancePopulation">func</a> [CovariancePopulation](/variance.go?s=2699:2767#L106)
 ``` go
 func CovariancePopulation(data1, data2 Float64Data) (float64, error)
 ```
@@ -948,7 +948,7 @@ NormVar is the variance of the distribution.
 
 
 
-## <a name="Pearson">func</a> [Pearson](/correlation.go?s=1555:1610#L60)
+## <a name="Pearson">func</a> [Pearson](/correlation.go?s=1474:1529#L56)
 ``` go
 func Pearson(data1, data2 Float64Data) (float64, error)
 ```
@@ -1061,7 +1061,7 @@ central moment normalized by the cube of the standard deviation.
 
 
 
-## <a name="PopulationVariance">func</a> [PopulationVariance](/variance.go?s=828:896#L31)
+## <a name="PopulationVariance">func</a> [PopulationVariance](/variance.go?s=1402:1470#L46)
 ``` go
 func PopulationVariance(input Float64Data) (pvar float64, err error)
 ```
@@ -1160,7 +1160,7 @@ Sample returns sample from input with replacement or without
 
 
 
-## <a name="SampleKurtosis">func</a> [SampleKurtosis](/kurtosis.go?s=1071:1126#L41)
+## <a name="SampleKurtosis">func</a> [SampleKurtosis](/kurtosis.go?s=1334:1389#L46)
 ``` go
 func SampleKurtosis(input Float64Data) (float64, error)
 ```
@@ -1169,7 +1169,7 @@ matching pandas .kurt() and scipy.stats.kurtosis with bias=False.
 
 
 
-## <a name="SampleSkewness">func</a> [SampleSkewness](/skewness.go?s=1043:1098#L44)
+## <a name="SampleSkewness">func</a> [SampleSkewness](/skewness.go?s=1422:1477#L51)
 ``` go
 func SampleSkewness(input Float64Data) (float64, error)
 ```
@@ -1178,7 +1178,7 @@ coefficient, correcting for bias in small samples.
 
 
 
-## <a name="SampleVariance">func</a> [SampleVariance](/variance.go?s=1136:1200#L43)
+## <a name="SampleVariance">func</a> [SampleVariance](/variance.go?s=1710:1774#L58)
 ``` go
 func SampleVariance(input Float64Data) (svar float64, err error)
 ```
@@ -1216,7 +1216,7 @@ is commonly used in machine learning neural networks.
 
 
 
-## <a name="Spearman">func</a> [Spearman](/correlation.go?s=2072:2128#L70)
+## <a name="Spearman">func</a> [Spearman](/correlation.go?s=1991:2047#L66)
 ``` go
 func Spearman(data1, data2 Float64Data) (float64, error)
 ```
@@ -1253,7 +1253,7 @@ StandardDeviationPopulation finds the amount of variation from the population
 
 
 
-## <a name="StandardDeviationSample">func</a> [StandardDeviationSample](/deviation.go?s=1348:1421#L48)
+## <a name="StandardDeviationSample">func</a> [StandardDeviationSample](/deviation.go?s=1369:1442#L48)
 ``` go
 func StandardDeviationSample(input Float64Data) (sdev float64, err error)
 ```
@@ -1358,7 +1358,7 @@ VarS is a shortcut to SampleVariance
 
 
 
-## <a name="Variance">func</a> [Variance](/variance.go?s=659:717#L26)
+## <a name="Variance">func</a> [Variance](/variance.go?s=1233:1291#L41)
 ``` go
 func Variance(input Float64Data) (sdev float64, err error)
 ```
@@ -1742,7 +1742,7 @@ between two variables.
 
 
 
-### <a name="Float64Data.Kurtosis">func</a> (Float64Data) [Kurtosis](/kurtosis.go?s=1501:1549#L58)
+### <a name="Float64Data.Kurtosis">func</a> (Float64Data) [Kurtosis](/kurtosis.go?s=1764:1812#L63)
 ``` go
 func (f Float64Data) Kurtosis() (float64, error)
 ```
@@ -1940,7 +1940,7 @@ PercentileOfScore calculates the percentile rank of a score relative to the data
 
 
 
-### <a name="Float64Data.PopulationKurtosis">func</a> (Float64Data) [PopulationKurtosis](/kurtosis.go?s=1655:1713#L63)
+### <a name="Float64Data.PopulationKurtosis">func</a> (Float64Data) [PopulationKurtosis](/kurtosis.go?s=1918:1976#L68)
 ``` go
 func (f Float64Data) PopulationKurtosis() (float64, error)
 ```
@@ -1994,7 +1994,7 @@ Quartiles returns the three quartile points from instance of Float64Data
 
 
 
-### <a name="Float64Data.RMS">func</a> (Float64Data) [RMS](/rms.go?s=454:497#L21)
+### <a name="Float64Data.RMS">func</a> (Float64Data) [RMS](/rms.go?s=668:711#L26)
 ``` go
 func (f Float64Data) RMS() (float64, error)
 ```
@@ -2049,7 +2049,7 @@ Sample returns sample from input with replacement or without
 
 
 
-### <a name="Float64Data.SampleKurtosis">func</a> (Float64Data) [SampleKurtosis](/kurtosis.go?s=1836:1890#L68)
+### <a name="Float64Data.SampleKurtosis">func</a> (Float64Data) [SampleKurtosis](/kurtosis.go?s=2099:2153#L73)
 ``` go
 func (f Float64Data) SampleKurtosis() (float64, error)
 ```

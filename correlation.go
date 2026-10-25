@@ -44,11 +44,7 @@ func Correlation(data1, data2 Float64Data) (float64, error) {
 // largest magnitude is in [0.5, 1). Scaling by a power of two is exact, so
 // scale-invariant statistics computed from the copy are unchanged.
 func scaleToUnit(input Float64Data) Float64Data {
-	var max float64
-	for _, v := range input {
-		max = math.Max(max, math.Abs(v))
-	}
-	_, exp := math.Frexp(max)
+	exp := unitExponent(input)
 	scaled := make(Float64Data, len(input))
 	for i, v := range input {
 		scaled[i] = math.Ldexp(v, -exp)
@@ -142,6 +138,10 @@ func AutoCorrelation(data Float64Data, lags int) (float64, error) {
 	if lags < 0 || lags >= len(data) {
 		return 0, BoundsErr
 	}
+
+	// Autocorrelation is scale-invariant, so scale to unit magnitude first
+	// to keep the squared deviations from overflowing or underflowing.
+	data = scaleToUnit(data)
 
 	mean, _ := Mean(data)
 

@@ -36,23 +36,28 @@ func StandardDeviationPopulation(input Float64Data) (sdev float64, err error) {
 		return math.NaN(), EmptyInputErr
 	}
 
-	// Get the population variance
-	vp, _ := PopulationVariance(input)
+	// Get the scaled population variance
+	vp, e := scaledVariance(input, 0)
 
 	// Return the population standard deviation
-	return math.Sqrt(vp), nil
+	return math.Ldexp(math.Sqrt(vp), e), nil
 }
 
 // StandardDeviationSample finds the amount of variation from a sample. It
 // returns ErrTooFew for a single element.
 func StandardDeviationSample(input Float64Data) (sdev float64, err error) {
 
-	// Get the sample variance
-	vs, err := SampleVariance(input)
-	if err != nil {
-		return math.NaN(), err
+	if input.Len() == 0 {
+		return math.NaN(), EmptyInputErr
 	}
 
+	if input.Len() == 1 {
+		return math.NaN(), ErrTooFew
+	}
+
+	// Get the scaled sample variance
+	vs, e := scaledVariance(input, 1)
+
 	// Return the sample standard deviation
-	return math.Sqrt(vs), nil
+	return math.Ldexp(math.Sqrt(vs), e), nil
 }
