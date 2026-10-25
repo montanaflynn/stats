@@ -353,12 +353,12 @@ index of the first NaN is returned.
 
 
 
-## <a name="AutoCorrelation">func</a> [AutoCorrelation](/correlation.go?s=2790:2855#L116)
+## <a name="AutoCorrelation">func</a> [AutoCorrelation](/correlation.go?s=2815:2880#L117)
 ``` go
 func AutoCorrelation(data Float64Data, lags int) (float64, error)
 ```
 AutoCorrelation is the correlation of a signal with a delayed copy of itself as a function of delay.
-It returns ErrZero for constant data, where the correlation is undefined.
+It returns 0 with ErrZero for constant data, where the correlation is undefined.
 
 
 
@@ -395,13 +395,13 @@ zero. A single element returns ErrTooFew.
 
 
 
-## <a name="Correlation">func</a> [Correlation](/correlation.go?s=243:302#L11)
+## <a name="Correlation">func</a> [Correlation](/correlation.go?s=262:321#L11)
 ``` go
 func Correlation(data1, data2 Float64Data) (float64, error)
 ```
 Correlation describes the degree of relationship between two sets of data.
-It returns ErrTooFew for a single pair and ErrZero when either set is
-constant, where the correlation is undefined.
+The correlation is undefined for a single pair or when either set is
+constant, so it returns 0 with ErrTooFew or ErrZero respectively.
 
 
 
@@ -559,7 +559,7 @@ A NaN in xp returns ErrBounds and a NaN in x gives a NaN in the output.
 
 
 
-## <a name="KendallTau">func</a> [KendallTau](/kendall.go?s=478:536#L13)
+## <a name="KendallTau">func</a> [KendallTau](/kendall.go?s=497:555#L13)
 ``` go
 func KendallTau(data1, data2 Float64Data) (float64, error)
 ```
@@ -568,8 +568,8 @@ between two variables. Tau-b corrects for ties, matching the values
 produced by SciPy's kendalltau and pandas' corr(method="kendall").
 Pairs are compared with a simple O(n^2) loop for clarity.
 
-It returns ErrTooFew for a single pair and ErrZero when either variable
-is constant, where tau-b is undefined. If either variable contains a NaN
+Tau-b is undefined for a single pair or when either variable is constant,
+so it returns 0 with ErrTooFew or ErrZero respectively. If either variable contains a NaN
 the result is NaN.
 
 
@@ -948,7 +948,7 @@ NormVar is the variance of the distribution.
 
 
 
-## <a name="Pearson">func</a> [Pearson](/correlation.go?s=848:903#L40)
+## <a name="Pearson">func</a> [Pearson](/correlation.go?s=849:904#L40)
 ``` go
 func Pearson(data1, data2 Float64Data) (float64, error)
 ```
@@ -1216,15 +1216,16 @@ is commonly used in machine learning neural networks.
 
 
 
-## <a name="Spearman">func</a> [Spearman](/correlation.go?s=1348:1404#L49)
+## <a name="Spearman">func</a> [Spearman](/correlation.go?s=1366:1422#L50)
 ``` go
 func Spearman(data1, data2 Float64Data) (float64, error)
 ```
 Spearman calculates the Spearman rank correlation coefficient between two variables.
 It works by ranking the data and then computing the Pearson correlation of the ranks.
 This method handles tied values using fractional (average) ranking.
-Like Correlation, it returns ErrTooFew for a single pair and ErrZero when
-either set is constant. If either variable contains a NaN the result is NaN.
+Like Correlation, it returns 0 with ErrTooFew for a single pair and 0 with
+ErrZero when either set is constant. If either variable contains a NaN the
+result is NaN.
 
 
 
@@ -1731,7 +1732,7 @@ InterQuartileRange finds the range between Q1 and Q3
 
 
 
-### <a name="Float64Data.KendallTau">func</a> (Float64Data) [KendallTau](/kendall.go?s=1747:1810#L68)
+### <a name="Float64Data.KendallTau">func</a> (Float64Data) [KendallTau](/kendall.go?s=1748:1811#L68)
 ``` go
 func (f Float64Data) KendallTau(d Float64Data) (float64, error)
 ```

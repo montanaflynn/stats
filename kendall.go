@@ -7,8 +7,8 @@ import "math"
 // produced by SciPy's kendalltau and pandas' corr(method="kendall").
 // Pairs are compared with a simple O(n^2) loop for clarity.
 //
-// It returns ErrTooFew for a single pair and ErrZero when either variable
-// is constant, where tau-b is undefined. If either variable contains a NaN
+// Tau-b is undefined for a single pair or when either variable is constant,
+// so it returns 0 with ErrTooFew or ErrZero respectively. If either variable contains a NaN
 // the result is NaN.
 func KendallTau(data1, data2 Float64Data) (float64, error) {
 
@@ -24,7 +24,7 @@ func KendallTau(data1, data2 Float64Data) (float64, error) {
 	}
 
 	if l1 == 1 {
-		return math.NaN(), ErrTooFew
+		return 0, ErrTooFew
 	}
 
 	// A pair with a NaN is neither concordant nor discordant
@@ -57,7 +57,7 @@ func KendallTau(data1, data2 Float64Data) (float64, error) {
 	// tau-b = (C - D) / sqrt((C + D + Tx) * (C + D + Ty))
 	denominator := math.Sqrt((concordant + discordant + tiedX) * (concordant + discordant + tiedY))
 	if denominator == 0 {
-		return math.NaN(), ErrZero
+		return 0, ErrZero
 	}
 
 	return (concordant - discordant) / denominator, nil
