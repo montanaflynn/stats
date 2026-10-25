@@ -507,7 +507,7 @@ for a geometric random variable with parameter p
 
 
 
-## <a name="GeometricMean">func</a> [GeometricMean](/mean.go?s=319:373#L18)
+## <a name="GeometricMean">func</a> [GeometricMean](/mean.go?s=693:747#L31)
 ``` go
 func GeometricMean(input Float64Data) (float64, error)
 ```
@@ -515,7 +515,7 @@ GeometricMean gets the geometric mean for a slice of numbers
 
 
 
-## <a name="HarmonicMean">func</a> [HarmonicMean](/mean.go?s=842:895#L41)
+## <a name="HarmonicMean">func</a> [HarmonicMean](/mean.go?s=1216:1269#L54)
 ``` go
 func HarmonicMean(input Float64Data) (float64, error)
 ```
@@ -758,7 +758,7 @@ returned. An empty input returns ErrEmptyInput.
 
 
 
-## <a name="Ncr">func</a> [Ncr](/norm.go?s=9576:9598#L298)
+## <a name="Ncr">func</a> [Ncr](/norm.go?s=9498:9520#L294)
 ``` go
 func Ncr(n, r int) int
 ```
@@ -807,7 +807,7 @@ Returns array of Mean followed by Standard Deviation.
 
 
 
-## <a name="NormInterval">func</a> [NormInterval](/norm.go?s=8729:8800#L276)
+## <a name="NormInterval">func</a> [NormInterval](/norm.go?s=8651:8722#L272)
 ``` go
 func NormInterval(alpha float64, loc float64, scale float64) [2]float64
 ```
@@ -847,7 +847,7 @@ NormLogSf is the log of the survival function.
 
 
 
-## <a name="NormMean">func</a> [NormMean](/norm.go?s=8313:8362#L261)
+## <a name="NormMean">func</a> [NormMean](/norm.go?s=8235:8284#L257)
 ``` go
 func NormMean(loc float64, scale float64) float64
 ```
@@ -855,7 +855,7 @@ NormMean is the mean/expected value of the distribution.
 
 
 
-## <a name="NormMedian">func</a> [NormMedian](/norm.go?s=8184:8235#L256)
+## <a name="NormMedian">func</a> [NormMedian](/norm.go?s=8106:8157#L252)
 ``` go
 func NormMedian(loc float64, scale float64) float64
 ```
@@ -932,7 +932,7 @@ Returns array of m v s k in that order.
 
 
 
-## <a name="NormStd">func</a> [NormStd](/norm.go?s=8567:8615#L271)
+## <a name="NormStd">func</a> [NormStd](/norm.go?s=8489:8537#L267)
 ``` go
 func NormStd(loc float64, scale float64) float64
 ```
@@ -940,7 +940,7 @@ NormStd is the standard deviation of the distribution.
 
 
 
-## <a name="NormVar">func</a> [NormVar](/norm.go?s=8428:8476#L266)
+## <a name="NormVar">func</a> [NormVar](/norm.go?s=8350:8398#L262)
 ``` go
 func NormVar(loc float64, scale float64) float64
 ```
@@ -1310,7 +1310,7 @@ Returns the t statistic and the two-tailed p-value.
 
 
 
-## <a name="Trimean">func</a> [Trimean](/quartile.go?s=1527:1575#L69)
+## <a name="Trimean">func</a> [Trimean](/quartile.go?s=1645:1693#L75)
 ``` go
 func Trimean(input Float64Data) (float64, error)
 ```
@@ -2168,7 +2168,7 @@ Variance the amount of variation in the dataset
 
 
 
-### <a name="Float64Data.WeightedMean">func</a> (Float64Data) [WeightedMean](/weighted_mean.go?s=976:1047#L40)
+### <a name="Float64Data.WeightedMean">func</a> (Float64Data) [WeightedMean](/weighted_mean.go?s=1824:1895#L65)
 ``` go
 func (f Float64Data) WeightedMean(weights Float64Data) (float64, error)
 ```

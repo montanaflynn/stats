@@ -413,6 +413,13 @@ func TestNormFit(t *testing.T) {
 	}
 }
 
+func TestNormFitOverflow(t *testing.T) {
+	m := math.MaxFloat64
+	if got := stats.NormFit([]float64{m, m, m}); got != [2]float64{m, 0} {
+		t.Errorf("NormFit(MaxFloat64 x3) => %v; want [%v 0]", got, m)
+	}
+}
+
 func TestNormInterval(t *testing.T) {
 	if got := stats.NormInterval(0.5, 0, 1); !veryclose(got[0], -0.6744897501960818) || !veryclose(got[1], 0.6744897501960818) {
 		t.Error("Input (50 % ), Expected {-0.6744897501960818, 0.6744897501960818}")

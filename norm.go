@@ -240,11 +240,7 @@ func NormEntropy(loc float64, scale float64) float64 {
 // Takes array of float64 values.
 // Returns array of Mean followed by Standard Deviation.
 func NormFit(data []float64) [2]float64 {
-	sum := 0.00
-	for i := 0; i < len(data); i++ {
-		sum += data[i]
-	}
-	mean := sum / float64(len(data))
+	mean, _ := Mean(data)
 	stdNumerator := 0.00
 	for i := 0; i < len(data); i++ {
 		stdNumerator += math.Pow(data[i]-mean, 2)
