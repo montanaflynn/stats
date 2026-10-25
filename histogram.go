@@ -1,6 +1,9 @@
 package stats
 
-import "sort"
+import (
+	"math"
+	"sort"
+)
 
 // Histogram calculates the histogram of a slice using the given
 // number of equal-width bins over [min, max], returning the count
@@ -38,6 +41,16 @@ func Histogram(input Float64Data, bins int) ([]int, []float64, error) {
 	edges := make([]float64, bins+1)
 	for i := range edges {
 		edges[i] = min + width*float64(i)
+	}
+
+	// When max - min overflows, build the edges from halved
+	// bounds, which is exact for values this large, and double
+	// them back so the edges stay finite
+	if math.IsInf(width, 1) {
+		width = (max/2 - min/2) / float64(bins)
+		for i := range edges {
+			edges[i] = 2 * (min/2 + width*float64(i))
+		}
 	}
 	edges[bins] = max
 

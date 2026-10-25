@@ -264,10 +264,6 @@ func TestFiniteInputNoSilentNaN(t *testing.T) {
 		"Skewness(maxfloat)",
 		"TTest(maxfloat)",
 		"ZScore(maxfloat)",
-		// max - min overflows for values of opposite sign. numpy.histogram
-		// raises an error for this range instead.
-		"Histogram(huge)",
-		"Rescale(huge)",
 	)
 	defer known.done()
 	// WeightedMean multiplies before summing, so huge products overflow.

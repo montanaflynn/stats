@@ -2,6 +2,7 @@ package stats_test
 
 import (
 	"fmt"
+	"math"
 	"reflect"
 	"testing"
 
@@ -54,6 +55,27 @@ func TestHistogramMaxInLastBin(t *testing.T) {
 	}
 	if counts[len(counts)-1] != 2 {
 		t.Errorf("Maximum value not counted in the last bin => %v", counts)
+	}
+}
+
+func TestHistogramRangeOverflow(t *testing.T) {
+	// max - min overflows, but every edge is representable
+	m := math.MaxFloat64
+	counts, edges, err := stats.Histogram([]float64{-m, -1e308, 0, 1e308, m}, 4)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// Inner edges may differ by an ulp depending on whether the platform
+	// fuses multiply and add, so compare them with a tolerance.
+	wantEdges := []float64{-m, -m / 2, 0, m / 2, m}
+	for i := range wantEdges {
+		if len(edges) != len(wantEdges) || !close(edges[i], wantEdges[i]) {
+			t.Errorf("edges = %v, want %v", edges, wantEdges)
+			break
+		}
+	}
+	if want := []int{2, 0, 1, 2}; !reflect.DeepEqual(counts, want) {
+		t.Errorf("counts = %v, want %v", counts, want)
 	}
 }
 
