@@ -10,9 +10,12 @@ permissions:
   contents: read
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        # arm64 fuses multiply-adds where amd64 does not, so float results
+        # can round differently between them
+        os: [ubuntu-latest, ubuntu-24.04-arm]
         # 1.17 is the minimum version declared in go.mod
         go-version: ["1.17", "stable"]
     steps:
@@ -30,12 +33,16 @@ jobs:
         if: matrix.go-version != 'stable'
         run: go test
 
+      - name: Run tests with race detector
+        if: matrix.go-version == 'stable' && matrix.os != 'ubuntu-latest'
+        run: go test -race
+
       - name: Run test with coverage
-        if: matrix.go-version == 'stable'
+        if: matrix.go-version == 'stable' && matrix.os == 'ubuntu-latest'
         run: go test -race -coverprofile=coverage.txt -covermode=atomic
 
       - name: Upload coverage to Codecov
-        if: matrix.go-version == 'stable'
+        if: matrix.go-version == 'stable' && matrix.os == 'ubuntu-latest'
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
