@@ -111,3 +111,21 @@ func TestSampleSkewness_TooSmallDataset(t *testing.T) {
 		t.Fatalf("expected ErrEmptyInput for dataset length < 3, got %v", err)
 	}
 }
+
+func TestSkewnessExtremeScales(t *testing.T) {
+	base := stats.Float64Data{1, 2, 3, 10}
+	want, _ := stats.Skewness(base)
+	for _, s := range []float64{1e100, 1e200, 1e-100, 1e-200, -1e200} {
+		d := make(stats.Float64Data, len(base))
+		for i, v := range base {
+			d[i] = v * s
+		}
+		w := want
+		if s < 0 {
+			w = -want
+		}
+		if got, err := stats.Skewness(d); err != nil || !close(got, w) {
+			t.Errorf("Skewness(%v) = %v, %v; want %v", d, got, err, w)
+		}
+	}
+}

@@ -62,6 +62,12 @@ func Midhinge(input Float64Data) (float64, error) {
 		return math.NaN(), err
 	}
 	mh := (qs.Q1 + qs.Q3) / 2
+
+	// Halve before adding when the sum of the quartiles overflows
+	if math.IsInf(mh, 0) {
+		mh = qs.Q1/2 + qs.Q3/2
+	}
+
 	return mh, nil
 }
 
@@ -72,5 +78,12 @@ func Trimean(input Float64Data) (float64, error) {
 		return math.NaN(), err
 	}
 
-	return (q.Q1 + (q.Q2 * 2) + q.Q3) / 4, nil
+	tm := (q.Q1 + (q.Q2 * 2) + q.Q3) / 4
+
+	// Divide before adding when the weighted sum overflows
+	if math.IsInf(tm, 0) {
+		tm = q.Q1/4 + q.Q2/2 + q.Q3/4
+	}
+
+	return tm, nil
 }

@@ -21,6 +21,29 @@ func TestWeightedMean(t *testing.T) {
 	}
 }
 
+func TestWeightedMeanOverflow(t *testing.T) {
+	m := math.MaxFloat64
+	for _, c := range []struct {
+		data, weights stats.Float64Data
+		out           float64
+	}{
+		// The products overflow, but the mean is the value itself
+		{stats.Float64Data{m, m, m, m}, stats.Float64Data{1, 2, 3, 4}, m},
+		{stats.Float64Data{-m, -m}, stats.Float64Data{1, 3}, -m},
+		// The total weight overflows
+		{stats.Float64Data{1, 3}, stats.Float64Data{m, m}, 2},
+		{stats.Float64Data{1e308, -1e308, 1e308, 5}, stats.Float64Data{1, 2, 3, 4}, 2e307},
+		{stats.Float64Data{m, math.Inf(1)}, stats.Float64Data{1, 1}, math.Inf(1)},
+	} {
+		if got, err := stats.WeightedMean(c.data, c.weights); err != nil || !close(got, c.out) {
+			t.Errorf("WeightedMean(%v, %v) => %v, %v; want %v", c.data, c.weights, got, err, c.out)
+		}
+	}
+	if got, _ := stats.WeightedMean(stats.Float64Data{m, math.NaN()}, stats.Float64Data{1, 1}); !math.IsNaN(got) {
+		t.Errorf("WeightedMean with NaN => %v; want NaN", got)
+	}
+}
+
 func TestWeightedMeanUniformWeights(t *testing.T) {
 	// With uniform weights the weighted mean should equal the mean
 	data := stats.Float64Data{1.5, 3.6, 7.9, 4.2}

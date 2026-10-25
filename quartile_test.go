@@ -1,6 +1,7 @@
 package stats_test
 
 import (
+	"math"
 	"testing"
 
 	"github.com/montanaflynn/stats"
@@ -88,6 +89,18 @@ func TestMidhinge(t *testing.T) {
 	_, err = stats.Midhinge([]float64{1})
 	if err == nil {
 		t.Errorf("Single element slice should have returned an error")
+	}
+}
+
+func TestMidhingeTrimeanOverflow(t *testing.T) {
+	for _, c := range []float64{math.MaxFloat64, -math.MaxFloat64} {
+		d := []float64{c, c, c, c}
+		if mh, err := stats.Midhinge(d); err != nil || mh != c {
+			t.Errorf("Midhinge(%v) => %v, %v; want %v", d, mh, err, c)
+		}
+		if tr, err := stats.Trimean(d); err != nil || tr != c {
+			t.Errorf("Trimean(%v) => %v, %v; want %v", d, tr, err, c)
+		}
 	}
 }
 

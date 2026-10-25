@@ -32,7 +32,8 @@ func TestCorrelation(t *testing.T) {
 		{"Empty Slice Error", [][]float64{s4, s4}, math.NaN(), stats.EmptyInputErr},
 		{"Different Length Error", [][]float64{s1, s2}, math.NaN(), stats.SizeErr},
 		{"Correlation Value", [][]float64{s1, s3}, 0.9912407071619302, nil},
-		{"Same Input Value", [][]float64{s5, s5}, 0.00, nil},
+		{"Same Input Value", [][]float64{s5, s5}, 0.00, stats.ErrZero},
+		{"Single Pair", [][]float64{{1}, {2}}, 0.00, stats.ErrTooFew},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -53,6 +54,43 @@ func TestCorrelation(t *testing.T) {
 				t.Errorf("Result %.08f should be %.08f", a2, tc.output)
 			}
 		})
+	}
+}
+
+func TestCorrelationScale(t *testing.T) {
+	a := []float64{3.2, 1.1, 4.8, 2.5, 9.0, 7.3, 0.4, 5.5}
+	b := []float64{1.5, 2.7, 3.1, 4.9, 5.2, 6.8, 7.4, 8.6}
+	// scipy.stats.pearsonr(a, b) at every scale below
+	want := 0.22609894303162795
+	for _, scale := range []float64{1, 1e200, 1e-200, -1e200, 1e300, 1e-300} {
+		t.Run(fmt.Sprintf("scale=%g", scale), func(t *testing.T) {
+			sa, sb := make([]float64, len(a)), make([]float64, len(b))
+			for i := range a {
+				sa[i], sb[i] = a[i]*scale, b[i]*math.Abs(scale)
+			}
+			got, err := stats.Correlation(sa, sb)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if scale < 0 {
+				got = -got
+			}
+			if !tolerance(got, want, 1e-12) {
+				t.Errorf("Correlation = %v, want %v", got, want)
+			}
+		})
+	}
+}
+
+func TestCorrelationNonFinite(t *testing.T) {
+	for _, data := range [][]float64{
+		{1, math.NaN(), 3},
+		{1, math.Inf(1), 3},
+	} {
+		got, err := stats.Correlation(data, []float64{1, 2, 3})
+		if err != nil || !math.IsNaN(got) {
+			t.Errorf("Correlation(%v) = (%v, %v), want (NaN, nil)", data, got, err)
+		}
 	}
 }
 
@@ -119,7 +157,8 @@ func TestSpearman(t *testing.T) {
 		},
 
 		// Zero standard deviation case (all same values)
-		{"Same Input Value", []float64{0, 0, 0}, []float64{0, 0, 0}, 0.00, nil},
+		{"Same Input Value", []float64{0, 0, 0}, []float64{0, 0, 0}, 0.00, stats.ErrZero},
+		{"Single Pair", []float64{1}, []float64{2}, 0.00, stats.ErrTooFew},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -211,7 +250,21 @@ func TestAutoCorrelation(t *testing.T) {
 	}
 
 	constant := []float64{3, 3, 3, 3, 3}
-	if a, err := stats.AutoCorrelation(constant, 1); err != nil || a != 0 {
-		t.Errorf("AutoCorrelation of constant series should be 0, got %v err=%v", a, err)
+	if a, err := stats.AutoCorrelation(constant, 1); err != stats.ErrZero || a != 0 {
+		t.Errorf("AutoCorrelation of constant series should be 0 with ErrZero, got %v err=%v", a, err)
+	}
+}
+
+func TestAutoCorrelationExtremeScales(t *testing.T) {
+	base := stats.Float64Data{1, 2, 3, 10, 4}
+	want, _ := stats.AutoCorrelation(base, 1)
+	for _, s := range []float64{1e200, 1e-200} {
+		d := make(stats.Float64Data, len(base))
+		for i, v := range base {
+			d[i] = v * s
+		}
+		if got, err := stats.AutoCorrelation(d, 1); err != nil || !close(got, want) {
+			t.Errorf("AutoCorrelation(%v, 1) = %v, %v; want %v", d, got, err, want)
+		}
 	}
 }

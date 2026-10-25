@@ -124,3 +124,15 @@ func BenchmarkRMS(b *testing.B) {
 		})
 	}
 }
+
+func TestRMSExtremeScales(t *testing.T) {
+	for _, s := range []float64{1e200, 1e-200} {
+		d := stats.Float64Data{3 * s, 4 * s}
+		if r, err := stats.RMS(d); err != nil || !close(r, math.Sqrt(12.5)*s) {
+			t.Errorf("RMS(%v) = %v, %v; want %v", d, r, err, math.Sqrt(12.5)*s)
+		}
+	}
+	if r, _ := stats.RMS(stats.Float64Data{1, math.Inf(-1)}); !math.IsInf(r, 1) {
+		t.Errorf("RMS with -Inf = %v; want +Inf", r)
+	}
+}
