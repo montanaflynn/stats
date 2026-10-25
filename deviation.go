@@ -7,7 +7,8 @@ func MedianAbsoluteDeviation(input Float64Data) (mad float64, err error) {
 	return MedianAbsoluteDeviationPopulation(input)
 }
 
-// MedianAbsoluteDeviationPopulation finds the median of the absolute deviations from the population median
+// MedianAbsoluteDeviationPopulation finds the median of the absolute deviations from the population median.
+// If the input contains a NaN the result is NaN.
 func MedianAbsoluteDeviationPopulation(input Float64Data) (mad float64, err error) {
 	if input.Len() == 0 {
 		return math.NaN(), EmptyInputErr

@@ -16,7 +16,8 @@ func validateData(dataPointX, dataPointY Float64Data) error {
 	return nil
 }
 
-// ChebyshevDistance computes the Chebyshev distance between two data sets
+// ChebyshevDistance computes the Chebyshev distance between two data sets.
+// If any coordinate difference is NaN the distance is NaN.
 func ChebyshevDistance(dataPointX, dataPointY Float64Data) (distance float64, err error) {
 	err = validateData(dataPointX, dataPointY)
 	if err != nil {
@@ -25,7 +26,8 @@ func ChebyshevDistance(dataPointX, dataPointY Float64Data) (distance float64, er
 	var tempDistance float64
 	for i := 0; i < len(dataPointY); i++ {
 		tempDistance = math.Abs(dataPointX[i] - dataPointY[i])
-		if distance < tempDistance {
+		// Keep a NaN difference, since NaN never compares greater
+		if distance < tempDistance || math.IsNaN(tempDistance) {
 			distance = tempDistance
 		}
 	}

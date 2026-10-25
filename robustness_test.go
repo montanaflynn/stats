@@ -316,27 +316,6 @@ func TestFiniteInputNoSilentNaN(t *testing.T) {
 // or an error, as Mean and Sum do, rather than a finite result computed as if
 // the NaN were absent or sorted below every number.
 func TestNaNInputPropagates(t *testing.T) {
-	known := newKnownIssues(t,
-		// Comparisons with NaN are false, so NaN is skipped by max and min
-		// scans and sorted below every number. numpy and scipy return NaN,
-		// and numpy.histogram raises.
-		"ChebyshevDistance",
-		"CumulativeMax",
-		"CumulativeMin",
-		"Histogram",
-		"KendallTau",
-		"Max",
-		"Median",
-		"MedianAbsoluteDeviation",
-		"Min",
-		"Percentile",
-		"PercentileNearestRank",
-		"PercentileOfScore",
-		"Range",
-		"Rank",
-		"Spearman",
-	)
-	defer known.done()
 	in := inputs()["nan"]
 	for _, c := range robustCases() {
 		// Mode reports no repeated value, which is true with a NaN.
@@ -345,7 +324,7 @@ func TestNaNInputPropagates(t *testing.T) {
 		}
 		out, err, p := safeCall(c, in[0], in[1])
 		if p == nil && err == nil && !hasNaN(out) {
-			known.failf(c.name, "%s(%v) = %v with nil error", c.name, in[0], out)
+			t.Errorf("%s(%v) = %v with nil error", c.name, in[0], out)
 		}
 	}
 }
