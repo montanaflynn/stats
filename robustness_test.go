@@ -274,10 +274,7 @@ func TestNaNInputPropagates(t *testing.T) {
 // every input and result representable. Intermediate overflow or underflow
 // (squaring 1e200, say) shows up as Inf, 0, or NaN at the extreme scales.
 func TestScaleEquivariance(t *testing.T) {
-	known := newKnownIssues(t,
-		// Euclidean distance squares the differences; #145 scales them.
-		"EuclideanDistance",
-	)
+	known := newKnownIssues(t)
 	defer known.done()
 	a := stats.Float64Data{3.2, 1.1, 4.8, 2.5, 9.0, 7.3, 0.4, 5.5}
 	b := stats.Float64Data{1.5, 2.7, 3.1, 4.9, 5.2, 6.8, 7.4, 8.6}

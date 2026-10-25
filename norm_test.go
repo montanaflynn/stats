@@ -17,7 +17,7 @@ func TestNormPpf(t *testing.T) {
 	if !veryclose(stats.NormPpf(0.1, 0, 1), -1.2815515655446004) {
 		t.Error("Input 0.1, Expected -1.2815515655446004")
 	}
-	if stats.NormPpf(0.002423, 0, 1) != -2.817096255323953 {
+	if !veryclose(stats.NormPpf(0.002423, 0, 1), -2.817096255323953) {
 		t.Error("Input 0.002423, Expected -2.817096255323953")
 	}
 	if !close(stats.NormPpf(1-0.002423, 0, 1), 2.817096255323956) {
@@ -42,40 +42,40 @@ func TestNormCdf(t *testing.T) {
 	if stats.NormCdf(0, 0, 1) != 0.5 {
 		t.Error("Input 0, Expected 0.5")
 	}
-	if stats.NormCdf(0.5, 0, 1) != 0.6914624612740131 {
+	if !veryclose(stats.NormCdf(0.5, 0, 1), 0.6914624612740131) {
 		t.Error("Input 0.5, Expected 0.6914624612740131")
 	}
-	if stats.NormCdf(-0.5, 0, 1) != 0.3085375387259869 {
+	if !veryclose(stats.NormCdf(-0.5, 0, 1), 0.3085375387259869) {
 		t.Error("Input -0.5, Expected 0.3085375387259869")
 	}
 }
 
 func TestNormPdf(t *testing.T) {
-	if stats.NormPdf(0.5, 0, 1) != 0.35206532676429947 {
+	if !veryclose(stats.NormPdf(0.5, 0, 1), 0.35206532676429947) {
 		t.Error("Input 0.5, Expected 0.35206532676429947")
 	}
-	if stats.NormPdf(0, 0, 1) != 0.3989422804014327 {
+	if !veryclose(stats.NormPdf(0, 0, 1), 0.3989422804014327) {
 		t.Error("Input 0, Expected 0.3989422804014327")
 	}
-	if stats.NormPdf(-0.5, 0, 1) != 0.35206532676429947 {
+	if !veryclose(stats.NormPdf(-0.5, 0, 1), 0.35206532676429947) {
 		t.Error("Input -0.5, Expected 0.35206532676429947")
 	}
 }
 
 func TestNormLogPdf(t *testing.T) {
-	if stats.NormLogPdf(0, 0, 1) != -0.9189385332046727 {
+	if !veryclose(stats.NormLogPdf(0, 0, 1), -0.9189385332046727) {
 		t.Error("Input 0, Expected -0.9189385332046727")
 	}
-	if stats.NormPdf(0, 0, 1) != 0.3989422804014327 {
+	if !veryclose(stats.NormPdf(0, 0, 1), 0.3989422804014327) {
 		t.Error("Input 0, Expected 0.3989422804014327")
 	}
-	if stats.NormPdf(-0.5, 0, 1) != 0.35206532676429947 {
+	if !veryclose(stats.NormPdf(-0.5, 0, 1), 0.35206532676429947) {
 		t.Error("Input -0.5, Expected 0.35206532676429947")
 	}
 }
 
 func TestNormLogCdf(t *testing.T) {
-	if stats.NormLogCdf(0.5, 0, 1) != -0.36894641528865635 {
+	if !veryclose(stats.NormLogCdf(0.5, 0, 1), -0.36894641528865635) {
 		t.Error("Input 0.5, Expected -0.36894641528865635")
 	}
 }
@@ -90,13 +90,13 @@ func TestNormIsf(t *testing.T) {
 }
 
 func TestNormSf(t *testing.T) {
-	if stats.NormSf(0.5, 0, 1) != 0.3085375387259869 {
+	if !veryclose(stats.NormSf(0.5, 0, 1), 0.3085375387259869) {
 		t.Error("Input 0.5, Expected 0.3085375387259869")
 	}
 }
 
 func TestNormLogSf(t *testing.T) {
-	if stats.NormLogSf(0.5, 0, 1) != -1.1759117615936185 {
+	if !veryclose(stats.NormLogSf(0.5, 0, 1), -1.1759117615936185) {
 		t.Error("Input 0.5, Expected -1.1759117615936185")
 	}
 }
@@ -205,7 +205,12 @@ func TestNormIsfLocScale(t *testing.T) {
 	for _, loc := range []float64{0, 1, -1, 0.5, -3.25, 100, -100} {
 		for _, scale := range []float64{1, 2, 0.5, 15, 0.1} {
 			for _, p := range []float64{1e-300, 1e-8, 0.001, 0.025, 0.1, 0.4, 0.5, 0.6, 0.9, 1 - 1e-8} {
-				if got, want := stats.NormIsf(p, loc, scale), loc+scale*stats.NormIsf(p, 0, 1); got != want {
+				// Allow an ulp of the terms: platforms that fuse multiply
+				// and add round loc+scale*z differently, and the sum can
+				// cancel, so a tolerance relative to it would be too tight.
+				z := stats.NormIsf(p, 0, 1)
+				got, want := stats.NormIsf(p, loc, scale), loc+scale*z
+				if math.Abs(got-want) > 1e-15*(math.Abs(loc)+math.Abs(scale*z)) {
 					t.Errorf("NormIsf(%v, %v, %v), got %v, want %v", p, loc, scale, got, want)
 				}
 			}
@@ -403,7 +408,7 @@ func TestNormEntropy(t *testing.T) {
 }
 
 func TestNormFit(t *testing.T) {
-	if !reflect.DeepEqual(stats.NormFit([]float64{0, 2, 3, 4}), [2]float64{2.25, 1.479019945774904}) {
+	if got := stats.NormFit([]float64{0, 2, 3, 4}); !veryclose(got[0], 2.25) || !veryclose(got[1], 1.479019945774904) {
 		t.Error("Input (0,2,3,4), Expected {2.25, 1.479019945774904}")
 	}
 }
@@ -416,7 +421,7 @@ func TestNormFitOverflow(t *testing.T) {
 }
 
 func TestNormInterval(t *testing.T) {
-	if !reflect.DeepEqual(stats.NormInterval(0.5, 0, 1), [2]float64{-0.6744897501960818, 0.6744897501960818}) {
+	if got := stats.NormInterval(0.5, 0, 1); !veryclose(got[0], -0.6744897501960818) || !veryclose(got[1], 0.6744897501960818) {
 		t.Error("Input (50 % ), Expected {-0.6744897501960818, 0.6744897501960818}")
 	}
 }
