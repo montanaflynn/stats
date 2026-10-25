@@ -335,7 +335,6 @@ func TestScaleEquivariance(t *testing.T) {
 		// numpy and scipy.
 		"AutoCorrelation",
 		"CoefficientOfVariation",
-		"EuclideanDistance",
 		"MovingStdDev",
 		"RMS",
 		"SEM",
