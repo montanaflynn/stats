@@ -38,8 +38,13 @@ func PopulationVariance(input Float64Data) (pvar float64, err error) {
 	return v, nil
 }
 
-// SampleVariance finds the amount of variance within a sample
+// SampleVariance finds the amount of variance within a sample. It returns
+// ErrTooFew for a single element, where the n-1 divisor is zero.
 func SampleVariance(input Float64Data) (svar float64, err error) {
+
+	if input.Len() == 1 {
+		return math.NaN(), ErrTooFew
+	}
 
 	v, err := _variance(input, 1)
 	if err != nil {
@@ -49,7 +54,8 @@ func SampleVariance(input Float64Data) (svar float64, err error) {
 	return v, nil
 }
 
-// Covariance is a measure of how much two sets of data change
+// Covariance is a measure of how much two sets of data change. It is the
+// sample covariance, so it returns ErrTooFew for a single pair.
 func Covariance(data1, data2 Float64Data) (float64, error) {
 
 	l1 := data1.Len()
@@ -61,6 +67,10 @@ func Covariance(data1, data2 Float64Data) (float64, error) {
 
 	if l1 != l2 {
 		return math.NaN(), SizeErr
+	}
+
+	if l1 == 1 {
+		return math.NaN(), ErrTooFew
 	}
 
 	m1, _ := Mean(data1)

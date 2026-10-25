@@ -5,7 +5,9 @@ import (
 	"sort"
 )
 
-// Correlation describes the degree of relationship between two sets of data
+// Correlation describes the degree of relationship between two sets of data.
+// The correlation is undefined for a single pair or when either set is
+// constant, so it returns 0 with ErrTooFew or ErrZero respectively.
 func Correlation(data1, data2 Float64Data) (float64, error) {
 
 	l1 := data1.Len()
@@ -19,11 +21,15 @@ func Correlation(data1, data2 Float64Data) (float64, error) {
 		return math.NaN(), SizeErr
 	}
 
+	if l1 == 1 {
+		return 0, ErrTooFew
+	}
+
 	sdev1, _ := StandardDeviationPopulation(data1)
 	sdev2, _ := StandardDeviationPopulation(data2)
 
 	if sdev1 == 0 || sdev2 == 0 {
-		return 0, nil
+		return 0, ErrZero
 	}
 
 	covp, _ := CovariancePopulation(data1, data2)
@@ -38,7 +44,9 @@ func Pearson(data1, data2 Float64Data) (float64, error) {
 // Spearman calculates the Spearman rank correlation coefficient between two variables.
 // It works by ranking the data and then computing the Pearson correlation of the ranks.
 // This method handles tied values using fractional (average) ranking.
-// If either variable contains a NaN the result is NaN.
+// Like Correlation, it returns 0 with ErrTooFew for a single pair and 0 with
+// ErrZero when either set is constant. If either variable contains a NaN the
+// result is NaN.
 func Spearman(data1, data2 Float64Data) (float64, error) {
 
 	l1 := data1.Len()
@@ -104,7 +112,8 @@ func rankData(data Float64Data) Float64Data {
 	return ranks
 }
 
-// AutoCorrelation is the correlation of a signal with a delayed copy of itself as a function of delay
+// AutoCorrelation is the correlation of a signal with a delayed copy of itself as a function of delay.
+// It returns 0 with ErrZero for constant data, where the correlation is undefined.
 func AutoCorrelation(data Float64Data, lags int) (float64, error) {
 	if len(data) < 1 {
 		return 0, EmptyInputErr
@@ -123,7 +132,7 @@ func AutoCorrelation(data Float64Data, lags int) (float64, error) {
 	}
 
 	if variance == 0 {
-		return 0, nil
+		return 0, ErrZero
 	}
 
 	var covariance float64

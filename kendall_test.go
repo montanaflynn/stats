@@ -39,9 +39,10 @@ func TestKendallTau(t *testing.T) {
 		{"Pair tied in both (SciPy)", []float64{1, 1, 2, 3}, []float64{2, 2, 1, 4}, 0.2, nil},
 
 		// Zero denominator cases (no variation in one or both variables)
-		{"Constant First Input", []float64{3, 3, 3}, []float64{1, 2, 3}, 0.0, nil},
-		{"Constant Second Input", []float64{1, 2, 3}, []float64{3, 3, 3}, 0.0, nil},
-		{"Constant Both Inputs", []float64{0, 0, 0}, []float64{0, 0, 0}, 0.0, nil},
+		{"Constant First Input", []float64{3, 3, 3}, []float64{1, 2, 3}, 0.0, stats.ErrZero},
+		{"Constant Second Input", []float64{1, 2, 3}, []float64{3, 3, 3}, 0.0, stats.ErrZero},
+		{"Constant Both Inputs", []float64{0, 0, 0}, []float64{0, 0, 0}, 0.0, stats.ErrZero},
+		{"Single Pair", []float64{1}, []float64{2}, 0.0, stats.ErrTooFew},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {

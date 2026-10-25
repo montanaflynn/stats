@@ -305,6 +305,9 @@ var (
     ErrInfValue = statsError{"Value is infinite."}
     // ErrYCoord Y Value must be greater than zero
     ErrYCoord = statsError{"Y Value must be greater than zero."}
+    // ErrTooFew Input has too few elements for the statistic. It matches
+    // ErrEmptyInput with errors.Is.
+    ErrTooFew = tooFewError{statsError{"Input has too few elements."}}
 )
 ```
 These are the package-wide error values.
@@ -350,11 +353,12 @@ index of the first NaN is returned.
 
 
 
-## <a name="AutoCorrelation">func</a> [AutoCorrelation](/correlation.go?s=2426:2491#L108)
+## <a name="AutoCorrelation">func</a> [AutoCorrelation](/correlation.go?s=2815:2880#L117)
 ``` go
 func AutoCorrelation(data Float64Data, lags int) (float64, error)
 ```
-AutoCorrelation is the correlation of a signal with a delayed copy of itself as a function of delay
+AutoCorrelation is the correlation of a signal with a delayed copy of itself as a function of delay.
+It returns 0 with ErrZero for constant data, where the correlation is undefined.
 
 
 
@@ -377,7 +381,7 @@ or a min or max that is NaN, returns ErrBounds.
 
 
 
-## <a name="CoefficientOfVariation">func</a> [CoefficientOfVariation](/coefficient_of_variation.go?s=322:385#L11)
+## <a name="CoefficientOfVariation">func</a> [CoefficientOfVariation](/coefficient_of_variation.go?s=375:438#L12)
 ``` go
 func CoefficientOfVariation(input Float64Data) (float64, error)
 ```
@@ -386,27 +390,31 @@ of floats, defined as the sample standard deviation divided by the
 mean. This matches the behavior of Python's scipy.stats.variation
 with ddof=1.
 
-The input must not be empty and its mean must not be zero.
+The input must have at least two elements and its mean must not be
+zero. A single element returns ErrTooFew.
 
 
 
-## <a name="Correlation">func</a> [Correlation](/correlation.go?s=120:179#L9)
+## <a name="Correlation">func</a> [Correlation](/correlation.go?s=262:321#L11)
 ``` go
 func Correlation(data1, data2 Float64Data) (float64, error)
 ```
-Correlation describes the degree of relationship between two sets of data
+Correlation describes the degree of relationship between two sets of data.
+The correlation is undefined for a single pair or when either set is
+constant, so it returns 0 with ErrTooFew or ErrZero respectively.
 
 
 
-## <a name="Covariance">func</a> [Covariance](/variance.go?s=1284:1342#L53)
+## <a name="Covariance">func</a> [Covariance](/variance.go?s=1496:1554#L59)
 ``` go
 func Covariance(data1, data2 Float64Data) (float64, error)
 ```
-Covariance is a measure of how much two sets of data change
+Covariance is a measure of how much two sets of data change. It is the
+sample covariance, so it returns ErrTooFew for a single pair.
 
 
 
-## <a name="CovariancePopulation">func</a> [CovariancePopulation](/variance.go?s=1864:1932#L81)
+## <a name="CovariancePopulation">func</a> [CovariancePopulation](/variance.go?s=2125:2193#L91)
 ``` go
 func CovariancePopulation(data1, data2 Float64Data) (float64, error)
 ```
@@ -551,7 +559,7 @@ A NaN in xp returns ErrBounds and a NaN in x gives a NaN in the output.
 
 
 
-## <a name="KendallTau">func</a> [KendallTau](/kendall.go?s=358:416#L10)
+## <a name="KendallTau">func</a> [KendallTau](/kendall.go?s=497:555#L13)
 ``` go
 func KendallTau(data1, data2 Float64Data) (float64, error)
 ```
@@ -559,7 +567,10 @@ KendallTau calculates Kendall's tau-b rank correlation coefficient
 between two variables. Tau-b corrects for ties, matching the values
 produced by SciPy's kendalltau and pandas' corr(method="kendall").
 Pairs are compared with a simple O(n^2) loop for clarity.
-If either variable contains a NaN the result is NaN.
+
+Tau-b is undefined for a single pair or when either variable is constant,
+so it returns 0 with ErrTooFew or ErrZero respectively. If either variable contains a NaN
+the result is NaN.
 
 
 
@@ -937,7 +948,7 @@ NormVar is the variance of the distribution.
 
 
 
-## <a name="Pearson">func</a> [Pearson](/correlation.go?s=663:718#L34)
+## <a name="Pearson">func</a> [Pearson](/correlation.go?s=849:904#L40)
 ``` go
 func Pearson(data1, data2 Float64Data) (float64, error)
 ```
@@ -1129,14 +1140,15 @@ Round a float to a specific decimal place or precision
 
 
 
-## <a name="SEM">func</a> [SEM](/sem.go?s=265:309#L9)
+## <a name="SEM">func</a> [SEM](/sem.go?s=331:375#L10)
 ``` go
 func SEM(input Float64Data) (float64, error)
 ```
 SEM calculates the standard error of the mean of a slice
 of floats, defined as the sample standard deviation divided
 by the square root of the sample size. This matches the
-behavior of Python's scipy.stats.sem with ddof=1.
+behavior of Python's scipy.stats.sem with ddof=1, except that a
+single element returns ErrTooFew instead of NaN.
 
 
 
@@ -1166,11 +1178,12 @@ coefficient, correcting for bias in small samples.
 
 
 
-## <a name="SampleVariance">func</a> [SampleVariance](/variance.go?s=1058:1122#L42)
+## <a name="SampleVariance">func</a> [SampleVariance](/variance.go?s=1136:1200#L43)
 ``` go
 func SampleVariance(input Float64Data) (svar float64, err error)
 ```
-SampleVariance finds the amount of variance within a sample
+SampleVariance finds the amount of variance within a sample. It returns
+ErrTooFew for a single element, where the n-1 divisor is zero.
 
 
 
@@ -1203,14 +1216,16 @@ is commonly used in machine learning neural networks.
 
 
 
-## <a name="Spearman">func</a> [Spearman](/correlation.go?s=1062:1118#L42)
+## <a name="Spearman">func</a> [Spearman](/correlation.go?s=1366:1422#L50)
 ``` go
 func Spearman(data1, data2 Float64Data) (float64, error)
 ```
 Spearman calculates the Spearman rank correlation coefficient between two variables.
 It works by ranking the data and then computing the Pearson correlation of the ranks.
 This method handles tied values using fractional (average) ranking.
-If either variable contains a NaN the result is NaN.
+Like Correlation, it returns 0 with ErrTooFew for a single pair and 0 with
+ErrZero when either set is constant. If either variable contains a NaN the
+result is NaN.
 
 
 
@@ -1238,11 +1253,12 @@ StandardDeviationPopulation finds the amount of variation from the population
 
 
 
-## <a name="StandardDeviationSample">func</a> [StandardDeviationSample](/deviation.go?s=1301:1374#L47)
+## <a name="StandardDeviationSample">func</a> [StandardDeviationSample](/deviation.go?s=1348:1421#L48)
 ``` go
 func StandardDeviationSample(input Float64Data) (sdev float64, err error)
 ```
-StandardDeviationSample finds the amount of variation from a sample
+StandardDeviationSample finds the amount of variation from a sample. It
+returns ErrTooFew for a single element.
 
 
 
@@ -1382,13 +1398,14 @@ the input.
 
 
 
-## <a name="ZScore">func</a> [ZScore](/zscore.go?s=205:254#L6)
+## <a name="ZScore">func</a> [ZScore](/zscore.go?s=279:328#L7)
 ``` go
 func ZScore(input Float64Data) ([]float64, error)
 ```
 ZScore standardizes the input values by subtracting the mean
 and dividing by the sample standard deviation, returning the
-number of standard deviations each value is from the mean.
+number of standard deviations each value is from the mean. A
+single element returns ErrTooFew and constant input returns ErrZero.
 
 
 
@@ -1571,7 +1588,7 @@ inclusive range between min and max.
 
 
 
-### <a name="Float64Data.CoefficientOfVariation">func</a> (Float64Data) [CoefficientOfVariation](/coefficient_of_variation.go?s=768:830#L29)
+### <a name="Float64Data.CoefficientOfVariation">func</a> (Float64Data) [CoefficientOfVariation](/coefficient_of_variation.go?s=834:896#L32)
 ``` go
 func (f Float64Data) CoefficientOfVariation() (float64, error)
 ```
@@ -1715,7 +1732,7 @@ InterQuartileRange finds the range between Q1 and Q3
 
 
 
-### <a name="Float64Data.KendallTau">func</a> (Float64Data) [KendallTau](/kendall.go?s=1565:1628#L61)
+### <a name="Float64Data.KendallTau">func</a> (Float64Data) [KendallTau](/kendall.go?s=1748:1811#L68)
 ``` go
 func (f Float64Data) KendallTau(d Float64Data) (float64, error)
 ```
@@ -2014,7 +2031,7 @@ by subtracting the minimum and dividing by the range
 
 
 
-### <a name="Float64Data.SEM">func</a> (Float64Data) [SEM](/sem.go?s=625:668#L22)
+### <a name="Float64Data.SEM">func</a> (Float64Data) [SEM](/sem.go?s=581:624#L20)
 ``` go
 func (f Float64Data) SEM() (float64, error)
 ```
@@ -2170,7 +2187,7 @@ and largest values in each tail clamped
 
 
 
-### <a name="Float64Data.ZScore">func</a> (Float64Data) [ZScore](/zscore.go?s=632:680#L27)
+### <a name="Float64Data.ZScore">func</a> (Float64Data) [ZScore](/zscore.go?s=692:740#L28)
 ``` go
 func (f Float64Data) ZScore() ([]float64, error)
 ```
