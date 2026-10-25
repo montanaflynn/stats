@@ -2,6 +2,7 @@ package stats_test
 
 import (
 	"fmt"
+	"math"
 	"testing"
 
 	"github.com/montanaflynn/stats"
@@ -55,6 +56,15 @@ func TestClipInvalidBounds(t *testing.T) {
 	_, err := stats.Clip([]float64{1, 2, 3}, 8, 2)
 	if err != stats.ErrBounds {
 		t.Errorf("expected ErrBounds, got %v", err)
+	}
+}
+
+func TestClipNaNBounds(t *testing.T) {
+	for _, b := range [][2]float64{{math.NaN(), 8}, {2, math.NaN()}, {math.NaN(), math.NaN()}} {
+		c, err := stats.Clip([]float64{1, 5, 10}, b[0], b[1])
+		if err != stats.ErrBounds || c != nil {
+			t.Errorf("Clip(min=%v, max=%v) = %v, %v; want nil, ErrBounds", b[0], b[1], c, err)
+		}
 	}
 }
 

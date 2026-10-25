@@ -7,10 +7,15 @@ import "math"
 // values strictly below the score plus half the percentage of
 // values equal to the score. The result is between 0 and 100.
 // This matches the behavior of Python's
-// scipy.stats.percentileofscore with kind="mean".
+// scipy.stats.percentileofscore with kind="mean". A NaN score
+// returns ErrBounds.
 func PercentileOfScore(input Float64Data, score float64) (float64, error) {
 	if input.Len() == 0 {
 		return math.NaN(), ErrEmptyInput
+	}
+
+	if math.IsNaN(score) {
+		return math.NaN(), ErrBounds
 	}
 
 	var below, equal float64

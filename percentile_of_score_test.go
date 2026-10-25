@@ -49,6 +49,16 @@ func TestPercentileOfScoreEmptyInput(t *testing.T) {
 	}
 }
 
+func TestPercentileOfScoreNaNScore(t *testing.T) {
+	r, err := stats.PercentileOfScore([]float64{1, 2, 3}, math.NaN())
+	if err != stats.ErrBounds {
+		t.Errorf("expected ErrBounds, got %v", err)
+	}
+	if !math.IsNaN(r) {
+		t.Errorf("expected NaN, got %v", r)
+	}
+}
+
 func TestFloat64DataPercentileOfScore(t *testing.T) {
 	data := stats.Float64Data{1, 2, 3, 4}
 

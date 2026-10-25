@@ -33,6 +33,22 @@ var distanceTestMatrix = []struct {
 	{[]float64{2, 3, 4, 5, 6, 7, 8}, []float64{8, 7, 6, 5, 4, 3, 2}, 10.583005244258363, stats.EuclideanDistance},
 }
 
+func TestMinkowskiDistanceInvalidLambda(t *testing.T) {
+	for _, lambda := range []float64{-1, -0.5, math.NaN(), math.Inf(-1)} {
+		d, err := stats.MinkowskiDistance([]float64{1, 2, 3}, []float64{4, 5, 6}, lambda)
+		if err != stats.ErrBounds {
+			t.Errorf("MinkowskiDistance(lambda=%v) returned %v, want ErrBounds", lambda, err)
+		}
+		if !math.IsNaN(d) {
+			t.Errorf("MinkowskiDistance(lambda=%v) = %v, want NaN", lambda, d)
+		}
+	}
+	// lambda = 0 keeps its existing ErrInfValue.
+	if _, err := stats.MinkowskiDistance([]float64{1, 2, 3}, []float64{4, 5, 6}, 0); err != stats.ErrInfValue {
+		t.Errorf("MinkowskiDistance(lambda=0) returned %v, want ErrInfValue", err)
+	}
+}
+
 func TestDataSetDistances(t *testing.T) {
 
 	// Test Minkowski Distance with different lambda values.
