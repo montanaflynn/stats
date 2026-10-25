@@ -13,6 +13,28 @@
 
 
 
+
+<a name="v0.14.0"></a>
+## [v0.14.0] - 2026-10-25
+### Fix
+- Prevent overflow in RMS and MinkowskiDistance ([#158](https://github.com/montanaflynn/stats/issues/158))
+- Compute squared and higher-power statistics without overflow at extreme scales ([#156](https://github.com/montanaflynn/stats/issues/156))
+- Avoid overflow in Mean and midpoints near MaxFloat64 ([#155](https://github.com/montanaflynn/stats/issues/155))
+- Compute Correlation without overflow at extreme scales ([#152](https://github.com/montanaflynn/stats/issues/152))
+- Avoid range overflow in Histogram and Rescale ([#151](https://github.com/montanaflynn/stats/issues/151))
+- Return errors for statistics undefined on too few or constant values ([#150](https://github.com/montanaflynn/stats/issues/150))
+- Handle single-element and zero-variance samples in two-sample TTest ([#149](https://github.com/montanaflynn/stats/issues/149))
+- Propagate NaN through order statistics ([#148](https://github.com/montanaflynn/stats/issues/148))
+- Reject NaN and out-of-domain parameters ([#147](https://github.com/montanaflynn/stats/issues/147))
+- Preserve finite Euclidean distances across scales ([#145](https://github.com/montanaflynn/stats/issues/145))
+
+### CI
+- Run tests on arm64 ([#157](https://github.com/montanaflynn/stats/issues/157))
+
+### Chore
+- Group ci and chore commits in release notes ([#144](https://github.com/montanaflynn/stats/issues/144))
+
+
 <a name="v0.13.0"></a>
 ## [v0.13.0] - 2026-10-06
 ### Fix
@@ -652,7 +674,8 @@
 - Merge pull request [#4](https://github.com/montanaflynn/stats/issues/4) from saromanov/sample
 
 
-[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/montanaflynn/stats/compare/v0.14.0...HEAD
+[v0.14.0]: https://github.com/montanaflynn/stats/compare/v0.13.0...v0.14.0
 [v0.13.0]: https://github.com/montanaflynn/stats/compare/v0.12.7...v0.13.0
 [v0.12.7]: https://github.com/montanaflynn/stats/compare/v0.12.6...v0.12.7
 [v0.12.6]: https://github.com/montanaflynn/stats/compare/v0.12.5...v0.12.6
