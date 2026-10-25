@@ -160,12 +160,35 @@ func TestEuclideanDistanceExtremes(t *testing.T) {
 	}
 }
 
+func TestMinkowskiDistanceEuclidean(t *testing.T) {
+	for _, scale := range []float64{1, 1e200, 1e-200} {
+		got, err := stats.MinkowskiDistance(stats.Float64Data{3 * scale, -4 * scale}, stats.Float64Data{0, 0}, 2)
+		if err != nil || math.Abs(got/(5*scale)-1) > 1e-15 {
+			t.Errorf("MinkowskiDistance at scale %g = (%g, %v), want (%g, nil)", scale, got, err, 5*scale)
+		}
+	}
+	x, y := euclideanTestData("sincos", 1003, 1)
+	got, err := stats.MinkowskiDistance(x, y, 2)
+	want, _ := stats.EuclideanDistance(x, y)
+	if err != nil || got != want {
+		t.Errorf("MinkowskiDistance(x, y, 2) = (%g, %v), want EuclideanDistance %g", got, err, want)
+	}
+	got, err = stats.MinkowskiDistance(stats.Float64Data{math.MaxFloat64, math.MaxFloat64}, stats.Float64Data{0, 0}, 2)
+	if err != stats.InfValue || !math.IsNaN(got) {
+		t.Errorf("MinkowskiDistance overflow = (%g, %v), want (NaN, InfValue)", got, err)
+	}
+}
+
+// benchmarkSink keeps benchmarked results alive, so the compiler can't
+// discard the work of an inlined call.
+var benchmarkSink float64
+
 func BenchmarkEuclideanDistance(b *testing.B) {
 	for _, n := range []int{3, 10, 1000, 1000000} {
 		x, y := euclideanTestData("sincos", n, 1)
 		b.Run(fmt.Sprintf("n=%d", n), func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
-				_, _ = stats.EuclideanDistance(x, y)
+				benchmarkSink, _ = stats.EuclideanDistance(x, y)
 			}
 		})
 	}

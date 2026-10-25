@@ -67,21 +67,27 @@ func EuclideanDistance(dataPointX, dataPointY Float64Data) (distance float64, er
 	if sum >= 0x1p-900 && sum <= math.MaxFloat64 {
 		return math.Sqrt(sum + compensation), nil
 	}
-	return scaledEuclideanDistance(x, y, sum), nil
+	sum, scale := scaledSumSquares(x, y, sum)
+	return math.Sqrt(sum) / scale, nil
 }
 
-// scaledEuclideanDistance recomputes the Euclidean distance with every
-// difference multiplied by 2^-600 after an overflow or 2^600 after an
-// underflow. Scaling by a power of two is exact, so the squares stay in
-// range without losing accuracy.
-func scaledEuclideanDistance(x, y Float64Data, unscaledSum float64) float64 {
-	scale := 0x1p600
+// scaledSumSquares recomputes a sum of squares of x[i]-y[i], or of x[i]
+// when y is nil, with every value multiplied by scale: 2^-600 after an
+// overflow or 2^600 after an underflow. Scaling by a power of two is exact,
+// so the squares stay in range without losing accuracy. The true sum of
+// squares is sum / scale².
+func scaledSumSquares(x, y Float64Data, unscaledSum float64) (sum, scale float64) {
+	scale = 0x1p600
 	if unscaledSum > math.MaxFloat64 {
 		scale = 0x1p-600
 	}
-	var sum, compensation float64
+	var compensation float64
 	for i := 0; i < len(x); i++ {
-		delta := (x[i] - y[i]) * scale
+		delta := x[i]
+		if y != nil {
+			delta = delta - y[i]
+		}
+		delta = delta * scale
 		square := float64(delta * delta) // rounded, so it isn't fused into the TwoSum below
 		total := sum + square
 		z := total - sum
@@ -89,9 +95,9 @@ func scaledEuclideanDistance(x, y Float64Data, unscaledSum float64) float64 {
 		sum = total
 	}
 	if sum > math.MaxFloat64 { // an input is infinite
-		return sum
+		return sum, scale
 	}
-	return math.Sqrt(sum+compensation) / scale
+	return sum + compensation, scale
 }
 
 // ManhattanDistance computes the Manhattan distance between two data sets
@@ -128,10 +134,15 @@ func MinkowskiDistance(dataPointX, dataPointY Float64Data, lambda float64) (dist
 	if err != nil {
 		return math.NaN(), err
 	}
-	for i := 0; i < len(dataPointY); i++ {
-		distance = distance + math.Pow(math.Abs(dataPointX[i]-dataPointY[i]), lambda)
+	if lambda == 2 {
+		// The same distance, without overflowing or underflowing the squares.
+		distance, _ = EuclideanDistance(dataPointX, dataPointY)
+	} else {
+		for i := 0; i < len(dataPointY); i++ {
+			distance = distance + math.Pow(math.Abs(dataPointX[i]-dataPointY[i]), lambda)
+		}
+		distance = math.Pow(distance, 1/lambda)
 	}
-	distance = math.Pow(distance, 1/lambda)
 	if math.IsInf(distance, 1) {
 		return math.NaN(), InfValue
 	}
