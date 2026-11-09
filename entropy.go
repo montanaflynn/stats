@@ -22,13 +22,29 @@ func Entropy(input Float64Data) (float64, error) {
 // normalize divides each value by the sum of all values,
 // leaving the input itself unchanged.
 func normalize(input Float64Data) (Float64Data, error) {
-	sum, err := input.Sum()
-	if err != nil {
-		return Float64Data{}, err
+	if input.Len() == 0 {
+		return nil, ErrEmptyInput
 	}
-	c := copyslice(input)
-	for i := 0; i < c.Len(); i++ {
-		c[i] = c[i] / sum
+	if hasNaN(input) {
+		return Float64Data{math.NaN()}, nil
+	}
+
+	var sum float64
+	f := math.Ldexp(1, -unitExponent(input))
+	c := make(Float64Data, len(input))
+	for i, v := range input {
+		if v < 0 {
+			return nil, ErrNegative
+		}
+		scaled := v * f
+		c[i] = scaled
+		sum += scaled
+	}
+	if sum == 0 {
+		return nil, ErrZero
+	}
+	for i := range c {
+		c[i] /= sum
 	}
 	return c, nil
 }
