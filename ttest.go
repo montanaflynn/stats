@@ -90,16 +90,30 @@ func tSf(t float64, df float64) float64 {
 	return 0.5 * regIncBeta(df/2.0, 0.5, x)
 }
 
-// regIncBeta computes the regularized incomplete beta function I_x(a, b)
-// using a continued fraction approximation (Lentz's algorithm).
+// regIncBeta computes the regularized incomplete beta function I_x(a, b).
+// The continued fraction below only converges for x < (a+1)/(a+b+2); for
+// larger x it is evaluated through the symmetry I_x(a, b) = 1 - I_{1-x}(b, a)
+// (Numerical Recipes 3rd ed., betai).
 func regIncBeta(a, b, x float64) float64 {
 	if x == 0 || x == 1 {
 		return x
 	}
 
 	lbeta := lgammaBeta(a, b)
-	front := math.Exp(math.Log(x)*a+math.Log(1-x)*b-lbeta) / a
 
+	if x >= (a+1.0)/(a+b+2.0) {
+		front := math.Exp(math.Log(1-x)*b+math.Log(x)*a-lbeta) / b
+		return 1.0 - front*regIncBetaCF(b, a, 1-x)
+	}
+
+	front := math.Exp(math.Log(x)*a+math.Log(1-x)*b-lbeta) / a
+	return front * regIncBetaCF(a, b, x)
+}
+
+// regIncBetaCF evaluates Lentz's continued fraction for the regularized
+// incomplete beta function. It converges only for x < (a+1)/(a+b+2), which
+// regIncBeta guarantees.
+func regIncBetaCF(a, b, x float64) float64 {
 	// Use Lentz's continued fraction algorithm
 	f := 1.0
 	c := 1.0
@@ -129,7 +143,7 @@ func regIncBeta(a, b, x float64) float64 {
 		}
 	}
 
-	return front * f
+	return f
 }
 
 // clampTiny prevents division by zero in Lentz's continued fraction
