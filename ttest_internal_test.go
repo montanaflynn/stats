@@ -108,3 +108,30 @@ func TestTSfZero(t *testing.T) {
 		t.Errorf("tSf(0, 10) = %v, want 0.5", result)
 	}
 }
+
+func TestTSfSmallT(t *testing.T) {
+	// For a small |t| the two-sided p-value must be close to 1. The continued
+	// fraction behind regIncBeta only converges for x < (a+1)/(a+b+2); with
+	// a = df/2 that boundary is 0.5, while x = df/(df+t*t) is close to 1 for
+	// small t, so without the I_x(a, b) = 1 - I_{1-x}(b, a) symmetry the
+	// fraction diverges and the p-value comes out far too small.
+	// Expected values from scipy.stats.t.sf.
+	cases := []struct {
+		t    float64
+		df   float64
+		want float64 // two-sided p-value 2 * sf(t, df)
+	}{
+		{0.001, 1, 0.99936338044},
+		{1e-6, 1, 0.99999936338},
+		{0.001, 10, 0.999221783375},
+		{1.0, 10, 0.340893132302},
+		{2.0, 5, 0.10193947883},
+		{3.0, 1, 0.204832764699},
+	}
+	for _, tc := range cases {
+		p := 2 * tSf(tc.t, tc.df)
+		if math.Abs(p-tc.want) > 1e-9 {
+			t.Errorf("2*tSf(%v, %v) = %.12g, want %.12g", tc.t, tc.df, p, tc.want)
+		}
+	}
+}
