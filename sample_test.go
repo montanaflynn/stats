@@ -18,6 +18,29 @@ func TestSample(t *testing.T) {
 	}
 }
 
+func TestSampleNegativeSize(t *testing.T) {
+	arr := []float64{0.1, 0.2, 0.3}
+	for _, replacement := range []bool{false, true} {
+		result, err := stats.Sample(arr, -1, replacement)
+		if err != stats.BoundsErr {
+			t.Errorf("Sample with negative size and replacement=%v returned %v, want BoundsErr", replacement, err)
+		}
+		if result != nil {
+			t.Errorf("Sample with negative size and replacement=%v returned %v, want nil", replacement, result)
+		}
+	}
+}
+
+func TestStableSampleNegativeSize(t *testing.T) {
+	result, err := stats.StableSample(stats.Float64Data{1.0, 2.0}, -1)
+	if err != stats.BoundsErr {
+		t.Errorf("StableSample with negative size returned %v, want BoundsErr", err)
+	}
+	if result != nil {
+		t.Errorf("StableSample with negative size returned %v, want nil", result)
+	}
+}
+
 func TestSampleWithoutReplacement(t *testing.T) {
 	arr := []float64{0.1, 0.2, 0.3, 0.4, 0.5}
 	result, _ := stats.Sample(arr, 5, false)

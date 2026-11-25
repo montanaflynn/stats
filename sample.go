@@ -12,6 +12,10 @@ func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error)
 		return nil, EmptyInputErr
 	}
 
+	if takenum < 0 {
+		return nil, BoundsErr
+	}
+
 	length := input.Len()
 	if replacement {
 
@@ -50,6 +54,10 @@ func Sample(input Float64Data, takenum int, replacement bool) ([]float64, error)
 func StableSample(input Float64Data, takenum int) ([]float64, error) {
 	if input.Len() == 0 {
 		return nil, EmptyInputErr
+	}
+
+	if takenum < 0 {
+		return nil, BoundsErr
 	}
 
 	length := input.Len()
